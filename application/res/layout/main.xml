@@ -9,4 +9,25 @@
     android:layout_height="wrap_content" 
     android:text="@string/hello"
     />
+
+<LinearLayout
+    android:id="@+id/linearLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <RatingBar
+        android:id="@+id/ratingBar1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:numStars="3"
+        android:stepSize="1" />
+
+    <ProgressBar
+        android:id="@+id/progressBar1"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="50dp"
+        android:layout_height="50dp" />
+
+</LinearLayout>
+
 </LinearLayout>
