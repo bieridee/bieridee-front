@@ -1,3 +1,4 @@
+# Android
 *.apk
 *.ap_
 *.dex
@@ -6,4 +7,19 @@ application/bin/
 application/gen/
 application-it/bin/
 application-it/gen/
+
+# Eclipse
+.project
+.metadata
+bin/**
+tmp/**
+tmp/**/*
+*.tmp
+*.bak
+*.swp
 local.properties
+*.launch
+.buildpath
+
+# Maven
+*/target/*
