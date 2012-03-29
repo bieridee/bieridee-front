@@ -4,9 +4,14 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 
+/**
+ * Test Activity.
+ * @deprecated Delete later.
+ */
+@java.lang.Deprecated
 public class HelloAndroidActivity extends Activity {
 
-    private static String TAG = "bieridee-front";
+    private static final String TAG = "bieridee-front";
 
     /**
      * Called when the activity is first created.
