@@ -20,30 +20,27 @@ public class BeerListActivity extends Activity {
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
+    	Log.i(TAG, "onCreate");
         super.onCreate(savedInstanceState);
-        Log.i(TAG, "onCreate");
         setContentView(R.layout.beerlist);
     }
     
     @Override
     public void onStart() {
+    	Log.i(TAG, "onStart");
     	super.onStart();
-    	final TextView beerListDescription = (TextView)findViewById(R.id.beerListDescription);
-    	beerListDescription.setText(beerListDescription.getText() + " Programming Motherfucker!");
     }
     
     @Override
     public void onPause() {
+    	Log.i(TAG, "onPause");
     	super.onPause();
-    	final TextView beerListDescription = (TextView)findViewById(R.id.beerListDescription);
-    	beerListDescription.setText(beerListDescription.getText() + " Pausing.");
     }
     
     @Override
     public void onResume() {
+    	Log.i(TAG, "onResume");
     	super.onResume();
-    	final TextView beerListDescription = (TextView)findViewById(R.id.beerListDescription);
-    	beerListDescription.setText(beerListDescription.getText() + " Resuming.");
     }
     
     /**
