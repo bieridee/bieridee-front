@@ -2,14 +2,9 @@ package ch.hsr.bieridee.android;
 
 import java.util.List;
 
-import ch.hsr.bieridee.domain.Beer;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 
 /**
@@ -36,6 +31,10 @@ public class BeerListActivity extends Activity {
     public void onStart() {
     	Log.i(TAG, "onStart");
     	super.onStart();
+    	final BeerList bl = new BeerList();
+    	final List<String> s = bl.getBeerList();
+    	final TextView tv = (TextView) findViewById(R.id.beerListDescription);
+    	tv.setText((String) (s.toString()));
     }
     
     @Override
@@ -48,14 +47,6 @@ public class BeerListActivity extends Activity {
     public void onResume() {
     	Log.i(TAG, "onResume");
     	super.onResume();
-    }
-    
-    private void populateList() {
-    	BeerList bl = new BeerList();
-    	List<Beer> list = bl.getJsonList();
-    	Beer[] ba = (Beer[]) list.toArray();
-    	ListView listview = (ListView) findViewById(R.id.beerListView);
-    	listview.setAdapter(new ArrayAdapter<Beer>(this, R.layout.beerlist, ba));
     }
     
     /**
