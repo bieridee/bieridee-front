@@ -57,6 +57,9 @@
 					<sdk>
 						<platform>10</platform>
 					</sdk>
+					<dex>
+						<optimize>false</optimize>
+					</dex>
 					<deleteConflictingFiles>true</deleteConflictingFiles>
 					<undeployBeforeDeploy>true</undeployBeforeDeploy>
 				</configuration>
