@@ -1,0 +1,148 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/linearLayout1"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <!-- Row containg the Image -->
+
+    <RelativeLayout
+        android:id="@+id/relativeLayoutLogo"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_marginBottom="50dp"
+        android:layout_marginTop="10dp" >
+
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:contentDescription="Bieridee Logo"
+            android:src="@drawable/pixelbeer_L" />
+    </RelativeLayout>
+
+    <!-- Row containing Username field -->
+
+    <RelativeLayout
+        android:id="@+id/relativeLayoutUsername"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:paddingBottom="5dp" >
+
+        <EditText
+            android:id="@+id/inputUsername"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:gravity="left|center_vertical"
+            android:hint="@string/inputUsernameText"
+            android:inputType="text" />
+    </RelativeLayout>
+
+    <!-- Row containing Password field -->
+
+    <RelativeLayout
+        android:id="@+id/relativeLayoutPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:paddingBottom="10dp" >
+
+        <EditText
+            android:id="@+id/inputPassword"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:gravity="left|center_vertical"
+            android:hint="@string/inputPasswordText"
+            android:inputType="text"
+            android:password="false" />
+    </RelativeLayout>
+
+    <!-- Wrong Login hint -->
+
+    <RelativeLayout
+        android:id="@+id/relativeLayoutWrongLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:visibility="gone" >
+
+        <TextView
+            android:id="@+id/registrationHint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Check your Credentials!"
+            android:textColor="@color/red"
+            android:textSize="15dp" />
+    </RelativeLayout>
+
+    <!-- Row containing Autologin tick -->
+
+    <RelativeLayout
+        android:id="@+id/relativeLayoutRAutologin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center" >
+
+        <CheckBox
+            android:id="@+id/checkboxAutologin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/checkboxAutologin"
+            android:gravity="center_vertical"
+            android:text="@string/autologinText" />
+    </RelativeLayout>
+
+    <!-- Row containing Registration hint -->
+
+    <RelativeLayout
+        android:id="@+id/relativeLayoutRegistrationHint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:paddingBottom="20dp" >
+
+        <TextView
+            android:id="@+id/registrationHintText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/registrationHintText"
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/registrationLink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/registrationHintText"
+            android:clickable="true"
+            android:paddingLeft="10dp"
+            android:text="@string/registrationLinkText"
+            android:textColor="@color/blue"
+            android:textSize="15dp" />
+    </RelativeLayout>
+
+    <!-- Row containing Login Button -->
+
+    <RelativeLayout
+        android:id="@+id/relativeLayoutLoginButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:paddingBottom="10dp" >
+
+        <Button
+            android:id="@+id/buttonLogin"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="@string/loginButtonText" />
+    </RelativeLayout>
+
+</LinearLayout>

@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ch.hsr.bieridee.android"
     android:versionCode="1"
-    android:versionName="1.0-SNAPSHOT">
+    android:versionName="1.0-SNAPSHOT" >
 
     <uses-sdk
         android:maxSdkVersion="10"
@@ -13,13 +13,27 @@
 
     <application
         android:icon="@drawable/pixelbeer2"
-        android:label="@string/app_name">
+        android:label="@string/app_name" >
         <activity android:name=".HelloAndroidActivity" />
-        <activity android:name=".BeerListActivity">
+        <activity android:name=".BeerListActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="ch.hsr.bieridee.activities.LoginScreenActivity"
+            android:label="@string/titleLogin" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="ch.hsr.bieridee.activities.RegistrationScreenActivity"
+            android:label="@string/titleRegistration" >
         </activity>
     </application>
 

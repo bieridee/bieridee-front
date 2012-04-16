@@ -2,4 +2,20 @@
 <resources>
     <string name="hello">Hello bieridee-front!</string>
     <string name="app_name">bieridee-front</string>
+    <string name="appName">BierIdee Login</string>
+    <string name="titleLogin">BierIdee Login</string>
+    <string name="titleRegistration">BierIdee Registration</string>
+    <string name="chooseUsername">Choose Username</string>
+    <string name="typePassword">Type a Password</string>
+    <string name="linkColor">#1B6AF2</string>
+    <string name="registrationHintText">Noch kein Login?</string>
+    <string name="registrationLinkText">Registrieren.</string>
+    <string name="inputUsernameText">Benutzername</string>
+    <string name="inputPasswordText">Password</string>
+    <string name="inputEmailText">Email</string>
+    <string name="loginButtonText">Login</string>
+    <string name="autologinText">Automatisch anmelden</string>
+    <string name="register">Registrieren</string>
+    <string name="registrationInvalidEmail">Bitte gibt eine gültige Emailadresse ein.</string>
+    <string name="registrationUsernameForgiven">Dieser Benutzername ist bereits vergeben. Bitte wähle einen anderen.</string>
 </resources>
