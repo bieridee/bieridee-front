@@ -3,6 +3,70 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
+    
+    <RelativeLayout
+        android:id="@+id/registrationRelativeLayoutPrename"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingTop="5dp" >
+
+        <EditText
+            android:id="@+id/registrationInputPrename"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:hint="@string/prename" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/registrationRelativeLayoutPrenameHint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:visibility="gone" >
+
+        <TextView
+            android:id="@+id/registrationPrenameHint"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:text="@string/registrationscreen_invalidInput"
+            android:textColor="@color/red" />
+    </RelativeLayout>
+    
+    <!-- Surname Field -->
+     <RelativeLayout
+        android:id="@+id/registrationRelativeLayoutSurname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingTop="5dp" >
+
+        <EditText
+            android:id="@+id/registrationInputSurname"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:hint="@string/surname" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/registrationRelativeLayoutSurnameHint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:visibility="gone" >
+
+        <TextView
+            android:id="@+id/registrationSurnameHint"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:text="@string/registrationscreen_invalidInput"
+            android:textColor="@color/red" />
+    </RelativeLayout>
+    
+    <!--  Username Field -->
+    
 
     <RelativeLayout
         android:id="@+id/registrationRelativeLayoutUsername"
@@ -16,7 +80,7 @@
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:clickable="true"
-            android:hint="@string/inputUsernameText" />
+            android:hint="@string/username" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -30,7 +94,7 @@
             android:id="@+id/registrationUsernameHint"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:text="@string/registrationUsernameForgiven"
+            android:text="@string/registrationscreen_registrationInfoUsernameForgiven"
             android:textColor="@color/red" />
     </RelativeLayout>
 
@@ -46,7 +110,7 @@
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:clickable="true"
-            android:hint="@string/inputPasswordText" />
+            android:hint="@string/password" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -61,7 +125,7 @@
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:clickable="true"
-            android:hint="@string/inputEmailText" />
+            android:hint="@string/email" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -75,7 +139,7 @@
             android:id="@+id/registrationEmailHint"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:text="@string/registrationInvalidEmail"
+            android:text="@string/registrationscreen_registrationInfoInvalidEmail"
             android:textColor="@color/red" />
     </RelativeLayout>
 

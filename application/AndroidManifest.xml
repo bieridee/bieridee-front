@@ -24,7 +24,7 @@
         </activity>
         <activity
             android:name="ch.hsr.bieridee.activities.LoginScreenActivity"
-            android:label="@string/titleLogin" >
+            android:label="@string/loginscreen_title" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -33,7 +33,7 @@
         </activity>
         <activity
             android:name="ch.hsr.bieridee.activities.RegistrationScreenActivity"
-            android:label="@string/titleRegistration" >
+            android:label="@string/registrationscreen_title" >
         </activity>
     </application>
 

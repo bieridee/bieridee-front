@@ -1,21 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- Common Used Strings -->
+
     <string name="hello">Hello bieridee-front!</string>
     <string name="app_name">bieridee-front</string>
     <string name="appName">BierIdee Login</string>
-    <string name="titleLogin">BierIdee Login</string>
-    <string name="titleRegistration">BierIdee Registration</string>
-    <string name="chooseUsername">Choose Username</string>
-    <string name="typePassword">Type a Password</string>
-    <string name="linkColor">#1B6AF2</string>
-    <string name="registrationHintText">Noch kein Login?</string>
-    <string name="registrationLinkText">Registrieren.</string>
-    <string name="inputUsernameText">Benutzername</string>
-    <string name="inputPasswordText">Password</string>
-    <string name="inputEmailText">Email</string>
-    <string name="loginButtonText">Login</string>
-    <string name="autologinText">Automatisch anmelden</string>
+    <string name="username">Benutzername</string>
+    <string name="password">Password</string>
+    <string name="email">Email</string>
+    <string name="login">Login</string>
     <string name="register">Registrieren</string>
-    <string name="registrationInvalidEmail">Bitte gibt eine gültige Emailadresse ein.</string>
-    <string name="registrationUsernameForgiven">Dieser Benutzername ist bereits vergeben. Bitte wähle einen anderen.</string>
+    <string name="prename">Vorname</string>
+    <string name="surname">Nachname</string>
+
+    <!-- Login Screen specific Strings -->
+    <string name="loginscreen_wrongCredentials">Bitte Logindaten überprüfen</string>
+    <string name="loginscreen_registrationHintText">Noch kein Login?</string>
+    <string name="loginscreen_title">BierIdee Login</string>
+    <string name="loginscreen_registrationLinkText">Registrieren.</string>
+    <string name="loginscreen_autologinText">Automatisch anmelden</string>
+    <string name="loginscreen_imageDescription">Bieridee Logo</string>
+
+    <!-- Registration Screen specific String -->
+    <string name="registrationscreen_title">BierIdee Registration</string>
+    <string name="registrationscreen_invalidInput">Die Eingabe ist ungültig</string>
+    <string name="registrationscreen_registrationInfoInvalidEmail">Bitte gibt eine gültige Emailadresse ein.</string>
+    <string name="registrationscreen_registrationInfoUsernameForgiven">Dieser Benutzername ist bereits vergeben. Bitte wähle einen anderen.</string>
+
 </resources>

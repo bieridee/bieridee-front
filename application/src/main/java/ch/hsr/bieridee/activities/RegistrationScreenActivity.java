@@ -10,56 +10,90 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import ch.hsr.bieridee.android.R;
 
+/**
+ * Activity with Registration Form.
+ * 
+ */
 public class RegistrationScreenActivity extends Activity {
+	private static final String LOGGINGTAG = "INFO";
 
 	EditText inputPassword;
 	EditText inputUsername;
 	EditText inputEmail;
+	EditText inputPrename;
+	EditText inputSurname;
 	Button buttonRegister;
 	RelativeLayout usernameHint;
 	RelativeLayout emailHint;
 	RelativeLayout passwordHint;
+	RelativeLayout prenameHint;
+	RelativeLayout surnameHint;
 
+	/**
+	 * @see android.app.Activity#onCreate(android.os.Bundle)
+	 * @param savedInstanceState @see android.app.Activity#onCreate(android.os.Bundle)
+	 */
+	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		Log.d("info", "activity started");
+		Log.d(LOGGINGTAG, "activity started");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.registrationscreen);
 
 		this.inputEmail = (EditText) this.findViewById(R.id.registrationInputEmail);
 		this.inputPassword = (EditText) this.findViewById(R.id.registrationInputPassword);
 		this.inputUsername = (EditText) this.findViewById(R.id.registrationInputUsername);
+		this.inputPrename = (EditText) this.findViewById(R.id.registrationInputPrename);
+		this.inputSurname = (EditText) this.findViewById(R.id.registrationInputSurname);
+
 		this.buttonRegister = (Button) this.findViewById(R.id.registrationButtonRegister);
+
 		this.usernameHint = (RelativeLayout) this.findViewById(R.id.registrationRelativeLayoutUsernameHint);
 		this.emailHint = (RelativeLayout) this.findViewById(R.id.registrationRelativeLayoutEmailHint);
+		this.prenameHint = (RelativeLayout) this.findViewById(R.id.registrationRelativeLayoutPrenameHint);
+		this.surnameHint = (RelativeLayout) this.findViewById(R.id.registrationRelativeLayoutSurnameHint);
 
 		this.addRegisterOnClickListener();
 	}
 
-	public void addRegisterOnClickListener() {
+	/**
+	 * 
+	 */
+	private void addRegisterOnClickListener() {
 		this.buttonRegister.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
 				RegistrationScreenActivity.this.resetHints();
-				boolean usernameIsValid = RegistrationScreenActivity.this.checkUsername(inputUsername.getText().toString());
-				boolean emailIsValid = RegistrationScreenActivity.this.checkEmail(inputEmail.getText().toString());
-				// boolean passwordIsValid =
-				// RegistrationScreenActivity.this.checkPassword(inputPassword.getText().toString());
+				final boolean usernameIsValid = RegistrationScreenActivity.this.checkUsername(RegistrationScreenActivity.this.inputUsername.getText().toString());
+				final boolean emailIsValid = RegistrationScreenActivity.this.checkEmail(RegistrationScreenActivity.this.inputEmail.getText().toString());
+				final boolean prenameIsValid = RegistrationScreenActivity.this.checkName(RegistrationScreenActivity.this.inputPrename.getText().toString());
+				final boolean surnameIsValid = RegistrationScreenActivity.this.checkName(RegistrationScreenActivity.this.inputSurname.getText().toString());
 
 				boolean allValid = true;
 
 				if (!usernameIsValid) {
 					RegistrationScreenActivity.this.usernameHint.setVisibility(View.VISIBLE);
-					Log.d("info", "username failure");
+					Log.d(LOGGINGTAG, "username invalid");
 					allValid = false;
 				}
 				if (!emailIsValid) {
 					RegistrationScreenActivity.this.emailHint.setVisibility(View.VISIBLE);
 					allValid = false;
-					Log.d("info", "email failure");
+					Log.d(LOGGINGTAG, "email invalid");
+				}
+
+				if (!prenameIsValid) {
+					RegistrationScreenActivity.this.prenameHint.setVisibility(View.VISIBLE);
+					allValid = false;
+					Log.d(LOGGINGTAG, "prename invalid");
+				}
+				if (!surnameIsValid) {
+					RegistrationScreenActivity.this.surnameHint.setVisibility(View.VISIBLE);
+					allValid = false;
+					Log.d(LOGGINGTAG, "surname invalid");
 				}
 
 				if (!allValid) {
-					Log.d("info", "Somethings wrong in the form");
+					Log.d(LOGGINGTAG, "Something went wrong in the form");
 				}
 
 			}
@@ -67,20 +101,22 @@ public class RegistrationScreenActivity extends Activity {
 	}
 
 	private void resetHints() {
-		Log.d("info", "Resetting Hints");
+		Log.d(LOGGINGTAG, "Resetting Hints");
 		this.emailHint.setVisibility(View.GONE);
 		this.usernameHint.setVisibility(View.GONE);
+		this.prenameHint.setVisibility(View.GONE);
+		this.surnameHint.setVisibility(View.GONE);
+	}
+
+	private boolean checkName(String name) {
+		return name.matches("\\w{3,}");
 	}
 
 	private boolean checkUsername(String username) {
-		return false;
+		return username.matches("\\w{3,}");
 	}
 
 	private boolean checkEmail(String email) {
 		return email.matches("^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
-	}
-
-	private boolean checkPassword(String password) {
-		return true;
 	}
 }

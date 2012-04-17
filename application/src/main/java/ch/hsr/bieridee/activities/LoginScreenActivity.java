@@ -14,92 +14,94 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 //import ch.hsr.bieridee.R;
 import ch.hsr.bieridee.android.R;
-import ch.hsr.bieridee.util.Hashhelper;
 
+/**
+ * Login Screen Activity.
+ * 
+ */
 public class LoginScreenActivity extends Activity {
-	/** Called when the activity is first created. */
+
+	private static final String LOGGINGTAG = "INFO";
 	Button button;
 	SharedPreferences settings;
 	EditText tvUser;
 	EditText tvPassword;
 	CheckBox autologin;
-	RelativeLayout wrongCredentails;
+	RelativeLayout wrongCredentailsHintLayout;
 	TextView tvRegister;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		Log.d("info", "activity started");
+		Log.d(LOGGINGTAG, "activity started");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.loginscreen);
 
-		autologin = (CheckBox) this.findViewById(R.id.checkboxAutologin);
-		tvUser = (EditText) this.findViewById(R.id.inputUsername);
-		tvPassword = (EditText) this.findViewById(R.id.inputPassword);
-		button = (Button) this.findViewById(R.id.buttonLogin);
-		wrongCredentails = (RelativeLayout) this.findViewById(R.id.relativeLayoutWrongLogin);
-		tvRegister = (TextView) this.findViewById(R.id.registrationLink);
+		this.autologin = (CheckBox) this.findViewById(R.id_loginscreen.checkboxAutologin);
+		this.tvUser = (EditText) this.findViewById(R.id_loginscreen.inputUsername);
+		this.tvPassword = (EditText) this.findViewById(R.id_loginscreen.inputPassword);
+		this.button = (Button) this.findViewById(R.id_loginscreen.buttonLogin);
+		this.wrongCredentailsHintLayout = (RelativeLayout) this.findViewById(R.id_loginscreen.relativeLayoutWrongLogin);
+		this.tvRegister = (TextView) this.findViewById(R.id_loginscreen.registrationLink);
 
-		// Load Login information (if already stored)
-		settings = getPreferences(MODE_PRIVATE);
+		this.settings = getPreferences(MODE_PRIVATE);
 		this.readSettings();
 		this.addListenerOnButton();
 		this.addListenerToRegisterLink();
 
 	}
 
-	public void addListenerToRegisterLink() {
+	private void addListenerToRegisterLink() {
 		this.tvRegister.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
 				Log.d("info", "Register Link was pressed");
-				Intent intent = new Intent(v.getContext(), RegistrationScreenActivity.class);
+				final Intent intent = new Intent(v.getContext(), RegistrationScreenActivity.class);
 				startActivityForResult(intent, 0);
 			}
 		});
 	}
 
-	public void addListenerOnButton() {
+	private void addListenerOnButton() {
 
-		button.setOnClickListener(new OnClickListener() {
+		this.button.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View arg0) {
 				Log.d("info", "Login Button was pressed");
-				boolean validCredentails = false;
+				final boolean validCredentails = false;
 				if (validCredentails) {
-					wrongCredentails.setVisibility(View.GONE);
+					LoginScreenActivity.this.wrongCredentailsHintLayout.setVisibility(View.GONE);
 				} else {
-					wrongCredentails.setVisibility(View.VISIBLE);
+					LoginScreenActivity.this.wrongCredentailsHintLayout.setVisibility(View.VISIBLE);
 				}
 			}
 		});
 	}
 
-	// @Override
-	// public void onStop() {
-	// super.onStop();
-	// this.saveSettings();
-	// Log.d("info", "Application stopped");
-	//
-	// }
+	@Override
+	public void onStop() {
+		super.onStop();
+		this.saveSettings();
+		Log.d(LOGGINGTAG, "Application stopped, Settings saved");
 
-	public void readSettings() {
-		String username = settings.getString("username", "");
-		String password = settings.getString("password", "");
-		boolean autologin = settings.getBoolean("autologin", false);
-
-		this.autologin.setChecked(autologin);
-		tvUser.setText(username);
-		tvPassword.setText(password);
 	}
 
-	//
-	public void saveSettings() {
-		SharedPreferences.Editor editor = settings.edit();
-		final String newUsername = tvUser.getText().toString();
-		final String newPassword = tvPassword.getText().toString();
-		final boolean newAutologin = autologin.isChecked();
+	private void readSettings() {
+		final String username = this.settings.getString("username", "");
+		final String password = this.settings.getString("password", "");
+		final boolean autologin = this.settings.getBoolean("autologin", false);
+
+		this.autologin.setChecked(autologin);
+		this.tvUser.setText(username);
+		this.tvPassword.setText(password);
+	}
+
+	private void saveSettings() {
+		final SharedPreferences.Editor editor = this.settings.edit();
+		final String newUsername = this.tvUser.getText().toString();
+		final String newPassword = this.tvPassword.getText().toString();
+		final boolean newAutologin = this.autologin.isChecked();
 		editor.putString("username", newUsername);
-		editor.putString("password", Hashhelper.encryptPassword(newPassword));
+		editor.putString("password", newPassword);
 		editor.putBoolean("autologin", newAutologin);
 		editor.commit();
 	}
