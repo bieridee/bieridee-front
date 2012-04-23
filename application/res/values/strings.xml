@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Common Used Strings -->
+    <!-- Commonly used strings -->
 
     <string name="hello">Hello bieridee-front!</string>
     <string name="app_name">BierIdee</string>
@@ -13,18 +13,18 @@
     <string name="register">Registrieren</string>
     <string name="prename">Vorname</string>
     <string name="surname">Nachname</string>
-    <string name="pleaseWait">Bitte warten...</string>
+    <string name="pleaseWait">Bitte warten&#8230;</string>
     <string name="savingData">Daten werden gespeichert</string>
 
-    <!-- Login Screen specific Strings -->
+    <!-- Login screen specific strings -->
+    <string name="loginscreen_title">BierIdee Login</string>
     <string name="loginscreen_wrongCredentials">Bitte Logindaten überprüfen</string>
     <string name="loginscreen_registrationHintText">Noch kein Login?</string>
-    <string name="loginscreen_title">BierIdee Login</string>
     <string name="loginscreen_registrationLinkText">Registrieren.</string>
-    <string name="loginscreen_autologinText">Automatisch anmelden</string>
+    <string name="loginscreen_autologinText">Angemeldet bleiben</string>
     <string name="loginscreen_imageDescription">Bieridee Logo</string>
 
-    <!-- Registration Screen specific String -->
+    <!-- Registration screen specific strings -->
     <string name="registrationscreen_title">BierIdee Registration</string>
     <string name="registrationscreen_invalidInput">Die Eingabe ist ungültig</string>
     <string name="registrationscreen_registrationInfoInvalidEmail">Bitte gibt eine gültige Emailadresse ein.</string>
