@@ -13,8 +13,4 @@ public class RegistrationScreenActivityTest extends ActivityInstrumentationTestC
 		RegistrationScreenActivity activity = getActivity();
 		assertNotNull(activity);
 	}
-	
-	
-
-	
 }

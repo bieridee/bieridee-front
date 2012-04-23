@@ -43,7 +43,7 @@ public class LoginScreenActivity extends Activity {
 		this.wrongCredentailsHintLayout = (RelativeLayout) this.findViewById(R.id_loginscreen.relativeLayoutWrongLogin);
 		this.tvRegister = (TextView) this.findViewById(R.id_loginscreen.registrationLink);
 
-		this.settings = getPreferences(MODE_PRIVATE);
+		this.settings = getSharedPreferences("settings", MODE_PRIVATE);
 		this.readSettings();
 		this.addListenerOnButton();
 		this.addListenerToRegisterLink();

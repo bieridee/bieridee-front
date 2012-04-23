@@ -13,6 +13,8 @@
     <string name="register">Registrieren</string>
     <string name="prename">Vorname</string>
     <string name="surname">Nachname</string>
+    <string name="pleaseWait">Bitte warten...</string>
+    <string name="savingData">Daten werden gespeichert</string>
 
     <!-- Login Screen specific Strings -->
     <string name="loginscreen_wrongCredentials">Bitte Logindaten überprüfen</string>
