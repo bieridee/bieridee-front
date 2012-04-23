@@ -20,6 +20,7 @@ import android.widget.TextView;
  */
 public class LoginScreenActivity extends Activity {
 
+	// [section] Properties 
 	private static final String LOGGINGTAG = "INFO";
 	Button button;
 	SharedPreferences settings;
@@ -28,7 +29,10 @@ public class LoginScreenActivity extends Activity {
 	CheckBox autologin;
 	RelativeLayout wrongCredentailsHintLayout;
 	TextView tvRegister;
-
+	// [endSection]
+	
+	// [section] Lifecycle 
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		Log.d(LOGGINGTAG, "activity started");
@@ -44,14 +48,26 @@ public class LoginScreenActivity extends Activity {
 
 		this.settings = getSharedPreferences("settings", MODE_PRIVATE);
 		this.readSettings();
-		this.addListenerOnButton();
-		this.addListenerToRegisterLink();
-
+		this.addLoginListener();
+		this.addRegistrationListener();
 	}
+	
+	@Override
+	public void onStop() {
+		super.onStop();
+		this.saveSettings();
+		Log.d(LOGGINGTAG, "Application stopped, Settings saved");
+	}
+	
+	// [endSection] 
 
-	private void addListenerToRegisterLink() {
+	// [section] Listeners 
+	
+	/**
+	 * Sets the registration click listener.
+	 */
+	private void addRegistrationListener() {
 		this.tvRegister.setOnClickListener(new OnClickListener() {
-
 			public void onClick(View v) {
 				Log.d("info", "Register Link was pressed");
 				final Intent intent = new Intent(v.getContext(), RegistrationScreenActivity.class);
@@ -60,14 +76,16 @@ public class LoginScreenActivity extends Activity {
 		});
 	}
 
-	private void addListenerOnButton() {
-
+	/**
+	 * Sets the login click listener.
+	 */
+	private void addLoginListener() {
 		this.button.setOnClickListener(new OnClickListener() {
-
 			public void onClick(View arg0) {
 				Log.d("info", "Login Button was pressed");
-				final boolean validCredentails = false;
-				if (validCredentails) {
+				final boolean validCredentials = false; // TODO
+				
+				if (validCredentials) {
 					LoginScreenActivity.this.wrongCredentailsHintLayout.setVisibility(View.GONE);
 				} else {
 					LoginScreenActivity.this.wrongCredentailsHintLayout.setVisibility(View.VISIBLE);
@@ -75,15 +93,14 @@ public class LoginScreenActivity extends Activity {
 			}
 		});
 	}
+	
+	// [endSection]
 
-	@Override
-	public void onStop() {
-		super.onStop();
-		this.saveSettings();
-		Log.d(LOGGINGTAG, "Application stopped, Settings saved");
-
-	}
-
+	// [section] Settings 
+	
+	/**
+	 * Read user data from the shared settings.
+	 */
 	private void readSettings() {
 		final String username = this.settings.getString("username", "");
 		final String password = this.settings.getString("password", "");
@@ -94,14 +111,30 @@ public class LoginScreenActivity extends Activity {
 		this.tvPassword.setText(password);
 	}
 
+	/**
+	 * Save user data to the shared settings.
+	 */
 	private void saveSettings() {
 		final SharedPreferences.Editor editor = this.settings.edit();
+		
 		final String newUsername = this.tvUser.getText().toString();
 		final String newPassword = this.tvPassword.getText().toString();
 		final boolean newAutologin = this.autologin.isChecked();
+		
 		editor.putString("username", newUsername);
 		editor.putString("password", newPassword);
 		editor.putBoolean("autologin", newAutologin);
 		editor.commit();
 	}
+
+	/**
+	 * Remove all saved settings from the shared settings editor.
+	 */
+	private void clearSettings() {
+		final SharedPreferences.Editor editor = this.settings.edit();
+		editor.clear();
+		editor.commit();
+	}
+	
+	// [endSection]
 }
