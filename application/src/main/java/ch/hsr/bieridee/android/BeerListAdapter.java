@@ -4,6 +4,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import ch.hsr.bieridee.android.R;
+
 import android.app.Activity;
 import android.text.Html;
 import android.view.View;
@@ -25,7 +27,7 @@ public class BeerListAdapter extends BaseAdapter {
 	private final Activity activity;
 	private final JSONArray jsonBeers;
 
-	BeerListAdapter(Activity activity, JSONArray jsonBeers) {
+	public BeerListAdapter(Activity activity, JSONArray jsonBeers) {
 		assert activity != null;
 		assert jsonBeers != null;
 

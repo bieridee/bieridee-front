@@ -1,5 +1,6 @@
-package ch.hsr.bieridee.activities;
+package ch.hsr.bieridee.android.activities;
 
+import ch.hsr.bieridee.android.R;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,8 +13,6 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-//import ch.hsr.bieridee.R;
-import ch.hsr.bieridee.android.R;
 
 /**
  * Login Screen Activity.

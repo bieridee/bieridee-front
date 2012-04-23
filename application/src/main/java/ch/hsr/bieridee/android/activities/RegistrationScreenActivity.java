@@ -1,4 +1,4 @@
-package ch.hsr.bieridee.activities;
+package ch.hsr.bieridee.android.activities;
 
 import org.json.JSONException;
 import org.json.JSONObject;

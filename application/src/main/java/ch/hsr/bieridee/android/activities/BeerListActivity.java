@@ -1,4 +1,4 @@
-package ch.hsr.bieridee.android;
+package ch.hsr.bieridee.android.activities;
 
 import java.io.IOException;
 import org.json.JSONArray;
@@ -8,6 +8,8 @@ import org.restlet.representation.Representation;
 import org.restlet.resource.ClientResource;
 import org.restlet.resource.ResourceException;
 
+import ch.hsr.bieridee.android.BeerListAdapter;
+import ch.hsr.bieridee.android.R;
 import ch.hsr.bieridee.android.config.Conf;
 
 import android.app.ListActivity;
