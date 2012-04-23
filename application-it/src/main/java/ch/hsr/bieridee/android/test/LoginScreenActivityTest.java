@@ -3,7 +3,7 @@ package ch.hsr.bieridee.android.test;
 import android.test.ActivityInstrumentationTestCase2;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import ch.hsr.bieridee.activities.LoginScreenActivity;
+import ch.hsr.bieridee.android.activities.LoginScreenActivity;
 
 public class LoginScreenActivityTest extends ActivityInstrumentationTestCase2<LoginScreenActivity> {
 

@@ -1,7 +1,7 @@
 package ch.hsr.bieridee.android.test;
 
 import android.test.ActivityInstrumentationTestCase2;
-import ch.hsr.bieridee.activities.RegistrationScreenActivity;
+import ch.hsr.bieridee.android.activities.RegistrationScreenActivity;
 
 public class RegistrationScreenActivityTest extends ActivityInstrumentationTestCase2<RegistrationScreenActivity> {
 
