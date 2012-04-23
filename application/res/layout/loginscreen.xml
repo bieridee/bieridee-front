@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:contentDescription="@string/loginscreen_imageDescription"
-            android:src="@drawable/pixelbeer_l" />
+            android:src="@drawable/pixelbeer_large" />
     </RelativeLayout>
 
     <!-- Row containing Username field -->
