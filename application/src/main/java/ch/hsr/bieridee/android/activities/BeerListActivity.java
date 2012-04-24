@@ -1,20 +1,25 @@
 package ch.hsr.bieridee.android.activities;
 
 import java.io.IOException;
+
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.restlet.Client;
+import org.restlet.Context;
+import org.restlet.Request;
+import org.restlet.Response;
+import org.restlet.Uniform;
 import org.restlet.data.MediaType;
-import org.restlet.representation.Representation;
+import org.restlet.data.Protocol;
 import org.restlet.resource.ClientResource;
-import org.restlet.resource.ResourceException;
 
+import android.app.ListActivity;
+import android.app.ProgressDialog;
+import android.os.Bundle;
+import android.util.Log;
 import ch.hsr.bieridee.android.BeerListAdapter;
 import ch.hsr.bieridee.android.R;
 import ch.hsr.bieridee.android.config.Conf;
-
-import android.app.ListActivity;
-import android.os.Bundle;
-import android.util.Log;
 
 /**
  * Activity that shows a list of all beers in our database.
@@ -23,36 +28,68 @@ public class BeerListActivity extends ListActivity {
 
 	private static final String LOG_TAG = "BeerListActivity";
 
-	/**
-	 * Called when the activity is first created.
-	 * 
-	 * @param savedInstanceState
-	 *            If the activity is being re-initialized after previously being shut down then this
-	 *            Bundle contains the data it most recently supplied in onSaveInstanceState(Bundle).
-	 *            <b>Note: Otherwise it is null.</b>
-	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		Log.i(LOG_TAG, "onCreate");
+		Log.d(LOG_TAG, "onCreate");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.beerlist);
-
-		JSONArray jsonarray = null;
-		try {
-			final ClientResource cr = new ClientResource(Conf.API_URL + "beers");
-			final Representation rep = cr.get(MediaType.APPLICATION_JSON);
-
-			final String json = rep.getText();
-			jsonarray = new JSONArray(json);
-		} catch (ResourceException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-
-		setListAdapter(new BeerListAdapter(this, jsonarray));
+		setListAdapter(new BeerListAdapter(this));
 	}
 
+	@Override
+	public void onStart() {
+		Log.d(LOG_TAG, "onStart");
+		super.onStart();
+		updateBeerList();
+	}
+
+	/**
+	 * Updates beer list data and redraws list view.
+	 */
+	private void updateBeerList() {
+		Log.d(LOG_TAG, "Updating beer list");
+
+		final BeerListAdapter adapter = (BeerListAdapter) getListAdapter();
+		
+		// Show waiting dialog
+		final String dialogTitle = getString(R.string.pleaseWait);
+		final String dialogMessage = getString(R.string.loadingData);
+		final ProgressDialog dialog = ProgressDialog.show(this, dialogTitle, dialogMessage, true);
+		
+		// Do HTTP request
+		final Client client = new Client(new Context(), Protocol.HTTP);
+		final ClientResource cr = new ClientResource(Conf.API_URL + "beers");
+		cr.setNext(client);
+		cr.setOnSent(new Uniform() {
+			public void handle(Request request, Response response) {
+				Log.d(LOG_TAG, "onSent");
+			}
+		});
+		cr.setOnResponse(new Uniform() {
+			public void handle(Request request, Response response) {
+				Log.d(LOG_TAG, "onResponse");
+				JSONArray beers = new JSONArray();
+				
+				// Update data
+				try {
+					final String json = response.getEntity().getText();
+					beers = new JSONArray(json);
+					adapter.updateData(beers);
+				} catch (IOException e) {
+					e.printStackTrace(); // TODO
+				} catch (JSONException e) {
+					e.printStackTrace(); // TODO
+				}
+				
+				// Update view
+				runOnUiThread(new Runnable() {
+					public void run() {
+						adapter.notifyDataSetChanged();
+						dialog.dismiss();
+					}
+				});
+			}
+		});
+		cr.get(MediaType.APPLICATION_JSON); // Async call
+	}
 }

@@ -4,8 +4,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import ch.hsr.bieridee.android.R;
-
 import android.app.Activity;
 import android.text.Html;
 import android.view.View;
@@ -23,12 +21,20 @@ import android.widget.TextView;
 public class BeerListAdapter extends BaseAdapter {
 
 	private final Activity activity;
-	private final JSONArray jsonBeers;
+	private JSONArray jsonBeers;
 
+	/**
+	 * @param activity Activity
+	 */
+	public BeerListAdapter(Activity activity) {
+		this.activity = activity;
+		this.jsonBeers = new JSONArray();
+	}
+	/**
+	 * @param activity Activity
+	 * @param jsonBeers JSONArray with list data
+	 */
 	public BeerListAdapter(Activity activity, JSONArray jsonBeers) {
-		assert activity != null;
-		assert jsonBeers != null;
-
 		this.jsonBeers = jsonBeers;
 		this.activity = activity;
 	}
@@ -45,7 +51,8 @@ public class BeerListAdapter extends BaseAdapter {
 	/**
 	 * Return the list item at the specified position.
 	 * 
-	 * @param position Position in list
+	 * @param position
+	 *            Position in list
 	 * @return JSON beer object at the specified position
 	 */
 	public Object getItem(int position) {
@@ -55,20 +62,24 @@ public class BeerListAdapter extends BaseAdapter {
 	/**
 	 * Return an unique ID of the specified item.
 	 * 
-	 * @param position Position in list
+	 * @param position
+	 *            Position in list
 	 * @return The id of the item at the specified position
 	 */
 	public long getItemId(int position) {
 		final JSONObject jsonBeer = (JSONObject) this.getItem(position);
-		return jsonBeer.optLong("id"); // TODO atm there is no "id" item in the json response, so id is always 0
+		return jsonBeer.optLong("id");
 	}
 
 	/**
 	 * Return the view for specified position.
 	 * 
-	 * @param position Position in list
-	 * @param convertView The old view to reuse, if possible
-	 * @param parent The parent that this view will eventually be attached to
+	 * @param position
+	 *            Position in list
+	 * @param convertView
+	 *            The old view to reuse, if possible
+	 * @param parent
+	 *            The parent that this view will eventually be attached to
 	 * @return A View corresponding to the data at the specified position.
 	 */
 	public View getView(int position, View convertView, ViewGroup parent) {
@@ -76,8 +87,8 @@ public class BeerListAdapter extends BaseAdapter {
 		if (convertView == null) {
 			convertView = this.activity.getLayoutInflater().inflate(R.layout.beerlist_item, null);
 		}
-		
-		// Assign values to beerlist item 
+
+		// Assign values to beerlist item
 		final JSONObject jsonBeer = (JSONObject) this.getItem(position);
 		final LinearLayout wrapper = (LinearLayout) convertView;
 		final TextView name = (TextView) wrapper.findViewById(R.id.beerListItemName);
@@ -90,6 +101,16 @@ public class BeerListAdapter extends BaseAdapter {
 		}
 
 		return convertView;
+	}
+
+	/**
+	 * Update the internal JSONArray with new data.
+	 * 
+	 * @param jsonBeers
+	 *            New data to replace the old JSONArray
+	 */
+	public void updateData(JSONArray jsonBeers) {
+		this.jsonBeers = jsonBeers;
 	}
 
 }
