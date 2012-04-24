@@ -14,7 +14,7 @@ import ch.hsr.bieridee.android.R;
  */
 public class HomeScreenActivity extends Activity {
 
-	private static final String TAG = "bieridee-front-homescreen";
+	private static final String LOG_TAG = "bieridee-front-homescreen";
 
 	/**
 	 * Called when the activity is first created.
@@ -25,7 +25,7 @@ public class HomeScreenActivity extends Activity {
 	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		Log.i(TAG, "onCreate");
+		Log.i(LOG_TAG, "onCreate");
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.homescreen);
 		this.addOnClickListener((Button) findViewById(R.id_dashboardscreen.buttonBeerlist), BeerListActivity.class);
@@ -44,19 +44,19 @@ public class HomeScreenActivity extends Activity {
 
 	@Override
 	public void onStart() {
-		Log.i(TAG, "onStart");
+		Log.i(LOG_TAG, "onStart");
 		super.onStart();
 	}
 
 	@Override
 	public void onPause() {
-		Log.i(TAG, "onPause");
+		Log.i(LOG_TAG, "onPause");
 		super.onPause();
 	}
 
 	@Override
 	public void onResume() {
-		Log.i(TAG, "onResume");
+		Log.i(LOG_TAG, "onResume");
 		super.onResume();
 	}
 

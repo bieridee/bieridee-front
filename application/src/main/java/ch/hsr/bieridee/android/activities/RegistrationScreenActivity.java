@@ -29,9 +29,7 @@ import ch.hsr.bieridee.android.config.Conf;
  */
 public class RegistrationScreenActivity extends Activity {
 
-	// [section] Properties
-	
-	private static final String LOGGINGTAG = "INFO";
+	private static final String LOG_TAG = "INFO";
 	EditText inputPassword;
 	EditText inputUsername;
 	EditText inputEmail;
@@ -44,13 +42,11 @@ public class RegistrationScreenActivity extends Activity {
 	RelativeLayout prenameHint;
 	RelativeLayout surnameHint;
 	
-	// [endSection]
-	
 	// [section] Lifecycle
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		Log.d(LOGGINGTAG, "activity started");
+		Log.d(LOG_TAG, "activity started");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.registrationscreen);
 
@@ -89,28 +85,28 @@ public class RegistrationScreenActivity extends Activity {
 
 				if (!Validators.validateUsername(username)) {
 					RegistrationScreenActivity.this.usernameHint.setVisibility(View.VISIBLE);
-					Log.d(LOGGINGTAG, "username invalid");
+					Log.d(LOG_TAG, "username invalid");
 					allValid = false;
 				}
 				if (!Validators.validateEmail(email)) {
 					RegistrationScreenActivity.this.emailHint.setVisibility(View.VISIBLE);
 					allValid = false;
-					Log.d(LOGGINGTAG, "email invalid");
+					Log.d(LOG_TAG, "email invalid");
 				}
 
 				if (!Validators.validateName(prename)) {
 					RegistrationScreenActivity.this.prenameHint.setVisibility(View.VISIBLE);
 					allValid = false;
-					Log.d(LOGGINGTAG, "prename invalid");
+					Log.d(LOG_TAG, "prename invalid");
 				}
 				if (!Validators.validateName(surname)) {
 					RegistrationScreenActivity.this.surnameHint.setVisibility(View.VISIBLE);
 					allValid = false;
-					Log.d(LOGGINGTAG, "surname invalid");
+					Log.d(LOG_TAG, "surname invalid");
 				}
 
 				if (!allValid) {
-					Log.d(LOGGINGTAG, "Something went wrong in the form");
+					Log.d(LOG_TAG, "Something went wrong in the form");
 				} else {
 					final ClientResource clientResource = new ClientResource(Conf.API_URL + "/users/" + username);
 					clientResource.setRetryOnError(false);
@@ -176,7 +172,7 @@ public class RegistrationScreenActivity extends Activity {
 	 * Hide all hints.
 	 */
 	private void resetHints() {
-		Log.d(LOGGINGTAG, "Resetting Hints");
+		Log.d(LOG_TAG, "Resetting Hints");
 		this.emailHint.setVisibility(View.GONE);
 		this.usernameHint.setVisibility(View.GONE);
 		this.prenameHint.setVisibility(View.GONE);

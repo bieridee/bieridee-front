@@ -22,9 +22,7 @@ import ch.hsr.bieridee.android.R;
  */
 public class LoginScreenActivity extends Activity {
 
-	// [section] Properties
-
-	private static final String LOGGINGTAG = "INFO";
+	private static final String LOG_TAG = "INFO";
 	Button button;
 	SharedPreferences settings;
 	EditText tvUser;
@@ -33,13 +31,11 @@ public class LoginScreenActivity extends Activity {
 	RelativeLayout wrongCredentailsHintLayout;
 	TextView tvRegister;
 
-	// [endSection]
-
 	// [section] Lifecycle
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		Log.d(LOGGINGTAG, "activity started");
+		Log.d(LOG_TAG, "activity started");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.loginscreen);
 
@@ -69,7 +65,7 @@ public class LoginScreenActivity extends Activity {
 		if (this.autologin.isChecked()) {
 			this.saveSettings();
 		}
-		Log.d(LOGGINGTAG, "Application stopped, Settings saved");
+		Log.d(LOG_TAG, "Application stopped, Settings saved");
 	}
 
 	// [endSection]

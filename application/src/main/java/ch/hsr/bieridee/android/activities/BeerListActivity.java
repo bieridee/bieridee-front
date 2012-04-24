@@ -21,7 +21,7 @@ import android.util.Log;
  */
 public class BeerListActivity extends ListActivity {
 
-	private static final String TAG = "bieridee-front";
+	private static final String LOG_TAG = "bieridee-front";
 
 	/**
 	 * Called when the activity is first created.
@@ -33,7 +33,7 @@ public class BeerListActivity extends ListActivity {
 	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		Log.i(TAG, "onCreate");
+		Log.i(LOG_TAG, "onCreate");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.beerlist);
 
@@ -57,19 +57,19 @@ public class BeerListActivity extends ListActivity {
 
 	@Override
 	public void onStart() {
-		Log.i(TAG, "onStart");
+		Log.i(LOG_TAG, "onStart");
 		super.onStart();
 	}
 
 	@Override
 	public void onPause() {
-		Log.i(TAG, "onPause");
+		Log.i(LOG_TAG, "onPause");
 		super.onPause();
 	}
 
 	@Override
 	public void onResume() {
-		Log.i(TAG, "onResume");
+		Log.i(LOG_TAG, "onResume");
 		super.onResume();
 	}
 
