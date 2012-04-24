@@ -29,7 +29,7 @@ import ch.hsr.bieridee.android.config.Conf;
  */
 public class RegistrationScreenActivity extends Activity {
 
-	private static final String LOG_TAG = "INFO";
+	private static final String LOG_TAG = "RegistrationScreenActivity";
 	EditText inputPassword;
 	EditText inputUsername;
 	EditText inputEmail;

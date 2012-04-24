@@ -22,7 +22,7 @@ import ch.hsr.bieridee.android.R;
  */
 public class LoginScreenActivity extends Activity {
 
-	private static final String LOG_TAG = "INFO";
+	private static final String LOG_TAG = "LoginScreenActivity";
 	Button button;
 	SharedPreferences settings;
 	EditText tvUser;

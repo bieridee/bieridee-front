@@ -14,7 +14,7 @@ import ch.hsr.bieridee.android.R;
  */
 public class HomeScreenActivity extends Activity {
 
-	private static final String LOG_TAG = "bieridee-front-homescreen";
+	private static final String LOG_TAG = "HomeScreenActivity";
 
 	/**
 	 * Called when the activity is first created.
@@ -36,28 +36,9 @@ public class HomeScreenActivity extends Activity {
 
 			public void onClick(View v) {
 				final Intent intent = new Intent(v.getContext(), activityClass);
-				startActivityForResult(intent, 0);
-
+				startActivity(intent);
 			}
 		});
-	}
-
-	@Override
-	public void onStart() {
-		Log.i(LOG_TAG, "onStart");
-		super.onStart();
-	}
-
-	@Override
-	public void onPause() {
-		Log.i(LOG_TAG, "onPause");
-		super.onPause();
-	}
-
-	@Override
-	public void onResume() {
-		Log.i(LOG_TAG, "onResume");
-		super.onResume();
 	}
 
 }

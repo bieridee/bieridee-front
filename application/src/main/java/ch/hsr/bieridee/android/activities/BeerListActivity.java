@@ -21,7 +21,7 @@ import android.util.Log;
  */
 public class BeerListActivity extends ListActivity {
 
-	private static final String LOG_TAG = "bieridee-front";
+	private static final String LOG_TAG = "BeerListActivity";
 
 	/**
 	 * Called when the activity is first created.
@@ -53,24 +53,6 @@ public class BeerListActivity extends ListActivity {
 		}
 
 		setListAdapter(new BeerListAdapter(this, jsonarray));
-	}
-
-	@Override
-	public void onStart() {
-		Log.i(LOG_TAG, "onStart");
-		super.onStart();
-	}
-
-	@Override
-	public void onPause() {
-		Log.i(LOG_TAG, "onPause");
-		super.onPause();
-	}
-
-	@Override
-	public void onResume() {
-		Log.i(LOG_TAG, "onResume");
-		super.onResume();
 	}
 
 }
