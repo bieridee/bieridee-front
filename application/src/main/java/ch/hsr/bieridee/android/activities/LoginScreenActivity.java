@@ -1,6 +1,5 @@
 package ch.hsr.bieridee.android.activities;
 
-import ch.hsr.bieridee.android.R;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,9 +9,12 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import ch.hsr.bieridee.android.R;
 
 /**
  * Login Screen Activity.
@@ -20,7 +22,8 @@ import android.widget.TextView;
  */
 public class LoginScreenActivity extends Activity {
 
-	// [section] Properties 
+	// [section] Properties
+
 	private static final String LOGGINGTAG = "INFO";
 	Button button;
 	SharedPreferences settings;
@@ -29,10 +32,11 @@ public class LoginScreenActivity extends Activity {
 	CheckBox autologin;
 	RelativeLayout wrongCredentailsHintLayout;
 	TextView tvRegister;
+
 	// [endSection]
-	
-	// [section] Lifecycle 
-	
+
+	// [section] Lifecycle
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		Log.d(LOGGINGTAG, "activity started");
@@ -50,19 +54,28 @@ public class LoginScreenActivity extends Activity {
 		this.readSettings();
 		this.addLoginListener();
 		this.addRegistrationListener();
+		this.addAutologinListener();
 	}
-	
+
 	@Override
-	public void onStop() {
-		super.onStop();
-		this.saveSettings();
+	public void onResume() {
+		super.onResume();
+		this.wrongCredentailsHintLayout.setVisibility(View.GONE);
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		if (this.autologin.isChecked()) {
+			this.saveSettings();
+		}
 		Log.d(LOGGINGTAG, "Application stopped, Settings saved");
 	}
-	
-	// [endSection] 
 
-	// [section] Listeners 
-	
+	// [endSection]
+
+	// [section] Listeners
+
 	/**
 	 * Sets the registration click listener.
 	 */
@@ -84,7 +97,7 @@ public class LoginScreenActivity extends Activity {
 			public void onClick(View arg0) {
 				Log.d("info", "Login Button was pressed");
 				final boolean validCredentials = false; // TODO
-				
+
 				if (validCredentials) {
 					LoginScreenActivity.this.wrongCredentailsHintLayout.setVisibility(View.GONE);
 				} else {
@@ -94,10 +107,25 @@ public class LoginScreenActivity extends Activity {
 		});
 	}
 	
+	/**
+	 * Sets the autologin checkbox change listener.
+	 * 
+	 * If autologin checkbox is disabled, settings are cleared.
+	 */
+	private void addAutologinListener() {
+		this.autologin.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				if (!isChecked) {
+					LoginScreenActivity.this.clearSettings();
+				}
+			}
+		});
+	}
+
 	// [endSection]
 
-	// [section] Settings 
-	
+	// [section] Settings
+
 	/**
 	 * Read user data from the shared settings.
 	 */
@@ -116,11 +144,11 @@ public class LoginScreenActivity extends Activity {
 	 */
 	private void saveSettings() {
 		final SharedPreferences.Editor editor = this.settings.edit();
-		
+
 		final String newUsername = this.tvUser.getText().toString();
 		final String newPassword = this.tvPassword.getText().toString();
 		final boolean newAutologin = this.autologin.isChecked();
-		
+
 		editor.putString("username", newUsername);
 		editor.putString("password", newPassword);
 		editor.putBoolean("autologin", newAutologin);
@@ -135,6 +163,6 @@ public class LoginScreenActivity extends Activity {
 		editor.clear();
 		editor.commit();
 	}
-	
+
 	// [endSection]
 }

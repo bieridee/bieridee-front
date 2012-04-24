@@ -19,8 +19,6 @@ import android.widget.TextView;
  * 
  * For further information, see the Adapter interface:
  * http://developer.android.com/reference/android/widget/Adapter.html
- * 
- * @author Danilo
  */
 public class BeerListAdapter extends BaseAdapter {
 

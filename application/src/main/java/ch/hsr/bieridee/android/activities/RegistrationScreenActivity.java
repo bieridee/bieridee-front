@@ -10,7 +10,6 @@ import org.restlet.resource.ResourceException;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -20,16 +19,19 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 import ch.hsr.bieridee.android.R;
+import ch.hsr.bieridee.android.Validators;
+import ch.hsr.bieridee.android.config.Conf;
 
 /**
  * Activity with Registration Form.
  * 
  */
 public class RegistrationScreenActivity extends Activity {
-	private static final String LOGGINGTAG = "INFO";
 
+	// [section] Properties
+	
+	private static final String LOGGINGTAG = "INFO";
 	EditText inputPassword;
 	EditText inputUsername;
 	EditText inputEmail;
@@ -41,12 +43,11 @@ public class RegistrationScreenActivity extends Activity {
 	RelativeLayout passwordHint;
 	RelativeLayout prenameHint;
 	RelativeLayout surnameHint;
+	
+	// [endSection]
+	
+	// [section] Lifecycle
 
-	/**
-	 * @see android.app.Activity#onCreate(android.os.Bundle)
-	 * @param savedInstanceState
-	 * @see android.app.Activity#onCreate(android.os.Bundle)
-	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		Log.d(LOGGINGTAG, "activity started");
@@ -70,18 +71,9 @@ public class RegistrationScreenActivity extends Activity {
 		this.addRegisterOnClickListener();
 
 	}
+	
+	// [endSection]
 
-	private void fillTestValues() {
-		this.inputUsername.setText("ruedi");
-		this.inputPrename.setText("Hans");
-		this.inputSurname.setText("Rudin");
-		this.inputEmail.setText("ruedi@hsr.ch");
-		this.inputPassword.setText("naja");
-	}
-
-	/**
-	 * 
-	 */
 	private void addRegisterOnClickListener() {
 		this.buttonRegister.setOnClickListener(new OnClickListener() {
 
@@ -93,30 +85,25 @@ public class RegistrationScreenActivity extends Activity {
 				final String email = RegistrationScreenActivity.this.inputEmail.getText().toString();
 				final String password = RegistrationScreenActivity.this.inputPassword.getText().toString();
 
-				final boolean usernameIsValid = RegistrationScreenActivity.this.checkUsername(username);
-				final boolean emailIsValid = RegistrationScreenActivity.this.checkEmail(email);
-				final boolean prenameIsValid = RegistrationScreenActivity.this.checkName(prename);
-				final boolean surnameIsValid = RegistrationScreenActivity.this.checkName(surname);
-
 				boolean allValid = true;
 
-				if (!usernameIsValid) {
+				if (!Validators.validateUsername(username)) {
 					RegistrationScreenActivity.this.usernameHint.setVisibility(View.VISIBLE);
 					Log.d(LOGGINGTAG, "username invalid");
 					allValid = false;
 				}
-				if (!emailIsValid) {
+				if (!Validators.validateEmail(email)) {
 					RegistrationScreenActivity.this.emailHint.setVisibility(View.VISIBLE);
 					allValid = false;
 					Log.d(LOGGINGTAG, "email invalid");
 				}
 
-				if (!prenameIsValid) {
+				if (!Validators.validateName(prename)) {
 					RegistrationScreenActivity.this.prenameHint.setVisibility(View.VISIBLE);
 					allValid = false;
 					Log.d(LOGGINGTAG, "prename invalid");
 				}
-				if (!surnameIsValid) {
+				if (!Validators.validateName(surname)) {
 					RegistrationScreenActivity.this.surnameHint.setVisibility(View.VISIBLE);
 					allValid = false;
 					Log.d(LOGGINGTAG, "surname invalid");
@@ -125,8 +112,9 @@ public class RegistrationScreenActivity extends Activity {
 				if (!allValid) {
 					Log.d(LOGGINGTAG, "Something went wrong in the form");
 				} else {
-					final ClientResource clientResource = new ClientResource("http://192.168.1.103:8080" + "/users/" + username);
+					final ClientResource clientResource = new ClientResource(Conf.API_URL + "/users/" + username);
 					clientResource.setRetryOnError(false);
+					
 					final JSONObject user = new JSONObject();
 					try {
 						user.put("username", username);
@@ -135,7 +123,7 @@ public class RegistrationScreenActivity extends Activity {
 						user.put("email", email);
 						user.put("password", password);
 					} catch (JSONException e) {
-						e.printStackTrace();
+						throw new RuntimeException("Creating the user JSON object failed.");
 					}
 
 					final Representation rep = new StringRepresentation(user.toString(), MediaType.APPLICATION_JSON);
@@ -184,6 +172,9 @@ public class RegistrationScreenActivity extends Activity {
 		});
 	}
 
+	/**
+	 * Hide all hints.
+	 */
 	private void resetHints() {
 		Log.d(LOGGINGTAG, "Resetting Hints");
 		this.emailHint.setVisibility(View.GONE);
@@ -191,16 +182,17 @@ public class RegistrationScreenActivity extends Activity {
 		this.prenameHint.setVisibility(View.GONE);
 		this.surnameHint.setVisibility(View.GONE);
 	}
-
-	private boolean checkName(String name) {
-		return name.matches("\\w{3,}");
-	}
-
-	private boolean checkUsername(String username) {
-		return username.matches("\\w{3,}");
-	}
-
-	private boolean checkEmail(String email) {
-		return email.matches("^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+	
+	/**
+	 * Adds test data.
+	 * @deprecated Can be removed later.
+	 */
+	@java.lang.Deprecated
+	private void fillTestValues() {
+		this.inputUsername.setText("ruedi");
+		this.inputPrename.setText("Hans");
+		this.inputSurname.setText("Rudin");
+		this.inputEmail.setText("ruedi@hsr.ch");
+		this.inputPassword.setText("naja");
 	}
 }
