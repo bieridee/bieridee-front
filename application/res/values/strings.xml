@@ -13,7 +13,7 @@
     <string name="register">Registrieren</string>
     <string name="prename">Vorname</string>
     <string name="surname">Nachname</string>
-    <string name="pleaseWait">Bitte warten&#8230;</string>
+    <string name="pleaseWait">Bitte warten…</string>
     <string name="savingData">Daten werden gespeichert</string>
 
     <!-- Login screen specific strings -->
@@ -29,5 +29,14 @@
     <string name="registrationscreen_invalidInput">Die Eingabe ist ungültig</string>
     <string name="registrationscreen_registrationInfoInvalidEmail">Bitte gibt eine gültige Emailadresse ein.</string>
     <string name="registrationscreen_registrationInfoUsernameForgiven">Dieser Benutzername ist bereits vergeben. Bitte wähle einen anderen.</string>
+
+    <!-- Dashboard Screen -->
+    <string name="dashboardscreen_title">Bieridee Dashboard</string>
+    <string name="dashboardscreen_beerlistButtonText">Beerliste</string>
+    <string name="dashboardscreen_timelineButtonText">Timeline</string>
+    <string name="dashboardscreen_breweriesButtonText">Brauereien</string>
+    <string name="dashboardscreen_profileButtonText">Profil</string>
+    <string name="dashboardscreen_consumptionButtonText">Konsum</string>
+    <string name="dashboardscreen_ratingButtonText">Rating</string>
 
 </resources>

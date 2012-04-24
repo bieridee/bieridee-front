@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="horizontal">
+
+    <ch.hsr.bieridee.android.layouts.DashboardLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id_dashboardscreen/buttonBeerlist"
+            style="@style/DashboardButton"
+            android:drawableTop="@drawable/dashboard_button_add"
+            android:text="@string/dashboardscreen_beerlistButtonText" />
+
+        <Button
+            android:id="@+id_dashboardscreen/buttonTimeline"
+            style="@style/DashboardButton"
+            android:drawableTop="@drawable/dashboard_button_add"
+            android:text="@string/dashboardscreen_timelineButtonText" />
+
+        <Button
+            android:id="@+id_dashboardscreen/buttonBreweries"
+            style="@style/DashboardButton"
+            android:drawableTop="@drawable/dashboard_button_add"
+            android:text="@string/dashboardscreen_breweriesButtonText" />
+
+        <Button
+            android:id="@+id_dashboardscreen/buttonProfile"
+            style="@style/DashboardButton"
+            android:drawableTop="@drawable/dashboard_button_add"
+            android:text="@string/dashboardscreen_profileButtonText" />
+
+        <Button
+            android:id="@+id_dashboardscreen/buttonConsumption"
+            style="@style/DashboardButton"
+            android:drawableTop="@drawable/dashboard_button_add"
+            android:text="@string/dashboardscreen_consumptionButtonText" />
+
+        <Button
+            android:id="@+id_dashboardscreen/buttonRating"
+            style="@style/DashboardButton"
+            android:drawableTop="@drawable/dashboard_button_add"
+            android:text="@string/dashboardscreen_ratingButtonText" />
+    </ch.hsr.bieridee.android.layouts.DashboardLayout>
+
+</LinearLayout>
