@@ -15,6 +15,7 @@
     <string name="surname">Nachname</string>
     <string name="pleaseWait">Bitte warten…</string>
     <string name="savingData">Daten werden gespeichert</string>
+    <string name="loadingData">Daten werden geladen</string>
 
     <!-- Login screen specific strings -->
     <string name="loginscreen_title">BierIdee Login</string>
@@ -32,11 +33,14 @@
 
     <!-- Dashboard Screen -->
     <string name="dashboardscreen_title">Bieridee Dashboard</string>
-    <string name="dashboardscreen_beerlistButtonText">Beerliste</string>
+    <string name="dashboardscreen_beerlistButtonText">Bierliste</string>
     <string name="dashboardscreen_timelineButtonText">Timeline</string>
     <string name="dashboardscreen_breweriesButtonText">Brauereien</string>
     <string name="dashboardscreen_profileButtonText">Profil</string>
     <string name="dashboardscreen_consumptionButtonText">Konsum</string>
     <string name="dashboardscreen_ratingButtonText">Rating</string>
+    
+    <!-- Beer list specific strings -->
+    <string name="beerlist_title">BierListe</string>
 
 </resources>
