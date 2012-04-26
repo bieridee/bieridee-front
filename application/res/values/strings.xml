@@ -39,5 +39,8 @@
     <string name="dashboardscreen_profileButtonText">Profil</string>
     <string name="dashboardscreen_consumptionButtonText">Konsum</string>
     <string name="dashboardscreen_ratingButtonText">Rating</string>
+    
+    <!-- Beer list specific strings -->
+    <string name="beerlist_title">BierListe</string>
 
 </resources>
