@@ -9,5 +9,6 @@ public final class Conf {
 		// do not instantiate.
 	}
 	
-	public static final String API_URL = "http://brauhaus.nusszipfel.com:8080/";
+	/*has moved to Res.java...*/
+	//public static final String API_URL = "http://brauhaus.nusszipfel.com:8080/";
 }

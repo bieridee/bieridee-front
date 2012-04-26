@@ -20,6 +20,7 @@ import android.util.Log;
 import ch.hsr.bieridee.android.BeerListAdapter;
 import ch.hsr.bieridee.android.R;
 import ch.hsr.bieridee.android.config.Conf;
+import ch.hsr.bieridee.android.config.Res;
 
 /**
  * Activity that shows a list of all beers in our database.
@@ -58,7 +59,7 @@ public class BeerListActivity extends ListActivity {
 		
 		// Do HTTP request
 		final Client client = new Client(new Context(), Protocol.HTTP);
-		final ClientResource cr = new ClientResource(Conf.API_URL + "beers");
+		final ClientResource cr = new ClientResource(Res.getURI(Res.BEER_COLLECTION));
 		cr.setNext(client);
 		cr.setOnSent(new Uniform() {
 			public void handle(Request request, Response response) {

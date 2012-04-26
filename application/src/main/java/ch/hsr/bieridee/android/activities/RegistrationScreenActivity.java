@@ -21,7 +21,7 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import ch.hsr.bieridee.android.R;
 import ch.hsr.bieridee.android.Validators;
-import ch.hsr.bieridee.android.config.Conf;
+import ch.hsr.bieridee.android.config.Res;
 
 /**
  * Activity with Registration Form.
@@ -108,7 +108,7 @@ public class RegistrationScreenActivity extends Activity {
 				if (!allValid) {
 					Log.d(LOG_TAG, "Something went wrong in the form");
 				} else {
-					final ClientResource clientResource = new ClientResource(Conf.API_URL + "/users/" + username);
+					final ClientResource clientResource = new ClientResource(Res.getURI(Res.USER_DOCUMENT, username));
 					clientResource.setRetryOnError(false);
 					
 					final JSONObject user = new JSONObject();
