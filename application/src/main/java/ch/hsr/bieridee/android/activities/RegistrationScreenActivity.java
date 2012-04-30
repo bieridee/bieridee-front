@@ -1,27 +1,32 @@
 package ch.hsr.bieridee.android.activities;
 
+import org.apache.http.HttpStatus;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.restlet.Request;
+import org.restlet.Response;
+import org.restlet.Uniform;
 import org.restlet.data.MediaType;
 import org.restlet.representation.Representation;
 import org.restlet.representation.StringRepresentation;
 import org.restlet.resource.ClientResource;
-import org.restlet.resource.ResourceException;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 import ch.hsr.bieridee.android.R;
 import ch.hsr.bieridee.android.Validators;
 import ch.hsr.bieridee.android.config.Res;
+import ch.hsr.bieridee.android.http.ClientResourceFactory;
 
 /**
  * Activity with Registration Form.
@@ -41,7 +46,7 @@ public class RegistrationScreenActivity extends Activity {
 	RelativeLayout passwordHint;
 	RelativeLayout prenameHint;
 	RelativeLayout surnameHint;
-	
+
 	// [section] Lifecycle
 
 	@Override
@@ -67,11 +72,11 @@ public class RegistrationScreenActivity extends Activity {
 		this.addRegisterOnClickListener();
 
 	}
-	
+
 	// [endSection]
 
 	private void addRegisterOnClickListener() {
-		this.buttonRegister.setOnClickListener(new OnClickListener() {
+		this.buttonRegister.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View v) {
 				RegistrationScreenActivity.this.resetHints();
@@ -108,9 +113,6 @@ public class RegistrationScreenActivity extends Activity {
 				if (!allValid) {
 					Log.d(LOG_TAG, "Something went wrong in the form");
 				} else {
-					final ClientResource clientResource = new ClientResource(Res.getURI(Res.USER_DOCUMENT, username));
-					clientResource.setRetryOnError(false);
-					
 					final JSONObject user = new JSONObject();
 					try {
 						user.put("username", username);
@@ -127,43 +129,50 @@ public class RegistrationScreenActivity extends Activity {
 					final String dialogMessage = getString(R.string.pleaseWait);
 					final ProgressDialog dialog = ProgressDialog.show(RegistrationScreenActivity.this, dialogTitle, dialogMessage, true);
 
-					createConnectionThread(clientResource, rep, dialog);
+					// Do PUT request
+					final ClientResource cr = ClientResourceFactory.getClientResource(Res.getURI(Res.USER_DOCUMENT, username));
+					cr.setOnResponse(new Uniform() {
+						public void handle(Request request, Response response) {
+							Log.d(LOG_TAG, "PUT onResponse");
+							dialog.dismiss();
+							
+							final int statusCode = response.getStatus().getCode();
+							
+							// If request was successful, show toast and pass data on to login activity.
+							if (statusCode == HttpStatus.SC_CREATED) {
+								Log.d(LOG_TAG, "Success! (HTTP " + response.getStatus().getCode() + ")");
+								runOnUiThread(new Runnable() {
+									public void run() {
+										Toast.makeText(RegistrationScreenActivity.this, "Registration successful!", Toast.LENGTH_SHORT).show();
+									}
+								});
+								
+								final Intent intent = new Intent(RegistrationScreenActivity.this.getBaseContext(), LoginScreenActivity.class);
+								intent.putExtra("username", username);
+								intent.putExtra("password", password);
+								startActivity(intent);
+								
+							// If request was unsuccessful, show error message.
+							} else {
+								final String fullHttpStatus = statusCode + " " + response.getStatus().getDescription();
+								Log.e(LOG_TAG, "Registration failed. (HTTP " + fullHttpStatus + ")");
+								runOnUiThread(new Runnable() {
+									public void run() {
+										new AlertDialog.Builder(RegistrationScreenActivity.this)
+										.setTitle("Error")
+										.setMessage("The registration has failed (HTTP " + statusCode + ").")
+										.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+										    public void onClick(DialogInterface alertDialog, int which) {
+										        alertDialog.dismiss();
+										    }
+										}).show();
+									}
+								});
+							}
+						}
+					});
+					cr.put(rep, MediaType.APPLICATION_JSON);
 				}
-			}
-
-			/*
-			 * Unfortunately the clientResource.setOnResponse Method doesnt not work! Therefore the nested solution.
-			 */
-			private void createConnectionThread(final ClientResource clientResource, final Representation rep, final ProgressDialog dialog) {
-				new Thread(new Runnable() {
-					public void run() {
-						try {
-							clientResource.put(rep);
-						} catch (ResourceException e) {
-							Log.d("info", "Connection timeout occured!");
-						}
-							runOnUiThread(new Runnable() {
-								public void run() {
-									dialog.dismiss();
-									Log.d("status", clientResource.getStatus().toString());
-									saveSettings();
-								}
-
-								private void saveSettings() {
-									final SharedPreferences.Editor editor = getSharedPreferences("settings", MODE_PRIVATE).edit();
-									final String username = RegistrationScreenActivity.this.inputUsername.getText().toString();
-									final String password = RegistrationScreenActivity.this.inputPassword.getText().toString();
-									Log.d("info", "username is: " + username);
-									editor.putString("username", username);
-									editor.putString("password", password);
-									editor.commit();
-
-									final Intent intent = new Intent(RegistrationScreenActivity.this.getBaseContext(), LoginScreenActivity.class);
-									startActivityForResult(intent, 0);
-								}
-							});
-						}
-				}).start();
 			}
 		});
 	}
@@ -178,9 +187,10 @@ public class RegistrationScreenActivity extends Activity {
 		this.prenameHint.setVisibility(View.GONE);
 		this.surnameHint.setVisibility(View.GONE);
 	}
-	
+
 	/**
 	 * Adds test data.
+	 * TODO remove
 	 * @deprecated Can be removed later.
 	 */
 	@java.lang.Deprecated

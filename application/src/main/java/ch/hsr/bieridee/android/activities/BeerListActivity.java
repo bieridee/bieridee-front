@@ -57,14 +57,8 @@ public class BeerListActivity extends ListActivity {
 		// Do HTTP request
 		final String resourceURI = Res.getURI(Res.BEER_COLLECTION);
 		final ClientResource cr = ClientResourceFactory.getClientResource(resourceURI);
-		cr.setOnSent(new Uniform() {
-			public void handle(Request request, Response response) {
-				Log.d(LOG_TAG, "onSent");
-			}
-		});
 		cr.setOnResponse(new Uniform() {
 			public void handle(Request request, Response response) {
-				Log.d(LOG_TAG, "onResponse");
 				JSONArray beers = new JSONArray();
 				
 				// Update data
