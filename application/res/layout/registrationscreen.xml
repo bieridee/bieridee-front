@@ -111,7 +111,9 @@
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:clickable="true"
-            android:hint="@string/password" />
+            android:hint="@string/password"
+            android:password="true" />
+
     </RelativeLayout>
 
     <RelativeLayout
