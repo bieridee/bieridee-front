@@ -141,7 +141,7 @@ public class RegistrationScreenActivity extends Activity {
 								Log.d(LOG_TAG, "Success! (HTTP " + response.getStatus().getCode() + ")");
 								runOnUiThread(new Runnable() {
 									public void run() {
-										Toast.makeText(RegistrationScreenActivity.this.getApplicationContext(), "Registration successful!", Toast.LENGTH_SHORT).show();
+										Toast.makeText(RegistrationScreenActivity.this.getApplicationContext(), getString(R.string.registrationscreen_registrationSuccessful), Toast.LENGTH_SHORT).show();
 									}
 								});
 								
@@ -157,8 +157,8 @@ public class RegistrationScreenActivity extends Activity {
 								runOnUiThread(new Runnable() {
 									public void run() {
 										new AlertDialog.Builder(RegistrationScreenActivity.this)
-										.setTitle("Error")
-										.setMessage("The registration has failed (HTTP " + statusCode + ").")
+										.setTitle(getString(R.string.error))
+										.setMessage(String.format(getString(R.string.registrationscreen_registrationFailed), statusCode))
 										.setNeutralButton("OK", new DialogInterface.OnClickListener() {
 										    public void onClick(DialogInterface alertDialog, int which) {
 										        alertDialog.dismiss();

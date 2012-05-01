@@ -16,6 +16,8 @@
     <string name="pleaseWait">Bitte warten…</string>
     <string name="savingData">Daten werden gespeichert</string>
     <string name="loadingData">Daten werden geladen</string>
+    <string name="warning">Warnung</string>
+    <string name="error">Fehler</string>
 
     <!-- Login screen specific strings -->
     <string name="loginscreen_title">BierIdee Login</string>
@@ -28,8 +30,10 @@
     <!-- Registration screen specific strings -->
     <string name="registrationscreen_title">BierIdee Registration</string>
     <string name="registrationscreen_invalidInput">Die Eingabe ist ungültig</string>
-    <string name="registrationscreen_registrationInfoInvalidEmail">Bitte gibt eine gültige Emailadresse ein.</string>
-    <string name="registrationscreen_registrationInfoUsernameForgiven">Dieser Benutzername ist bereits vergeben. Bitte wähle einen anderen.</string>
+    <string name="registrationscreen_invalidEmail">Bitte gibt eine gültige Emailadresse ein.</string>
+    <string name="registrationscreen_usernameUnavailable">Dieser Benutzername ist bereits vergeben. Bitte wähle einen anderen.</string>
+    <string name="registrationscreen_registrationFailed">Die Registrierung ist schiefgegangen (HTTP %1$d).</string>
+    <string name="registrationscreen_registrationSuccessful">Registrierung erfolgreich!</string>
 
     <!-- Dashboard Screen -->
     <string name="dashboardscreen_title">Bieridee Dashboard</string>
