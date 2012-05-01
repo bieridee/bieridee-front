@@ -68,9 +68,7 @@ public class RegistrationScreenActivity extends Activity {
 		this.prenameHint = (RelativeLayout) this.findViewById(R.id.registrationRelativeLayoutPrenameHint);
 		this.surnameHint = (RelativeLayout) this.findViewById(R.id.registrationRelativeLayoutSurnameHint);
 
-		this.fillTestValues();
 		this.addRegisterOnClickListener();
-
 	}
 
 	// [endSection]
@@ -143,7 +141,7 @@ public class RegistrationScreenActivity extends Activity {
 								Log.d(LOG_TAG, "Success! (HTTP " + response.getStatus().getCode() + ")");
 								runOnUiThread(new Runnable() {
 									public void run() {
-										Toast.makeText(RegistrationScreenActivity.this, "Registration successful!", Toast.LENGTH_SHORT).show();
+										Toast.makeText(RegistrationScreenActivity.this.getApplicationContext(), "Registration successful!", Toast.LENGTH_SHORT).show();
 									}
 								});
 								
@@ -186,19 +184,5 @@ public class RegistrationScreenActivity extends Activity {
 		this.usernameHint.setVisibility(View.GONE);
 		this.prenameHint.setVisibility(View.GONE);
 		this.surnameHint.setVisibility(View.GONE);
-	}
-
-	/**
-	 * Adds test data.
-	 * TODO remove
-	 * @deprecated Can be removed later.
-	 */
-	@java.lang.Deprecated
-	private void fillTestValues() {
-		this.inputUsername.setText("ruedi");
-		this.inputPrename.setText("Hans");
-		this.inputSurname.setText("Rudin");
-		this.inputEmail.setText("ruedi@hsr.ch");
-		this.inputPassword.setText("naja");
 	}
 }
