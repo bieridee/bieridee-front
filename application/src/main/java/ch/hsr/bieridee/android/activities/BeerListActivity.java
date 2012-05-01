@@ -55,8 +55,7 @@ public class BeerListActivity extends ListActivity {
 		final ProgressDialog dialog = ProgressDialog.show(this, dialogTitle, dialogMessage, true);
 		
 		// Do HTTP request
-		final String resourceURI = Res.getURI(Res.BEER_COLLECTION);
-		final ClientResource cr = ClientResourceFactory.getClientResource(resourceURI);
+		final ClientResource cr = ClientResourceFactory.getClientResource(Res.getURI(Res.BEER_COLLECTION));
 		cr.setOnResponse(new Uniform() {
 			public void handle(Request request, Response response) {
 				JSONArray beers = new JSONArray();
