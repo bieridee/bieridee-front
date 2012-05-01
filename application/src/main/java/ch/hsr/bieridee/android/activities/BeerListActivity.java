@@ -4,13 +4,10 @@ import java.io.IOException;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.restlet.Client;
-import org.restlet.Context;
 import org.restlet.Request;
 import org.restlet.Response;
 import org.restlet.Uniform;
 import org.restlet.data.MediaType;
-import org.restlet.data.Protocol;
 import org.restlet.resource.ClientResource;
 
 import android.app.ListActivity;
@@ -19,8 +16,8 @@ import android.os.Bundle;
 import android.util.Log;
 import ch.hsr.bieridee.android.BeerListAdapter;
 import ch.hsr.bieridee.android.R;
-import ch.hsr.bieridee.android.config.Conf;
 import ch.hsr.bieridee.android.config.Res;
+import ch.hsr.bieridee.android.http.ClientResourceFactory;
 
 /**
  * Activity that shows a list of all beers in our database.
@@ -58,17 +55,9 @@ public class BeerListActivity extends ListActivity {
 		final ProgressDialog dialog = ProgressDialog.show(this, dialogTitle, dialogMessage, true);
 		
 		// Do HTTP request
-		final Client client = new Client(new Context(), Protocol.HTTP);
-		final ClientResource cr = new ClientResource(Res.getURI(Res.BEER_COLLECTION));
-		cr.setNext(client);
-		cr.setOnSent(new Uniform() {
-			public void handle(Request request, Response response) {
-				Log.d(LOG_TAG, "onSent");
-			}
-		});
+		final ClientResource cr = ClientResourceFactory.getClientResource(Res.getURI(Res.BEER_COLLECTION));
 		cr.setOnResponse(new Uniform() {
 			public void handle(Request request, Response response) {
-				Log.d(LOG_TAG, "onResponse");
 				JSONArray beers = new JSONArray();
 				
 				// Update data

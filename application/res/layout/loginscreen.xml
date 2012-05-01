@@ -56,8 +56,7 @@
             android:layout_height="wrap_content"
             android:gravity="left|center_vertical"
             android:hint="@string/password"
-            android:inputType="text"
-            android:password="false" />
+            android:inputType="textPassword" />
     </RelativeLayout>
 
     <!-- Wrong login hint -->

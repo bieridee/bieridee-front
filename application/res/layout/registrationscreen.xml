@@ -95,7 +95,7 @@
             android:id="@+id/registrationUsernameHint"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:text="@string/registrationscreen_registrationInfoUsernameForgiven"
+            android:text="@string/registrationscreen_usernameUnavailable"
             android:textColor="@color/red" />
     </RelativeLayout>
 
@@ -111,7 +111,9 @@
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:clickable="true"
-            android:hint="@string/password" />
+            android:hint="@string/password"
+            android:inputType="textPassword" />
+
     </RelativeLayout>
 
     <RelativeLayout
@@ -140,7 +142,7 @@
             android:id="@+id/registrationEmailHint"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:text="@string/registrationscreen_registrationInfoInvalidEmail"
+            android:text="@string/registrationscreen_invalidEmail"
             android:textColor="@color/red" />
     </RelativeLayout>
 
