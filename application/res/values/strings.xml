@@ -10,6 +10,7 @@
     <string name="password">Password</string>
     <string name="email">Email</string>
     <string name="login">Login</string>
+    <string name="logout">Logout</string>
     <string name="register">Registrieren</string>
     <string name="prename">Vorname</string>
     <string name="surname">Nachname</string>
@@ -18,6 +19,8 @@
     <string name="loadingData">Daten werden geladen</string>
     <string name="warning">Warnung</string>
     <string name="error">Fehler</string>
+    <string name="success">Erfolg</string>
+    <string name="about">Über</string>
 
     <!-- Login screen specific strings -->
     <string name="loginscreen_title">BierIdee Login</string>
@@ -44,7 +47,13 @@
     <string name="dashboardscreen_consumptionButtonText">Konsum</string>
     <string name="dashboardscreen_ratingButtonText">Rating</string>
     
-    <!-- Beer list specific strings -->
+    <!-- Beer list -->
     <string name="beerlist_title">BierListe</string>
+
+    <!-- About screen -->
+    <string name="aboutscreen_activitytitle">Über BierIdee</string>
+    <string name="aboutscreen_title">Über BierIdee</string>
+    <string name="aboutscreen_text">Das Projekt "BierIdee" ist als Semesterarbeit an der Hochschule für Technik in Rapperswil entstanden.</string>
+    <string name="aboutscreen_imageDescription">Bieridee Logo</string>
 
 </resources>
