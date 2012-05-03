@@ -30,6 +30,7 @@
         </activity>
         <activity android:name=".activities.BeerListActivity" android:label="@string/beerlist_title" />
         <activity android:name=".activities.RegistrationScreenActivity" android:label="@string/registrationscreen_title" />
+        <activity android:name=".activities.AboutScreenActivity" android:label="@string/aboutscreen_activitytitle" />
 
     </application>
 

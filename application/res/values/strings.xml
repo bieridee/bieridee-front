@@ -44,7 +44,13 @@
     <string name="dashboardscreen_consumptionButtonText">Konsum</string>
     <string name="dashboardscreen_ratingButtonText">Rating</string>
     
-    <!-- Beer list specific strings -->
+    <!-- Beer list -->
     <string name="beerlist_title">BierListe</string>
+
+    <!-- About screen -->
+    <string name="aboutscreen_activitytitle">Über BierIdee</string>
+    <string name="aboutscreen_title">Über BierIdee</string>
+    <string name="aboutscreen_text">Das Projekt "BierIdee" ist als Semesterarbeit an der Hochschule für Technik in Rapperswil entstanden.</string>
+    <string name="aboutscreen_imageDescription">Bieridee Logo</string>
 
 </resources>

@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.Toast;
 import ch.hsr.bieridee.android.R;
 
 /**
@@ -52,17 +53,14 @@ public class HomeScreenActivity extends Activity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			/*
-				case R.id.icon:
-					Toast.makeText(this, "You pressed the icon!", Toast.LENGTH_LONG).show();
-					break;
-				case R.id.text:
-					Toast.makeText(this, "You pressed the text!", Toast.LENGTH_LONG).show();
-					break;
-				case R.id.icontext:
-					Toast.makeText(this, "You pressed the icon and text!", Toast.LENGTH_LONG).show();
-					break;
-				*/
+			case R.id_mainmenu.about:
+				final Intent intent = new Intent(this.getBaseContext(), AboutScreenActivity.class);
+				startActivity(intent);
+				break;
+			case R.id_mainmenu.logout:
+				// TODO
+				Toast.makeText(this, "TODO logout!", Toast.LENGTH_LONG).show();
+				break;
 		}
 		return true;
 	}
