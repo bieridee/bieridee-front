@@ -24,7 +24,7 @@ import ch.hsr.bieridee.android.http.ClientResourceFactory;
  */
 public class BeerListActivity extends ListActivity {
 
-	private static final String LOG_TAG = "BeerListActivity";
+	private static final String LOG_TAG = BeerListActivity.class.getName();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

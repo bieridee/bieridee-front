@@ -34,7 +34,7 @@ import ch.hsr.bieridee.android.http.ClientResourceFactory;
  */
 public class RegistrationScreenActivity extends Activity {
 
-	private static final String LOG_TAG = "RegistrationScreenActivity";
+	private static final String LOG_TAG = RegistrationScreenActivity.class.getName();
 	EditText inputPassword;
 	EditText inputUsername;
 	EditText inputEmail;
