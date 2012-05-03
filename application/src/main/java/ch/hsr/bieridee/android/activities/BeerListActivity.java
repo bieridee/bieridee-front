@@ -14,6 +14,9 @@ import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import ch.hsr.bieridee.android.BeerListAdapter;
 import ch.hsr.bieridee.android.R;
 import ch.hsr.bieridee.android.config.Res;
@@ -48,18 +51,24 @@ public class BeerListActivity extends ListActivity {
 		Log.d(LOG_TAG, "Updating beer list");
 
 		final BeerListAdapter adapter = (BeerListAdapter) getListAdapter();
-		
+		this.getListView().setOnItemClickListener(new OnItemClickListener() {
+
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+				Log.d("infos", "clicked");
+			}
+		});
+
 		// Show waiting dialog
 		final String dialogTitle = getString(R.string.pleaseWait);
 		final String dialogMessage = getString(R.string.loadingData);
 		final ProgressDialog dialog = ProgressDialog.show(this, dialogTitle, dialogMessage, true);
-		
+
 		// Do HTTP request
 		final ClientResource cr = ClientResourceFactory.getClientResource(Res.getURI(Res.BEER_COLLECTION));
 		cr.setOnResponse(new Uniform() {
 			public void handle(Request request, Response response) {
 				JSONArray beers = new JSONArray();
-				
+
 				// Update data
 				try {
 					final String json = response.getEntity().getText();
@@ -70,7 +79,7 @@ public class BeerListActivity extends ListActivity {
 				} catch (JSONException e) {
 					e.printStackTrace(); // TODO
 				}
-				
+
 				// Update view
 				runOnUiThread(new Runnable() {
 					public void run() {
