@@ -105,8 +105,7 @@ public class LoginScreenActivity extends Activity {
 	}
 	
 	/**
-	 * Sets the autologin checkbox change listener.
-	 * 
+	 * Sets the autologin checkbox change listener:
 	 * If autologin checkbox is disabled, settings are cleared.
 	 */
 	private void addAutologinListener() {
