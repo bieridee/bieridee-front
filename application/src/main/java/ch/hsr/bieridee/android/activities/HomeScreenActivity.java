@@ -28,7 +28,6 @@ public class HomeScreenActivity extends Activity {
 	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		Log.i(LOG_TAG, "onCreate");
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.homescreen);
 		this.addOnClickListener((Button) findViewById(R.id_dashboardscreen.buttonBeerlist), BeerListActivity.class);
