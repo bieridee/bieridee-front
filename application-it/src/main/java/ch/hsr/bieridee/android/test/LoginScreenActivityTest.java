@@ -55,7 +55,7 @@ public class LoginScreenActivityTest extends ActivityInstrumentationTestCase2<Lo
 		activity.finish();
 		activity = getActivity();
 		getInstrumentation().waitForIdleSync();
-y
+
 		// Verify data (should have been stored)
 		usernameInputAfter = (EditText) activity.findViewById(ch.hsr.bieridee.android.R.id_loginscreen.inputUsername);
 		passwordInputAfter = (EditText) activity.findViewById(ch.hsr.bieridee.android.R.id_loginscreen.inputPassword);
