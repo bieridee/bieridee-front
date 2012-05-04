@@ -23,11 +23,13 @@ public class LoginScreenActivityTest extends ActivityInstrumentationTestCase2<Lo
 		assertNotNull(activity);
 	}
 
-	public void testSavingLoginInformation() {
+	public void testSavingLoginInformation() throws InterruptedException {
+		// Set test data
 		final String testUsername = "Chuck Norris";
 		final String testPassword = "roundhouse";
 		final boolean autologinEnabled = true;
 
+		// Initialize GUI elements
 		final CheckBox autologinInputBefore;
 		final EditText usernameInputBefore;
 		final EditText passwordInputBefore;
@@ -40,6 +42,7 @@ public class LoginScreenActivityTest extends ActivityInstrumentationTestCase2<Lo
 		passwordInputBefore = (EditText) activity.findViewById(ch.hsr.bieridee.android.R.id_loginscreen.inputPassword);
 		autologinInputBefore = (CheckBox) activity.findViewById(ch.hsr.bieridee.android.R.id_loginscreen.checkboxAutologin);
 
+		// Set test data
 		activity.runOnUiThread(new Runnable() {
 
 			public void run() {
@@ -49,9 +52,10 @@ public class LoginScreenActivityTest extends ActivityInstrumentationTestCase2<Lo
 			}
 		});
 
-		activity.finish();
+		// Restart activity
+		getInstrumentation().callActivityOnRestart(activity);
 
-		activity = getActivity();
+		// Verify data (should have been stored)
 		usernameInputAfter = (EditText) activity.findViewById(ch.hsr.bieridee.android.R.id_loginscreen.inputUsername);
 		passwordInputAfter = (EditText) activity.findViewById(ch.hsr.bieridee.android.R.id_loginscreen.inputPassword);
 		autologinInputAfter = (CheckBox) activity.findViewById(ch.hsr.bieridee.android.R.id_loginscreen.checkboxAutologin);
