@@ -48,16 +48,17 @@ public class LoginScreenActivity extends Activity {
 
 		this.settings = getSharedPreferences("settings", MODE_PRIVATE);
 		this.readSettings();
-		this.addLoginListener();
-		this.addRegistrationListener();
-		this.addAutologinListener();
-		
+
 		// If data has been passed on to the activity, load it
 		final Bundle extras = this.getIntent().getExtras();
 		if (extras != null && extras.containsKey("username") && extras.containsKey("password")) {
 			this.inputUsername.setText(extras.getString("username"));
 			this.inputPassword.setText(extras.getString("password"));
 		}
+
+		this.addLoginListener();
+		this.addRegistrationListener();
+		this.addAutologinListener();
 	}
 
 	@Override

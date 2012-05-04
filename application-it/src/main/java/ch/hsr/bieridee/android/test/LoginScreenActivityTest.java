@@ -19,11 +19,10 @@ public class LoginScreenActivityTest extends ActivityInstrumentationTestCase2<Lo
 	}
 
 	public void testActivity() {
-		LoginScreenActivity activity = getActivity();
 		assertNotNull(activity);
 	}
 
-	public void testSavingLoginInformation() throws InterruptedException {
+	public void testSavingLoginInformation() {
 		// Set test data
 		final String testUsername = "Chuck Norris";
 		final String testPassword = "roundhouse";
@@ -53,8 +52,10 @@ public class LoginScreenActivityTest extends ActivityInstrumentationTestCase2<Lo
 		});
 
 		// Restart activity
-		getInstrumentation().callActivityOnRestart(activity);
-
+		activity.finish();
+		activity = getActivity();
+		getInstrumentation().waitForIdleSync();
+y
 		// Verify data (should have been stored)
 		usernameInputAfter = (EditText) activity.findViewById(ch.hsr.bieridee.android.R.id_loginscreen.inputUsername);
 		passwordInputAfter = (EditText) activity.findViewById(ch.hsr.bieridee.android.R.id_loginscreen.inputPassword);
