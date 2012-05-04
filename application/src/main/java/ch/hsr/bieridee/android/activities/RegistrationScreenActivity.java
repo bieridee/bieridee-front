@@ -35,17 +35,17 @@ import ch.hsr.bieridee.android.http.ClientResourceFactory;
 public class RegistrationScreenActivity extends Activity {
 
 	private static final String LOG_TAG = RegistrationScreenActivity.class.getName();
-	EditText inputPassword;
-	EditText inputUsername;
-	EditText inputEmail;
-	EditText inputPrename;
-	EditText inputSurname;
-	Button buttonRegister;
-	RelativeLayout usernameHint;
-	RelativeLayout emailHint;
-	RelativeLayout passwordHint;
-	RelativeLayout prenameHint;
-	RelativeLayout surnameHint;
+	private EditText inputPassword;
+	private EditText inputUsername;
+	private EditText inputEmail;
+	private EditText inputPrename;
+	private EditText inputSurname;
+	private Button buttonRegister;
+	private RelativeLayout usernameHint;
+	private RelativeLayout emailHint;
+	private RelativeLayout passwordHint;
+	private RelativeLayout prenameHint;
+	private RelativeLayout surnameHint;
 
 	// [section] Lifecycle
 

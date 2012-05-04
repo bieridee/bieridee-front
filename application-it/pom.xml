@@ -50,7 +50,6 @@
           <sdk>
             <platform>10</platform>
           </sdk>
-          <deleteConflictingFiles>true</deleteConflictingFiles>
           <undeployBeforeDeploy>true</undeployBeforeDeploy>
         </configuration>
         <extensions>true</extensions>

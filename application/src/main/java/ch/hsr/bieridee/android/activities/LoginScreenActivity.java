@@ -23,13 +23,13 @@ import ch.hsr.bieridee.android.R;
 public class LoginScreenActivity extends Activity {
 
 	private static final String LOG_TAG = LoginScreenActivity.class.getName();
-	Button buttonLogin;
-	SharedPreferences settings;
-	EditText inputUsername;
-	EditText inputPassword;
-	CheckBox checkboxAutologin;
-	RelativeLayout wrongCredentailsHintLayout;
-	TextView registrationLink;
+	private Button buttonLogin;
+	private SharedPreferences settings;
+	private EditText inputUsername;
+	private EditText inputPassword;
+	private CheckBox checkboxAutologin;
+	private RelativeLayout wrongCredentailsHintLayout;
+	private TextView registrationLink;
 
 	// [section] Lifecycle
 

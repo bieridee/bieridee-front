@@ -1,5 +1,4 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id_loginscreen/linearLayout1"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
@@ -8,7 +7,6 @@
     <!-- Row containg the image -->
 
     <RelativeLayout
-        android:id="@+id_loginscreen/relativeLayoutLogo"
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:layout_marginBottom="50dp"
@@ -26,7 +24,6 @@
     <!-- Row containing username field -->
 
     <RelativeLayout
-        android:id="@+id_loginscreen/relativeLayoutUsername"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
@@ -44,7 +41,6 @@
     <!-- Row containing password field -->
 
     <RelativeLayout
-        android:id="@+id_loginscreen/relativeLayoutPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
@@ -62,7 +58,6 @@
     <!-- Wrong login hint -->
 
     <RelativeLayout
-        android:id="@+id_loginscreen/relativeLayoutWrongLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -81,7 +76,6 @@
     <!-- Row containing autologin tick -->
 
     <LinearLayout
-        android:id="@+id_loginscreen/relativeLayoutRAutologin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -96,7 +90,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id_loginscreen/checkboxAutologin"
             android:gravity="center_vertical"
             android:text="@string/loginscreen_autologinText" />
     </LinearLayout>
@@ -104,7 +97,6 @@
     <!-- Row containing registration hint -->
 
     <LinearLayout
-        android:id="@+id_loginscreen/relativeLayoutRegistrationHint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -122,7 +114,6 @@
             android:id="@+id_loginscreen/registrationLink"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id_loginscreen/registrationHintText"
             android:clickable="true"
             android:paddingLeft="10dp"
             android:text="@string/loginscreen_registrationLinkText"
@@ -133,7 +124,6 @@
     <!-- Row containing login button -->
 
     <RelativeLayout
-        android:id="@+id_loginscreen/relativeLayoutLoginButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"

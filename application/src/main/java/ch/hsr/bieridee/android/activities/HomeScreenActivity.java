@@ -38,11 +38,11 @@ public class HomeScreenActivity extends Activity {
 				Toast.makeText(HomeScreenActivity.this.getBaseContext(), "TODO implement!", Toast.LENGTH_LONG).show();
 			}
 		};
-		((Button) findViewById(R.id_dashboardscreen.buttonBreweries)).setOnClickListener(notYetImplementedListener);
-		((Button) findViewById(R.id_dashboardscreen.buttonConsumption)).setOnClickListener(notYetImplementedListener);
-		((Button) findViewById(R.id_dashboardscreen.buttonProfile)).setOnClickListener(notYetImplementedListener);
-		((Button) findViewById(R.id_dashboardscreen.buttonRating)).setOnClickListener(notYetImplementedListener);
-		((Button) findViewById(R.id_dashboardscreen.buttonTimeline)).setOnClickListener(notYetImplementedListener);
+		findViewById(R.id_dashboardscreen.buttonBreweries).setOnClickListener(notYetImplementedListener);
+		findViewById(R.id_dashboardscreen.buttonConsumption).setOnClickListener(notYetImplementedListener);
+		findViewById(R.id_dashboardscreen.buttonProfile).setOnClickListener(notYetImplementedListener);
+		findViewById(R.id_dashboardscreen.buttonRating).setOnClickListener(notYetImplementedListener);
+		findViewById(R.id_dashboardscreen.buttonTimeline).setOnClickListener(notYetImplementedListener);
 	}
 
 	private void addOnClickListener(Button button, final Class<? extends Activity> activityClass) {
