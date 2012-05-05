@@ -8,16 +8,8 @@
         android:id="@+id/beerListTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Bierliste"
+        android:text="@string/beerlist_title"
         android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <TextView
-        android:id="@+id/beerListDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dip"
-        android:layout_marginBottom="20dip"
-        android:text="Dies sind alle Biere die wir momentan in der Neo4j-Datenbank haben." />
 
     <ListView
         android:id="@android:id/list"

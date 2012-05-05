@@ -7,7 +7,7 @@ import ch.hsr.bieridee.android.activities.LoginScreenActivity;
 
 public class LoginScreenActivityTest extends ActivityInstrumentationTestCase2<LoginScreenActivity> {
 
-	LoginScreenActivity activity;
+	private LoginScreenActivity activity;
 
 	@Override
 	public void setUp() {

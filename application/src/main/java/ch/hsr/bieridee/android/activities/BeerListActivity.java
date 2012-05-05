@@ -58,12 +58,11 @@ public class BeerListActivity extends ListActivity {
 		final ClientResource cr = ClientResourceFactory.getClientResource(Res.getURI(Res.BEER_COLLECTION));
 		cr.setOnResponse(new Uniform() {
 			public void handle(Request request, Response response) {
-				JSONArray beers = new JSONArray();
-				
+
 				// Update data
 				try {
 					final String json = response.getEntity().getText();
-					beers = new JSONArray(json);
+					JSONArray beers = new JSONArray(json);
 					adapter.updateData(beers);
 				} catch (IOException e) {
 					e.printStackTrace(); // TODO
