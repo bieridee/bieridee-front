@@ -65,23 +65,4 @@ public class LoginScreenActivityTest extends ActivityInstrumentationTestCase2<Lo
 		assertEquals(testPassword, passwordInputAfter.getText().toString());
 		assertEquals(autologinEnabled, autologinInputAfter.isChecked());
 	}
-
-//	public void testRegisterNewAccount() {
-//		final TextView registrationLink = (TextView) activity.findViewById(ch.hsr.bieridee.android.R.id_loginscreen.registrationLink);
-//		final String registrationScreenTitle = activity.getString(ch.hsr.bieridee.android.R.string.registrationscreen_title);
-//
-//		activity.runOnUiThread(new Runnable() {
-//
-//			public void run() {
-//				registrationLink.performClick();
-//
-//			}
-//		});
-//		Instrumentation instrumentation = this.getInstrumentation();
-//
-//		Instrumentation.ActivityMonitor monitor = instrumentation.addMonitor(RegistrationScreenActivity.class.getName(), null, false);
-//		Activity newActivity = instrumentation.waitForMonitorWithTimeout(monitor, 2);
-//		assertEquals(registrationScreenTitle, newActivity.getTitle());
-//		// activity.getTitle();
-//	}
 }
