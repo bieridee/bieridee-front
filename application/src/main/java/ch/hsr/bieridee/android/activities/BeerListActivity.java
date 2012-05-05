@@ -94,5 +94,6 @@ public class BeerListActivity extends ListActivity {
 			}
 		});
 		cr.get(MediaType.APPLICATION_JSON); // Async call
+		cr.release();
 	}
 }
