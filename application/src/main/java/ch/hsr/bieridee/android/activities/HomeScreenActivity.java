@@ -67,14 +67,17 @@ public class HomeScreenActivity extends Activity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		final Intent intent;
 		switch (item.getItemId()) {
 			case R.id_mainmenu.about:
-				final Intent intent = new Intent(this.getBaseContext(), AboutScreenActivity.class);
+				intent = new Intent(this.getBaseContext(), AboutScreenActivity.class);
 				startActivity(intent);
 				break;
 			case R.id_mainmenu.logout:
-				// TODO
-				Toast.makeText(this, "TODO logout!", Toast.LENGTH_LONG).show();
+				Auth.clearAuth();
+				Toast.makeText(this.getApplicationContext(), getString(R.string.dashboardscreen_loggedOut), Toast.LENGTH_SHORT).show();
+				intent = new Intent(this.getBaseContext(), LoginScreenActivity.class);
+				startActivity(intent);
 				break;
 		}
 		return true;

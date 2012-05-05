@@ -92,6 +92,9 @@ public final class Auth {
 	 */
 	public static boolean dataAvailable() {
 		SharedPreferences authStore = getSharedPreferences();
-		return authStore.contains(USERNAME_KEY) && authStore.contains(PASSWORD_KEY);
+		boolean keysAvailable = authStore.contains(USERNAME_KEY) && authStore.contains(PASSWORD_KEY);
+
+		boolean nonEmptyValues = !(getUsername().isEmpty() || getPassword().isEmpty());
+		return keysAvailable && nonEmptyValues;
 	}
 }
