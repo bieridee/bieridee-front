@@ -12,6 +12,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name="ch.hsr.bieridee.android.BierideeApplication"
         android:icon="@drawable/icon_pixelbeer"
         android:label="@string/app_name" >
         <activity
@@ -22,12 +23,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.LoginScreenActivity" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".activities.LoginScreenActivity" />
         <activity android:name=".activities.BeerListActivity" android:label="@string/beerlist_title" />
         <activity android:name=".activities.RegistrationScreenActivity" android:label="@string/registrationscreen_title" />
         <activity android:name=".activities.AboutScreenActivity" android:label="@string/aboutscreen_activitytitle" />

@@ -46,6 +46,7 @@
     <string name="dashboardscreen_profileButtonText">Profil</string>
     <string name="dashboardscreen_consumptionButtonText">Konsum</string>
     <string name="dashboardscreen_ratingButtonText">Rating</string>
+    <string name="dashboardscreen_loggedOut">Logout erfolgreich!</string>
     
     <!-- Beer list -->
     <string name="beerlist_title">BierListe</string>
