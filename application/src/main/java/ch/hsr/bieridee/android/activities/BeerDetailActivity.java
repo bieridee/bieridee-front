@@ -31,6 +31,7 @@ public class BeerDetailActivity extends Activity {
 	TextView brand;
 	TextView averageRating;
 	RatingBar ratingBar;
+	String beerJSON;
 
 	private static final String LOG_TAG = "BeerListActivity";
 
@@ -38,7 +39,7 @@ public class BeerDetailActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		Log.d(LOG_TAG, "onCreate");
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.beerlist);
+		setContentView(R.layout.beerdetail);
 	}
 
 	@Override
@@ -57,91 +58,45 @@ public class BeerDetailActivity extends Activity {
 
 	private void loadBeerDetail() {
 		final Bundle extras = this.getIntent().getExtras();
-		final long id = extras.getLong("id");
+		final long beerId = extras.getLong("beerid");
 
 		final String dialogTitle = getString(R.string.pleaseWait);
 		final String dialogMessage = getString(R.string.loadingData);
 		final ProgressDialog dialog = ProgressDialog.show(this, dialogTitle, dialogMessage, true);
 
 		// Do HTTP request
-		final ClientResource cr = ClientResourceFactory.getClientResource(Res.getURI(Res.BEER_DOCUMENT, Long.toString(id)));
+		final ClientResource cr = ClientResourceFactory.getClientResource(Res.getURI(Res.BEER_DOCUMENT, Long.toString(beerId)));
 		cr.setOnResponse(new Uniform() {
 			public void handle(Request request, Response response) {
-				JSONObject beer = null;
-
 				// Update data
 				try {
-					final String json = response.getEntity().getText();
-					beer = new JSONObject(json);
+					BeerDetailActivity.this.beerJSON = response.getEntity().getText();
 				} catch (IOException e) {
-					e.printStackTrace(); // TODO
-				} catch (JSONException e) {
 					e.printStackTrace(); // TODO
 				}
 
-				try {
-					final String name = beer.getString("name");
-					final String brand = beer.getString("brand");
-					final String averageRating = beer.getString("rating");
-					// Update view
-					runOnUiThread(new Runnable() {
-						public void run() {
+				// Update view
+				runOnUiThread(new Runnable() {
+					public void run() {
+						try {
+							final JSONObject beer = new JSONObject(BeerDetailActivity.this.beerJSON);
+							final String name = beer.getString("name");
+							final String brand = beer.getString("brand");
+							final String averageRating = beer.getString("rating");
 							BeerDetailActivity.this.name.setText(name);
 							BeerDetailActivity.this.brand.setText(brand);
 							BeerDetailActivity.this.averageRating.setText(averageRating);
-							dialog.dismiss();
+						} catch (JSONException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
 						}
-					});
-
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
+						dialog.dismiss();
+					}
+				});
 
 			}
 		});
 		cr.get(MediaType.APPLICATION_JSON); // Async call
 
 	}
-
-	/**
-	 * Updates beer list data and redraws list view.
-	 */
-	// private void updateBeerList() {
-	// Log.d(LOG_TAG, "Updating beer list");
-	//
-	// final BeerListAdapter adapter = (BeerListAdapter) getListAdapter();
-	//
-	// // Show waiting dialog
-	// final String dialogTitle = getString(R.string.pleaseWait);
-	// final String dialogMessage = getString(R.string.loadingData);
-	// final ProgressDialog dialog = ProgressDialog.show(this, dialogTitle, dialogMessage, true);
-	//
-	// // Do HTTP request
-	// final ClientResource cr = ClientResourceFactory.getClientResource(Res.getURI(Res.BEER_COLLECTION));
-	// cr.setOnResponse(new Uniform() {
-	// public void handle(Request request, Response response) {
-	// JSONArray beers = new JSONArray();
-	//
-	// // Update data
-	// try {
-	// final String json = response.getEntity().getText();
-	// beers = new JSONArray(json);
-	// adapter.updateData(beers);
-	// } catch (IOException e) {
-	// e.printStackTrace(); // TODO
-	// } catch (JSONException e) {
-	// e.printStackTrace(); // TODO
-	// }
-	//
-	// // Update view
-	// runOnUiThread(new Runnable() {
-	// public void run() {
-	// adapter.notifyDataSetChanged();
-	// dialog.dismiss();
-	// }
-	// });
-	// }
-	// });
-	// cr.get(MediaType.APPLICATION_JSON); // Async call
-	// }
 }

@@ -29,7 +29,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.BeerListActivity" android:label="@string/beerlist_title" />
-        <activity android:name=".activities.BeerDetailActivity" android:label="@string/beerlist_title" />
+        <activity android:name=".activities.BeerDetailActivity" android:label="@string/beerdetail_title" />
         <activity android:name=".activities.RegistrationScreenActivity" android:label="@string/registrationscreen_title" />
 
     </application>

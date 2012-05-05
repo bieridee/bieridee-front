@@ -12,6 +12,7 @@ import org.restlet.resource.ClientResource;
 
 import android.app.ListActivity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -53,8 +54,11 @@ public class BeerListActivity extends ListActivity {
 		final BeerListAdapter adapter = (BeerListAdapter) getListAdapter();
 		this.getListView().setOnItemClickListener(new OnItemClickListener() {
 
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-				Log.d("infos", "clicked");
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				Log.d("infos", "clicked pos: " + position + " with id: " + id);
+				final Intent intent = new Intent(view.getContext(), BeerDetailActivity.class);
+				intent.putExtra("beerid", id);
+				startActivity(intent);
 			}
 		});
 

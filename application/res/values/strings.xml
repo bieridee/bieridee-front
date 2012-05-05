@@ -46,5 +46,6 @@
     
     <!-- Beer list specific strings -->
     <string name="beerlist_title">BierListe</string>
+    <string name="beerdetail_title">Beer Detail</string>
 
 </resources>
