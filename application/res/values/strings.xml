@@ -2,7 +2,6 @@
 <resources>
 
     <!-- Commonly used strings -->
-
     <string name="hello">Hello bieridee-front!</string>
     <string name="app_name">BierIdee</string>
     <string name="appName">BierIdee Login</string>

@@ -18,7 +18,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import ch.hsr.bieridee.android.BeerListAdapter;
+import ch.hsr.bieridee.android.adapters.BeerListAdapter;
 import ch.hsr.bieridee.android.R;
 import ch.hsr.bieridee.android.config.Res;
 import ch.hsr.bieridee.android.http.ClientResourceFactory;

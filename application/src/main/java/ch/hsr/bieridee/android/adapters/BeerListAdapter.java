@@ -1,5 +1,6 @@
-package ch.hsr.bieridee.android;
+package ch.hsr.bieridee.android.adapters;
 
+import ch.hsr.bieridee.android.R;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
