@@ -91,12 +91,20 @@ public class LoginScreenActivity extends Activity {
 	 */
 	private void addLoginListener() {
 		this.buttonLogin.setOnClickListener(new OnClickListener() {
-			public void onClick(View arg0) {
+			public void onClick(View v) {
 				Log.d("info", "Login Button was pressed");
-				final boolean validCredentials = false; // TODO
+				/*final boolean validCredentials = false; // TODO
 
 				if (validCredentials) {
 					LoginScreenActivity.this.wrongCredentailsHintLayout.setVisibility(View.GONE);
+				} else {
+					LoginScreenActivity.this.wrongCredentailsHintLayout.setVisibility(View.VISIBLE);
+				}*/
+				final String username = LoginScreenActivity.this.inputUsername.getText().toString();
+				final String password = LoginScreenActivity.this.inputPassword.getText().toString();
+				if (!(username.isEmpty() || password.isEmpty())) {
+					final Intent intent = new Intent(v.getContext(), HomeScreenActivity.class);
+					startActivity(intent);
 				} else {
 					LoginScreenActivity.this.wrongCredentailsHintLayout.setVisibility(View.VISIBLE);
 				}
