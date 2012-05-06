@@ -20,6 +20,7 @@
     <string name="error">Fehler</string>
     <string name="success">Erfolg</string>
     <string name="about">Über</string>
+    <string name="refresh">Aktualisieren</string>
 
     <!-- Login screen specific strings -->
     <string name="loginscreen_title">BierIdee Login</string>
