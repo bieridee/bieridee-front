@@ -50,6 +50,7 @@
     
     <!-- Beer list -->
     <string name="beerlist_title">BierListe</string>
+    <string name="beerdetail_title">Beer Detail</string>
 
     <!-- About screen -->
     <string name="aboutscreen_activitytitle">Über BierIdee</string>
