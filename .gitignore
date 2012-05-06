@@ -23,3 +23,8 @@ local.properties
 
 # Maven
 */target/*
+
+# IntelliJ Idea
+.idea/
+*.iml
+/classes/

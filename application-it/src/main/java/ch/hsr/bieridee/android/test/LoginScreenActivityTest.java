@@ -7,7 +7,7 @@ import ch.hsr.bieridee.android.activities.LoginScreenActivity;
 
 public class LoginScreenActivityTest extends ActivityInstrumentationTestCase2<LoginScreenActivity> {
 
-	LoginScreenActivity activity;
+	private LoginScreenActivity activity;
 
 	@Override
 	public void setUp() {
@@ -19,15 +19,16 @@ public class LoginScreenActivityTest extends ActivityInstrumentationTestCase2<Lo
 	}
 
 	public void testActivity() {
-		LoginScreenActivity activity = getActivity();
 		assertNotNull(activity);
 	}
 
 	public void testSavingLoginInformation() {
+		// Set test data
 		final String testUsername = "Chuck Norris";
 		final String testPassword = "roundhouse";
 		final boolean autologinEnabled = true;
 
+		// Initialize GUI elements
 		final CheckBox autologinInputBefore;
 		final EditText usernameInputBefore;
 		final EditText passwordInputBefore;
@@ -40,6 +41,7 @@ public class LoginScreenActivityTest extends ActivityInstrumentationTestCase2<Lo
 		passwordInputBefore = (EditText) activity.findViewById(ch.hsr.bieridee.android.R.id_loginscreen.inputPassword);
 		autologinInputBefore = (CheckBox) activity.findViewById(ch.hsr.bieridee.android.R.id_loginscreen.checkboxAutologin);
 
+		// Set test data
 		activity.runOnUiThread(new Runnable() {
 
 			public void run() {
@@ -49,9 +51,12 @@ public class LoginScreenActivityTest extends ActivityInstrumentationTestCase2<Lo
 			}
 		});
 
+		// Restart activity
 		activity.finish();
-
 		activity = getActivity();
+		getInstrumentation().waitForIdleSync();
+
+		// Verify data (should have been stored)
 		usernameInputAfter = (EditText) activity.findViewById(ch.hsr.bieridee.android.R.id_loginscreen.inputUsername);
 		passwordInputAfter = (EditText) activity.findViewById(ch.hsr.bieridee.android.R.id_loginscreen.inputPassword);
 		autologinInputAfter = (CheckBox) activity.findViewById(ch.hsr.bieridee.android.R.id_loginscreen.checkboxAutologin);
@@ -60,23 +65,4 @@ public class LoginScreenActivityTest extends ActivityInstrumentationTestCase2<Lo
 		assertEquals(testPassword, passwordInputAfter.getText().toString());
 		assertEquals(autologinEnabled, autologinInputAfter.isChecked());
 	}
-
-//	public void testRegisterNewAccount() {
-//		final TextView registrationLink = (TextView) activity.findViewById(ch.hsr.bieridee.android.R.id_loginscreen.registrationLink);
-//		final String registrationScreenTitle = activity.getString(ch.hsr.bieridee.android.R.string.registrationscreen_title);
-//
-//		activity.runOnUiThread(new Runnable() {
-//
-//			public void run() {
-//				registrationLink.performClick();
-//
-//			}
-//		});
-//		Instrumentation instrumentation = this.getInstrumentation();
-//
-//		Instrumentation.ActivityMonitor monitor = instrumentation.addMonitor(RegistrationScreenActivity.class.getName(), null, false);
-//		Activity newActivity = instrumentation.waitForMonitorWithTimeout(monitor, 2);
-//		assertEquals(registrationScreenTitle, newActivity.getTitle());
-//		// activity.getTitle();
-//	}
 }

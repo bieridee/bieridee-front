@@ -113,4 +113,8 @@ public class BeerListAdapter extends BaseAdapter {
 		this.jsonBeers = jsonBeers;
 	}
 
+	@Override
+	public String toString() {
+		return "BeerListAdapter{activity=" + activity.getClass().getName() + '}';
+	}
 }

@@ -15,23 +15,21 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import ch.hsr.bieridee.android.R;
+import ch.hsr.bieridee.android.config.Auth;
 
 /**
  * Login Screen Activity.
- * 
  */
 public class LoginScreenActivity extends Activity {
 
-	private static final String LOG_TAG = "LoginScreenActivity";
-	Button buttonLogin;
-	SharedPreferences settings;
-	EditText inputUsername;
-	EditText inputPassword;
-	CheckBox checkboxAutologin;
-	RelativeLayout wrongCredentailsHintLayout;
-	TextView registrationLink;
-
-	// [section] Lifecycle
+	private static final String LOG_TAG = LoginScreenActivity.class.getName();
+	private Button buttonLogin;
+	private SharedPreferences settings;
+	private EditText inputUsername;
+	private EditText inputPassword;
+	private CheckBox checkboxAutologin;
+	private RelativeLayout wrongCredentailsHintLayout;
+	private TextView registrationLink;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -46,18 +44,18 @@ public class LoginScreenActivity extends Activity {
 		this.wrongCredentailsHintLayout = (RelativeLayout) this.findViewById(R.id_loginscreen.relativeLayoutWrongLogin);
 		this.registrationLink = (TextView) this.findViewById(R.id_loginscreen.registrationLink);
 
-		this.settings = getSharedPreferences("settings", MODE_PRIVATE);
 		this.readSettings();
-		this.addLoginListener();
-		this.addRegistrationListener();
-		this.addAutologinListener();
-		
+
 		// If data has been passed on to the activity, load it
 		final Bundle extras = this.getIntent().getExtras();
 		if (extras != null && extras.containsKey("username") && extras.containsKey("password")) {
 			this.inputUsername.setText(extras.getString("username"));
 			this.inputPassword.setText(extras.getString("password"));
 		}
+
+		this.addLoginListener();
+		this.addRegistrationListener();
+		this.addAutologinListener();
 	}
 
 	@Override
@@ -74,10 +72,6 @@ public class LoginScreenActivity extends Activity {
 		}
 		Log.d(LOG_TAG, "Application stopped, Settings saved");
 	}
-
-	// [endSection]
-
-	// [section] Listeners
 
 	/**
 	 * Sets the registration click listener.
@@ -111,61 +105,35 @@ public class LoginScreenActivity extends Activity {
 	}
 	
 	/**
-	 * Sets the autologin checkbox change listener.
-	 * 
+	 * Sets the autologin checkbox change listener:
 	 * If autologin checkbox is disabled, settings are cleared.
 	 */
 	private void addAutologinListener() {
 		this.checkboxAutologin.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				if (!isChecked) {
-					LoginScreenActivity.this.clearSettings();
+					Auth.clearAuth();
 				}
 			}
 		});
 	}
 
-	// [endSection]
-
-	// [section] Settings
-
 	/**
-	 * Read user data from the shared settings.
+	 * Read user data from the shared settings and update the UI elements accordingly.
 	 */
 	private void readSettings() {
-		final String username = this.settings.getString("username", "");
-		final String password = this.settings.getString("password", "");
-		final boolean autologin = this.settings.getBoolean("autologin", false);
-
-		this.checkboxAutologin.setChecked(autologin);
-		this.inputUsername.setText(username);
-		this.inputPassword.setText(password);
+		this.checkboxAutologin.setChecked(Auth.getAutologin());
+		this.inputUsername.setText(Auth.getUsername());
+		this.inputPassword.setText(Auth.getPassword());
 	}
 
 	/**
 	 * Save user data to the shared settings.
 	 */
 	private void saveSettings() {
-		final SharedPreferences.Editor editor = this.settings.edit();
-
 		final String newUsername = this.inputUsername.getText().toString();
 		final String newPassword = this.inputPassword.getText().toString();
 		final boolean newAutologin = this.checkboxAutologin.isChecked();
-
-		editor.putString("username", newUsername);
-		editor.putString("password", newPassword);
-		editor.putBoolean("autologin", newAutologin);
-		editor.commit();
+		Auth.setAuth(newUsername, newPassword, newAutologin);
 	}
-
-	/**
-	 * Remove all saved settings from the shared settings editor.
-	 */
-	private void clearSettings() {
-		final SharedPreferences.Editor editor = this.settings.edit();
-		editor.clear();
-		editor.commit();
-	}
-
-	// [endSection]
 }
