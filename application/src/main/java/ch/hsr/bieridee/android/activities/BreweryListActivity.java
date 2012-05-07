@@ -11,7 +11,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Toast;
 import ch.hsr.bieridee.android.R;
 import ch.hsr.bieridee.android.adapters.BreweryListAdapter;
 import ch.hsr.bieridee.android.config.Res;
@@ -29,7 +28,7 @@ import java.io.IOException;
 /**
  * Activity that shows a list of all breweries in our database.
  */
-public class BreweryListActivity extends ListActivity {
+public final class BreweryListActivity extends ListActivity {
 
 	private static final String LOG_TAG = BreweryListActivity.class.getName();
 
@@ -49,7 +48,7 @@ public class BreweryListActivity extends ListActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
+		final MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.refresh_menu, menu);
 		return true;
 	}
@@ -75,10 +74,9 @@ public class BreweryListActivity extends ListActivity {
 
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				Log.d("infos", "clicked pos: " + position + " with id: " + id);
-				//final Intent intent = new Intent(view.getContext(), BeerDetailActivity.class);
-				//intent.putExtra("beerid", id);
-				//startActivity(intent);
-				Toast.makeText(BreweryListActivity.this.getBaseContext(), "TODO detail view!", Toast.LENGTH_LONG).show();
+				final Intent intent = new Intent(view.getContext(), BreweryDetailActivity.class);
+				intent.putExtra(BreweryDetailActivity.EXTRA_BREWERY_ID, id);
+				startActivity(intent);
 			}
 		});
 
@@ -87,7 +85,7 @@ public class BreweryListActivity extends ListActivity {
 		final String dialogMessage = getString(R.string.loadingData);
 		final ProgressDialog dialog = ProgressDialog.show(this, dialogTitle, dialogMessage, true);
 
-		// Do HTTP request
+		// Do and handle HTTP request
 		final ClientResource cr = ClientResourceFactory.getClientResource(Res.getURI(Res.BREWERY_COLLECTION));
 		cr.setOnResponse(new Uniform() {
 			public void handle(Request request, Response response) {

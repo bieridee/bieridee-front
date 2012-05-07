@@ -55,6 +55,7 @@
     <!-- Brewery list -->
     <string name="brewerylist_title">Brauereien</string>
     <string name="brewerydetail_title">Brauerei Detail</string>
+    <string name="brewerydetail_descriptionTitle">Beschreibung</string>
 
     <!-- About screen -->
     <string name="aboutscreen_activitytitle">Über BierIdee</string>
