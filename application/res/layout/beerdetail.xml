@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" 
-    android:paddingTop="10dp">
+    android:padding="10dp">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -29,7 +29,7 @@
                 android:id="@+id_beerdetail/beerName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Quöllfrisch"
+                android:text="Beer Name"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <TextView
@@ -37,13 +37,13 @@
                 android:id="@+id_beerdetail/beerBrand"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Appenzeller Bier" />
+                android:text="Beer Brand" />
             <TextView
             
                 android:id="@+id_beerdetail/beerAverageRating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Average Rating: 4.5" />
+                android:text="Average Rating: 0.0" />
         </LinearLayout>
     </LinearLayout>
 

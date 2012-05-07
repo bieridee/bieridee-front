@@ -75,7 +75,7 @@ public class BeerListActivity extends ListActivity {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				Log.d("infos", "clicked pos: " + position + " with id: " + id);
 				final Intent intent = new Intent(view.getContext(), BeerDetailActivity.class);
-				intent.putExtra("beerid", id);
+				intent.putExtra(BeerDetailActivity.EXTRA_BEER_ID, id);
 				startActivity(intent);
 			}
 		});

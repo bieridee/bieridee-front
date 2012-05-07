@@ -2,6 +2,7 @@ package ch.hsr.bieridee.android.activities;
 
 import java.io.IOException;
 
+import ch.hsr.bieridee.android.config.Auth;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.restlet.Request;
@@ -29,7 +30,7 @@ import ch.hsr.bieridee.android.config.Res;
 import ch.hsr.bieridee.android.http.ClientResourceFactory;
 
 /**
- * Activity that shows a list of all beers in our database.
+ * Activity that shows a beers detail.
  */
 public class BeerDetailActivity extends Activity {
 
@@ -42,9 +43,10 @@ public class BeerDetailActivity extends Activity {
 	private String ratingJSON;
 	private String avgRatingJSON;
 	private long beerId;
-	private String userId = "alki"; // where to get this from?
+	private String username;
 
 	private static final String LOG_TAG = BeerDetailActivity.class.getName();
+	public static final String EXTRA_BEER_ID = "beerId";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -57,6 +59,8 @@ public class BeerDetailActivity extends Activity {
 	public void onStart() {
 		Log.d(LOG_TAG, "onStart");
 		super.onStart();
+
+		this.username = Auth.getUsername();
 
 		this.consumptionButton = (Button) this.findViewById(R.id_beerdetail.consumptionButton);
 
@@ -77,7 +81,7 @@ public class BeerDetailActivity extends Activity {
 		this.consumptionButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				Toast.makeText(v.getContext(), "TODO: Track consumption", Toast.LENGTH_LONG).show();
-				final String consumptionUri = Res.getURI(Res.CONSUMPTION_DOCUMENT, Long.toString(BeerDetailActivity.this.beerId), BeerDetailActivity.this.userId);
+				final String consumptionUri = Res.getURI(Res.CONSUMPTION_DOCUMENT, Long.toString(BeerDetailActivity.this.beerId), BeerDetailActivity.this.username);
 				final ClientResource cr = ClientResourceFactory.getClientResource(consumptionUri);
 				cr.post(null);
 			}
@@ -88,7 +92,7 @@ public class BeerDetailActivity extends Activity {
 		this.ratingBar.setOnRatingBarChangeListener(new OnRatingBarChangeListener() {
 			public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
 				if (fromUser) {
-					final String ratingUri = Res.getURI(Res.RATING_DOCUMENT, Long.toString(BeerDetailActivity.this.beerId), BeerDetailActivity.this.userId);
+					final String ratingUri = Res.getURI(Res.RATING_DOCUMENT, Long.toString(BeerDetailActivity.this.beerId), BeerDetailActivity.this.username);
 					final ClientResource cr = ClientResourceFactory.getClientResource(ratingUri);
 					final JSONObject newRating = new JSONObject();
 					try {
@@ -130,7 +134,7 @@ public class BeerDetailActivity extends Activity {
 
 	private void loadBeerDetail() {
 		final Bundle extras = this.getIntent().getExtras();
-		this.beerId = extras.getLong("beerid");
+		this.beerId = extras.getLong(EXTRA_BEER_ID);
 
 		final String dialogTitle = getString(R.string.pleaseWait);
 		final String dialogMessage = getString(R.string.loadingData);
@@ -170,7 +174,7 @@ public class BeerDetailActivity extends Activity {
 	}
 
 	private void loadBeerRating() {
-		final ClientResource cr = ClientResourceFactory.getClientResource(Res.getURI(Res.RATING_DOCUMENT, Long.toString(this.beerId), this.userId));
+		final ClientResource cr = ClientResourceFactory.getClientResource(Res.getURI(Res.RATING_DOCUMENT, Long.toString(this.beerId), this.username));
 		cr.setOnResponse(new Uniform() {
 			public void handle(Request request, Response response) {
 				try {
