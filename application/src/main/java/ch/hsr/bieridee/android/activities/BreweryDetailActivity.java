@@ -3,6 +3,7 @@ package ch.hsr.bieridee.android.activities;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 import ch.hsr.bieridee.android.R;
 import ch.hsr.bieridee.android.config.Res;
@@ -26,6 +27,7 @@ public final class BreweryDetailActivity extends Activity {
 	private TextView size;
 	private TextView description;
 	private String breweryJSON;
+	private long breweryId;
 
 	private static final String LOG_TAG = BreweryDetailActivity.class.getName();
 	public static final String EXTRA_BREWERY_ID = "breweryId";
@@ -40,6 +42,11 @@ public final class BreweryDetailActivity extends Activity {
 	public void onStart() {
 		super.onStart();
 
+		// Get brewery ID from intent
+		this.breweryId = this.getIntent().getExtras().getLong(EXTRA_BREWERY_ID);
+		Log.d(LOG_TAG, "onStart() with breweryId " + this.breweryId);
+
+		// Get view objects
 		this.name = (TextView) this.findViewById(R.id_brewerydetail.breweryName);
 		this.size = (TextView) this.findViewById(R.id_brewerydetail.brewerySize);
 		this.description = (TextView) this.findViewById(R.id_brewerydetail.breweryDescription);
@@ -51,10 +58,6 @@ public final class BreweryDetailActivity extends Activity {
 	 * Load brewery document and fill view with data.
 	 */
 	private void loadBreweryDetail() {
-		// Get brewery ID from intent
-		final Bundle extras = this.getIntent().getExtras();
-		final long breweryId = extras.getLong(EXTRA_BREWERY_ID);
-
 		// Show loading dialog
 		final String dialogTitle = getString(R.string.pleaseWait);
 		final String dialogMessage = getString(R.string.loadingData);
@@ -94,6 +97,6 @@ public final class BreweryDetailActivity extends Activity {
 
 	@Override
 	public String toString() {
-		return "BreweryDetailActivity{name=" + name + '}';
+		return "BreweryDetailActivity{name=" + this.name + '}';
 	}
 }

@@ -50,14 +50,12 @@ public class BeerDetailActivity extends Activity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		Log.d(LOG_TAG, "onCreate");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.beerdetail);
 	}
 
 	@Override
 	public void onStart() {
-		Log.d(LOG_TAG, "onStart");
 		super.onStart();
 
 		this.username = Auth.getUsername();
