@@ -2,6 +2,9 @@ package ch.hsr.bieridee.android.activities;
 
 import java.io.IOException;
 
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.restlet.Request;
@@ -43,6 +46,23 @@ public class BeerListActivity extends ListActivity {
 		Log.d(LOG_TAG, "onStart");
 		super.onStart();
 		updateBeerList();
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.beerlist_menu, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id_beerlistmenu.refresh:
+				this.updateBeerList();
+				break;
+		}
+		return true;
 	}
 
 	/**
