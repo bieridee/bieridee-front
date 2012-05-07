@@ -27,12 +27,14 @@
             <groupId>ch.hsr.bieridee</groupId>
             <artifactId>bieridee-front</artifactId>
             <type>apk</type>
+            <scope>provided</scope>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>ch.hsr.bieridee</groupId>
             <artifactId>bieridee-front</artifactId>
             <type>jar</type>
+            <scope>provided</scope>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
