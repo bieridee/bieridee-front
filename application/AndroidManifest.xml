@@ -26,6 +26,7 @@
         <activity android:name=".activities.LoginScreenActivity" />
         <activity android:name=".activities.BeerListActivity" android:label="@string/beerlist_title" />
         <activity android:name=".activities.BeerDetailActivity" android:label="@string/beerdetail_title" />
+        <activity android:name=".activities.BreweryListActivity" android:label="@string/brewerylist_title" />
         <activity android:name=".activities.RegistrationScreenActivity" android:label="@string/registrationscreen_title" />
         <activity android:name=".activities.AboutScreenActivity" android:label="@string/aboutscreen_activitytitle" />
 

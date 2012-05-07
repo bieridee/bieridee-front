@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-
+<!-- A menu that only shows a refresh button. -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id_beerlistmenu/refresh"
+    <item android:id="@+id_refreshmenu/refresh"
           android:title="@string/refresh"
           android:icon="@drawable/ic_menu_refresh" />
 </menu>

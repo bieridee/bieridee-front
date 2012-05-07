@@ -1,10 +1,21 @@
 package ch.hsr.bieridee.android.activities;
 
-import java.io.IOException;
-
+import android.app.ListActivity;
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Toast;
+import ch.hsr.bieridee.android.R;
+import ch.hsr.bieridee.android.adapters.BreweryListAdapter;
+import ch.hsr.bieridee.android.config.Res;
+import ch.hsr.bieridee.android.http.ClientResourceFactory;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.restlet.Request;
@@ -13,37 +24,27 @@ import org.restlet.Uniform;
 import org.restlet.data.MediaType;
 import org.restlet.resource.ClientResource;
 
-import android.app.ListActivity;
-import android.app.ProgressDialog;
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import ch.hsr.bieridee.android.adapters.BeerListAdapter;
-import ch.hsr.bieridee.android.R;
-import ch.hsr.bieridee.android.config.Res;
-import ch.hsr.bieridee.android.http.ClientResourceFactory;
+import java.io.IOException;
 
 /**
- * Activity that shows a list of all beers in our database.
+ * Activity that shows a list of all breweries in our database.
  */
-public class BeerListActivity extends ListActivity {
+public class BreweryListActivity extends ListActivity {
 
-	private static final String LOG_TAG = BeerListActivity.class.getName();
+	private static final String LOG_TAG = BreweryListActivity.class.getName();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.beerlist);
-		setListAdapter(new BeerListAdapter(this));
+		setContentView(R.layout.brewerylist);
+		setListAdapter(new BreweryListAdapter(this));
 	}
 
 	@Override
 	public void onStart() {
+		Log.d(LOG_TAG, "onStart");
 		super.onStart();
-		updateBeerList();
+		updateBreweryList();
 	}
 
 	@Override
@@ -57,26 +58,27 @@ public class BeerListActivity extends ListActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id_refreshmenu.refresh:
-				this.updateBeerList();
+				this.updateBreweryList();
 				break;
 		}
 		return true;
 	}
 
 	/**
-	 * Updates beer list data and redraws list view.
+	 * Updates brewery list data and redraws list view.
 	 */
-	private void updateBeerList() {
-		Log.d(LOG_TAG, "Updating beer list");
+	private void updateBreweryList() {
+		Log.d(LOG_TAG, "Updating brewery list");
 
-		final BeerListAdapter adapter = (BeerListAdapter) getListAdapter();
+		final BreweryListAdapter adapter = (BreweryListAdapter) getListAdapter();
 		this.getListView().setOnItemClickListener(new OnItemClickListener() {
 
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				Log.d("infos", "clicked pos: " + position + " with id: " + id);
-				final Intent intent = new Intent(view.getContext(), BeerDetailActivity.class);
-				intent.putExtra("beerid", id);
-				startActivity(intent);
+				//final Intent intent = new Intent(view.getContext(), BeerDetailActivity.class);
+				//intent.putExtra("beerid", id);
+				//startActivity(intent);
+				Toast.makeText(BreweryListActivity.this.getBaseContext(), "TODO detail view!", Toast.LENGTH_LONG).show();
 			}
 		});
 
@@ -86,16 +88,16 @@ public class BeerListActivity extends ListActivity {
 		final ProgressDialog dialog = ProgressDialog.show(this, dialogTitle, dialogMessage, true);
 
 		// Do HTTP request
-		final ClientResource cr = ClientResourceFactory.getClientResource(Res.getURI(Res.BEER_COLLECTION));
+		final ClientResource cr = ClientResourceFactory.getClientResource(Res.getURI(Res.BREWERY_COLLECTION));
 		cr.setOnResponse(new Uniform() {
 			public void handle(Request request, Response response) {
-				JSONArray beers;
+				JSONArray breweries;
 
 				// Update data
 				try {
 					final String json = response.getEntity().getText();
-					beers = new JSONArray(json);
-					adapter.updateData(beers);
+					breweries = new JSONArray(json);
+					adapter.updateData(breweries);
 				} catch (IOException e) {
 					e.printStackTrace(); // TODO
 				} catch (JSONException e) {
