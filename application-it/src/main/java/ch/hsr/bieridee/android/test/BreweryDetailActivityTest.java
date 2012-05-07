@@ -3,7 +3,6 @@ package ch.hsr.bieridee.android.test;
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 import ch.hsr.bieridee.android.activities.BreweryDetailActivity;
-import ch.hsr.bieridee.android.activities.BreweryListActivity;
 import ch.hsr.bieridee.android.config.Auth;
 import com.jayway.android.robotium.solo.Solo;
 
