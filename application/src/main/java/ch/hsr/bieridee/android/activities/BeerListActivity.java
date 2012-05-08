@@ -32,12 +32,15 @@ import ch.hsr.bieridee.android.http.ClientResourceFactory;
 public class BeerListActivity extends ListActivity {
 
 	private static final String LOG_TAG = BeerListActivity.class.getName();
+	private BeerListAdapter adapter;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.beerlist);
-		setListAdapter(new BeerListAdapter(this));
+		this.adapter = new BeerListAdapter(this);
+		setListAdapter(this.adapter);
+		this.addOnClickListener();
 	}
 
 	@Override
@@ -48,7 +51,7 @@ public class BeerListActivity extends ListActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
+		final MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.refresh_menu, menu);
 		return true;
 	}
@@ -69,17 +72,6 @@ public class BeerListActivity extends ListActivity {
 	private void updateBeerList() {
 		Log.d(LOG_TAG, "Updating beer list");
 
-		final BeerListAdapter adapter = (BeerListAdapter) getListAdapter();
-		this.getListView().setOnItemClickListener(new OnItemClickListener() {
-
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Log.d("infos", "clicked pos: " + position + " with id: " + id);
-				final Intent intent = new Intent(view.getContext(), BeerDetailActivity.class);
-				intent.putExtra(BeerDetailActivity.EXTRA_BEER_ID, id);
-				startActivity(intent);
-			}
-		});
-
 		// Show waiting dialog
 		final String dialogTitle = getString(R.string.pleaseWait);
 		final String dialogMessage = getString(R.string.loadingData);
@@ -95,7 +87,7 @@ public class BeerListActivity extends ListActivity {
 				try {
 					final String json = response.getEntity().getText();
 					beers = new JSONArray(json);
-					adapter.updateData(beers);
+					BeerListActivity.this.adapter.updateData(beers);
 				} catch (IOException e) {
 					e.printStackTrace(); // TODO
 				} catch (JSONException e) {
@@ -105,7 +97,7 @@ public class BeerListActivity extends ListActivity {
 				// Update view
 				runOnUiThread(new Runnable() {
 					public void run() {
-						adapter.notifyDataSetChanged();
+						BeerListActivity.this.adapter.notifyDataSetChanged();
 						dialog.dismiss();
 					}
 				});
@@ -113,5 +105,17 @@ public class BeerListActivity extends ListActivity {
 		});
 		cr.get(MediaType.APPLICATION_JSON); // Async call
 		cr.release();
+	}
+
+	private void addOnClickListener() {
+		this.getListView().setOnItemClickListener(new OnItemClickListener() {
+
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				Log.d("infos", "clicked pos: " + position + " with id: " + id);
+				final Intent intent = new Intent(view.getContext(), BeerDetailActivity.class);
+				intent.putExtra(BeerDetailActivity.EXTRA_BEER_ID, id);
+				startActivity(intent);
+			}
+		});
 	}
 }

@@ -37,8 +37,9 @@ public final class BreweryListActivity extends ListActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.brewerylist);
-		setListAdapter(new BreweryListAdapter(this));
-		this.adapter = addOnClickListeners();
+		this.adapter = new BreweryListAdapter(this);
+		setListAdapter(this.adapter);
+		addOnClickListeners();
 	}
 
 	@Override
@@ -106,10 +107,8 @@ public final class BreweryListActivity extends ListActivity {
 		cr.release();
 	}
 
-	private BreweryListAdapter addOnClickListeners() {
-		final BreweryListAdapter adapter = (BreweryListAdapter) getListAdapter();
+	private void addOnClickListeners() {
 		this.getListView().setOnItemClickListener(new OnItemClickListener() {
-
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				Log.d("infos", "clicked pos: " + position + " with id: " + id);
 				final Intent intent = new Intent(view.getContext(), BreweryDetailActivity.class);
@@ -117,6 +116,5 @@ public final class BreweryListActivity extends ListActivity {
 				startActivity(intent);
 			}
 		});
-		return adapter;
 	}
 }
