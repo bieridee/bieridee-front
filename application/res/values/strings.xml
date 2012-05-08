@@ -50,7 +50,11 @@
     
     <!-- Beer list -->
     <string name="beerlist_title">Bierliste</string>
+
+    <!-- Beer detail -->
     <string name="beerdetail_title">Beer Detail</string>
+    <string name="beerdetail_consumption_success">Bierkonsum erfolgreich gespeichert.</string>
+    <string name="beerdetail_consumption_fail">Speichern des Bierkonsums ist fehlgeschlagen.</string>
 
     <!-- Brewery list -->
     <string name="brewerylist_title">Brauereien</string>
