@@ -51,6 +51,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="0dp"
-        android:text="Brewery Description" />
+        android:text="@string/brewerydetail_breweryDescription" />
 
 </LinearLayout>

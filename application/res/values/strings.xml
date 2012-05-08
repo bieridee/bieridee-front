@@ -58,6 +58,7 @@
     <string name="brewerydetail_descriptionTitle">Beschreibung</string>
     <string name="brewerydetail_breweryName">Brauerei Name</string>
     <string name="brewerydetail_brewerySize">Brauerei Grösse</string>
+    <string name="brewerydetail_breweryDescription">Brauerei Beschreibung</string>
 
     <!-- About screen -->
     <string name="aboutscreen_activitytitle">Über BierIdee</string>
