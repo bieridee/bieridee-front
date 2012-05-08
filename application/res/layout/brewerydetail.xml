@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="10dp">
+    android:padding="10dp" >
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -14,10 +14,9 @@
             android:id="@+id_brewerydetail/breweryPicture"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/icon_pixelbeer"
-            android:minWidth="120dp"
             android:minHeight="90dp"
-            />
+            android:minWidth="120dp"
+            android:src="@drawable/icon_pixelbeer" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -29,29 +28,29 @@
                 android:id="@+id_brewerydetail/breweryName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Brewery Name"
+                android:text="@string/brewerydetail_breweryName"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <TextView
                 android:id="@+id_brewerydetail/brewerySize"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Brewery Size" />
-
+                android:text="@string/brewerydetail_brewerySize" />
         </LinearLayout>
     </LinearLayout>
 
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@string/brewerydetail_descriptionTitle" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/brewerydetail_descriptionTitle"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
         android:id="@+id_brewerydetail/breweryDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="0dp"
-        android:text="Brewery Description"/>
+        android:text="Brewery Description" />
+
 </LinearLayout>
