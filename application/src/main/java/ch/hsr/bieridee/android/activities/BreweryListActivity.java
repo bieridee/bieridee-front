@@ -31,12 +31,14 @@ import java.io.IOException;
 public final class BreweryListActivity extends ListActivity {
 
 	private static final String LOG_TAG = BreweryListActivity.class.getName();
+	private BreweryListAdapter adapter;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.brewerylist);
 		setListAdapter(new BreweryListAdapter(this));
+		this.adapter = addOnClickListeners();
 	}
 
 	@Override
@@ -69,17 +71,6 @@ public final class BreweryListActivity extends ListActivity {
 	private void updateBreweryList() {
 		Log.d(LOG_TAG, "Updating brewery list");
 
-		final BreweryListAdapter adapter = (BreweryListAdapter) getListAdapter();
-		this.getListView().setOnItemClickListener(new OnItemClickListener() {
-
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Log.d("infos", "clicked pos: " + position + " with id: " + id);
-				final Intent intent = new Intent(view.getContext(), BreweryDetailActivity.class);
-				intent.putExtra(BreweryDetailActivity.EXTRA_BREWERY_ID, id);
-				startActivity(intent);
-			}
-		});
-
 		// Show waiting dialog
 		final String dialogTitle = getString(R.string.pleaseWait);
 		final String dialogMessage = getString(R.string.loadingData);
@@ -95,7 +86,7 @@ public final class BreweryListActivity extends ListActivity {
 				try {
 					final String json = response.getEntity().getText();
 					breweries = new JSONArray(json);
-					adapter.updateData(breweries);
+					BreweryListActivity.this.adapter.updateData(breweries);
 				} catch (IOException e) {
 					e.printStackTrace(); // TODO
 				} catch (JSONException e) {
@@ -105,7 +96,7 @@ public final class BreweryListActivity extends ListActivity {
 				// Update view
 				runOnUiThread(new Runnable() {
 					public void run() {
-						adapter.notifyDataSetChanged();
+						BreweryListActivity.this.adapter.notifyDataSetChanged();
 						dialog.dismiss();
 					}
 				});
@@ -113,5 +104,19 @@ public final class BreweryListActivity extends ListActivity {
 		});
 		cr.get(MediaType.APPLICATION_JSON); // Async call
 		cr.release();
+	}
+
+	private BreweryListAdapter addOnClickListeners() {
+		final BreweryListAdapter adapter = (BreweryListAdapter) getListAdapter();
+		this.getListView().setOnItemClickListener(new OnItemClickListener() {
+
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				Log.d("infos", "clicked pos: " + position + " with id: " + id);
+				final Intent intent = new Intent(view.getContext(), BreweryDetailActivity.class);
+				intent.putExtra(BreweryDetailActivity.EXTRA_BREWERY_ID, id);
+				startActivity(intent);
+			}
+		});
+		return adapter;
 	}
 }
