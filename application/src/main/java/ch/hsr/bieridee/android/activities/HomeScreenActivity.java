@@ -28,7 +28,7 @@ public class HomeScreenActivity extends Activity {
 		this.addOnClickListener((Button) findViewById(R.id_dashboardscreen.buttonBeerlist), BeerListActivity.class);
 		this.addOnClickListener((Button) findViewById(R.id_dashboardscreen.buttonBreweries), BreweryListActivity.class);
 
-		OnClickListener notYetImplementedListener = new OnClickListener() {
+		final OnClickListener notYetImplementedListener = new OnClickListener() {
 			public void onClick(View view) {
 				Toast.makeText(HomeScreenActivity.this.getBaseContext(), "TODO implement!", Toast.LENGTH_LONG).show();
 			}
@@ -60,7 +60,7 @@ public class HomeScreenActivity extends Activity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
+		final MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.main_menu, menu);
 		return true;
 	}
