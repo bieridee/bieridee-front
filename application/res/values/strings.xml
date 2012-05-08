@@ -49,8 +49,16 @@
     <string name="dashboardscreen_loggedOut">Logout erfolgreich!</string>
     
     <!-- Beer list -->
-    <string name="beerlist_title">BierListe</string>
+    <string name="beerlist_title">Bierliste</string>
     <string name="beerdetail_title">Beer Detail</string>
+
+    <!-- Brewery list -->
+    <string name="brewerylist_title">Brauereien</string>
+    <string name="brewerydetail_title">Brauerei Detail</string>
+    <string name="brewerydetail_descriptionTitle">Beschreibung</string>
+    <string name="brewerydetail_breweryName">Brauerei Name</string>
+    <string name="brewerydetail_brewerySize">Brauerei Grösse</string>
+    <string name="brewerydetail_breweryDescription">Brauerei Beschreibung</string>
 
     <!-- About screen -->
     <string name="aboutscreen_activitytitle">Über BierIdee</string>

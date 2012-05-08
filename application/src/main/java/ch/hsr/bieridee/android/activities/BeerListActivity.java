@@ -35,7 +35,6 @@ public class BeerListActivity extends ListActivity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		Log.d(LOG_TAG, "onCreate");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.beerlist);
 		setListAdapter(new BeerListAdapter(this));
@@ -43,7 +42,6 @@ public class BeerListActivity extends ListActivity {
 
 	@Override
 	public void onStart() {
-		Log.d(LOG_TAG, "onStart");
 		super.onStart();
 		updateBeerList();
 	}
@@ -51,14 +49,14 @@ public class BeerListActivity extends ListActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.beerlist_menu, menu);
+		inflater.inflate(R.menu.refresh_menu, menu);
 		return true;
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case R.id_beerlistmenu.refresh:
+			case R.id_refreshmenu.refresh:
 				this.updateBeerList();
 				break;
 		}
@@ -77,7 +75,7 @@ public class BeerListActivity extends ListActivity {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				Log.d("infos", "clicked pos: " + position + " with id: " + id);
 				final Intent intent = new Intent(view.getContext(), BeerDetailActivity.class);
-				intent.putExtra("beerid", id);
+				intent.putExtra(BeerDetailActivity.EXTRA_BEER_ID, id);
 				startActivity(intent);
 			}
 		});
@@ -91,7 +89,7 @@ public class BeerListActivity extends ListActivity {
 		final ClientResource cr = ClientResourceFactory.getClientResource(Res.getURI(Res.BEER_COLLECTION));
 		cr.setOnResponse(new Uniform() {
 			public void handle(Request request, Response response) {
-				JSONArray beers = new JSONArray();
+				JSONArray beers;
 
 				// Update data
 				try {

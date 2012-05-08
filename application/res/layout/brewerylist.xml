@@ -5,11 +5,11 @@
     android:layout_height="fill_parent">
 
     <TextView
-        android:id="@+id/beerListTitle"
+        android:id="@+id_brewerylist/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
-        android:text="@string/beerlist_title"
+        android:text="@string/brewerylist_title"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <ListView
