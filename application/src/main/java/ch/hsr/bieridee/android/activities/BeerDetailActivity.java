@@ -17,6 +17,8 @@ import ch.hsr.bieridee.android.config.Auth;
 import ch.hsr.bieridee.android.config.Res;
 import ch.hsr.bieridee.android.exceptions.BierIdeeException;
 import ch.hsr.bieridee.android.http.HttpHelper;
+import ch.hsr.bieridee.android.http.requestprocessors.AcceptRequestProcessor;
+import ch.hsr.bieridee.android.http.requestprocessors.HMACAuthRequestProcessor;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.impl.client.BasicResponseHandler;
@@ -247,7 +249,10 @@ public class BeerDetailActivity extends Activity {
 
 			final String uri = Res.getURI(Res.CONSUMPTION_DOCUMENT, Long.toString(BeerDetailActivity.this.beerId), BeerDetailActivity.this.username);
 			Log.d(LOG_TAG, "POST " + uri);
-			final HttpResponse response = new HttpHelper().post(uri);
+			HttpHelper httpHelper = new HttpHelper();
+			httpHelper.addRequestProcessor(new AcceptRequestProcessor(AcceptRequestProcessor.ContentType.JSON));
+			httpHelper.addRequestProcessor(new HMACAuthRequestProcessor());
+			final HttpResponse response = httpHelper.post(uri);
 
 			if (response == null) {
 				return false;

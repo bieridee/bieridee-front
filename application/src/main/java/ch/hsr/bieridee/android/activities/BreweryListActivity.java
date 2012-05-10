@@ -78,7 +78,8 @@ public final class BreweryListActivity extends ListActivity {
 		protected JSONArray doInBackground(Void... voids) {
 			Log.d(LOG_TAG, "doInBackground()");
 
-			final HttpResponse response = new HttpHelper().get(Res.getURI(Res.BREWERY_COLLECTION));
+			final HttpHelper httpHelper = new HttpHelper();
+			final HttpResponse response = httpHelper.get(Res.getURI(Res.BREWERY_COLLECTION));
 
 			if (response != null) {
 				final int statusCode = response.getStatusLine().getStatusCode();

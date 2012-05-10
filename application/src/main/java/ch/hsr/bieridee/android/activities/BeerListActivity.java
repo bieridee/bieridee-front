@@ -15,6 +15,8 @@ import ch.hsr.bieridee.android.R;
 import ch.hsr.bieridee.android.adapters.BeerListAdapter;
 import ch.hsr.bieridee.android.config.Res;
 import ch.hsr.bieridee.android.http.HttpHelper;
+import ch.hsr.bieridee.android.http.requestprocessors.AcceptRequestProcessor;
+import ch.hsr.bieridee.android.http.requestprocessors.HMACAuthRequestProcessor;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.impl.client.BasicResponseHandler;
@@ -79,6 +81,8 @@ public class BeerListActivity extends ListActivity {
 			Log.d(LOG_TAG, "doInBackground()");
 
 			HttpHelper httpHelper = new HttpHelper();
+			httpHelper.addRequestProcessor(new AcceptRequestProcessor(AcceptRequestProcessor.ContentType.JSON));
+			httpHelper.addRequestProcessor(new HMACAuthRequestProcessor());
 			HttpResponse response = httpHelper.get(Res.getURI(Res.BEER_COLLECTION));
 
 			if (response != null) {
