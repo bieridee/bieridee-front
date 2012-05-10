@@ -1,21 +1,8 @@
 package ch.hsr.bieridee.android.activities;
 
-import java.io.IOException;
-
-import ch.hsr.bieridee.android.config.Auth;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.restlet.Request;
-import org.restlet.Response;
-import org.restlet.Uniform;
-import org.restlet.data.MediaType;
-import org.restlet.data.Status;
-import org.restlet.representation.Representation;
-import org.restlet.representation.StringRepresentation;
-import org.restlet.resource.ClientResource;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -26,11 +13,28 @@ import android.widget.RatingBar.OnRatingBarChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
 import ch.hsr.bieridee.android.R;
+import ch.hsr.bieridee.android.config.Auth;
 import ch.hsr.bieridee.android.config.Res;
 import ch.hsr.bieridee.android.http.ClientResourceFactory;
+import ch.hsr.bieridee.android.http.HttpHelper;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.impl.client.BasicResponseHandler;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.restlet.Request;
+import org.restlet.Response;
+import org.restlet.Uniform;
+import org.restlet.data.MediaType;
+import org.restlet.representation.Representation;
+import org.restlet.representation.StringRepresentation;
+import org.restlet.resource.ClientResource;
+
+import java.io.IOException;
+import java.util.concurrent.CountDownLatch;
 
 /**
- * Activity that shows a beers detail.
+ * Activity that shows a beer detail.
  */
 public class BeerDetailActivity extends Activity {
 
@@ -39,14 +43,16 @@ public class BeerDetailActivity extends Activity {
 	private TextView brand;
 	private TextView averageRating;
 	private RatingBar ratingBar;
-	private String beerJSON;
-	private String ratingJSON;
 	private String avgRatingJSON;
 	private long beerId;
 	private String username;
 
+	private ProgressDialog progressDialog;
+	private CountDownLatch dataLoadingDoneSignal;
+
 	private static final String LOG_TAG = BeerDetailActivity.class.getName();
 	public static final String EXTRA_BEER_ID = "beerId";
+	private static final int DATA_LOADING_THREAD_COUNT = 2;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -57,6 +63,10 @@ public class BeerDetailActivity extends Activity {
 	@Override
 	public void onStart() {
 		super.onStart();
+
+		// Get brewery ID from intent
+		this.beerId = this.getIntent().getExtras().getLong(EXTRA_BEER_ID);
+		Log.d(LOG_TAG, "onStart() with breweryId " + this.beerId);
 
 		this.username = Auth.getUsername();
 
@@ -71,17 +81,16 @@ public class BeerDetailActivity extends Activity {
 
 		this.setConsumtionButtonAction();
 		this.setRatingBarAction();
-		this.loadBeerDetail();
-		this.loadBeerRating();
+
+		new ShowLoadingDialog().execute();
+		new GetBeerDetail().execute();
+		new GetBeerRating().execute();
 	}
 
 	private void setConsumtionButtonAction() {
 		this.consumptionButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				Toast.makeText(v.getContext(), "TODO: Track consumption", Toast.LENGTH_LONG).show();
-				final String consumptionUri = Res.getURI(Res.CONSUMPTION_DOCUMENT, Long.toString(BeerDetailActivity.this.beerId), BeerDetailActivity.this.username);
-				final ClientResource cr = ClientResourceFactory.getClientResource(consumptionUri);
-				cr.post(null);
+				new TrackConsumption().execute();
 			}
 		});
 	}
@@ -89,123 +98,212 @@ public class BeerDetailActivity extends Activity {
 	private void setRatingBarAction() {
 		this.ratingBar.setOnRatingBarChangeListener(new OnRatingBarChangeListener() {
 			public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-				if (fromUser) {
-					final String ratingUri = Res.getURI(Res.RATING_DOCUMENT, Long.toString(BeerDetailActivity.this.beerId), BeerDetailActivity.this.username);
-					final ClientResource cr = ClientResourceFactory.getClientResource(ratingUri);
-					final JSONObject newRating = new JSONObject();
-					try {
-						newRating.put("rating", rating);
-					} catch (JSONException e) {
-						e.printStackTrace(); // TODO
-					}
+				if (!fromUser) {
+					return;
+				}
 
-					final Representation rep = new StringRepresentation(newRating.toString(), MediaType.APPLICATION_JSON);
-					cr.setOnResponse(new Uniform() {
+				final String ratingUri = Res.getURI(Res.RATING_DOCUMENT, Long.toString(BeerDetailActivity.this.beerId), BeerDetailActivity.this.username);
+				final ClientResource cr = ClientResourceFactory.getClientResource(ratingUri);
+				final JSONObject newRating = new JSONObject();
+				try {
+					newRating.put("rating", rating);
+				} catch (JSONException e) {
+					e.printStackTrace(); // TODO
+				}
 
-						public void handle(Request request, Response response) {
-							try {
-								BeerDetailActivity.this.avgRatingJSON = response.getEntity().getText();
-							} catch (IOException e) {
-								e.printStackTrace(); // TODO
-							}
+				final Representation rep = new StringRepresentation(newRating.toString(), MediaType.APPLICATION_JSON);
+				cr.setOnResponse(new Uniform() {
 
-							runOnUiThread(new Runnable() {
-								public void run() {
-									try {
-										final JSONObject avgRatingJson = new JSONObject(BeerDetailActivity.this.avgRatingJSON);
-										final String avgRating = Double.toString(avgRatingJson.getDouble("averagerating"));
-										BeerDetailActivity.this.averageRating.setText(avgRating);
-									} catch (JSONException e) {
-										e.printStackTrace(); // TODO
-									}
+					public void handle(Request request, Response response) {
+						try {
+							BeerDetailActivity.this.avgRatingJSON = response.getEntity().getText();
+						} catch (IOException e) {
+							e.printStackTrace(); // TODO
+						}
+
+						runOnUiThread(new Runnable() {
+							public void run() {
+								try {
+									final JSONObject avgRatingJson = new JSONObject(BeerDetailActivity.this.avgRatingJSON);
+									final String avgRating = Double.toString(avgRatingJson.getDouble("averagerating"));
+									BeerDetailActivity.this.averageRating.setText(avgRating);
+								} catch (JSONException e) {
+									e.printStackTrace(); // TODO
 								}
-							});
-
-						}
-					});
-					cr.post(rep);
-					cr.release();
-				}
-			}
-		});
-	}
-
-	private void loadBeerDetail() {
-		final Bundle extras = this.getIntent().getExtras();
-		this.beerId = extras.getLong(EXTRA_BEER_ID);
-
-		final String dialogTitle = getString(R.string.pleaseWait);
-		final String dialogMessage = getString(R.string.loadingData);
-		final ProgressDialog dialog = ProgressDialog.show(this, dialogTitle, dialogMessage, true);
-
-		final ClientResource cr = ClientResourceFactory.getClientResource(Res.getURI(Res.BEER_DOCUMENT, Long.toString(this.beerId)));
-		cr.setOnResponse(new Uniform() {
-			public void handle(Request request, Response response) {
-				try {
-					BeerDetailActivity.this.beerJSON = response.getEntity().getText();
-				} catch (IOException e) {
-					e.printStackTrace(); // TODO
-				}
-
-				runOnUiThread(new Runnable() {
-					public void run() {
-						try {
-							final JSONObject beer = new JSONObject(BeerDetailActivity.this.beerJSON);
-							final String name = beer.getString("name");
-							final String brand = beer.getString("brand");
-							final String averageRating = beer.getString("rating");
-							BeerDetailActivity.this.name.setText(name);
-							BeerDetailActivity.this.brand.setText(brand);
-							BeerDetailActivity.this.averageRating.setText(averageRating);
-						} catch (JSONException e) {
-							e.printStackTrace(); // TODO
-						}
-						dialog.dismiss();
-					}
-				});
-			}
-		});
-
-		cr.get(MediaType.APPLICATION_JSON); // Async call
-		cr.release();
-
-	}
-
-	private void loadBeerRating() {
-		final ClientResource cr = ClientResourceFactory.getClientResource(Res.getURI(Res.RATING_DOCUMENT, Long.toString(this.beerId), this.username));
-		cr.setOnResponse(new Uniform() {
-			public void handle(Request request, Response response) {
-				try {
-					BeerDetailActivity.this.ratingJSON = null;
-					if (response.getStatus() != Status.CLIENT_ERROR_NOT_FOUND) {
-						BeerDetailActivity.this.ratingJSON = response.getEntity().getText();
-					}
-				} catch (IOException e) {
-					e.printStackTrace(); // TODO
-				}
-
-				runOnUiThread(new Runnable() {
-					public void run() {
-						try {
-							if (BeerDetailActivity.this.ratingJSON != null) {
-								final JSONObject rating = new JSONObject(BeerDetailActivity.this.ratingJSON);
-								final int currentRating = rating.getInt("rating");
-								BeerDetailActivity.this.ratingBar.setRating(currentRating);
-							} else {
-								// beer not rated yet
-								Toast.makeText(getApplicationContext(), "Beer is not rated yet", Toast.LENGTH_LONG).show();
-								BeerDetailActivity.this.ratingBar.setRating(0f);
 							}
-						} catch (JSONException e) {
-							e.printStackTrace(); // TODO
-						}
+						});
 
 					}
 				});
+				cr.post(rep);
+				cr.release();
 			}
 		});
-		cr.get(MediaType.APPLICATION_JSON); // Async call
-		cr.release();
 	}
 
+	/**
+	 * Async task to show a loading dialog until all data has been loaded.
+	 */
+	private class ShowLoadingDialog extends AsyncTask<Void, Void, Void> {
+		@Override
+		protected void onPreExecute() {
+			Log.d(LOG_TAG, "ShowLoadingDialog onPreExecute()");
+			BeerDetailActivity.this.progressDialog = ProgressDialog.show(BeerDetailActivity.this,
+					getString(R.string.pleaseWait), getString(R.string.loadingData), true);
+			BeerDetailActivity.this.dataLoadingDoneSignal = new CountDownLatch(DATA_LOADING_THREAD_COUNT);
+		}
+
+		@Override
+		protected Void doInBackground(Void... voids) {
+			Log.d(LOG_TAG, "ShowLoadingDialog doInBackground()");
+			try {
+				BeerDetailActivity.this.dataLoadingDoneSignal.await();
+			} catch (InterruptedException e) {
+				e.printStackTrace();  // TODO was muss man in diesem Fall schonwieder tun?
+			}
+			BeerDetailActivity.this.progressDialog.dismiss();
+			return null;
+		}
+	}
+
+	/**
+	 * Async task to get beer rating from server and update UI.
+	 */
+	private class GetBeerDetail extends AsyncTask<Void, Void, JSONObject> {
+		@Override
+		protected JSONObject doInBackground(Void... voids) {
+			Log.d(LOG_TAG, "doInBackground()");
+
+			final String uri = Res.getURI(Res.BEER_DOCUMENT, Long.toString(BeerDetailActivity.this.beerId));
+			Log.d(LOG_TAG, "GET " + uri);
+			final HttpResponse response = new HttpHelper().get(uri);
+
+			if (response != null) {
+				final int statusCode = response.getStatusLine().getStatusCode();
+				if (statusCode == HttpStatus.SC_OK) {
+					try {
+						final String responseText = new BasicResponseHandler().handleResponse(response);
+						return new JSONObject(responseText);
+					} catch (IOException e) {
+						Log.e(LOG_TAG, "IOException in GetBeerDetail::doInBackground");
+						e.printStackTrace();
+					} catch (JSONException e) {
+						Log.e(LOG_TAG, "JSONException in GetBeerDetail::doInBackground");
+						e.printStackTrace();
+					}
+				} else {
+					Log.e(LOG_TAG, "HTTP Response " + statusCode + " in GetBeerDetail::doInBackground");
+				}
+			}
+			Log.e(LOG_TAG, "HTTP Response was null in GetBeerDetail::doInBackground");
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(JSONObject result) {
+			Log.d(LOG_TAG, "onPostExecute()");
+			if (result != null) {
+				try {
+					final String name = result.getString("name");
+					final String brand = result.getString("brand");
+					final String averageRating = result.getString("rating");
+					BeerDetailActivity.this.name.setText(name);
+					BeerDetailActivity.this.brand.setText(brand);
+					BeerDetailActivity.this.averageRating.setText(averageRating);
+				} catch (JSONException e) {
+					Log.e(LOG_TAG, "JSONException in GetBeerDetail::onPostExecute");
+					e.printStackTrace();
+				}
+			} else {
+				Log.w(LOG_TAG, "Result was null in GetBeerDetail::onPostExecute");
+			}
+			BeerDetailActivity.this.dataLoadingDoneSignal.countDown();
+		}
+	}
+
+	/**
+	 * Async task to get beer rating from server and update UI.
+	 */
+	private class GetBeerRating extends AsyncTask<Void, Void, JSONObject> {
+		@Override
+		protected void onPreExecute() {
+			Log.d(LOG_TAG, "onPreExecute()");
+		}
+
+		@Override
+		protected JSONObject doInBackground(Void... voids) {
+			Log.d(LOG_TAG, "doInBackground()");
+
+			final String uri = Res.getURI(Res.RATING_DOCUMENT, Long.toString(BeerDetailActivity.this.beerId), BeerDetailActivity.this.username);
+			Log.d(LOG_TAG, "GET " + uri);
+			final HttpResponse response = new HttpHelper().get(uri);
+
+			if (response != null) {
+				final int statusCode = response.getStatusLine().getStatusCode();
+				if (statusCode == HttpStatus.SC_OK) {
+					try {
+						final String responseText = new BasicResponseHandler().handleResponse(response);
+						return new JSONObject(responseText);
+					} catch (IOException e) {
+						Log.e(LOG_TAG, "IOException in GetBeerRating::doInBackground");
+						e.printStackTrace();
+					} catch (JSONException e) {
+						Log.e(LOG_TAG, "JSONException in GetBeerRating::doInBackground");
+						e.printStackTrace();
+					}
+				} else if (statusCode == HttpStatus.SC_NOT_FOUND) {
+					Log.i(LOG_TAG, "No current rating found.");
+					return null;
+				} else {
+					Log.e(LOG_TAG, "HTTP Response " + statusCode + " in GetBeerRating::doInBackground");
+				}
+			}
+			Log.e(LOG_TAG, "HTTP Response was null in GetBeerDetail::doInBackground");
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(JSONObject result) {
+			Log.d(LOG_TAG, "onPostExecute()");
+			if (result != null) {
+				try {
+					final int currentRating = result.getInt("rating");
+					BeerDetailActivity.this.ratingBar.setRating(currentRating);
+				} catch (JSONException e) {
+					Log.e(LOG_TAG, "JSONException in GetBeerRating::onPostExecute");
+					e.printStackTrace();
+				}
+			} else {
+				Log.w(LOG_TAG, "Result was null in GetBeerRating::onPostExecute");
+			}
+			BeerDetailActivity.this.dataLoadingDoneSignal.countDown();
+		}
+	}
+
+	/**
+	 * Async task to track consumption.
+	 */
+	private class TrackConsumption extends AsyncTask<Void, Void, Boolean> {
+		@Override
+		protected Boolean doInBackground(Void... voids) {
+			Log.d(LOG_TAG, "TrackConsumption doInBackground()");
+
+			final String uri = Res.getURI(Res.CONSUMPTION_DOCUMENT, Long.toString(BeerDetailActivity.this.beerId), BeerDetailActivity.this.username);
+			Log.d(LOG_TAG, "POST " + uri);
+			final HttpResponse response = new HttpHelper().post(uri);
+
+			if (response == null) {
+				return false;
+			}
+			final int statusCode = response.getStatusLine().getStatusCode();
+			return statusCode == HttpStatus.SC_OK;
+		}
+
+		@Override
+		protected void onPostExecute(Boolean result) {
+			Log.d(LOG_TAG, "TrackConsumption onPostExecute()");
+			final int msgResId = result ? R.string.beerdetail_consumption_success : R.string.beerdetail_consumption_fail;
+			Toast.makeText(BeerDetailActivity.this, getString(msgResId), Toast.LENGTH_SHORT).show();
+		}
+	}
 }

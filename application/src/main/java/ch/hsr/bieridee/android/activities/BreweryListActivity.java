@@ -3,6 +3,7 @@ package ch.hsr.bieridee.android.activities;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -10,18 +11,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import ch.hsr.bieridee.android.R;
 import ch.hsr.bieridee.android.adapters.BreweryListAdapter;
 import ch.hsr.bieridee.android.config.Res;
-import ch.hsr.bieridee.android.http.ClientResourceFactory;
+import ch.hsr.bieridee.android.http.HttpHelper;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.impl.client.BasicResponseHandler;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.restlet.Request;
-import org.restlet.Response;
-import org.restlet.Uniform;
-import org.restlet.data.MediaType;
-import org.restlet.resource.ClientResource;
 
 import java.io.IOException;
 
@@ -32,20 +30,21 @@ public final class BreweryListActivity extends ListActivity {
 
 	private static final String LOG_TAG = BreweryListActivity.class.getName();
 	private BreweryListAdapter adapter;
+	private ProgressDialog progressDialog;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.brewerylist);
-		setListAdapter(new BreweryListAdapter(this));
-		this.adapter = addOnClickListeners();
+		this.adapter = new BreweryListAdapter(this);
+		setListAdapter(this.adapter);
+		this.addOnClickListeners();
 	}
 
 	@Override
 	public void onStart() {
-		Log.d(LOG_TAG, "onStart");
 		super.onStart();
-		updateBreweryList();
+		new GetBreweryData().execute();
 	}
 
 	@Override
@@ -59,64 +58,64 @@ public final class BreweryListActivity extends ListActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id_refreshmenu.refresh:
-				this.updateBreweryList();
+				new GetBreweryData().execute();
 				break;
 		}
 		return true;
 	}
 
 	/**
-	 * Updates brewery list data and redraws list view.
+	 * Async task to get breweries from server and update UI.
 	 */
-	private void updateBreweryList() {
-		Log.d(LOG_TAG, "Updating brewery list");
+	private class GetBreweryData extends AsyncTask<Void, Void, JSONArray> {
+		@Override
+		protected void onPreExecute() {
+			Log.d(LOG_TAG, "onPreExecute()");
+			BreweryListActivity.this.progressDialog = ProgressDialog.show(
+					BreweryListActivity.this, getString(R.string.pleaseWait), getString(R.string.loadingData), true);
+		}
+		@Override
+		protected JSONArray doInBackground(Void... voids) {
+			Log.d(LOG_TAG, "doInBackground()");
 
-		// Show waiting dialog
-		final String dialogTitle = getString(R.string.pleaseWait);
-		final String dialogMessage = getString(R.string.loadingData);
-		final ProgressDialog dialog = ProgressDialog.show(this, dialogTitle, dialogMessage, true);
+			final HttpResponse response = new HttpHelper().get(Res.getURI(Res.BREWERY_COLLECTION));
 
-		// Do and handle HTTP request
-		final ClientResource cr = ClientResourceFactory.getClientResource(Res.getURI(Res.BREWERY_COLLECTION));
-		cr.setOnResponse(new Uniform() {
-			public void handle(Request request, Response response) {
-				JSONArray breweries;
-
-				// Update data
-				try {
-					final String json = response.getEntity().getText();
-					breweries = new JSONArray(json);
-					BreweryListActivity.this.adapter.updateData(breweries);
-				} catch (IOException e) {
-					e.printStackTrace(); // TODO
-				} catch (JSONException e) {
-					e.printStackTrace(); // TODO
-				}
-
-				// Update view
-				runOnUiThread(new Runnable() {
-					public void run() {
-						BreweryListActivity.this.adapter.notifyDataSetChanged();
-						dialog.dismiss();
+			if (response != null) {
+				final int statusCode = response.getStatusLine().getStatusCode();
+				if (statusCode == HttpStatus.SC_OK) {
+					try {
+						final String responseText = new BasicResponseHandler().handleResponse(response);
+						return new JSONArray(responseText);
+					} catch (IOException e) {
+						e.printStackTrace();
+					} catch (JSONException e) {
+						e.printStackTrace();
 					}
-				});
+				}
 			}
-		});
-		cr.get(MediaType.APPLICATION_JSON); // Async call
-		cr.release();
+			return null;
+		}
+		@Override
+		protected void onPostExecute(JSONArray result) {
+			Log.d(LOG_TAG, "onPostExecute()");
+			if (result != null) {
+				adapter.updateData(result);
+				adapter.notifyDataSetChanged();
+			} // TODO handle else
+			BreweryListActivity.this.progressDialog.dismiss();
+		}
 	}
 
-	private BreweryListAdapter addOnClickListeners() {
-		final BreweryListAdapter adapter = (BreweryListAdapter) getListAdapter();
-		this.getListView().setOnItemClickListener(new OnItemClickListener() {
-
+	/**
+	 * Add onClick listeners to UI elements.
+	 */
+	private void addOnClickListeners() {
+		this.getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Log.d("infos", "clicked pos: " + position + " with id: " + id);
 				final Intent intent = new Intent(view.getContext(), BreweryDetailActivity.class);
 				intent.putExtra(BreweryDetailActivity.EXTRA_BREWERY_ID, id);
 				startActivity(intent);
 			}
 		});
-		return adapter;
 	}
 }
