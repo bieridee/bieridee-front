@@ -1,10 +1,13 @@
 package ch.hsr.bieridee.android.http;
 
+import android.util.Log;
+import ch.hsr.bieridee.android.exceptions.BierIdeeException;
+import ch.hsr.bieridee.android.http.requestprocessors.IRequestProcessor;
+import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.client.methods.*;
+import org.apache.http.conn.params.ConnRoutePNames;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import java.io.IOException;
@@ -17,6 +20,7 @@ import java.util.List;
  */
 public final class HttpHelper {
 	private List<IRequestProcessor> requestProcessors = new LinkedList<IRequestProcessor>();
+	private final static String LOG_TAG = "HttpHelper";
 
 	/**
 	 * Add a request processor.
@@ -44,14 +48,8 @@ public final class HttpHelper {
 	 * @return A HttpResponse instance
 	 */
 	public HttpResponse get(String uri) {
-		HttpRequestBase getRequest = applyRequestProcessors(new HttpGet(uri));
-		final HttpClient client = new DefaultHttpClient();
-		try {
-			return client.execute(getRequest);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
+		HttpRequestBase request = applyRequestProcessors(new HttpGet(uri));
+		return this.execute(request);
 	}
 
 	/**
@@ -60,14 +58,8 @@ public final class HttpHelper {
 	 * @return A HttpResponse instance
 	 */
 	public HttpResponse post(String uri) {
-		HttpRequestBase postRequest = applyRequestProcessors(new HttpPost(uri));
-		final HttpClient client = new DefaultHttpClient();
-		try {
-			return client.execute(postRequest);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
+		HttpRequestBase request = applyRequestProcessors(new HttpPost(uri));
+		return this.execute(request);
 	}
 
 	/**
@@ -76,7 +68,8 @@ public final class HttpHelper {
 	 * @return A HttpResponse instance
 	 */
 	public HttpResponse put(String uri) {
-		throw new RuntimeException("PUT not yet implemented!");
+		HttpRequestBase request = applyRequestProcessors(new HttpPut(uri));
+		return this.execute(request);
 	}
 
 	/**
@@ -85,6 +78,25 @@ public final class HttpHelper {
 	 * @return A HttpResponse instance
 	 */
 	public HttpResponse delete(String uri) {
-		throw new RuntimeException("DELETE not yet implemented!");
+		HttpRequestBase request = applyRequestProcessors(new HttpDelete(uri));
+		return this.execute(request);
+	}
+
+	/**
+	 * Actually perform a request.
+	 * @param request HttpRequest to execute
+	 * @return A HttpResponse instance
+	 */
+	private HttpResponse execute(HttpRequestBase request) {
+		Log.d(LOG_TAG, request.getMethod() + " " + request.getURI());
+
+		final HttpClient client = new DefaultHttpClient();
+
+		try {
+			return client.execute(request);
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new BierIdeeException("IOException in " + request.getMethod().toUpperCase() + " request.", e);
+		}
 	}
 }
