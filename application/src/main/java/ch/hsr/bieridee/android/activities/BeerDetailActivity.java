@@ -15,20 +15,13 @@ import android.widget.Toast;
 import ch.hsr.bieridee.android.R;
 import ch.hsr.bieridee.android.config.Auth;
 import ch.hsr.bieridee.android.config.Res;
-import ch.hsr.bieridee.android.http.ClientResourceFactory;
+import ch.hsr.bieridee.android.exceptions.BierIdeeException;
 import ch.hsr.bieridee.android.http.HttpHelper;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.restlet.Request;
-import org.restlet.Response;
-import org.restlet.Uniform;
-import org.restlet.data.MediaType;
-import org.restlet.representation.Representation;
-import org.restlet.representation.StringRepresentation;
-import org.restlet.resource.ClientResource;
 
 import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
@@ -43,7 +36,6 @@ public class BeerDetailActivity extends Activity {
 	private TextView brand;
 	private TextView averageRating;
 	private RatingBar ratingBar;
-	private String avgRatingJSON;
 	private long beerId;
 	private String username;
 
@@ -101,42 +93,7 @@ public class BeerDetailActivity extends Activity {
 				if (!fromUser) {
 					return;
 				}
-
-				final String ratingUri = Res.getURI(Res.RATING_DOCUMENT, Long.toString(BeerDetailActivity.this.beerId), BeerDetailActivity.this.username);
-				final ClientResource cr = ClientResourceFactory.getClientResource(ratingUri);
-				final JSONObject newRating = new JSONObject();
-				try {
-					newRating.put("rating", rating);
-				} catch (JSONException e) {
-					e.printStackTrace(); // TODO
-				}
-
-				final Representation rep = new StringRepresentation(newRating.toString(), MediaType.APPLICATION_JSON);
-				cr.setOnResponse(new Uniform() {
-
-					public void handle(Request request, Response response) {
-						try {
-							BeerDetailActivity.this.avgRatingJSON = response.getEntity().getText();
-						} catch (IOException e) {
-							e.printStackTrace(); // TODO
-						}
-
-						runOnUiThread(new Runnable() {
-							public void run() {
-								try {
-									final JSONObject avgRatingJson = new JSONObject(BeerDetailActivity.this.avgRatingJSON);
-									final String avgRating = Double.toString(avgRatingJson.getDouble("averagerating"));
-									BeerDetailActivity.this.averageRating.setText(avgRating);
-								} catch (JSONException e) {
-									e.printStackTrace(); // TODO
-								}
-							}
-						});
-
-					}
-				});
-				cr.post(rep);
-				cr.release();
+				new SaveRating().execute(rating);
 			}
 		});
 	}
@@ -303,6 +260,42 @@ public class BeerDetailActivity extends Activity {
 		protected void onPostExecute(Boolean result) {
 			Log.d(LOG_TAG, "TrackConsumption onPostExecute()");
 			final int msgResId = result ? R.string.beerdetail_consumption_success : R.string.beerdetail_consumption_fail;
+			Toast.makeText(BeerDetailActivity.this, getString(msgResId), Toast.LENGTH_SHORT).show();
+		}
+	}
+
+	/**
+	 * Async task to store a rating.
+	 */
+	private class SaveRating extends AsyncTask<Float, Void, Boolean> {
+		@Override
+		protected Boolean doInBackground(Float... rating) {
+			Log.d(LOG_TAG, "SaveRating doInBackground()");
+
+			final HttpHelper httpHelper = new HttpHelper();
+			final String uri = Res.getURI(Res.RATING_DOCUMENT, Long.toString(BeerDetailActivity.this.beerId), BeerDetailActivity.this.username);
+
+			final JSONObject newRating = new JSONObject();
+			try {
+				newRating.put("rating", rating[0]);
+			} catch (JSONException e) {
+				throw new BierIdeeException("Could not create rating JSONObject", e);
+			}
+
+			try {
+				httpHelper.post(uri, newRating);
+			} catch (BierIdeeException e) {
+				return false;
+			}
+			return true;
+
+			// TODO update average rating
+		}
+
+		@Override
+		protected void onPostExecute(Boolean result) {
+			Log.d(LOG_TAG, "SaveRating onPostExecute()");
+			final int msgResId = result ? R.string.beerdetail_rating_success : R.string.beerdetail_rating_fail;
 			Toast.makeText(BeerDetailActivity.this, getString(msgResId), Toast.LENGTH_SHORT).show();
 		}
 	}

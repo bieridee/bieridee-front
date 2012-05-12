@@ -55,6 +55,8 @@
     <string name="beerdetail_title">Beer Detail</string>
     <string name="beerdetail_consumption_success">Bierkonsum erfolgreich gespeichert.</string>
     <string name="beerdetail_consumption_fail">Speichern des Bierkonsums ist fehlgeschlagen.</string>
+    <string name="beerdetail_rating_success">Bewertung erfolgreich gespeichert.</string>
+    <string name="beerdetail_rating_fail">Speichern der Bewertung ist fehlgeschlagen.</string>
 
     <!-- Brewery list -->
     <string name="brewerylist_title">Brauereien</string>
