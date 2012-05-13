@@ -53,10 +53,12 @@
 
     <!-- Beer detail -->
     <string name="beerdetail_title">Beer Detail</string>
-    <string name="beerdetail_consumption_success">Bierkonsum erfolgreich gespeichert.</string>
-    <string name="beerdetail_consumption_fail">Speichern des Bierkonsums ist fehlgeschlagen.</string>
-    <string name="beerdetail_rating_success">Bewertung erfolgreich gespeichert.</string>
-    <string name="beerdetail_rating_fail">Speichern der Bewertung ist fehlgeschlagen.</string>
+    <string name="beerdetail_success_saveConsumption">Bierkonsum erfolgreich gespeichert.</string>
+    <string name="beerdetail_fail_saveConsumption">Speichern des Bierkonsums ist fehlgeschlagen.</string>
+    <string name="beerdetail_success_saveRating">Bewertung erfolgreich gespeichert.</string>
+    <string name="beerdetail_fail_saveRating">Fehler: Speichern der Bewertung ist fehlgeschlagen.</string>
+    <string name="beerdetail_fail_loadDetail">Fehler: Informationen zum Bier konnten nicht vom Server geladen werden.</string>
+    <string name="beerdetail_fail_loadRating">Fehler: Bier-Bewertung konnte nicht vom Server geladen werden.</string>
 
     <!-- Brewery list -->
     <string name="brewerylist_title">Brauereien</string>
@@ -65,6 +67,7 @@
     <string name="brewerydetail_breweryName">Brauerei Name</string>
     <string name="brewerydetail_brewerySize">Brauerei Grösse</string>
     <string name="brewerydetail_breweryDescription">Brauerei Beschreibung</string>
+    <string name="brewerydetail_fail_loadDetail">Fehler: Brauereidetails konnten nicht vom Server geladen werden.</string>
 
     <!-- About screen -->
     <string name="aboutscreen_activitytitle">Über BierIdee</string>

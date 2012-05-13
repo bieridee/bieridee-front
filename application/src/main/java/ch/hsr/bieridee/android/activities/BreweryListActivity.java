@@ -14,7 +14,7 @@ import android.widget.AdapterView;
 import ch.hsr.bieridee.android.R;
 import ch.hsr.bieridee.android.adapters.BreweryListAdapter;
 import ch.hsr.bieridee.android.config.Res;
-import ch.hsr.bieridee.android.http.HttpHelper;
+import ch.hsr.bieridee.android.http.AuthJsonHttp;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.impl.client.BasicResponseHandler;
@@ -74,12 +74,12 @@ public final class BreweryListActivity extends ListActivity {
 			BreweryListActivity.this.progressDialog = ProgressDialog.show(
 					BreweryListActivity.this, getString(R.string.pleaseWait), getString(R.string.loadingData), true);
 		}
+
 		@Override
 		protected JSONArray doInBackground(Void... voids) {
 			Log.d(LOG_TAG, "doInBackground()");
 
-			final HttpHelper httpHelper = new HttpHelper();
-			final HttpResponse response = httpHelper.get(Res.getURI(Res.BREWERY_COLLECTION));
+			final HttpResponse response = AuthJsonHttp.create().get(Res.getURI(Res.BREWERY_COLLECTION));
 
 			if (response != null) {
 				final int statusCode = response.getStatusLine().getStatusCode();
@@ -96,6 +96,7 @@ public final class BreweryListActivity extends ListActivity {
 			}
 			return null;
 		}
+
 		@Override
 		protected void onPostExecute(JSONArray result) {
 			Log.d(LOG_TAG, "onPostExecute()");
