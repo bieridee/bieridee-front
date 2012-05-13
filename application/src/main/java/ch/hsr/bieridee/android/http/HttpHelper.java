@@ -38,7 +38,7 @@ public final class HttpHelper {
 
 	private final static int CONNECTION_TIMEOUT = 3000;
 	private final static int SOCKET_TIMEOUT = 3000;
-	private final static String USER_AGENT = "BierIdee v" + BierideeApplication.VERSION;
+	private final static String USER_AGENT = "BierIdee Android v" + BierideeApplication.VERSION;
 
 	/**
 	 * Add a request processor.
