@@ -10,7 +10,6 @@ import org.json.JSONException;
 
 import android.app.ListActivity;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -32,6 +31,8 @@ public class TimelineListActivity extends ListActivity {
 	private static final String LOG_TAG = TimelineListActivity.class.getName();
 	private ActionListAdapter adapter;
 	private ProgressDialog progressDialog;
+	public static final String EXTRA_USERNAME = "username";
+	private String username;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -40,6 +41,13 @@ public class TimelineListActivity extends ListActivity {
 		this.adapter = new ActionListAdapter(this);
 		setListAdapter(this.adapter);
 		this.addOnClickListeners();
+		final Bundle extras = this.getIntent().getExtras();
+		if (extras != null) {
+			this.username = extras.getString(EXTRA_USERNAME);
+			if (this.username != null) {
+				this.setTitle(this.getString(R.string.timelinelist_title) + " " + this.username);
+			}
+		}
 	}
 
 	@Override
@@ -78,9 +86,12 @@ public class TimelineListActivity extends ListActivity {
 		@Override
 		protected JSONArray doInBackground(Void... voids) {
 			Log.d(LOG_TAG, "doInBackground()");
-
-			HttpHelper httpHelper = new HttpHelper();
-			HttpResponse response = httpHelper.get(Res.getURI(Res.TIMELINE_COLLECTION));
+			String resourceUri = Res.TIMELINE_COLLECTION;
+			if (TimelineListActivity.this.username != null) {
+				resourceUri += "?username=" + TimelineListActivity.this.username;
+			}
+			final HttpHelper httpHelper = new HttpHelper();
+			final HttpResponse response = httpHelper.get(Res.getURI(resourceUri));
 
 			if (response != null) {
 				final int statusCode = response.getStatusLine().getStatusCode();
@@ -102,8 +113,8 @@ public class TimelineListActivity extends ListActivity {
 		protected void onPostExecute(JSONArray result) {
 			Log.d(LOG_TAG, "onPostExecute()");
 			if (result != null) {
-				adapter.updateData(result);
-				adapter.notifyDataSetChanged();
+				TimelineListActivity.this.adapter.updateData(result);
+				TimelineListActivity.this.adapter.notifyDataSetChanged();
 			} // TODO handle else
 			TimelineListActivity.this.progressDialog.dismiss();
 		}
@@ -116,9 +127,9 @@ public class TimelineListActivity extends ListActivity {
 		this.getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				Log.d(LOG_TAG, "open detail");
-//				 final Intent intent = new Intent(view.getContext(), BeerDetailActivity.class);
-//				 intent.putExtra(BeerDetailActivity.EXTRA_BEER_ID, id);
-//				 startActivity(intent);
+				// final Intent intent = new Intent(view.getContext(), BeerDetailActivity.class);
+				// intent.putExtra(BeerDetailActivity.EXTRA_BEER_ID, id);
+				// startActivity(intent);
 			}
 		});
 	}

@@ -35,9 +35,17 @@ public class HomeScreenActivity extends Activity {
 			}
 		};
 		findViewById(R.id_dashboardscreen.buttonConsumption).setOnClickListener(notYetImplementedListener);
-		findViewById(R.id_dashboardscreen.buttonProfile).setOnClickListener(notYetImplementedListener);
+		findViewById(R.id_dashboardscreen.buttonProfile).setOnClickListener(new OnClickListener() {
+
+			public void onClick(View v) {
+				final Intent intent = new Intent(v.getContext(), TimelineListActivity.class);
+				intent.putExtra(TimelineListActivity.EXTRA_USERNAME, "alki");
+				startActivity(intent);
+
+			}
+		});
 		findViewById(R.id_dashboardscreen.buttonRating).setOnClickListener(notYetImplementedListener);
-		//findViewById(R.id_dashboardscreen.buttonTimeline).setOnClickListener(notYetImplementedListener);
+		// findViewById(R.id_dashboardscreen.buttonTimeline).setOnClickListener(notYetImplementedListener);
 	}
 
 	@Override
@@ -53,8 +61,8 @@ public class HomeScreenActivity extends Activity {
 	private void addOnClickListener(Button button, final Class<? extends Activity> activityClass) {
 		button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-			final Intent intent = new Intent(v.getContext(), activityClass);
-			startActivity(intent);
+				final Intent intent = new Intent(v.getContext(), activityClass);
+				startActivity(intent);
 			}
 		});
 	}
