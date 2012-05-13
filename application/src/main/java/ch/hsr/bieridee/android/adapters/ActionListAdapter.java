@@ -74,16 +74,23 @@ public class ActionListAdapter extends BaseAdapter {
 	 */
 	public long getItemId(int position) {
 		final JSONObject jsonAction = (JSONObject) this.getItem(position);
-		JSONObject beer = null;
-		long id = beer.hashCode();
-//		try {
-//			beer = jsonAction.getJSONObject("beer");
-//			id = beer.getLong("id");
-//		} catch (JSONException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		JSONObject beer;
+		long id = 0;
+		try {
+			beer = jsonAction.getJSONObject("beer");
+			id = beer.getLong("id");
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return id;
+		// try {
+		// beer = jsonAction.getJSONObject("beer");
+		// id = beer.getLong("id");
+		// } catch (JSONException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// }
 	}
 
 	/**

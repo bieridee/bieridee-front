@@ -10,6 +10,7 @@ import org.json.JSONException;
 
 import android.app.ListActivity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -34,6 +35,9 @@ public class TimelineListActivity extends ListActivity {
 	public static final String EXTRA_USERNAME = "username";
 	private String username;
 
+	public static final long THRESHOLD = 30000;
+	private long updateTimestamp = 0;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -49,11 +53,22 @@ public class TimelineListActivity extends ListActivity {
 			}
 		}
 	}
-
+	
+	@Override
+	public void onSaveInstanceState(Bundle savedInstanceState) {
+		Log.d("info","saved Instance state");
+	}
+	@Override
+	public void onRestoreInstanceState(Bundle savedInstanceState) {
+		Log.d("info","restored instance state");
+	}
 	@Override
 	public void onStart() {
 		super.onStart();
-		new GetActionData().execute();
+		if (System.currentTimeMillis() - this.updateTimestamp > THRESHOLD) {
+			new GetActionData().execute();
+			this.updateTimestamp = System.currentTimeMillis();
+		}
 	}
 
 	@Override
@@ -127,9 +142,9 @@ public class TimelineListActivity extends ListActivity {
 		this.getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				Log.d(LOG_TAG, "open detail");
-				// final Intent intent = new Intent(view.getContext(), BeerDetailActivity.class);
-				// intent.putExtra(BeerDetailActivity.EXTRA_BEER_ID, id);
-				// startActivity(intent);
+				final Intent intent = new Intent(view.getContext(), BeerDetailActivity.class);
+				intent.putExtra(BeerDetailActivity.EXTRA_BEER_ID, id);
+				startActivity(intent);
 			}
 		});
 	}
