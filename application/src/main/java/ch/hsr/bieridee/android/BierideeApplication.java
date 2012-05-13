@@ -8,6 +8,7 @@ import android.content.Context;
  */
 public class BierideeApplication extends Application {
 	private static Context context;
+	public final static String VERSION = "0.1.0";
 
 	public void onCreate() {
 		super.onCreate();

@@ -1,6 +1,7 @@
 package ch.hsr.bieridee.android.http;
 
 import android.util.Log;
+import ch.hsr.bieridee.android.BierideeApplication;
 import ch.hsr.bieridee.android.exceptions.BierIdeeException;
 import ch.hsr.bieridee.android.http.requestprocessors.IRequestProcessor;
 import org.apache.http.HttpHost;
@@ -12,6 +13,10 @@ import org.apache.http.conn.params.ConnRoutePNames;
 import org.apache.http.entity.AbstractHttpEntity;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.CoreProtocolPNames;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
 import org.codehaus.jackson.JsonParser;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,6 +33,9 @@ import java.util.List;
 public final class HttpHelper {
 	private List<IRequestProcessor> requestProcessors = new LinkedList<IRequestProcessor>();
 	private final static String LOG_TAG = "HttpHelper";
+
+	private final static int CONNECTION_TIMEOUT = 3000;
+	private final static int SOCKET_TIMEOUT = 3000;
 
 	/**
 	 * Add a request processor.
@@ -130,7 +138,18 @@ public final class HttpHelper {
 	private HttpResponse execute(HttpRequestBase request) {
 		Log.d(LOG_TAG, request.getMethod() + " " + request.getURI());
 
-		final HttpClient client = new DefaultHttpClient();
+		// Initialize HTTP parameters
+		HttpParams httpParameters = new BasicHttpParams();
+
+		// Set timeout values
+		HttpConnectionParams.setConnectionTimeout(httpParameters, CONNECTION_TIMEOUT);
+		HttpConnectionParams.setSoTimeout(httpParameters, SOCKET_TIMEOUT);
+
+		// Set useragent
+		httpParameters.setParameter(CoreProtocolPNames.USER_AGENT, "BierIdee v" + BierideeApplication.VERSION);
+
+		// Initialize HttpClient with previously defined parameters
+		final HttpClient client = new DefaultHttpClient(httpParameters);
 
 		try {
 			return client.execute(request);
