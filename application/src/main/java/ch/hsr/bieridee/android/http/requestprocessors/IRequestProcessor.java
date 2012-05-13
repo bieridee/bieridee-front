@@ -1,4 +1,4 @@
-package ch.hsr.bieridee.android.http;
+package ch.hsr.bieridee.android.http.requestprocessors;
 
 import org.apache.http.client.methods.HttpRequestBase;
 
