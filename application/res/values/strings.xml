@@ -52,16 +52,19 @@
     <string name="beerlist_title">Bierliste</string>
 
     <!-- Beer detail -->
-    <string name="beerdetail_title">Beer Detail</string>
+    <string name="beerdetail_title">Bier Detail</string>
+    <string name="beerdetail_drinkingNow">Soeben getrunken!</string>
     <string name="beerdetail_success_saveConsumption">Bierkonsum erfolgreich gespeichert.</string>
-    <string name="beerdetail_fail_saveConsumption">Speichern des Bierkonsums ist fehlgeschlagen.</string>
     <string name="beerdetail_success_saveRating">Bewertung erfolgreich gespeichert.</string>
+    <string name="beerdetail_fail_saveConsumption">Speichern des Bierkonsums ist fehlgeschlagen.</string>
     <string name="beerdetail_fail_saveRating">Fehler: Speichern der Bewertung ist fehlgeschlagen.</string>
     <string name="beerdetail_fail_loadDetail">Fehler: Informationen zum Bier konnten nicht vom Server geladen werden.</string>
     <string name="beerdetail_fail_loadRating">Fehler: Bier-Bewertung konnte nicht vom Server geladen werden.</string>
 
     <!-- Brewery list -->
     <string name="brewerylist_title">Brauereien</string>
+
+    <!-- Brewery detail -->
     <string name="brewerydetail_title">Brauerei Detail</string>
     <string name="brewerydetail_descriptionTitle">Beschreibung</string>
     <string name="brewerydetail_breweryName">Brauerei Name</string>

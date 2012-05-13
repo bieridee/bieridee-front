@@ -28,14 +28,13 @@
                 android:id="@+id_brewerydetail/breweryName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/brewerydetail_breweryName"
+                android:text="@string/brewerydetail_title"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <TextView
                 android:id="@+id_brewerydetail/brewerySize"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/brewerydetail_brewerySize" />
+                android:layout_height="wrap_content" />
         </LinearLayout>
     </LinearLayout>
 
@@ -43,14 +42,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="@string/brewerydetail_descriptionTitle"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
         android:id="@+id_brewerydetail/breweryDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="0dp"
-        android:text="@string/brewerydetail_breweryDescription" />
+        android:layout_marginTop="0dp" />
 
 </LinearLayout>
