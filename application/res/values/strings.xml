@@ -70,4 +70,6 @@
     <string name="aboutscreen_text">Das Projekt "BierIdee" ist als Semesterarbeit an der Hochschule für Technik in Rapperswil entstanden.</string>
     <string name="aboutscreen_imageDescription">Bieridee Logo</string>
 
+    <!-- Timeline list -->
+    <string name ="timelinelist_title">Timeline</string>
 </resources>

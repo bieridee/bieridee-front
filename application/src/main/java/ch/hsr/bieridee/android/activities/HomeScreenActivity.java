@@ -27,6 +27,7 @@ public class HomeScreenActivity extends Activity {
 		this.setContentView(R.layout.homescreen);
 		this.addOnClickListener((Button) findViewById(R.id_dashboardscreen.buttonBeerlist), BeerListActivity.class);
 		this.addOnClickListener((Button) findViewById(R.id_dashboardscreen.buttonBreweries), BreweryListActivity.class);
+		this.addOnClickListener((Button) findViewById(R.id_dashboardscreen.buttonTimeline), TimelineListActivity.class);
 
 		final OnClickListener notYetImplementedListener = new OnClickListener() {
 			public void onClick(View view) {
@@ -36,7 +37,7 @@ public class HomeScreenActivity extends Activity {
 		findViewById(R.id_dashboardscreen.buttonConsumption).setOnClickListener(notYetImplementedListener);
 		findViewById(R.id_dashboardscreen.buttonProfile).setOnClickListener(notYetImplementedListener);
 		findViewById(R.id_dashboardscreen.buttonRating).setOnClickListener(notYetImplementedListener);
-		findViewById(R.id_dashboardscreen.buttonTimeline).setOnClickListener(notYetImplementedListener);
+		//findViewById(R.id_dashboardscreen.buttonTimeline).setOnClickListener(notYetImplementedListener);
 	}
 
 	@Override
