@@ -6,9 +6,12 @@ import ch.hsr.bieridee.android.exceptions.BierIdeeException;
 import ch.hsr.bieridee.android.http.requestprocessors.IRequestProcessor;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.*;
+import org.apache.http.client.methods.HttpDelete;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
+import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.conn.params.ConnRoutePNames;
 import org.apache.http.entity.AbstractHttpEntity;
 import org.apache.http.entity.StringEntity;
@@ -17,7 +20,6 @@ import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.CoreProtocolPNames;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
-import org.codehaus.jackson.JsonParser;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -36,6 +38,7 @@ public final class HttpHelper {
 
 	private final static int CONNECTION_TIMEOUT = 3000;
 	private final static int SOCKET_TIMEOUT = 3000;
+	private final static String USER_AGENT = "BierIdee v" + BierideeApplication.VERSION;
 
 	/**
 	 * Add a request processor.
@@ -51,7 +54,7 @@ public final class HttpHelper {
 	 * @return The processed HTTP request object
 	 */
 	private HttpRequestBase applyRequestProcessors(HttpRequestBase getRequest) {
-		for (IRequestProcessor requestProcessor : requestProcessors) {
+		for (IRequestProcessor requestProcessor : this.requestProcessors) {
 			getRequest = requestProcessor.processRequest(getRequest);
 		}
 		return getRequest;
@@ -63,7 +66,7 @@ public final class HttpHelper {
 	 * @return A HttpResponse instance
 	 */
 	public HttpResponse get(String uri) {
-		HttpRequestBase request = applyRequestProcessors(new HttpGet(uri));
+		final HttpRequestBase request = this.applyRequestProcessors(new HttpGet(uri));
 		return this.execute(request);
 	}
 
@@ -84,7 +87,7 @@ public final class HttpHelper {
 	 */
 	public HttpResponse post(String uri, JSONObject data) {
 		try {
-			StringEntity stringEntity = new StringEntity(data.toString(2));
+			final StringEntity stringEntity = new StringEntity(data.toString(2));
 			return this.post(uri, stringEntity, "application/json");
 		} catch (UnsupportedEncodingException e) {
 			throw new BierIdeeException("Unsupported encoding for POST body data.", e);
@@ -97,10 +100,11 @@ public final class HttpHelper {
 	 * Perform a POST request with attached entity.
 	 * @param uri Full URI of the server resource
 	 * @param data A NameValuePair array containing
+	 * @param contentType The Content-type string
 	 * @return A HttpResponse instance
 	 */
 	public HttpResponse post(String uri, AbstractHttpEntity data, String contentType) {
-		HttpPost request = (HttpPost) applyRequestProcessors(new HttpPost(uri));
+		final HttpPost request = (HttpPost) this.applyRequestProcessors(new HttpPost(uri));
 		if (data != null) {
 			request.setEntity(data);
 		}
@@ -111,12 +115,46 @@ public final class HttpHelper {
 	}
 
 	/**
-	 * Perform a PUT request.
+	 * Perform a PUT request without body data.
 	 * @param uri Full URI of the server resource
 	 * @return A HttpResponse instance
 	 */
 	public HttpResponse put(String uri) {
-		HttpRequestBase request = applyRequestProcessors(new HttpPut(uri));
+		return this.put(uri, null, null);
+	}
+
+	/**
+	 * Perform a PUT request with attached JSONObject entity.
+	 * @param uri Full URI of the server resource
+	 * @param data A NameValuePair array containing
+	 * @return A HttpResponse instance
+	 */
+	public HttpResponse put(String uri, JSONObject data) {
+		try {
+			final StringEntity stringEntity = new StringEntity(data.toString(2));
+			return this.put(uri, stringEntity, "application/json");
+		} catch (UnsupportedEncodingException e) {
+			throw new BierIdeeException("Unsupported encoding for PUT body data.", e);
+		} catch(JSONException e){
+			throw new BierIdeeException("Could not properly decode JSON body data.", e);
+		}
+	}
+
+	/**
+	 * Perform a PUT request with attached entity.
+	 * @param uri Full URI of the server resource
+	 * @param data A NameValuePair array containing
+	 * @param contentType The Content-type string
+	 * @return A HttpResponse instance
+	 */
+	public HttpResponse put(String uri, AbstractHttpEntity data, String contentType) {
+		final HttpPut request = (HttpPut) this.applyRequestProcessors(new HttpPut(uri));
+		if (data != null) {
+			request.setEntity(data);
+		}
+		if (contentType != null) {
+			request.setHeader("Content-type", contentType);
+		}
 		return this.execute(request);
 	}
 
@@ -126,7 +164,7 @@ public final class HttpHelper {
 	 * @return A HttpResponse instance
 	 */
 	public HttpResponse delete(String uri) {
-		HttpRequestBase request = applyRequestProcessors(new HttpDelete(uri));
+		final HttpRequestBase request = this.applyRequestProcessors(new HttpDelete(uri));
 		return this.execute(request);
 	}
 
@@ -139,14 +177,14 @@ public final class HttpHelper {
 		Log.d(LOG_TAG, request.getMethod() + " " + request.getURI());
 
 		// Initialize HTTP parameters
-		HttpParams httpParameters = new BasicHttpParams();
+		final HttpParams httpParameters = new BasicHttpParams();
 
 		// Set timeout values
 		HttpConnectionParams.setConnectionTimeout(httpParameters, CONNECTION_TIMEOUT);
 		HttpConnectionParams.setSoTimeout(httpParameters, SOCKET_TIMEOUT);
 
 		// Set useragent
-		httpParameters.setParameter(CoreProtocolPNames.USER_AGENT, "BierIdee v" + BierideeApplication.VERSION);
+		httpParameters.setParameter(CoreProtocolPNames.USER_AGENT, USER_AGENT);
 
 		// Initialize HttpClient with previously defined parameters
 		final HttpClient client = new DefaultHttpClient(httpParameters);
