@@ -116,9 +116,9 @@ public class TimelineListActivity extends ListActivity {
 		this.getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				Log.d(LOG_TAG, "open detail");
-				// final Intent intent = new Intent(view.getContext(), BeerDetailActivity.class);
-				// intent.putExtra(BeerDetailActivity.EXTRA_BEER_ID, id);
-				// startActivity(intent);
+//				 final Intent intent = new Intent(view.getContext(), BeerDetailActivity.class);
+//				 intent.putExtra(BeerDetailActivity.EXTRA_BEER_ID, id);
+//				 startActivity(intent);
 			}
 		});
 	}
