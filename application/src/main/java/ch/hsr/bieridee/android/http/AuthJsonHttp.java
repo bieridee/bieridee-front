@@ -1,0 +1,27 @@
+package ch.hsr.bieridee.android.http;
+
+import ch.hsr.bieridee.android.http.requestprocessors.AcceptRequestProcessor;
+import ch.hsr.bieridee.android.http.requestprocessors.HMACAuthRequestProcessor;
+
+/**
+ * A factory that returns a default HttpHelper with support
+ * for HMAC authentication and JSON accept header.
+ */
+public final class AuthJsonHttp {
+
+	private AuthJsonHttp() {
+		// Do not instantiate
+	}
+
+	/**
+	 * Create a new HttpHelper instance, add the AcceptRequestProcessor
+	 * and the HMACAuthRequestProcessor to it and return it.
+	 * @return HttpHelper instance
+	 */
+	public static HttpHelper create() {
+		final HttpHelper httpHelper = new HttpHelper();
+		httpHelper.addRequestProcessor(new AcceptRequestProcessor(AcceptRequestProcessor.ContentType.JSON));
+		httpHelper.addRequestProcessor(new HMACAuthRequestProcessor());
+		return httpHelper;
+	}
+}
