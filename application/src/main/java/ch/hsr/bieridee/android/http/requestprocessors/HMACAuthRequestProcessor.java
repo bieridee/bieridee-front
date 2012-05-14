@@ -17,6 +17,20 @@ import java.security.NoSuchAlgorithmException;
 public class HMACAuthRequestProcessor implements IRequestProcessor {
 
 	private final static String LOG_TAG = "HMACAuth";
+	private String username;
+	private String password;
+
+	public HMACAuthRequestProcessor()  {
+		this.username = Auth.getUsername();
+		this.password = Auth.getPassword();
+		if (this.username.isEmpty() || this.password.isEmpty()) {
+			throw new BierIdeeException("Could not retrieve username / password for signing the request.");
+		}
+	}
+	public HMACAuthRequestProcessor(final String username, final String password) {
+		this.username = username;
+		this.password = password;
+	}
 
 	public HttpRequestBase processRequest(HttpRequestBase request) {
 		final String uri = request.getURI().toString();
@@ -50,8 +64,7 @@ public class HMACAuthRequestProcessor implements IRequestProcessor {
 		final String hmacInputData = method + uri + accept + contentLength + body;
 		String macString = "";
 		try {
-			final String password = Auth.getPassword();
-			final SecretKey signingKey = new SecretKeySpec(password.getBytes(), "HmacSHA256");
+			final SecretKey signingKey = new SecretKeySpec(this.password.getBytes(), "HmacSHA256");
 
 			final Mac m = Mac.getInstance("HmacSHA256");
 			m.init(signingKey);
@@ -71,7 +84,7 @@ public class HMACAuthRequestProcessor implements IRequestProcessor {
 		if (macString.isEmpty()) {
 			throw new BierIdeeException("Empty Authentication-HMAC");
 		}
-		final String authenticationHeader = Auth.getUsername() + ":" + macString;
+		final String authenticationHeader = this.username + ":" + macString;
 		request.setHeader("Authentication", authenticationHeader);
 		Log.d(LOG_TAG, "Setting Authentication header to \"" + authenticationHeader + "\".");
 		return request;
