@@ -126,9 +126,6 @@ public class BeerDetailActivity extends Activity {
 		protected JSONObject doInBackground(Void... voids) {
 			Log.d(LOG_TAG, "doInBackground()");
 
-			// BeerDetailActivity.this.progressDialog.display(BeerDetailActivity.this, getString(R.string.pleaseWait),
-			// getString(R.string.loadingData), true);
-
 			final String uri = Res.getURI(Res.BEER_DOCUMENT, Long.toString(BeerDetailActivity.this.beerId));
 			Log.d(LOG_TAG, "GET " + uri);
 			final HttpResponse response = new HttpHelper().get(uri);
