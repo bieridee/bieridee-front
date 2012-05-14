@@ -2,19 +2,21 @@ package ch.hsr.bieridee.android.activities;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
 import ch.hsr.bieridee.android.R;
 import ch.hsr.bieridee.android.config.Res;
-import ch.hsr.bieridee.android.http.ClientResourceFactory;
+import ch.hsr.bieridee.android.exceptions.BierIdeeException;
+import ch.hsr.bieridee.android.http.AuthJsonHttp;
+import ch.hsr.bieridee.android.http.HttpHelper;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.impl.client.BasicResponseHandler;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.restlet.Request;
-import org.restlet.Response;
-import org.restlet.Uniform;
-import org.restlet.data.MediaType;
-import org.restlet.resource.ClientResource;
 
 import java.io.IOException;
 
@@ -26,16 +28,18 @@ public final class BreweryDetailActivity extends Activity {
 	private TextView name;
 	private TextView size;
 	private TextView description;
-	private String breweryJSON;
 	private long breweryId;
 
 	private static final String LOG_TAG = BreweryDetailActivity.class.getName();
 	public static final String EXTRA_BREWERY_ID = "breweryId";
+	private ProgressDialog progressDialog;
+	private HttpHelper httpHelper;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.brewerydetail);
+		this.httpHelper = AuthJsonHttp.create();
 	}
 
 	@Override
@@ -51,48 +55,65 @@ public final class BreweryDetailActivity extends Activity {
 		this.size = (TextView) this.findViewById(R.id_brewerydetail.brewerySize);
 		this.description = (TextView) this.findViewById(R.id_brewerydetail.breweryDescription);
 
-		this.loadBreweryDetail();
+		// Load data
+		new GetBreweryDetail().execute();
 	}
 
 	/**
-	 * Load brewery document and fill view with data.
+	 * Async task to get brewery detail from server and update UI.
 	 */
-	private void loadBreweryDetail() {
-		// Show loading dialog
-		final String dialogTitle = getString(R.string.pleaseWait);
-		final String dialogMessage = getString(R.string.loadingData);
-		final ProgressDialog dialog = ProgressDialog.show(this, dialogTitle, dialogMessage, true);
+	private class GetBreweryDetail extends AsyncTask<Void, Void, JSONObject> {
+		@Override
+		protected void onPreExecute() {
+			BreweryDetailActivity.this.progressDialog = ProgressDialog.show(
+					BreweryDetailActivity.this, getString(R.string.pleaseWait), getString(R.string.loadingData), true);
+		}
 
-		// Do and handle HTTP request
-		final ClientResource cr = ClientResourceFactory.getClientResource(Res.getURI(Res.BREWERY_DOCUMENT, Long.toString(breweryId)));
-		cr.setOnResponse(new Uniform() {
-			public void handle(Request request, Response response) {
-				try {
-					BreweryDetailActivity.this.breweryJSON = response.getEntity().getText();
-				} catch (IOException e) {
-					e.printStackTrace(); // TODO
-				}
+		@Override
+		protected JSONObject doInBackground(Void... voids) {
+			final String uri = Res.getURI(Res.BREWERY_DOCUMENT, Long.toString(BreweryDetailActivity.this.breweryId));
+			final HttpResponse response = BreweryDetailActivity.this.httpHelper.get(uri);
 
-				runOnUiThread(new Runnable() {
-					public void run() {
-						try {
-							final JSONObject brewery = new JSONObject(BreweryDetailActivity.this.breweryJSON);
-							final String name = brewery.getString("name");
-							final String size = brewery.getString("size");
-							final String description = brewery.getString("description");
-							BreweryDetailActivity.this.name.setText(name);
-							BreweryDetailActivity.this.size.setText(size);
-							BreweryDetailActivity.this.description.setText(description);
-						} catch (JSONException e) {
-							e.printStackTrace(); // TODO
-						}
-						dialog.dismiss();
+			if (response != null) {
+				final int statusCode = response.getStatusLine().getStatusCode();
+				if (statusCode == HttpStatus.SC_OK) {
+					try {
+						final String responseText = new BasicResponseHandler().handleResponse(response);
+						return new JSONObject(responseText);
+					} catch (IOException e) {
+						throw new BierIdeeException("IOException in GetBreweryDetail::doInBackground", e);
+					} catch (JSONException e) {
+						Toast.makeText(BreweryDetailActivity.this, getString(R.string.brewerydetail_fail_loadDetail), Toast.LENGTH_LONG).show();
+						e.printStackTrace();
 					}
-				});
+				} else {
+					Log.e(LOG_TAG, "HTTP Response " + statusCode + " in GetBreweryDetail::doInBackground");
+				}
 			}
-		});
-		cr.get(MediaType.APPLICATION_JSON); // Async call
-		cr.release();
+			Log.e(LOG_TAG, "HTTP Response was null in GetBreweryDetail::doInBackground");
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(JSONObject result) {
+			Log.d(LOG_TAG, "onPostExecute()");
+			if (result != null) {
+				try {
+					final String name = result.getString("name");
+					final String size = result.getString("size");
+					final String description = result.getString("description");
+					BreweryDetailActivity.this.name.setText(name);
+					BreweryDetailActivity.this.size.setText(size);
+					BreweryDetailActivity.this.description.setText(description);
+				} catch (JSONException e) {
+					Toast.makeText(BreweryDetailActivity.this, getString(R.string.brewerydetail_fail_loadDetail), Toast.LENGTH_LONG).show();
+					e.printStackTrace();
+				}
+			} else {
+				Log.w(LOG_TAG, "Result was null in GetBreweryDetail::onPostExecute");
+			}
+			BreweryDetailActivity.this.progressDialog.dismiss();
+		}
 	}
 
 	@Override

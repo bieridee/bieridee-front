@@ -29,21 +29,19 @@
                 android:id="@+id_beerdetail/beerName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Beer Name"
+                android:text="@string/beerdetail_title"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <TextView
             
                 android:id="@+id_beerdetail/beerBrand"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Beer Brand" />
+                android:layout_height="wrap_content" />
             <TextView
             
                 android:id="@+id_beerdetail/beerAverageRating"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Average Rating: 0.0" />
+                android:layout_height="wrap_content" />
         </LinearLayout>
     </LinearLayout>
 
@@ -60,7 +58,7 @@
         android:id="@+id_beerdetail/consumptionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Drinking now!" 
+        android:text="@string/beerdetail_drinkingNow"
         android:minHeight="20dp"
         android:minWidth="200dp"/>
 

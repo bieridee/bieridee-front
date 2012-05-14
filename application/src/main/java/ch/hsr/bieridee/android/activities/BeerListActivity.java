@@ -5,7 +5,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -14,9 +13,8 @@ import android.widget.AdapterView;
 import ch.hsr.bieridee.android.R;
 import ch.hsr.bieridee.android.adapters.BeerListAdapter;
 import ch.hsr.bieridee.android.config.Res;
+import ch.hsr.bieridee.android.http.AuthJsonHttp;
 import ch.hsr.bieridee.android.http.HttpHelper;
-import ch.hsr.bieridee.android.http.requestprocessors.AcceptRequestProcessor;
-import ch.hsr.bieridee.android.http.requestprocessors.HMACAuthRequestProcessor;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.impl.client.BasicResponseHandler;
@@ -33,11 +31,15 @@ public class BeerListActivity extends ListActivity {
 	private static final String LOG_TAG = BeerListActivity.class.getName();
 	private BeerListAdapter adapter;
 	private ProgressDialog progressDialog;
+	private HttpHelper httpHelper;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.beerlist);
+
+		this.httpHelper = AuthJsonHttp.create();
+
 		this.adapter = new BeerListAdapter(this);
 		setListAdapter(this.adapter);
 		this.addOnClickListeners();
@@ -72,18 +74,12 @@ public class BeerListActivity extends ListActivity {
 	private class GetBeerData extends AsyncTask<Void, Void, JSONArray> {
 		@Override
 		protected void onPreExecute() {
-			Log.d(LOG_TAG, "onPreExecute()");
 			BeerListActivity.this.progressDialog = ProgressDialog.show(
 					BeerListActivity.this, getString(R.string.pleaseWait), getString(R.string.loadingData), true);
 		}
 		@Override
 		protected JSONArray doInBackground(Void... voids) {
-			Log.d(LOG_TAG, "doInBackground()");
-
-			HttpHelper httpHelper = new HttpHelper();
-			httpHelper.addRequestProcessor(new AcceptRequestProcessor(AcceptRequestProcessor.ContentType.JSON));
-			httpHelper.addRequestProcessor(new HMACAuthRequestProcessor());
-			HttpResponse response = httpHelper.get(Res.getURI(Res.BEER_COLLECTION));
+			final HttpResponse response = BeerListActivity.this.httpHelper.get(Res.getURI(Res.BEER_COLLECTION));
 
 			if (response != null) {
 				final int statusCode = response.getStatusLine().getStatusCode();
@@ -102,10 +98,9 @@ public class BeerListActivity extends ListActivity {
 		}
 		@Override
 		protected void onPostExecute(JSONArray result) {
-			Log.d(LOG_TAG, "onPostExecute()");
 			if (result != null) {
-				adapter.updateData(result);
-				adapter.notifyDataSetChanged();
+				BeerListActivity.this.adapter.updateData(result);
+				BeerListActivity.this.adapter.notifyDataSetChanged();
 			} // TODO handle else
 			BeerListActivity.this.progressDialog.dismiss();
 		}

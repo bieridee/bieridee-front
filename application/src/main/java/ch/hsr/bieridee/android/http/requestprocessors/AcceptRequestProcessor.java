@@ -1,6 +1,7 @@
 package ch.hsr.bieridee.android.http.requestprocessors;
 
 import android.util.Log;
+import ch.hsr.bieridee.android.http.IRequestProcessor;
 import org.apache.http.client.methods.HttpRequestBase;
 
 /**

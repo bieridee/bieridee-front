@@ -1,13 +1,5 @@
 package ch.hsr.bieridee.android.activities;
 
-import java.io.IOException;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.impl.client.BasicResponseHandler;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -23,9 +15,15 @@ import ch.hsr.bieridee.android.R;
 import ch.hsr.bieridee.android.config.Auth;
 import ch.hsr.bieridee.android.config.Res;
 import ch.hsr.bieridee.android.exceptions.BierIdeeException;
+import ch.hsr.bieridee.android.http.AuthJsonHttp;
 import ch.hsr.bieridee.android.http.HttpHelper;
-import ch.hsr.bieridee.android.http.requestprocessors.AcceptRequestProcessor;
-import ch.hsr.bieridee.android.http.requestprocessors.HMACAuthRequestProcessor;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.impl.client.BasicResponseHandler;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 
 /**
  * Activity that shows a beer detail.
@@ -44,11 +42,14 @@ public class BeerDetailActivity extends Activity {
 
 	private static final String LOG_TAG = BeerDetailActivity.class.getName();
 	public static final String EXTRA_BEER_ID = "beerId";
+	private static final int DATA_LOADING_THREAD_COUNT = 2;
+	private HttpHelper httpHelper;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.beerdetail);
+		this.httpHelper = AuthJsonHttp.create();
 	}
 
 	@Override
@@ -99,12 +100,12 @@ public class BeerDetailActivity extends Activity {
 	}
 
 	/**
-	 * Async task to get beer rating from server and update UI.
+	 * Async task to get beer detail from server and update UI.
 	 */
 	private class GetBeerDetail extends AsyncTask<Void, Void, JSONObject> {
 
 		private boolean showDialog = false;
-		
+
 		public GetBeerDetail() {
 			super();
 		}
@@ -124,11 +125,8 @@ public class BeerDetailActivity extends Activity {
 
 		@Override
 		protected JSONObject doInBackground(Void... voids) {
-			Log.d(LOG_TAG, "doInBackground()");
-
 			final String uri = Res.getURI(Res.BEER_DOCUMENT, Long.toString(BeerDetailActivity.this.beerId));
-			Log.d(LOG_TAG, "GET " + uri);
-			final HttpResponse response = new HttpHelper().get(uri);
+			final HttpResponse response = BeerDetailActivity.this.httpHelper.get(uri);
 
 			if (response != null) {
 				final int statusCode = response.getStatusLine().getStatusCode();
@@ -153,7 +151,6 @@ public class BeerDetailActivity extends Activity {
 
 		@Override
 		protected void onPostExecute(JSONObject result) {
-			Log.d(LOG_TAG, "onPostExecute()");
 			if (result != null) {
 				try {
 					final String name = result.getString("name");
@@ -191,7 +188,7 @@ public class BeerDetailActivity extends Activity {
 
 			final String uri = Res.getURI(Res.RATING_DOCUMENT, Long.toString(BeerDetailActivity.this.beerId), BeerDetailActivity.this.username);
 			Log.d(LOG_TAG, "GET " + uri);
-			final HttpResponse response = new HttpHelper().get(uri);
+			final HttpResponse response = BeerDetailActivity.this.httpHelper.get(uri);
 
 			if (response != null) {
 				final int statusCode = response.getStatusLine().getStatusCode();
@@ -203,7 +200,7 @@ public class BeerDetailActivity extends Activity {
 						Log.e(LOG_TAG, "IOException in GetBeerRating::doInBackground");
 						e.printStackTrace();
 					} catch (JSONException e) {
-						Log.e(LOG_TAG, "JSONException in GetBeerRating::doInBackground");
+						Toast.makeText(BeerDetailActivity.this, getString(R.string.beerdetail_fail_loadRating), Toast.LENGTH_LONG).show();
 						e.printStackTrace();
 					}
 				} else if (statusCode == HttpStatus.SC_NOT_FOUND) {
@@ -245,10 +242,7 @@ public class BeerDetailActivity extends Activity {
 
 			final String uri = Res.getURI(Res.CONSUMPTION_DOCUMENT, Long.toString(BeerDetailActivity.this.beerId), BeerDetailActivity.this.username);
 			Log.d(LOG_TAG, "POST " + uri);
-			final HttpHelper httpHelper = new HttpHelper();
-			httpHelper.addRequestProcessor(new AcceptRequestProcessor(AcceptRequestProcessor.ContentType.JSON));
-			httpHelper.addRequestProcessor(new HMACAuthRequestProcessor());
-			final HttpResponse response = httpHelper.post(uri);
+			final HttpResponse response = BeerDetailActivity.this.httpHelper.post(uri);
 
 			if (response == null) {
 				return false;
@@ -260,7 +254,7 @@ public class BeerDetailActivity extends Activity {
 		@Override
 		protected void onPostExecute(Boolean result) {
 			Log.d(LOG_TAG, "TrackConsumption onPostExecute()");
-			final int msgResId = result ? R.string.beerdetail_consumption_success : R.string.beerdetail_consumption_fail;
+			final int msgResId = result ? R.string.beerdetail_success_saveConsumption : R.string.beerdetail_fail_saveConsumption;
 			Toast.makeText(BeerDetailActivity.this, getString(msgResId), Toast.LENGTH_SHORT).show();
 		}
 	}
@@ -273,7 +267,6 @@ public class BeerDetailActivity extends Activity {
 		protected Boolean doInBackground(Float... rating) {
 			Log.d(LOG_TAG, "SaveRating doInBackground()");
 
-			final HttpHelper httpHelper = new HttpHelper();
 			final String uri = Res.getURI(Res.RATING_DOCUMENT, Long.toString(BeerDetailActivity.this.beerId), BeerDetailActivity.this.username);
 
 			final JSONObject newRating = new JSONObject();
@@ -284,7 +277,7 @@ public class BeerDetailActivity extends Activity {
 			}
 
 			try {
-				httpHelper.post(uri, newRating);
+				BeerDetailActivity.this.httpHelper.post(uri, newRating);
 			} catch (BierIdeeException e) {
 				return false;
 			}
@@ -294,8 +287,7 @@ public class BeerDetailActivity extends Activity {
 		@Override
 		protected void onPostExecute(Boolean result) {
 			Log.d(LOG_TAG, "SaveRating onPostExecute()");
-			final int msgResId = result ? R.string.beerdetail_rating_success : R.string.beerdetail_rating_fail;
-			new GetBeerDetail(false).execute();
+			final int msgResId = result ? R.string.beerdetail_success_saveRating : R.string.beerdetail_fail_saveRating;
 			Toast.makeText(BeerDetailActivity.this, getString(msgResId), Toast.LENGTH_SHORT).show();
 		}
 	}

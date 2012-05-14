@@ -35,8 +35,8 @@
     <string name="registrationscreen_invalidInput">Die Eingabe ist ungültig</string>
     <string name="registrationscreen_invalidEmail">Bitte gibt eine gültige Emailadresse ein.</string>
     <string name="registrationscreen_usernameUnavailable">Dieser Benutzername ist bereits vergeben. Bitte wähle einen anderen.</string>
-    <string name="registrationscreen_registrationFailed">Die Registrierung ist schiefgegangen (HTTP %1$d).</string>
-    <string name="registrationscreen_registrationSuccessful">Registrierung erfolgreich!</string>
+    <string name="registrationscreen_success_registration">Registrierung erfolgreich!</string>
+    <string name="registrationscreen_fail_registration">Die Registrierung ist fehlgeschlagen.</string>
 
     <!-- Dashboard Screen -->
     <string name="dashboardscreen_title">Bieridee Dashboard</string>
@@ -52,19 +52,25 @@
     <string name="beerlist_title">Bierliste</string>
 
     <!-- Beer detail -->
-    <string name="beerdetail_title">Beer Detail</string>
-    <string name="beerdetail_consumption_success">Bierkonsum erfolgreich gespeichert.</string>
-    <string name="beerdetail_consumption_fail">Speichern des Bierkonsums ist fehlgeschlagen.</string>
-    <string name="beerdetail_rating_success">Bewertung erfolgreich gespeichert.</string>
-    <string name="beerdetail_rating_fail">Speichern der Bewertung ist fehlgeschlagen.</string>
+    <string name="beerdetail_title">Bier Detail</string>
+    <string name="beerdetail_drinkingNow">Soeben getrunken!</string>
+    <string name="beerdetail_success_saveConsumption">Bierkonsum erfolgreich gespeichert.</string>
+    <string name="beerdetail_success_saveRating">Bewertung erfolgreich gespeichert.</string>
+    <string name="beerdetail_fail_saveConsumption">Speichern des Bierkonsums ist fehlgeschlagen.</string>
+    <string name="beerdetail_fail_saveRating">Fehler: Speichern der Bewertung ist fehlgeschlagen.</string>
+    <string name="beerdetail_fail_loadDetail">Fehler: Informationen zum Bier konnten nicht vom Server geladen werden.</string>
+    <string name="beerdetail_fail_loadRating">Fehler: Bier-Bewertung konnte nicht vom Server geladen werden.</string>
 
     <!-- Brewery list -->
     <string name="brewerylist_title">Brauereien</string>
+
+    <!-- Brewery detail -->
     <string name="brewerydetail_title">Brauerei Detail</string>
     <string name="brewerydetail_descriptionTitle">Beschreibung</string>
     <string name="brewerydetail_breweryName">Brauerei Name</string>
     <string name="brewerydetail_brewerySize">Brauerei Grösse</string>
     <string name="brewerydetail_breweryDescription">Brauerei Beschreibung</string>
+    <string name="brewerydetail_fail_loadDetail">Fehler: Brauereidetails konnten nicht vom Server geladen werden.</string>
 
     <!-- About screen -->
     <string name="aboutscreen_activitytitle">Über BierIdee</string>
