@@ -38,7 +38,6 @@ public class RegistrationScreenActivity extends Activity {
 	private Button buttonRegister;
 	private TextView usernameHint;
 	private TextView emailHint;
-	private TextView passwordHint;
 	private TextView prenameHint;
 	private TextView surnameHint;
 	private ProgressDialog progressDialog;
@@ -48,18 +47,21 @@ public class RegistrationScreenActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.registrationscreen);
 
-		this.inputEmail = (EditText) this.findViewById(R.id.registrationInputEmail);
-		this.inputPassword = (EditText) this.findViewById(R.id.registrationInputPassword);
-		this.inputUsername = (EditText) this.findViewById(R.id.registrationInputUsername);
-		this.inputPrename = (EditText) this.findViewById(R.id.registrationInputPrename);
-		this.inputSurname = (EditText) this.findViewById(R.id.registrationInputSurname);
+		// Inputfields
+		this.inputEmail = (EditText) this.findViewById(R.id_registrationscreen.emailInput);
+		this.inputPassword = (EditText) this.findViewById(R.id_registrationscreen.passwordInput);
+		this.inputUsername = (EditText) this.findViewById(R.id_registrationscreen.usernameInput);
+		this.inputPrename = (EditText) this.findViewById(R.id_registrationscreen.prenameInput);
+		this.inputSurname = (EditText) this.findViewById(R.id_registrationscreen.surnameInput);
 
-		this.buttonRegister = (Button) this.findViewById(R.id.registrationButtonRegister);
+		// Buttons
+		this.buttonRegister = (Button) this.findViewById(R.id_registrationscreen.registrationButton);
 
-		this.usernameHint = (TextView) this.findViewById(R.id.registrationUsernameHint);
-		this.emailHint = (TextView) this.findViewById(R.id.registrationEmailHint);
-		this.prenameHint = (TextView) this.findViewById(R.id.registrationPrenameHint);
-		this.surnameHint = (TextView) this.findViewById(R.id.registrationSurnameHint);
+		// Hints
+		this.usernameHint = (TextView) this.findViewById(R.id_registrationscreen.usernameHint);
+		this.emailHint = (TextView) this.findViewById(R.id_registrationscreen.emailHint);
+		this.prenameHint = (TextView) this.findViewById(R.id_registrationscreen.prenameHint);
+		this.surnameHint = (TextView) this.findViewById(R.id_registrationscreen.surnameHint);
 
 		this.addRegisterOnClickListener();
 	}
