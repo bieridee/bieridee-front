@@ -1,7 +1,14 @@
 package ch.hsr.bieridee.android.activities;
 
+import java.io.IOException;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.impl.client.BasicResponseHandler;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,14 +26,6 @@ import ch.hsr.bieridee.android.exceptions.BierIdeeException;
 import ch.hsr.bieridee.android.http.HttpHelper;
 import ch.hsr.bieridee.android.http.requestprocessors.AcceptRequestProcessor;
 import ch.hsr.bieridee.android.http.requestprocessors.HMACAuthRequestProcessor;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.impl.client.BasicResponseHandler;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.util.concurrent.CountDownLatch;
 
 /**
  * Activity that shows a beer detail.
@@ -41,12 +40,10 @@ public class BeerDetailActivity extends Activity {
 	private long beerId;
 	private String username;
 
-	private ProgressDialog progressDialog;
-	private CountDownLatch dataLoadingDoneSignal;
+	private MultithreadProgressDialog progressDialog;
 
 	private static final String LOG_TAG = BeerDetailActivity.class.getName();
 	public static final String EXTRA_BEER_ID = "beerId";
-	private static final int DATA_LOADING_THREAD_COUNT = 2;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -73,10 +70,11 @@ public class BeerDetailActivity extends Activity {
 		this.ratingBar = (RatingBar) this.findViewById(R.id_beerdetail.ratingBar);
 		this.ratingBar.setStepSize(1); // no half-star-ratings
 
+		this.progressDialog = new MultithreadProgressDialog();
+
 		this.setConsumtionButtonAction();
 		this.setRatingBarAction();
 
-		new ShowLoadingDialog().execute();
 		new GetBeerDetail().execute();
 		new GetBeerRating().execute();
 	}
@@ -101,37 +99,35 @@ public class BeerDetailActivity extends Activity {
 	}
 
 	/**
-	 * Async task to show a loading dialog until all data has been loaded.
-	 */
-	private class ShowLoadingDialog extends AsyncTask<Void, Void, Void> {
-		@Override
-		protected void onPreExecute() {
-			Log.d(LOG_TAG, "ShowLoadingDialog onPreExecute()");
-			BeerDetailActivity.this.progressDialog = ProgressDialog.show(BeerDetailActivity.this,
-					getString(R.string.pleaseWait), getString(R.string.loadingData), true);
-			BeerDetailActivity.this.dataLoadingDoneSignal = new CountDownLatch(DATA_LOADING_THREAD_COUNT);
-		}
-
-		@Override
-		protected Void doInBackground(Void... voids) {
-			Log.d(LOG_TAG, "ShowLoadingDialog doInBackground()");
-			try {
-				BeerDetailActivity.this.dataLoadingDoneSignal.await();
-			} catch (InterruptedException e) {
-				e.printStackTrace();  // TODO was muss man in diesem Fall schonwieder tun?
-			}
-			BeerDetailActivity.this.progressDialog.dismiss();
-			return null;
-		}
-	}
-
-	/**
 	 * Async task to get beer rating from server and update UI.
 	 */
 	private class GetBeerDetail extends AsyncTask<Void, Void, JSONObject> {
+
+		private boolean showDialog = false;
+		
+		public GetBeerDetail() {
+			super();
+		}
+
+		public GetBeerDetail(boolean showDialog) {
+			super();
+			this.showDialog = showDialog;
+		}
+
+		@Override
+		protected void onPreExecute() {
+			Log.d(LOG_TAG, "onPreExecute()");
+			if (this.showDialog) {
+				BeerDetailActivity.this.progressDialog.display(BeerDetailActivity.this, getString(R.string.pleaseWait), getString(R.string.loadingData), true);
+			}
+		}
+
 		@Override
 		protected JSONObject doInBackground(Void... voids) {
 			Log.d(LOG_TAG, "doInBackground()");
+
+			// BeerDetailActivity.this.progressDialog.display(BeerDetailActivity.this, getString(R.string.pleaseWait),
+			// getString(R.string.loadingData), true);
 
 			final String uri = Res.getURI(Res.BEER_DOCUMENT, Long.toString(BeerDetailActivity.this.beerId));
 			Log.d(LOG_TAG, "GET " + uri);
@@ -176,7 +172,9 @@ public class BeerDetailActivity extends Activity {
 			} else {
 				Log.w(LOG_TAG, "Result was null in GetBeerDetail::onPostExecute");
 			}
-			BeerDetailActivity.this.dataLoadingDoneSignal.countDown();
+			if (this.showDialog) {
+				BeerDetailActivity.this.progressDialog.hide();
+			}
 		}
 	}
 
@@ -187,6 +185,7 @@ public class BeerDetailActivity extends Activity {
 		@Override
 		protected void onPreExecute() {
 			Log.d(LOG_TAG, "onPreExecute()");
+			BeerDetailActivity.this.progressDialog.display(BeerDetailActivity.this, getString(R.string.pleaseWait), getString(R.string.loadingData), true);
 		}
 
 		@Override
@@ -235,7 +234,7 @@ public class BeerDetailActivity extends Activity {
 			} else {
 				Log.w(LOG_TAG, "Result was null in GetBeerRating::onPostExecute");
 			}
-			BeerDetailActivity.this.dataLoadingDoneSignal.countDown();
+			BeerDetailActivity.this.progressDialog.hide();
 		}
 	}
 
@@ -249,7 +248,7 @@ public class BeerDetailActivity extends Activity {
 
 			final String uri = Res.getURI(Res.CONSUMPTION_DOCUMENT, Long.toString(BeerDetailActivity.this.beerId), BeerDetailActivity.this.username);
 			Log.d(LOG_TAG, "POST " + uri);
-			HttpHelper httpHelper = new HttpHelper();
+			final HttpHelper httpHelper = new HttpHelper();
 			httpHelper.addRequestProcessor(new AcceptRequestProcessor(AcceptRequestProcessor.ContentType.JSON));
 			httpHelper.addRequestProcessor(new HMACAuthRequestProcessor());
 			final HttpResponse response = httpHelper.post(uri);
@@ -293,14 +292,13 @@ public class BeerDetailActivity extends Activity {
 				return false;
 			}
 			return true;
-
-			// TODO update average rating
 		}
 
 		@Override
 		protected void onPostExecute(Boolean result) {
 			Log.d(LOG_TAG, "SaveRating onPostExecute()");
 			final int msgResId = result ? R.string.beerdetail_rating_success : R.string.beerdetail_rating_fail;
+			new GetBeerDetail(false).execute();
 			Toast.makeText(BeerDetailActivity.this, getString(msgResId), Toast.LENGTH_SHORT).show();
 		}
 	}
