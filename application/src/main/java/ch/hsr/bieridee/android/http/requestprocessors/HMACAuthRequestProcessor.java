@@ -3,6 +3,7 @@ package ch.hsr.bieridee.android.http.requestprocessors;
 import android.util.Log;
 import ch.hsr.bieridee.android.config.Auth;
 import ch.hsr.bieridee.android.exceptions.BierIdeeException;
+import ch.hsr.bieridee.android.http.IRequestProcessor;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
 import org.apache.http.client.methods.HttpRequestBase;
