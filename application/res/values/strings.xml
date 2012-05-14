@@ -73,5 +73,22 @@
     <string name="aboutscreen_imageDescription">Bieridee Logo</string>
 
     <!-- Timeline list -->
-    <string name ="timelinelist_title">Timeline</string>
+    <string name="timelinelist_title">Timeline</string>
+    <string name="timelinelist_longAgo">Damn long ago</string>
+    <plurals name="numberOfSeconds">
+        <item quantity="one">second ago</item>
+        <item quantity="other">seconds ago</item>
+    </plurals>
+    <plurals name="numberOfMinutes">
+        <item quantity="one">minute ago</item>
+        <item quantity="other">minutes ago</item>
+    </plurals>
+    <plurals name="numberOfHours">
+        <item quantity="one">hour ago</item>
+        <item quantity="other">hours ago</item>
+    </plurals>
+    <plurals name="numberOfDays">
+        <item quantity="one">day ago</item>
+        <item quantity="other">days ago</item>
+    </plurals>
 </resources>

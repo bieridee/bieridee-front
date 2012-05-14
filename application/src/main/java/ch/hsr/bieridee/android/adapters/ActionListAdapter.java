@@ -1,12 +1,12 @@
 package ch.hsr.bieridee.android.adapters;
 
-import java.util.Date;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.restlet.resource.Resource;
 
 import android.app.Activity;
+import android.content.res.Resources;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -119,12 +119,12 @@ public class ActionListAdapter extends BaseAdapter {
 		try {
 			final JSONObject beer = jsonAction.getJSONObject("beer");
 			final JSONObject user = jsonAction.getJSONObject("user");
-			final long timestamp = Long.parseLong(jsonAction.getString("timestamp"));
+			final long secondsAgo = Long.parseLong(jsonAction.getString("secondsAgo"));
 
 			final String title = user.getString("user");
 			String detailText;
 			detailText = createDetailText(jsonAction, user, beer);
-			time.setText(getTimeString(timestamp));
+			time.setText(getTimeString(secondsAgo));
 
 			name.setText(title);
 			description.setText(detailText);
@@ -135,31 +135,23 @@ public class ActionListAdapter extends BaseAdapter {
 		return convertView;
 	}
 
-	private String getTimeString(long timestamp) {
-		final long timestampDiff = new Date().getTime() - timestamp;
-		long value = timestampDiff;
-		final long seconds = timestampDiff / 1000;
+	private String getTimeString(long secondsAgo) {
+		final Resources res = this.activity.getResources();
+		final long seconds = secondsAgo;
 		final long minutes = seconds / 60;
 		final long hours = minutes / 60;
 		final long days = hours / 24;
-		String valueS;
 		if (seconds < 60) {
-			valueS = "seconds";
-			value = seconds;
+			return seconds + " " + res.getQuantityString(R.plurals.numberOfSeconds, (int) seconds);
 		} else if (minutes < 60) {
-			valueS = "minutes";
-			value = minutes;
+			return minutes + " " + res.getQuantityString(R.plurals.numberOfMinutes, (int) minutes);
 		} else if (hours < 24) {
-			valueS = "hours";
-			value = hours;
+			return hours + " " + res.getQuantityString(R.plurals.numberOfHours, (int) hours);
+		} else if (days < 100) {
+			return days + " " + res.getQuantityString(R.plurals.numberOfDays, (int) days);
 		} else {
-			valueS = "days";
-			value = days;
+			return this.activity.getString(R.string.timelinelist_longAgo);
 		}
-		if (value == 1) {
-			valueS = (String) valueS.substring(0, valueS.length() - 1);
-		}
-		return value + " " + valueS + " ago.";
 	}
 
 	private String createDetailText(JSONObject jsonAction, JSONObject user, JSONObject beer) throws JSONException {
