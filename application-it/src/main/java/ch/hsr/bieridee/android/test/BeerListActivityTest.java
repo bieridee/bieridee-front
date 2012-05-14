@@ -16,8 +16,8 @@ public class BeerListActivityTest extends ActivityInstrumentationTestCase2<BeerL
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		solo = new Solo(getInstrumentation(), getActivity());
 		Auth.setAuth("testuser", "testpass", true);
+		solo = new Solo(getInstrumentation(), getActivity());
 	}
 
 	@Override
