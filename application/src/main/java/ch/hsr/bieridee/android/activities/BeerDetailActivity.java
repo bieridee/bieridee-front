@@ -70,7 +70,7 @@ public class BeerDetailActivity extends Activity {
 		this.ratingBar = (RatingBar) this.findViewById(R.id_beerdetail.ratingBar);
 		this.ratingBar.setStepSize(1); // no half-star-ratings
 
-		this.progressDialog = new MultithreadProgressDialog();
+		this.progressDialog = new MultithreadProgressDialog(getString(R.string.pleaseWait), getString(R.string.loadingData));
 
 		this.setConsumtionButtonAction();
 		this.setRatingBarAction();
@@ -118,7 +118,7 @@ public class BeerDetailActivity extends Activity {
 		protected void onPreExecute() {
 			Log.d(LOG_TAG, "onPreExecute()");
 			if (this.showDialog) {
-				BeerDetailActivity.this.progressDialog.display(BeerDetailActivity.this, getString(R.string.pleaseWait), getString(R.string.loadingData), true);
+				BeerDetailActivity.this.progressDialog.display(BeerDetailActivity.this, true);
 			}
 		}
 
@@ -185,7 +185,7 @@ public class BeerDetailActivity extends Activity {
 		@Override
 		protected void onPreExecute() {
 			Log.d(LOG_TAG, "onPreExecute()");
-			BeerDetailActivity.this.progressDialog.display(BeerDetailActivity.this, getString(R.string.pleaseWait), getString(R.string.loadingData), true);
+			BeerDetailActivity.this.progressDialog.display(BeerDetailActivity.this, true);
 		}
 
 		@Override
