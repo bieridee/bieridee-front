@@ -5,7 +5,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -70,15 +69,12 @@ public class BeerListActivity extends ListActivity {
 	private class GetBeerData extends AsyncTask<Void, Void, JSONArray> {
 		@Override
 		protected void onPreExecute() {
-			Log.d(LOG_TAG, "onPreExecute()");
 			BeerListActivity.this.progressDialog = ProgressDialog.show(
 					BeerListActivity.this, getString(R.string.pleaseWait), getString(R.string.loadingData), true);
 		}
 		@Override
 		protected JSONArray doInBackground(Void... voids) {
-			Log.d(LOG_TAG, "doInBackground()");
-
-			HttpResponse response = AuthJsonHttp.create().get(Res.getURI(Res.BEER_COLLECTION));
+			final HttpResponse response = AuthJsonHttp.create().get(Res.getURI(Res.BEER_COLLECTION));
 
 			if (response != null) {
 				final int statusCode = response.getStatusLine().getStatusCode();
@@ -97,10 +93,9 @@ public class BeerListActivity extends ListActivity {
 		}
 		@Override
 		protected void onPostExecute(JSONArray result) {
-			Log.d(LOG_TAG, "onPostExecute()");
 			if (result != null) {
-				adapter.updateData(result);
-				adapter.notifyDataSetChanged();
+				BeerListActivity.this.adapter.updateData(result);
+				BeerListActivity.this.adapter.notifyDataSetChanged();
 			} // TODO handle else
 			BeerListActivity.this.progressDialog.dismiss();
 		}

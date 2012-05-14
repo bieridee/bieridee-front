@@ -101,8 +101,8 @@ public final class BreweryListActivity extends ListActivity {
 		protected void onPostExecute(JSONArray result) {
 			Log.d(LOG_TAG, "onPostExecute()");
 			if (result != null) {
-				adapter.updateData(result);
-				adapter.notifyDataSetChanged();
+				BreweryListActivity.this.adapter.updateData(result);
+				BreweryListActivity.this.adapter.notifyDataSetChanged();
 			} // TODO handle else
 			BreweryListActivity.this.progressDialog.dismiss();
 		}

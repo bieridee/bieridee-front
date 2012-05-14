@@ -3,161 +3,97 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    android:gravity="center_vertical">
-    
-    <RelativeLayout
-        android:id="@+id/registrationRelativeLayoutPrename"
-        android:layout_width="match_parent"
+    android:gravity="center">
+
+    <!-- Prename Field -->
+
+    <EditText
+        android:id="@+id/registrationInputPrename"
+        android:inputType="textPersonName"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:paddingTop="5dp" >
+        android:clickable="true"
+        android:hint="@string/prename" />
 
-        <EditText
-            android:id="@+id/registrationInputPrename"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:hint="@string/prename" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/registrationRelativeLayoutPrenameHint"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/registrationPrenameHint"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:visibility="gone" >
+        android:text="@string/registrationscreen_invalidInput"
+        android:textColor="@color/red"
+        android:visibility="gone" />
 
-        <TextView
-            android:id="@+id/registrationPrenameHint"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:text="@string/registrationscreen_invalidInput"
-            android:textColor="@color/red" />
-    </RelativeLayout>
-    
     <!-- Surname Field -->
-     <RelativeLayout
-        android:id="@+id/registrationRelativeLayoutSurname"
-        android:layout_width="match_parent"
+
+    <EditText
+        android:id="@+id/registrationInputSurname"
+        android:inputType="textPersonName"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:paddingTop="5dp" >
+        android:clickable="true"
+        android:hint="@string/surname"/>
 
-        <EditText
-            android:id="@+id/registrationInputSurname"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:hint="@string/surname" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/registrationRelativeLayoutSurnameHint"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/registrationSurnameHint"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:visibility="gone" >
+        android:text="@string/registrationscreen_invalidInput"
+        android:textColor="@color/red"
+        android:visibility="gone" />
 
-        <TextView
-            android:id="@+id/registrationSurnameHint"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:text="@string/registrationscreen_invalidInput"
-            android:textColor="@color/red" />
-    </RelativeLayout>
-    
     <!--  Username Field -->
-    
 
-    <RelativeLayout
-        android:id="@+id/registrationRelativeLayoutUsername"
-        android:layout_width="match_parent"
+    <EditText
+        android:id="@+id/registrationInputUsername"
+        android:inputType="text"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:paddingTop="5dp" >
+        android:clickable="true"
+        android:hint="@string/username" />
 
-        <EditText
-            android:id="@+id/registrationInputUsername"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:hint="@string/username" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/registrationRelativeLayoutUsernameHint"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/registrationUsernameHint"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:visibility="gone" >
+        android:text="@string/registrationscreen_usernameUnavailable"
+        android:textColor="@color/red"
+        android:visibility="gone" />
 
-        <TextView
-            android:id="@+id/registrationUsernameHint"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:text="@string/registrationscreen_usernameUnavailable"
-            android:textColor="@color/red" />
-    </RelativeLayout>
+    <!-- Password Field -->
 
-    <RelativeLayout
-        android:id="@+id/registrationRelativeLayoutPassword"
-        android:layout_width="match_parent"
+    <EditText
+        android:id="@+id/registrationInputPassword"
+        android:inputType="textPassword"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:paddingTop="5dp" >
+        android:clickable="true"
+        android:hint="@string/password" />
 
-        <EditText
-            android:id="@+id/registrationInputPassword"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:hint="@string/password"
-            android:inputType="textPassword" />
+    <!-- Email Field -->
 
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/registrationRelativeLayoutEmail"
-        android:layout_width="match_parent"
+    <EditText
+        android:id="@+id/registrationInputEmail"
+        android:inputType="textEmailAddress"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:paddingTop="5dp" >
+        android:clickable="true"
+        android:hint="@string/email"/>
 
-        <EditText
-            android:id="@+id/registrationInputEmail"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:hint="@string/email" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/registrationRelativeLayoutEmailHint"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/registrationEmailHint"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:visibility="gone" >
+        android:text="@string/registrationscreen_invalidEmail"
+        android:textColor="@color/red"
+        android:visibility="gone" />
 
-        <TextView
-            android:id="@+id/registrationEmailHint"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:text="@string/registrationscreen_invalidEmail"
-            android:textColor="@color/red" />
-    </RelativeLayout>
+    <!-- Registration Button -->
 
-    <RelativeLayout
-        android:id="@+id/registrationRelativeLayoutSubmit"
-        android:layout_width="match_parent"
+    <Button
+        android:id="@+id/registrationButtonRegister"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:gravity="center" >
-
-        <Button
-            android:id="@+id/registrationButtonRegister"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:text="@string/register" />
-    </RelativeLayout>
+        android:layout_marginTop="20dp"
+        android:text="@string/register"/>
 
 </LinearLayout>

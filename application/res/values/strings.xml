@@ -35,8 +35,8 @@
     <string name="registrationscreen_invalidInput">Die Eingabe ist ungültig</string>
     <string name="registrationscreen_invalidEmail">Bitte gibt eine gültige Emailadresse ein.</string>
     <string name="registrationscreen_usernameUnavailable">Dieser Benutzername ist bereits vergeben. Bitte wähle einen anderen.</string>
-    <string name="registrationscreen_registrationFailed">Die Registrierung ist schiefgegangen (HTTP %1$d).</string>
-    <string name="registrationscreen_registrationSuccessful">Registrierung erfolgreich!</string>
+    <string name="registrationscreen_success_registration">Registrierung erfolgreich!</string>
+    <string name="registrationscreen_fail_registration">Die Registrierung ist fehlgeschlagen.</string>
 
     <!-- Dashboard Screen -->
     <string name="dashboardscreen_title">Bieridee Dashboard</string>
