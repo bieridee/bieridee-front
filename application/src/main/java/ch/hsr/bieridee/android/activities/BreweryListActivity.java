@@ -15,6 +15,7 @@ import ch.hsr.bieridee.android.R;
 import ch.hsr.bieridee.android.adapters.BreweryListAdapter;
 import ch.hsr.bieridee.android.config.Res;
 import ch.hsr.bieridee.android.http.AuthJsonHttp;
+import ch.hsr.bieridee.android.http.HttpHelper;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.impl.client.BasicResponseHandler;
@@ -31,11 +32,15 @@ public final class BreweryListActivity extends ListActivity {
 	private static final String LOG_TAG = BreweryListActivity.class.getName();
 	private BreweryListAdapter adapter;
 	private ProgressDialog progressDialog;
+	private HttpHelper httpHelper;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.brewerylist);
+
+		this.httpHelper = AuthJsonHttp.create();
+
 		this.adapter = new BreweryListAdapter(this);
 		setListAdapter(this.adapter);
 		this.addOnClickListeners();
@@ -79,7 +84,7 @@ public final class BreweryListActivity extends ListActivity {
 		protected JSONArray doInBackground(Void... voids) {
 			Log.d(LOG_TAG, "doInBackground()");
 
-			final HttpResponse response = AuthJsonHttp.create().get(Res.getURI(Res.BREWERY_COLLECTION));
+			final HttpResponse response = BreweryListActivity.this.httpHelper.get(Res.getURI(Res.BREWERY_COLLECTION));
 
 			if (response != null) {
 				final int statusCode = response.getStatusLine().getStatusCode();

@@ -11,6 +11,7 @@ import ch.hsr.bieridee.android.R;
 import ch.hsr.bieridee.android.config.Res;
 import ch.hsr.bieridee.android.exceptions.BierIdeeException;
 import ch.hsr.bieridee.android.http.AuthJsonHttp;
+import ch.hsr.bieridee.android.http.HttpHelper;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.impl.client.BasicResponseHandler;
@@ -32,11 +33,13 @@ public final class BreweryDetailActivity extends Activity {
 	private static final String LOG_TAG = BreweryDetailActivity.class.getName();
 	public static final String EXTRA_BREWERY_ID = "breweryId";
 	private ProgressDialog progressDialog;
+	private HttpHelper httpHelper;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.brewerydetail);
+		this.httpHelper = AuthJsonHttp.create();
 	}
 
 	@Override
@@ -69,7 +72,7 @@ public final class BreweryDetailActivity extends Activity {
 		@Override
 		protected JSONObject doInBackground(Void... voids) {
 			final String uri = Res.getURI(Res.BREWERY_DOCUMENT, Long.toString(BreweryDetailActivity.this.breweryId));
-			final HttpResponse response = AuthJsonHttp.create().get(uri);
+			final HttpResponse response = BreweryDetailActivity.this.httpHelper.get(uri);
 
 			if (response != null) {
 				final int statusCode = response.getStatusLine().getStatusCode();

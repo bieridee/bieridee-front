@@ -17,6 +17,7 @@ import ch.hsr.bieridee.android.config.Auth;
 import ch.hsr.bieridee.android.config.Res;
 import ch.hsr.bieridee.android.exceptions.BierIdeeException;
 import ch.hsr.bieridee.android.http.AuthJsonHttp;
+import ch.hsr.bieridee.android.http.HttpHelper;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.impl.client.BasicResponseHandler;
@@ -45,11 +46,13 @@ public class BeerDetailActivity extends Activity {
 	private static final String LOG_TAG = BeerDetailActivity.class.getName();
 	public static final String EXTRA_BEER_ID = "beerId";
 	private static final int DATA_LOADING_THREAD_COUNT = 2;
+	private HttpHelper httpHelper;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.beerdetail);
+		this.httpHelper = AuthJsonHttp.create();
 	}
 
 	@Override
@@ -130,7 +133,7 @@ public class BeerDetailActivity extends Activity {
 		@Override
 		protected JSONObject doInBackground(Void... voids) {
 			final String uri = Res.getURI(Res.BEER_DOCUMENT, Long.toString(BeerDetailActivity.this.beerId));
-			final HttpResponse response = AuthJsonHttp.create().get(uri);
+			final HttpResponse response = BeerDetailActivity.this.httpHelper.get(uri);
 
 			if (response != null) {
 				final int statusCode = response.getStatusLine().getStatusCode();
@@ -189,7 +192,7 @@ public class BeerDetailActivity extends Activity {
 
 			final String uri = Res.getURI(Res.RATING_DOCUMENT, Long.toString(BeerDetailActivity.this.beerId), BeerDetailActivity.this.username);
 			Log.d(LOG_TAG, "GET " + uri);
-			final HttpResponse response = AuthJsonHttp.create().get(uri);
+			final HttpResponse response = BeerDetailActivity.this.httpHelper.get(uri);
 
 			if (response != null) {
 				final int statusCode = response.getStatusLine().getStatusCode();
@@ -243,7 +246,7 @@ public class BeerDetailActivity extends Activity {
 
 			final String uri = Res.getURI(Res.CONSUMPTION_DOCUMENT, Long.toString(BeerDetailActivity.this.beerId), BeerDetailActivity.this.username);
 			Log.d(LOG_TAG, "POST " + uri);
-			final HttpResponse response = AuthJsonHttp.create().post(uri);
+			final HttpResponse response = BeerDetailActivity.this.httpHelper.post(uri);
 
 			if (response == null) {
 				return false;
@@ -278,7 +281,7 @@ public class BeerDetailActivity extends Activity {
 			}
 
 			try {
-				AuthJsonHttp.create().post(uri, newRating);
+				BeerDetailActivity.this.httpHelper.post(uri, newRating);
 			} catch (BierIdeeException e) {
 				return false;
 			}

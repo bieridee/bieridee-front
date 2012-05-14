@@ -137,12 +137,9 @@ public class RegistrationScreenActivity extends Activity {
 				throw new BierIdeeException("Creating the user JSON object failed.", e);
 			}
 
-			// We need to pass login data directly to the HMACAuthRequestProcessor
+			// Send HTTP request
 			final HttpHelper httpHelper = new HttpHelper();
 			httpHelper.addRequestProcessor(new AcceptRequestProcessor(AcceptRequestProcessor.ContentType.JSON));
-			httpHelper.addRequestProcessor(new HMACAuthRequestProcessor(this.username, this.password));
-
-			// Send HTTP request
 			return httpHelper.put(Res.getURI(Res.USER_DOCUMENT, this.username), user);
 		}
 		@Override
