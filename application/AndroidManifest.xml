@@ -25,6 +25,7 @@
         </activity>
         <activity android:name=".activities.LoginScreenActivity" />
         <activity android:name=".activities.BeerListActivity" android:label="@string/beerlist_title" />
+        <activity android:name=".activities.TimelineListActivity" android:label="@string/timelinelist_title" />
         <activity android:name=".activities.BeerDetailActivity" android:label="@string/beerdetail_title" />
         <activity android:name=".activities.BreweryListActivity" android:label="@string/brewerylist_title" />
         <activity android:name=".activities.BreweryDetailActivity" android:label="@string/brewerydetail_title" />

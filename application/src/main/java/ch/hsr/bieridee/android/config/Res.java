@@ -46,6 +46,10 @@ public final class Res {
 	// consumption
 	public static final String CONSUMPTION_COLLECTION = "/consumptions";
 	public static final String CONSUMPTION_DOCUMENT = BEER_DOCUMENT + CONSUMPTION_COLLECTION + "/{" + USER_REQ_ATTR + "}";
+	
+	// timeline
+	public static final String TIMELINE_COLLECTION = "/timeline";
+	public static final String TIMELINE_FILTER_USERNAME = "username";
 
 	/**
 	 * Returns the specified URI.
