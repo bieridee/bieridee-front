@@ -21,6 +21,10 @@
     <string name="success">Erfolg</string>
     <string name="about">Über</string>
     <string name="refresh">Aktualisieren</string>
+    <string name="beer">Bier</string>
+    <string name="brand">Marke</string>
+    <string name="beertype">Bieryp</string>
+    <string name="brewery">Brauerei</string>
 
     <!-- Login screen specific strings -->
     <string name="loginscreen_title">BierIdee Login</string>
@@ -44,7 +48,7 @@
     <string name="dashboardscreen_timelineButtonText">Timeline</string>
     <string name="dashboardscreen_breweriesButtonText">Brauereien</string>
     <string name="dashboardscreen_profileButtonText">Profil</string>
-    <string name="dashboardscreen_consumptionButtonText">Konsum</string>
+    <string name="dashboardscreen_createButtonText">Bier erfassen</string>
     <string name="dashboardscreen_ratingButtonText">Rating</string>
     <string name="dashboardscreen_loggedOut">Logout erfolgreich!</string>
     
@@ -71,7 +75,13 @@
     <string name="brewerydetail_brewerySize">Brauerei Grösse</string>
     <string name="brewerydetail_breweryDescription">Brauerei Beschreibung</string>
     <string name="brewerydetail_fail_loadDetail">Fehler: Brauereidetails konnten nicht vom Server geladen werden.</string>
-
+	
+    <!-- Beer create -->
+    <string name="beercreate_activitytitle">Bier erstellen</string>
+    <string name="beercreate_createbeer">Bier erstellen</string>
+    <string name="beercreate_chooseBeertype">Biertyp wählen</string>
+    <string name="beercreate_chooseBrewery">Brauerei wählen</string>
+    
     <!-- About screen -->
     <string name="aboutscreen_activitytitle">Über BierIdee</string>
     <string name="aboutscreen_title">Über BierIdee</string>

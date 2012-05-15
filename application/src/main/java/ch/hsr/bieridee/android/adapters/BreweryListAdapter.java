@@ -1,16 +1,16 @@
 package ch.hsr.bieridee.android.adapters;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Activity;
-import android.text.Html;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import ch.hsr.bieridee.android.R;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * The BreweryListAdapter adapts the JSON brewery structure to the Android ListView.
@@ -20,11 +20,14 @@ import org.json.JSONObject;
  */
 public class BreweryListAdapter extends BaseAdapter {
 
-	private final Activity activity;
-	private JSONArray jsonBreweries;
+	protected final Activity activity;
+	protected JSONArray jsonBreweries;
 
 	/**
-	 * @param activity Activity
+	 * @param activity Activity	public BrewerySpinnerAdapter(Activity activity) {
+		super(activity);
+	}
+
 	 */
 	public BreweryListAdapter(Activity activity) {
 		this.activity = activity;
@@ -115,6 +118,6 @@ public class BreweryListAdapter extends BaseAdapter {
 
 	@Override
 	public String toString() {
-		return "BreweryListAdapter{activity=" + activity.getClass().getName() + '}';
+		return "BreweryListAdapter{activity=" + this.activity.getClass().getName() + '}';
 	}
 }

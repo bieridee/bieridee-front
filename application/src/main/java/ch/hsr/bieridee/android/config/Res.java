@@ -9,8 +9,8 @@ public final class Res {
 		// do not instantiate.
 	}
 
-	public static final String API_URL = "http://brauhaus.nusszipfel.com:8080";
-	//public static final String API_URL = "http://152.96.233.221:8080";
+	//public static final String API_URL = "http://brauhaus.nusszipfel.com:8080";
+	public static final String API_URL = "http://152.96.235.204:8080";
 
 	// beer
 	public static final String BEER_COLLECTION = "/beers";
@@ -46,7 +46,10 @@ public final class Res {
 	// consumption
 	public static final String CONSUMPTION_COLLECTION = "/consumptions";
 	public static final String CONSUMPTION_DOCUMENT = BEER_DOCUMENT + CONSUMPTION_COLLECTION + "/{" + USER_REQ_ATTR + "}";
-
+	
+	// brand
+	public static final String BRAND_COLLECTION = "/brands";
+	
 	/**
 	 * Returns the specified URI.
 	 * 

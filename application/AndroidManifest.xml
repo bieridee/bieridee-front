@@ -30,6 +30,8 @@
         <activity android:name=".activities.BreweryDetailActivity" android:label="@string/brewerydetail_title" />
         <activity android:name=".activities.RegistrationScreenActivity" android:label="@string/registrationscreen_title" />
         <activity android:name=".activities.AboutScreenActivity" android:label="@string/aboutscreen_activitytitle" />
+        <activity android:name=".activities.AboutScreenActivity" android:label="@string/aboutscreen_activitytitle" />
+        <activity android:name=".activities.BeerCreateActivity" android:label="@string/beercreate_activitytitle" />
 
     </application>
 
