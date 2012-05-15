@@ -55,14 +55,6 @@ public class TimelineListActivity extends ListActivity {
 	}
 	
 	@Override
-	public void onSaveInstanceState(Bundle savedInstanceState) {
-		Log.d("info","saved Instance state");
-	}
-	@Override
-	public void onRestoreInstanceState(Bundle savedInstanceState) {
-		Log.d("info","restored instance state");
-	}
-	@Override
 	public void onStart() {
 		super.onStart();
 		if (System.currentTimeMillis() - this.updateTimestamp > THRESHOLD) {

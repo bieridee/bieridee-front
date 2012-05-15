@@ -159,10 +159,10 @@ public class ActionListAdapter extends BaseAdapter {
 		final String username = user.getString("user");
 
 		if ("consumption".equals(jsonAction.getString("type"))) {
-			return username + " felt thirsty and drank a " + beerName;
+			return username + this.activity.getString(R.string.timelinelist_feltThirty) + beerName;
 		} else {
 			final int ratingValue = jsonAction.getInt("rating");
-			return username + " rated " + beerName + " with " + ratingValue + ". It's overall rating is now 2.65";
+			return this.activity.getString(R.string.timelinelist_ratedBeer, username, beerName, ratingValue);
 		}
 	}
 

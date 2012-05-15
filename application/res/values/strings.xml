@@ -47,7 +47,7 @@
     <string name="dashboardscreen_consumptionButtonText">Konsum</string>
     <string name="dashboardscreen_ratingButtonText">Rating</string>
     <string name="dashboardscreen_loggedOut">Logout erfolgreich!</string>
-    
+
     <!-- Beer list -->
     <string name="beerlist_title">Bierliste</string>
 
@@ -75,6 +75,9 @@
     <!-- Timeline list -->
     <string name="timelinelist_title">Timeline</string>
     <string name="timelinelist_longAgo">Damn long ago</string>
+    <string name="timelinelist_feltThirty"> felt thirsty and drank a </string>
+    <string name="timelinelist_ratedBeer">%1$s rated %2$s with %3$s</string>
+
     <plurals name="numberOfSeconds">
         <item quantity="one">second ago</item>
         <item quantity="other">seconds ago</item>
@@ -91,4 +94,5 @@
         <item quantity="one">day ago</item>
         <item quantity="other">days ago</item>
     </plurals>
+
 </resources>
