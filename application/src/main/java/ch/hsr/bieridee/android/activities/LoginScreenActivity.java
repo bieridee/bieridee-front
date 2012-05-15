@@ -54,6 +54,16 @@ public class LoginScreenActivity extends Activity {
 	}
 
 	@Override
+	public void onStart() {
+		super.onStart();
+		final Bundle extras = getIntent().getExtras();
+		if (extras != null && extras.containsKey("username") && extras.containsKey("password")) {
+			this.inputUsername.setText(extras.getString("username"));
+			this.inputPassword.setText(extras.getString("password"));
+		}
+	}
+
+	@Override
 	public void onResume() {
 		super.onResume();
 		this.wrongCredentailsHintLayout.setVisibility(View.GONE);

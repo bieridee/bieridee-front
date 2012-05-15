@@ -18,11 +18,11 @@ import ch.hsr.bieridee.android.config.Res;
 import ch.hsr.bieridee.android.exceptions.BierIdeeException;
 import ch.hsr.bieridee.android.http.HttpHelper;
 import ch.hsr.bieridee.android.http.requestprocessors.AcceptRequestProcessor;
-import ch.hsr.bieridee.android.http.requestprocessors.HMACAuthRequestProcessor;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.mindrot.jbcrypt.BCrypt;
 
 /**
  * Activity with Registration Form.
@@ -111,20 +111,23 @@ public class RegistrationScreenActivity extends Activity {
 	 */
 	private class Register extends AsyncTask<String, Void, HttpResponse> {
 		private String username;
-		private String password;
+		private String cleartextPassword;
+		private String hashedPassword;
 
 		@Override
 		protected void onPreExecute() {
 			RegistrationScreenActivity.this.progressDialog = ProgressDialog.show(
 					RegistrationScreenActivity.this, getString(R.string.pleaseWait), getString(R.string.loadingData), true);
 		}
+
 		@Override
 		protected HttpResponse doInBackground(String... params) {
 			if (params.length != 5) {
 				throw new BierIdeeException("Invalid number of parameters to Register AsyncTask (5 expected, " + params.length + " given).");
 			}
 			this.username = params[0];
-			this.password = params[4];
+			this.cleartextPassword = params[4];
+			this.hashedPassword = BCrypt.hashpw(this.cleartextPassword, BCrypt.gensalt());
 
 			final JSONObject user = new JSONObject();
 			try {
@@ -132,7 +135,7 @@ public class RegistrationScreenActivity extends Activity {
 				user.put("prename", params[1]);
 				user.put("surname", params[2]);
 				user.put("email", params[3]);
-				user.put("password", this.username);
+				user.put("password", this.hashedPassword);
 			} catch (JSONException e) {
 				throw new BierIdeeException("Creating the user JSON object failed.", e);
 			}
@@ -142,14 +145,15 @@ public class RegistrationScreenActivity extends Activity {
 			httpHelper.addRequestProcessor(new AcceptRequestProcessor(AcceptRequestProcessor.ContentType.JSON));
 			return httpHelper.put(Res.getURI(Res.USER_DOCUMENT, this.username), user);
 		}
+
 		@Override
 		protected void onPostExecute(HttpResponse response) {
 			RegistrationScreenActivity.this.progressDialog.dismiss();
 			if (response != null) {
 				final int statusCode = response.getStatusLine().getStatusCode();
-				if (statusCode == HttpStatus.SC_NO_CONTENT) {
+				if (statusCode == HttpStatus.SC_CREATED) {
 					// Store auth data
-					Auth.setAuth(this.username, this.password);
+					Auth.setAuth(this.username, this.hashedPassword);
 
 					// Show success message
 					Toast.makeText(
@@ -160,6 +164,8 @@ public class RegistrationScreenActivity extends Activity {
 
 					// Return to login activity
 					final Intent intent = new Intent(RegistrationScreenActivity.this.getBaseContext(), LoginScreenActivity.class);
+					intent.putExtra("username", this.username);
+					intent.putExtra("password", this.cleartextPassword);
 					startActivity(intent);
 					return;
 				}
