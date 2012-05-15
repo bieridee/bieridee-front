@@ -35,6 +35,9 @@ public class LoginScreenActivity extends Activity {
 	private TextView registrationLink;
 	private ProgressDialog progressDialog;
 
+	public static int REQUEST_CODE_LOGIN = 0;
+	public static int RESULT_CODE_EXIT = -1;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -54,6 +57,13 @@ public class LoginScreenActivity extends Activity {
 	public void onResume() {
 		super.onResume();
 		this.wrongCredentailsHintLayout.setVisibility(View.GONE);
+	}
+
+	@Override
+	public void onBackPressed() {
+		Log.d(LOG_TAG, "Back pressed");
+		setResult(RESULT_CODE_EXIT);
+		finish();
 	}
 
 	/**
