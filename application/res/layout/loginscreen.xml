@@ -1,141 +1,83 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical"
-    android:gravity="center_vertical">
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:orientation="vertical"
+              android:gravity="center">
 
-    <!-- Row containg the image -->
+	<!-- Row containg the image -->
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_marginBottom="50dp"
-        android:layout_marginTop="10dp" >
+	<ImageView
+		android:id="@+id_loginscreen/logo"
+		android:layout_width="wrap_content"
+		android:layout_height="150dp"
+		android:layout_marginBottom="20dp"
+		android:contentDescription="@string/loginscreen_imageDescription"
+		android:src="@drawable/pixelbeer_large" />
 
-        <ImageView
-            android:id="@+id_loginscreen/logo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:contentDescription="@string/loginscreen_imageDescription"
-            android:src="@drawable/pixelbeer_large" />
-    </RelativeLayout>
+	<!-- Row containing username field -->
 
-    <!-- Row containing username field -->
+	<EditText
+		android:id="@+id_loginscreen/inputUsername"
+		android:layout_width="250dp"
+		android:layout_height="wrap_content"
+		android:hint="@string/username"
+		android:inputType="text" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:paddingBottom="5dp" >
+	<!-- Row containing password field -->
 
-        <EditText
-            android:id="@+id_loginscreen/inputUsername"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:gravity="left|center_vertical"
-            android:hint="@string/username"
-            android:inputType="text" />
-    </RelativeLayout>
+	<EditText
+		android:id="@+id_loginscreen/inputPassword"
+		android:layout_width="250dp"
+		android:layout_height="wrap_content"
+		android:hint="@string/password"
+		android:inputType="textPassword" />
 
-    <!-- Row containing password field -->
+	<!-- Wrong login hint -->
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:paddingBottom="10dp" >
+	<TextView
+		android:id="@+id_loginscreen/wrongLoginHint"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:gravity="center"
+		android:text="@string/loginscreen_wrongCredentials"
+		android:textColor="@color/red"
+		android:textSize="15dp"
+		android:visibility="gone" />
 
-        <EditText
-            android:id="@+id_loginscreen/inputPassword"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:gravity="left|center_vertical"
-            android:hint="@string/password"
-            android:inputType="textPassword" />
-    </RelativeLayout>
+	<!-- Row containing registration hint -->
 
-    <!-- Wrong login hint -->
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal"
+		android:gravity="center"
+		android:paddingTop="10dp"
+		android:paddingBottom="20dp">
 
-    <RelativeLayout
-        android:id="@+id_loginscreen/relativeLayoutWrongLogin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:visibility="gone" >
+		<TextView
+			android:id="@+id_loginscreen/registrationHintText"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/loginscreen_registrationHintText"
+			android:textSize="15dp" />
 
-        <TextView
-            android:id="@+id_loginscreen/registrationHint"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/loginscreen_wrongCredentials"
-            android:textColor="@color/red"
-            android:textSize="15dp" />
-    </RelativeLayout>
+		<TextView
+			android:id="@+id_loginscreen/registrationLink"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:clickable="true"
+			android:paddingLeft="10dp"
+			android:text="@string/loginscreen_registrationLinkText"
+			android:textColor="@color/blue"
+			android:textSize="15dp" />
+	</LinearLayout>
 
-    <!-- Row containing autologin tick -->
+	<!-- Row containing login button -->
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center">
-
-        <CheckBox
-            android:id="@+id_loginscreen/checkboxAutologin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:text="@string/loginscreen_autologinText" />
-    </LinearLayout>
-
-    <!-- Row containing registration hint -->
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:paddingBottom="20dp" >
-
-        <TextView
-            android:id="@+id_loginscreen/registrationHintText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/loginscreen_registrationHintText"
-            android:textSize="15dp" />
-
-        <TextView
-            android:id="@+id_loginscreen/registrationLink"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:paddingLeft="10dp"
-            android:text="@string/loginscreen_registrationLinkText"
-            android:textColor="@color/blue"
-            android:textSize="15dp" />
-    </LinearLayout>
-
-    <!-- Row containing login button -->
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:paddingBottom="10dp" >
-
-        <Button
-            android:id="@+id_loginscreen/buttonLogin"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal|center_vertical"
-            android:text="@string/login" />
-    </RelativeLayout>
+	<Button
+		android:id="@+id_loginscreen/buttonLogin"
+		android:layout_width="150dp"
+		android:layout_height="wrap_content"
+		android:text="@string/login" />
 
 </LinearLayout>

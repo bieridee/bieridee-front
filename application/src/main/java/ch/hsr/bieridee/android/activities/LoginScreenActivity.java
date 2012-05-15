@@ -24,11 +24,9 @@ public class LoginScreenActivity extends Activity {
 
 	private static final String LOG_TAG = LoginScreenActivity.class.getName();
 	private Button buttonLogin;
-	private SharedPreferences settings;
 	private EditText inputUsername;
 	private EditText inputPassword;
-	private CheckBox checkboxAutologin;
-	private RelativeLayout wrongCredentailsHintLayout;
+	private TextView wrongCredentailsHintLayout;
 	private TextView registrationLink;
 
 	@Override
@@ -37,18 +35,16 @@ public class LoginScreenActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.loginscreen);
 
-		this.checkboxAutologin = (CheckBox) this.findViewById(R.id_loginscreen.checkboxAutologin);
 		this.inputUsername = (EditText) this.findViewById(R.id_loginscreen.inputUsername);
 		this.inputPassword = (EditText) this.findViewById(R.id_loginscreen.inputPassword);
 		this.buttonLogin = (Button) this.findViewById(R.id_loginscreen.buttonLogin);
-		this.wrongCredentailsHintLayout = (RelativeLayout) this.findViewById(R.id_loginscreen.relativeLayoutWrongLogin);
+		this.wrongCredentailsHintLayout = (TextView) this.findViewById(R.id_loginscreen.wrongLoginHint);
 		this.registrationLink = (TextView) this.findViewById(R.id_loginscreen.registrationLink);
 
 		this.readSettings();
 
 		this.addLoginListener();
 		this.addRegistrationListener();
-		this.addAutologinListener();
 	}
 
 	@Override
@@ -60,9 +56,6 @@ public class LoginScreenActivity extends Activity {
 	@Override
 	public void onPause() {
 		super.onPause();
-		if (this.checkboxAutologin.isChecked()) {
-			this.saveSettings();
-		}
 		Log.d(LOG_TAG, "Application stopped, Settings saved");
 	}
 
@@ -84,6 +77,15 @@ public class LoginScreenActivity extends Activity {
 	 */
 	private void addLoginListener() {
 		this.buttonLogin.setOnClickListener(new OnClickListener() {
+			/**
+			 * Save user data to the shared settings.
+			 */
+			private void saveSettings() {
+				final String newUsername = LoginScreenActivity.this.inputUsername.getText().toString();
+				final String newPassword = LoginScreenActivity.this.inputPassword.getText().toString();
+				Auth.setAuth(newUsername, newPassword);
+			}
+
 			public void onClick(View v) {
 				Log.d("info", "Login Button was pressed");
 				/*final boolean validCredentials = false; // TODO
@@ -96,6 +98,8 @@ public class LoginScreenActivity extends Activity {
 				final String username = LoginScreenActivity.this.inputUsername.getText().toString();
 				final String password = LoginScreenActivity.this.inputPassword.getText().toString();
 				if (!(username.isEmpty() || password.isEmpty())) {
+					this.saveSettings();
+
 					final Intent intent = new Intent(v.getContext(), HomeScreenActivity.class);
 					startActivity(intent);
 				} else {
@@ -106,35 +110,10 @@ public class LoginScreenActivity extends Activity {
 	}
 	
 	/**
-	 * Sets the autologin checkbox change listener:
-	 * If autologin checkbox is disabled, settings are cleared.
-	 */
-	private void addAutologinListener() {
-		this.checkboxAutologin.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				if (!isChecked) {
-					Auth.clearAuth();
-				}
-			}
-		});
-	}
-
-	/**
 	 * Read user data from the shared settings and update the UI elements accordingly.
 	 */
 	private void readSettings() {
-		this.checkboxAutologin.setChecked(Auth.getAutologin());
 		this.inputUsername.setText(Auth.getUsername());
 		this.inputPassword.setText(Auth.getPassword());
-	}
-
-	/**
-	 * Save user data to the shared settings.
-	 */
-	private void saveSettings() {
-		final String newUsername = this.inputUsername.getText().toString();
-		final String newPassword = this.inputPassword.getText().toString();
-		final boolean newAutologin = this.checkboxAutologin.isChecked();
-		Auth.setAuth(newUsername, newPassword, newAutologin);
 	}
 }

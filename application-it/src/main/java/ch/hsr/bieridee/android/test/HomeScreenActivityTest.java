@@ -49,7 +49,7 @@ public class HomeScreenActivityTest extends ActivityInstrumentationTestCase2<Hom
 	 * Set dummy authentication information and restart activity.
 	 */
 	private void testWithLogin() {
-		Auth.setAuth("testuser", "testpass", true);
+		Auth.setAuth("testuser", "testpass");
 		this.restartActivity();
 	}
 

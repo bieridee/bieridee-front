@@ -149,10 +149,14 @@ public class RegistrationScreenActivity extends Activity {
 				final int statusCode = response.getStatusLine().getStatusCode();
 				if (statusCode == HttpStatus.SC_NO_CONTENT) {
 					// Store auth data
-					Auth.setAuth(this.username, this.password, true);
+					Auth.setAuth(this.username, this.password);
 
 					// Show success message
-					Toast.makeText(RegistrationScreenActivity.this.getApplicationContext(), getString(R.string.registrationscreen_success_registration), Toast.LENGTH_SHORT).show();
+					Toast.makeText(
+							RegistrationScreenActivity.this.getApplicationContext(),
+							getString(R.string.registrationscreen_success_registration),
+							Toast.LENGTH_SHORT
+					).show();
 
 					// Return to login activity
 					final Intent intent = new Intent(RegistrationScreenActivity.this.getBaseContext(), LoginScreenActivity.class);

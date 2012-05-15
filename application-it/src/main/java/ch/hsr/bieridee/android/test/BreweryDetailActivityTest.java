@@ -18,7 +18,7 @@ public class BreweryDetailActivityTest extends ActivityInstrumentationTestCase2<
 	public void setUp() throws Exception {
 		super.setUp();
 
-		Auth.setAuth("testuser", "testpass", true);
+		Auth.setAuth("testuser", "testpass");
 
 		final Intent i = new Intent();
 		i.putExtra(BreweryDetailActivity.EXTRA_BREWERY_ID, 70L);
