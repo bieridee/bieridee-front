@@ -49,6 +49,10 @@ public final class Res {
 	// brand
 	public static final String BRAND_COLLECTION = "/brands";
 	
+	// timeline
+	public static final String TIMELINE_COLLECTION = "/timeline";
+	public static final String TIMELINE_FILTER_USERNAME = "username";
+
 	/**
 	 * Returns the specified URI.
 	 * 

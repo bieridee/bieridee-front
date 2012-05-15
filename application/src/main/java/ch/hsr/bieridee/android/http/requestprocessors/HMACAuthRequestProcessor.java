@@ -83,11 +83,11 @@ public class HMACAuthRequestProcessor implements IRequestProcessor {
 		}
 
 		if (macString.isEmpty()) {
-			throw new BierIdeeException("Empty Authentication-HMAC");
+			throw new BierIdeeException("Empty Authorization-HMAC");
 		}
-		final String authenticationHeader = this.username + ":" + macString;
-		request.setHeader("Authentication", authenticationHeader);
-		Log.d(LOG_TAG, "Setting Authentication header to \"" + authenticationHeader + "\".");
+		final String authorizationHeader = this.username + ":" + macString;
+		request.setHeader("Authorization", authorizationHeader);
+		Log.d(LOG_TAG, "Setting Authorization header to \"" + authorizationHeader + "\".");
 		return request;
 	}
 }
