@@ -29,6 +29,10 @@
     <string name="loginscreen_registrationLinkText">Registrieren.</string>
     <string name="loginscreen_autologinText">Angemeldet bleiben</string>
     <string name="loginscreen_imageDescription">Bieridee Logo</string>
+	<string name="loginscreen_verifyingData">Logindaten werden verifiziert</string>
+	<string name="loginscreen_loginFailed">Login ist fehlgeschlagen</string>
+	<string name="loginscreen_loginError">Beim Login ist ein Fehler aufgetreten</string>
+	<string name="loginscreen_loginSuccess">Login erfolgreich</string>
 
     <!-- Registration screen specific strings -->
     <string name="registrationscreen_title">BierIdee Registration</string>
