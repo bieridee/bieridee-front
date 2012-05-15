@@ -39,13 +39,12 @@ public class HomeScreenActivity extends Activity {
 
 			public void onClick(View v) {
 				final Intent intent = new Intent(v.getContext(), TimelineListActivity.class);
-				intent.putExtra(TimelineListActivity.EXTRA_USERNAME, "alki");
+				intent.putExtra(TimelineListActivity.EXTRA_USERNAME, Auth.getUsername());
 				startActivity(intent);
 
 			}
 		});
 		findViewById(R.id_dashboardscreen.buttonRating).setOnClickListener(notYetImplementedListener);
-		// findViewById(R.id_dashboardscreen.buttonTimeline).setOnClickListener(notYetImplementedListener);
 	}
 
 	@Override
