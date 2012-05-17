@@ -57,8 +57,9 @@
     <string name="beerlist_title">Bierliste</string>
 
     <!-- Beer detail -->
-    <string name="beerdetail_title">Bier Detail</string>
+    <string name="beerdetail_title">Bier Informationen</string>
     <string name="beerdetail_drinkingNow">Soeben getrunken!</string>
+    <string name="beerdetail_yourRating">Deine Bewertung:</string>
     <string name="beerdetail_success_saveConsumption">Bierkonsum erfolgreich gespeichert.</string>
     <string name="beerdetail_success_saveRating">Bewertung erfolgreich gespeichert.</string>
     <string name="beerdetail_fail_saveConsumption">Speichern des Bierkonsums ist fehlgeschlagen.</string>

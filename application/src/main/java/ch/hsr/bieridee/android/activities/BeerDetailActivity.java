@@ -33,7 +33,8 @@ public class BeerDetailActivity extends Activity {
 	private Button consumptionButton;
 	private TextView name;
 	private TextView brand;
-	private TextView averageRating;
+	private TextView brewery;
+	private RatingBar averageRating;
 	private RatingBar ratingBar;
 	private long beerId;
 	private String username;
@@ -65,7 +66,8 @@ public class BeerDetailActivity extends Activity {
 
 		this.name = (TextView) this.findViewById(R.id_beerdetail.beerName);
 		this.brand = (TextView) this.findViewById(R.id_beerdetail.beerBrand);
-		this.averageRating = (TextView) this.findViewById(R.id_beerdetail.beerAverageRating);
+		this.brewery = (TextView) this.findViewById(R.id_beerdetail.beerBrewery);
+		this.averageRating = (RatingBar) this.findViewById(R.id_beerdetail.beerAverageratingBar);
 
 		this.ratingBar = (RatingBar) this.findViewById(R.id_beerdetail.ratingBar);
 		this.ratingBar.setStepSize(1); // no half-star-ratings
@@ -153,11 +155,14 @@ public class BeerDetailActivity extends Activity {
 			if (result != null) {
 				try {
 					final String name = result.getString("name");
-					final String brand = result.getString("brand");
-					final String averageRating = result.getString("rating");
+					final String brand = getString(R.string.brand) + ": " + result.getString("brand");
+					final JSONObject resultBrewery = result.getJSONObject("brewery");
+					final String brewery = getString(R.string.brewery) + ": " + resultBrewery.getString("name");
+					final float averageRating = Float.parseFloat(result.getString("rating"));
 					BeerDetailActivity.this.name.setText(name);
 					BeerDetailActivity.this.brand.setText(brand);
-					BeerDetailActivity.this.averageRating.setText(averageRating);
+					BeerDetailActivity.this.brewery.setText(brewery);
+					BeerDetailActivity.this.averageRating.setRating(averageRating);
 				} catch (JSONException e) {
 					Log.e(LOG_TAG, "JSONException in GetBeerDetail::onPostExecute");
 					e.printStackTrace();
