@@ -30,7 +30,6 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@+id_timelinelist/itemTime"
-                android:text="Name"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <TextView
@@ -38,16 +37,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:text="Time ago" />
+                android:layout_centerVertical="true" />
         </RelativeLayout>
 
         <TextView
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id_timelinelist/itemDescription"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="description" >
+            android:layout_height="match_parent" >
         </TextView>
     </LinearLayout>
 
