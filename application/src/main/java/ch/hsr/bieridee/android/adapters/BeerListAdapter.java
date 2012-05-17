@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 /**
@@ -25,15 +26,19 @@ public class BeerListAdapter extends BaseAdapter {
 	private JSONArray jsonBeers;
 
 	/**
-	 * @param activity Activity
+	 * @param activity
+	 *            Activity
 	 */
 	public BeerListAdapter(Activity activity) {
 		this.activity = activity;
 		this.jsonBeers = new JSONArray();
 	}
+
 	/**
-	 * @param activity Activity
-	 * @param jsonBeers JSONArray with list data
+	 * @param activity
+	 *            Activity
+	 * @param jsonBeers
+	 *            JSONArray with list data
 	 */
 	public BeerListAdapter(Activity activity, JSONArray jsonBeers) {
 		this.jsonBeers = jsonBeers;
@@ -93,10 +98,15 @@ public class BeerListAdapter extends BaseAdapter {
 		final JSONObject jsonBeer = (JSONObject) this.getItem(position);
 		final LinearLayout wrapper = (LinearLayout) convertView;
 		final TextView name = (TextView) wrapper.findViewById(R.id.beerListItemName);
-		final TextView description = (TextView) wrapper.findViewById(R.id.beerListItemDescription);
+		final RatingBar avgRating = (RatingBar) wrapper.findViewById(R.id.beerListItemAveragerating);
+		final TextView brand = (TextView) wrapper.findViewById(R.id.beerListItemBrand);
+		final TextView brewery = (TextView) wrapper.findViewById(R.id.beerListItemBrewery);
 		try {
 			name.setText(jsonBeer.getString("name"));
-			description.setText(Html.fromHtml("<strong>Brand:</strong> " + jsonBeer.getString("brand")));
+			avgRating.setRating((float) jsonBeer.getDouble("rating"));
+			brand.setText(this.activity.getString(R.string.brand) + ": " + jsonBeer.getString("brand"));
+			final JSONObject jsonBrewery = jsonBeer.getJSONObject("brewery");
+			brewery.setText(this.activity.getString(R.string.brewery) + ": " + jsonBrewery.getString("name"));
 		} catch (JSONException e) {
 			e.printStackTrace(); // TODO Auto-generated catch block
 		}

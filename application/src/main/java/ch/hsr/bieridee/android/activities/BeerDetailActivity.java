@@ -42,7 +42,6 @@ public class BeerDetailActivity extends Activity {
 
 	private static final String LOG_TAG = BeerDetailActivity.class.getName();
 	public static final String EXTRA_BEER_ID = "beerId";
-	private static final int DATA_LOADING_THREAD_COUNT = 2;
 	private HttpHelper httpHelper;
 
 	@Override
@@ -289,6 +288,7 @@ public class BeerDetailActivity extends Activity {
 			Log.d(LOG_TAG, "SaveRating onPostExecute()");
 			final int msgResId = result ? R.string.beerdetail_success_saveRating : R.string.beerdetail_fail_saveRating;
 			Toast.makeText(BeerDetailActivity.this, getString(msgResId), Toast.LENGTH_SHORT).show();
+			new GetBeerDetail(false).execute();
 		}
 	}
 }
