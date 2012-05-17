@@ -13,38 +13,38 @@
         <Button
             android:id="@+id_dashboardscreen/buttonBeerlist"
             style="@style/DashboardButton"
-            android:drawableTop="@drawable/dashboard_button_add"
+            android:drawableTop="@drawable/dashboard_button_beerlist"
             android:text="@string/dashboardscreen_beerlistButtonText" />
 
         <Button
             android:id="@+id_dashboardscreen/buttonTimeline"
             style="@style/DashboardButton"
-            android:drawableTop="@drawable/dashboard_button_add"
+            android:drawableTop="@drawable/dashboard_button_timeline"
             android:text="@string/dashboardscreen_timelineButtonText" />
 
         <Button
             android:id="@+id_dashboardscreen/buttonBreweries"
             style="@style/DashboardButton"
-            android:drawableTop="@drawable/dashboard_button_add"
+            android:drawableTop="@drawable/dashboard_button_breweries"
             android:text="@string/dashboardscreen_breweriesButtonText" />
 
         <Button
             android:id="@+id_dashboardscreen/buttonProfile"
             style="@style/DashboardButton"
-            android:drawableTop="@drawable/dashboard_button_add"
+            android:drawableTop="@drawable/dashboard_button_profile"
             android:text="@string/dashboardscreen_profileButtonText" />
 
         <Button
             android:id="@+id_dashboardscreen/buttonCreate"
             style="@style/DashboardButton"
-            android:drawableTop="@drawable/dashboard_button_add"
+            android:drawableTop="@drawable/dashboard_button_addbeer"
             android:text="@string/dashboardscreen_createButtonText" />
 
         <Button
             android:id="@+id_dashboardscreen/buttonRating"
             style="@style/DashboardButton"
-            android:drawableTop="@drawable/dashboard_button_add"
-            android:text="@string/dashboardscreen_ratingButtonText" />
+            android:drawableTop="@drawable/dashboard_button_recommendation"
+            android:text="@string/dashboardscreen_recommendationButtonText" />
     </ch.hsr.bieridee.android.layouts.DashboardLayout>
 
 </LinearLayout>

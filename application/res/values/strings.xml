@@ -52,7 +52,7 @@
     <string name="dashboardscreen_breweriesButtonText">Brauereien</string>
     <string name="dashboardscreen_profileButtonText">Profil</string>
     <string name="dashboardscreen_createButtonText">Bier erfassen</string>
-    <string name="dashboardscreen_ratingButtonText">Rating</string>
+    <string name="dashboardscreen_recommendationButtonText">Empfehlungen</string>
     <string name="dashboardscreen_loggedOut">Logout erfolgreich!</string>
 
     <!-- Beer list -->

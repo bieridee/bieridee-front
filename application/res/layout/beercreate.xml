@@ -18,7 +18,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginRight="5dp"
             android:contentDescription="@string/beer"
-            android:src="@drawable/icon_pixelbeer" />
+            android:src="@drawable/ic_beer" />
 
         <TextView
             android:layout_width="wrap_content"

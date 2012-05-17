@@ -9,6 +9,7 @@ import android.content.res.Resources;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import ch.hsr.bieridee.android.R;
@@ -107,17 +108,24 @@ public class ActionListAdapter extends BaseAdapter {
 		final LinearLayout wrapper = (LinearLayout) convertView;
 		final TextView name = (TextView) wrapper.findViewById(R.id_timelinelist.itemName);
 		final TextView time = (TextView) wrapper.findViewById(R.id_timelinelist.itemTime);
+		final ImageView icon = (ImageView) wrapper.findViewById(R.id_timelinelist.icon);
 		final TextView description = (TextView) wrapper.findViewById(R.id_timelinelist.itemDescription);
 		try {
 			final JSONObject beer = jsonAction.getJSONObject("beer");
 			final JSONObject user = jsonAction.getJSONObject("user");
 			final long secondsAgo = Long.parseLong(jsonAction.getString("secondsAgo"));
-
+			
 			final String title = user.getString("user");
 			String detailText;
 			detailText = createDetailText(jsonAction, user, beer);
 			time.setText(getTimeString(secondsAgo));
-
+			
+			if ("consumption".equals(jsonAction.getString("type"))) {
+				icon.setImageResource(R.drawable.ic_consumation2);
+			} else {
+				icon.setImageResource(R.drawable.ic_rating);
+			}
+			
 			name.setText(title);
 			description.setText(detailText);
 		} catch (JSONException e) {

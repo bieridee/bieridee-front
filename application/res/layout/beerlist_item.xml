@@ -12,7 +12,7 @@
         android:layout_gravity="center_vertical"
         android:layout_marginRight="5dp"
         android:contentDescription="@string/beer"
-        android:src="@drawable/icon_pixelbeer" />
+        android:src="@drawable/ic_beer" />
 
     <LinearLayout
         android:layout_width="match_parent"
