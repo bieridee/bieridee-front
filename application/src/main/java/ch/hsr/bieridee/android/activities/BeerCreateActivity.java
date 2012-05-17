@@ -10,6 +10,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,6 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 import ch.hsr.bieridee.android.R;
@@ -45,15 +47,16 @@ public class BeerCreateActivity extends Activity {
 	private Spinner brewerySpinner;
 	private Spinner beertypeSpinner;
 	private Button createButton;
+	private ImageButton createBreweryButton;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.beercreate);
-		
+
 		this.httpHelper = AuthJsonHttp.create();
 		this.progressDialog = new MultithreadProgressDialog(getString(R.string.pleaseWait), getString(R.string.loadingData));
-		
+
 		this.beername = (EditText) findViewById(R.id_beercreate.beername);
 		this.brand = (AutoCompleteTextView) findViewById(R.id_beercreate.brandAutocomplete);
 
@@ -64,11 +67,22 @@ public class BeerCreateActivity extends Activity {
 		this.brewerySpinner = (Spinner) findViewById(R.id_beercreate.brewerySpinner);
 		this.breweryAdapter = new CreateBeerSpinnerAdapter(this);
 		this.brewerySpinner.setAdapter(this.breweryAdapter);
-		
+
+		this.createBreweryButton = (ImageButton) findViewById(R.id_beercreate.createBreweryButton);
 		this.createButton = (Button) findViewById(R.id_beercreate.createButton);
 		setButtonAction();
+		setBreweryCreateAction();
 	}
 
+	private void setBreweryCreateAction() {
+		this.createBreweryButton.setOnClickListener(new OnClickListener() {
+
+			public void onClick(View v) {
+				final Intent intent = new Intent(v.getContext(), BreweryCreateActivity.class);
+				startActivity(intent);
+			}
+		});
+	}
 
 	@Override
 	public void onStart() {
@@ -77,17 +91,17 @@ public class BeerCreateActivity extends Activity {
 		new GetBeertypeData().execute();
 		new GetBreweryData().execute();
 	}
-	
+
 	private void setButtonAction() {
 		this.createButton.setOnClickListener(new OnClickListener() {
-			
+
 			public void onClick(View view) {
-				final String beername = BeerCreateActivity.this.beername.getText().toString().trim();	
+				final String beername = BeerCreateActivity.this.beername.getText().toString().trim();
 				final String brand = BeerCreateActivity.this.brand.getText().toString().trim();
 				final long beertypeId = BeerCreateActivity.this.beertypeSpinner.getSelectedItemId();
 				final long breweryId = BeerCreateActivity.this.brewerySpinner.getSelectedItemId();
-				
-				if(Validators.validateNonEmpty(beername) && Validators.validateNonEmpty(brand)) {
+
+				if (Validators.validateNonEmpty(beername) && Validators.validateNonEmpty(brand)) {
 					final JSONObject newBeer = new JSONObject();
 					try {
 						newBeer.put("name", beername);
@@ -102,12 +116,12 @@ public class BeerCreateActivity extends Activity {
 				} else {
 					Toast.makeText(BeerCreateActivity.this, "Bitte alles ausfüllen", Toast.LENGTH_SHORT).show();
 				}
-				
+
 			}
-			
+
 		});
 	}
-	
+
 	/**
 	 * Adds a new beer!
 	 */
@@ -134,20 +148,20 @@ public class BeerCreateActivity extends Activity {
 			}
 			return null;
 		}
-		
+
 		@Override
 		protected void onPostExecute(JSONObject result) {
-			if(result != null) {
+			if (result != null) {
 				Toast.makeText(BeerCreateActivity.this, "Bier wurde erfolgreich erstellt", Toast.LENGTH_SHORT).show();
-				BeerCreateActivity.this.beername.setText("");	
+				BeerCreateActivity.this.beername.setText("");
 				BeerCreateActivity.this.brand.setText("");
 			} else {
 				Toast.makeText(BeerCreateActivity.this, "whoa, fehler!", Toast.LENGTH_SHORT).show();
 			}
 		}
-		
+
 	}
-	
+
 	/**
 	 * Async task to get beertypes from server and update UI.
 	 */
@@ -233,7 +247,7 @@ public class BeerCreateActivity extends Activity {
 			BeerCreateActivity.this.progressDialog.hide();
 		}
 	}
-	
+
 	/**
 	 * Async task to get brands from server and add to the autocomplete list.
 	 */
@@ -271,7 +285,7 @@ public class BeerCreateActivity extends Activity {
 			Log.d(LOG_TAG, "onPostExecute()");
 			if (result != null) {
 				final String[] brands = new String[result.length()];
-				for(int i = 0; i < result.length(); i++) {
+				for (int i = 0; i < result.length(); i++) {
 					try {
 						brands[i] = result.getString(i);
 					} catch (JSONException e) {
