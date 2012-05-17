@@ -18,11 +18,11 @@ import ch.hsr.bieridee.android.config.Res;
 import ch.hsr.bieridee.android.exceptions.BierIdeeException;
 import ch.hsr.bieridee.android.http.HttpHelper;
 import ch.hsr.bieridee.android.http.requestprocessors.AcceptRequestProcessor;
+import ch.hsr.bieridee.android.utils.Crypto;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.mindrot.jbcrypt.BCrypt;
 
 /**
  * Activity with Registration Form.
@@ -127,7 +127,7 @@ public class RegistrationScreenActivity extends Activity {
 			}
 			this.username = params[0];
 			this.cleartextPassword = params[4];
-			this.hashedPassword = BCrypt.hashpw(this.cleartextPassword, BCrypt.gensalt());
+			this.hashedPassword = Crypto.hashUserPw(this.cleartextPassword, this.username);
 
 			final JSONObject user = new JSONObject();
 			try {
@@ -140,7 +140,7 @@ public class RegistrationScreenActivity extends Activity {
 				throw new BierIdeeException("Creating the user JSON object failed.", e);
 			}
 
-			// Send HTTP request
+			// Send HTTP request (TODO: In production, this should happen via SSL/TLS)
 			final HttpHelper httpHelper = new HttpHelper();
 			httpHelper.addRequestProcessor(new AcceptRequestProcessor(AcceptRequestProcessor.ContentType.JSON));
 			return httpHelper.put(Res.getURI(Res.USER_DOCUMENT, this.username), user);

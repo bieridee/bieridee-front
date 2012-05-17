@@ -4,6 +4,7 @@ import android.util.Log;
 import ch.hsr.bieridee.android.config.Auth;
 import ch.hsr.bieridee.android.exceptions.BierIdeeException;
 import ch.hsr.bieridee.android.http.IRequestProcessor;
+import org.apache.commons.codec.binary.Hex;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
 import org.apache.http.client.methods.HttpRequestBase;
@@ -72,10 +73,7 @@ public class HMACAuthRequestProcessor implements IRequestProcessor {
 			m.update(hmacInputData.getBytes());
 			byte[] macBytes = m.doFinal();
 
-			// Convert byte array to hex string
-			for (byte b : macBytes) {
-				macString += Integer.toString((b & 0xff) + 0x100, 16).substring(1);
-			}
+			macString = Hex.encodeHexString(macBytes);
 		} catch (NoSuchAlgorithmException e) {
 			throw new BierIdeeException("HmacSHA256 algorithm missing", e);
 		} catch (InvalidKeyException e) {

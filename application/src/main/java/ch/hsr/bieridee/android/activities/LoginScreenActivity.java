@@ -18,9 +18,9 @@ import ch.hsr.bieridee.android.config.Res;
 import ch.hsr.bieridee.android.exceptions.BierIdeeException;
 import ch.hsr.bieridee.android.http.AuthJsonHttp;
 import ch.hsr.bieridee.android.http.HttpHelper;
+import ch.hsr.bieridee.android.utils.Crypto;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
-import org.mindrot.jbcrypt.BCrypt;
 
 /**
  * Login Screen Activity.
@@ -93,15 +93,6 @@ public class LoginScreenActivity extends Activity {
 	 */
 	private void addLoginListener() {
 		this.buttonLogin.setOnClickListener(new OnClickListener() {
-			/**
-			 * Save user data to the shared settings.
-			 */
-			private void saveSettings() {
-				final String newUsername = LoginScreenActivity.this.inputUsername.getText().toString();
-				final String newPassword = LoginScreenActivity.this.inputPassword.getText().toString();
-				Auth.setAuth(newUsername, newPassword);
-			}
-
 			public void onClick(View v) {
 				Log.d("info", "Login Button was pressed");
 
@@ -141,7 +132,7 @@ public class LoginScreenActivity extends Activity {
 
 			// Set username, hash password
 			this.username = params[0];
-			this.hashedPassword = BCrypt.hashpw(params[1], BCrypt.gensalt());
+			this.hashedPassword = Crypto.hashUserPw(params[1], this.username);
 
 			// Send HTTP request
 			final HttpHelper httpHelper = AuthJsonHttp.create(this.username, this.hashedPassword);
