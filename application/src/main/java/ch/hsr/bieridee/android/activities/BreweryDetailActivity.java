@@ -103,7 +103,7 @@ public final class BreweryDetailActivity extends Activity {
 					final String size = result.getString("size");
 					final String description = result.getString("description");
 					BreweryDetailActivity.this.name.setText(name);
-					BreweryDetailActivity.this.size.setText(size);
+					BreweryDetailActivity.this.size.setText(BreweryDetailActivity.this.translateSize(size));
 					BreweryDetailActivity.this.description.setText(description);
 				} catch (JSONException e) {
 					Toast.makeText(BreweryDetailActivity.this, getString(R.string.brewerydetail_fail_loadDetail), Toast.LENGTH_LONG).show();
@@ -115,7 +115,24 @@ public final class BreweryDetailActivity extends Activity {
 			BreweryDetailActivity.this.progressDialog.dismiss();
 		}
 	}
-
+	
+	private String translateSize(String size) {
+		final StringBuilder sizeString = new StringBuilder(getString(R.string.size)).append(": ");
+		if ("micro".equals(size)) {
+			sizeString.append(this.getString(R.string.brewerydetail_micro));
+		}
+		if("regional".equals(size)) {
+			sizeString.append(this.getString(R.string.brewerydetail_regional));
+		}
+		if("national".equals(size)) {
+			sizeString.append(this.getString(R.string.brewerydetail_national));
+		}
+		if("international".equals(size)) {
+			sizeString.append(this.getString(R.string.brewerydetail_international));
+		}
+		return sizeString.toString();
+	}
+	
 	@Override
 	public String toString() {
 		return "BreweryDetailActivity{name=" + this.name + '}';

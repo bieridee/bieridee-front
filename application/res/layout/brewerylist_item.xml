@@ -2,21 +2,27 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:padding="10dp" >
 
     <TextView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id_brewerylist/itemName"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:textAppearance="?android:attr/textAppearanceMedium">
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textAppearance="?android:attr/textAppearanceLarge" >
     </TextView>
 
     <TextView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id_brewerylist/itemDescription"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textAppearance="?android:attr/textAppearanceSmall" >
     </TextView>
 
 </LinearLayout>

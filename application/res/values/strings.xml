@@ -25,6 +25,7 @@
     <string name="brand">Marke</string>
     <string name="beertype">Bieryp</string>
     <string name="brewery">Brauerei</string>
+    <string name="size">Grösse</string>
 
     <!-- Login screen specific strings -->
     <string name="loginscreen_title">BierIdee Login</string>
@@ -69,11 +70,15 @@
     <string name="brewerylist_title">Brauereien</string>
 
     <!-- Brewery detail -->
-    <string name="brewerydetail_title">Brauerei Detail</string>
-    <string name="brewerydetail_descriptionTitle">Beschreibung</string>
+    <string name="brewerydetail_title">Brauerei Informationen</string>
+    <string name="brewerydetail_descriptionTitle">Beschreibung:</string>
     <string name="brewerydetail_breweryName">Brauerei Name</string>
     <string name="brewerydetail_brewerySize">Brauerei Grösse</string>
     <string name="brewerydetail_breweryDescription">Brauerei Beschreibung</string>
+    <string name="brewerydetail_micro">Mikro</string>
+    <string name="brewerydetail_regional">Regional</string>
+    <string name="brewerydetail_national">National</string>
+    <string name="brewerydetail_international">International</string>
     <string name="brewerydetail_fail_loadDetail">Fehler: Brauereidetails konnten nicht vom Server geladen werden.</string>
 	
     <!-- Beer create -->
