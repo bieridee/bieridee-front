@@ -26,6 +26,8 @@
     <string name="beertype">Bieryp</string>
     <string name="brewery">Brauerei</string>
     <string name="size">Grösse</string>
+    <string name="more">Mehr</string>
+    <string name="add">Erfassen</string>
 
     <!-- Login screen specific strings -->
     <string name="loginscreen_title">BierIdee Login</string>
@@ -83,10 +85,15 @@
     <string name="brewerydetail_fail_loadDetail">Fehler: Brauereidetails konnten nicht vom Server geladen werden.</string>
 	
     <!-- Beer create -->
-    <string name="beercreate_activitytitle">Bier erstellen</string>
-    <string name="beercreate_createbeer">Bier erstellen</string>
+    <string name="beercreate_activitytitle">Bier erfassen</string>
+    <string name="beercreate_createbeer">Bier erfassen</string>
     <string name="beercreate_chooseBeertype">Biertyp wählen</string>
     <string name="beercreate_chooseBrewery">Brauerei wählen</string>
+    <string name="beercreate_introText">Hier hast du die Möglichkeit ein neues Bier zu erfassen:</string>
+    <string name="beercreate_nameInfo">Gib hier den Namen des Bieres ein.</string>
+    <string name="beercreate_brandInfo">Bei der Marke handelt es sich um die Handelsmarke des Bieres. Die Marke entspricht oft der Brauerei, teilweise aber nicht. Zum Beispiel beim \'Vollmond Bier\' ist die Marke \'Appenzeller Bier\' die Brauerei jedoch \'Locher AG\'.</string>
+    <string name="beercreate_beertypeInfo">Hier wird der Typ des Bieres definiert. Tippe auf \'Mehr\' um mehr über die Biertypen zu erfahren.</string>
+    <string name="beercreate_breweryInfo">Wer hat dieses Bier gebraut? Falls die Brauerei für dieses Bier noch nicht erfasst ist, kannst du sie mit gleich mit \'Erfassen\' hinzufügen.</string>
     
     <!-- About screen -->
     <string name="aboutscreen_activitytitle">Über BierIdee</string>

@@ -10,6 +10,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,6 +21,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 import ch.hsr.bieridee.android.R;
@@ -44,6 +47,10 @@ public class BeerCreateActivity extends Activity {
 	private AutoCompleteTextView brand;
 	private Spinner brewerySpinner;
 	private Spinner beertypeSpinner;
+	private ImageButton beerNameInfoButton;
+	private ImageButton brandInfoButton;
+	private ImageButton beertypeInfoButton;
+	private ImageButton breweryInfoButton;
 	private Button createButton;
 
 	@Override
@@ -66,7 +73,94 @@ public class BeerCreateActivity extends Activity {
 		this.brewerySpinner.setAdapter(this.breweryAdapter);
 		
 		this.createButton = (Button) findViewById(R.id_beercreate.createButton);
-		setButtonAction();
+		this.setCreateButtonAction();
+		
+		this.beerNameInfoButton = (ImageButton) findViewById(R.id_beercreate.nameInfoButton);
+		this.setBeerNameInfoButtonAction();
+		this.brandInfoButton = (ImageButton) findViewById(R.id_beercreate.brandInfoButton);
+		this.setBrandNameInfoButtonAction();
+		this.beertypeInfoButton = (ImageButton) findViewById(R.id_beercreate.beertypeInfoButton);
+		setBeertypeInfoButtonAction();
+		this.breweryInfoButton = (ImageButton) findViewById(R.id_beercreate.breweryInfoButton);
+		setBreweryInfoButtonAction();
+	}
+
+
+	private void setBeerNameInfoButtonAction() {
+		this.beerNameInfoButton.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				final AlertDialog.Builder builder = new AlertDialog.Builder(BeerCreateActivity.this);
+				builder.setMessage(BeerCreateActivity.this.getString(R.string.beercreate_nameInfo))
+				       .setCancelable(true)
+				       .setPositiveButton(BeerCreateActivity.this.getString(android.R.string.ok), new DialogInterface.OnClickListener() {
+				           public void onClick(DialogInterface dialog, int id) {
+				        	   dialog.cancel();
+				           }
+				       }) ;
+				final AlertDialog info = builder.create();
+				info.show();
+			}
+		});
+	}
+	private void setBrandNameInfoButtonAction() {
+		this.brandInfoButton.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				final AlertDialog.Builder builder = new AlertDialog.Builder(BeerCreateActivity.this);
+				builder.setMessage(BeerCreateActivity.this.getString(R.string.beercreate_brandInfo))
+				.setCancelable(true)
+				.setPositiveButton(BeerCreateActivity.this.getString(android.R.string.ok), new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						dialog.cancel();
+					}
+				});
+				final AlertDialog info = builder.create();
+				info.show();
+			}
+		});
+	}
+	private void setBeertypeInfoButtonAction() {
+		this.beertypeInfoButton.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				final AlertDialog.Builder builder = new AlertDialog.Builder(BeerCreateActivity.this);
+				builder.setMessage(BeerCreateActivity.this.getString(R.string.beercreate_beertypeInfo))
+				.setCancelable(true)
+				.setPositiveButton(BeerCreateActivity.this.getString(android.R.string.ok), new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						dialog.cancel();
+					}
+				})
+				.setNeutralButton(BeerCreateActivity.this.getString(R.string.more), new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						Toast.makeText(BeerCreateActivity.this, "TOFU", Toast.LENGTH_SHORT).show();
+						dialog.cancel();
+					}
+				});
+				final AlertDialog info = builder.create();
+				info.show();
+			}
+		});
+	}
+	private void setBreweryInfoButtonAction() {
+		this.breweryInfoButton.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				final AlertDialog.Builder builder = new AlertDialog.Builder(BeerCreateActivity.this);
+				builder.setMessage(BeerCreateActivity.this.getString(R.string.beercreate_breweryInfo))
+				.setCancelable(true)
+				.setPositiveButton(BeerCreateActivity.this.getString(android.R.string.ok), new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						dialog.cancel();
+					}
+				})
+				.setNeutralButton(BeerCreateActivity.this.getString(R.string.add), new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						Toast.makeText(BeerCreateActivity.this, "TOFU", Toast.LENGTH_SHORT).show();
+						dialog.cancel();
+					}
+				});
+				final AlertDialog info = builder.create();
+				info.show();
+			}
+		});
 	}
 
 
@@ -78,7 +172,7 @@ public class BeerCreateActivity extends Activity {
 		new GetBreweryData().execute();
 	}
 	
-	private void setButtonAction() {
+	private void setCreateButtonAction() {
 		this.createButton.setOnClickListener(new OnClickListener() {
 			
 			public void onClick(View view) {

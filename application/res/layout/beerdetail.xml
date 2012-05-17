@@ -9,8 +9,8 @@
         android:id="@+id_beerdetail/beerName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
         android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="10dp"
         android:text="@string/beerdetail_title"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
@@ -37,12 +37,16 @@
             <TextView
                 android:id="@+id_beerdetail/beerBrand"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:singleLine="true" />
 
             <TextView
                 android:id="@+id_beerdetail/beerBrewery"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:singleLine="true" />
 
             <RatingBar
                 android:id="@+id_beerdetail/beerAverageratingBar"
