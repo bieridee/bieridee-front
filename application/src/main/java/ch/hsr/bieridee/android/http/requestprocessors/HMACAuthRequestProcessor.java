@@ -40,7 +40,7 @@ public class HMACAuthRequestProcessor implements IRequestProcessor {
 		final String accept = request.getFirstHeader("Accept").getValue();
 
 		String body = "";
-		String contentLength = "";
+		String contentLength = "0";
 
 		if (request instanceof HttpEntityEnclosingRequestBase) {
 			final HttpEntity entity = ((HttpEntityEnclosingRequestBase) request).getEntity();
@@ -73,7 +73,7 @@ public class HMACAuthRequestProcessor implements IRequestProcessor {
 			m.update(hmacInputData.getBytes());
 			byte[] macBytes = m.doFinal();
 
-			macString = Hex.encodeHexString(macBytes);
+			macString = new String(Hex.encodeHex(macBytes));
 		} catch (NoSuchAlgorithmException e) {
 			throw new BierIdeeException("HmacSHA256 algorithm missing", e);
 		} catch (InvalidKeyException e) {

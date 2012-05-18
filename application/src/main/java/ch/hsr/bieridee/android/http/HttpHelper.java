@@ -192,6 +192,7 @@ public final class HttpHelper {
 		// Initialize HttpClient with previously defined parameters
 		final HttpClient client = new DefaultHttpClient(httpParameters);
 
+		// TODO IOException weiterwerfen
 		try {
 			return client.execute(request);
 		} catch (IOException e) {
