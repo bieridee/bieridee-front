@@ -84,10 +84,9 @@ public class BreweryCreateActivity extends Activity {
 					} catch (JSONException e) {
 						e.printStackTrace();
 					}
-					Log.d(LOG_TAG, newBrewery.toString());
 					new BreweryCreateActivity.AddNewBrewery().execute(newBrewery);
 				} else {
-					Toast.makeText(BreweryCreateActivity.this, "Bitte alles ausfüllen", Toast.LENGTH_SHORT).show();
+					Toast.makeText(BreweryCreateActivity.this, BreweryCreateActivity.this.getString(R.string.pleaseProvideAllData), Toast.LENGTH_SHORT).show();
 				}
 
 			}
@@ -125,12 +124,12 @@ public class BreweryCreateActivity extends Activity {
 		@Override
 		protected void onPostExecute(JSONObject result) {
 			if (result != null) {
-				Toast.makeText(BreweryCreateActivity.this, "Brauerei wurde erfolgreich erstellt", Toast.LENGTH_SHORT).show();
+				Toast.makeText(BreweryCreateActivity.this, BreweryCreateActivity.this.getString(R.string.brewerycreate_successfull), Toast.LENGTH_SHORT).show();
 				BreweryCreateActivity.this.breweryName.setText("");
 				// TODO proper "go back" to the previous activity
 				BreweryCreateActivity.this.finish();
 			} else {
-				Toast.makeText(BreweryCreateActivity.this, "whoa, fehler!", Toast.LENGTH_SHORT).show();
+				Toast.makeText(BreweryCreateActivity.this, BreweryCreateActivity.this.getString(R.string.handsomeError), Toast.LENGTH_SHORT).show();
 			}
 		}
 
@@ -172,10 +171,10 @@ public class BreweryCreateActivity extends Activity {
 		protected void onPostExecute(JSONArray result) {
 			Log.d(LOG_TAG, "onPostExecute()");
 			if (result != null) {
+				BreweryCreateActivity.this.brewerySizeAdapter.updateData(result);
+				BreweryCreateActivity.this.brewerySizeAdapter.notifyDataSetChanged();
+				BreweryCreateActivity.this.progressDialog.hide();
 			}
-			BreweryCreateActivity.this.brewerySizeAdapter.updateData(result);
-			BreweryCreateActivity.this.brewerySizeAdapter.notifyDataSetChanged();
-			BreweryCreateActivity.this.progressDialog.hide();
 		}
 	}
 }
