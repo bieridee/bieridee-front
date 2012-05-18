@@ -80,13 +80,17 @@
     <string name="brewerydetail_brewerySize">Brauerei Grösse</string>
     <string name="brewerydetail_breweryDescription">Brauerei Beschreibung</string>
     <string name="brewerydetail_fail_loadDetail">Fehler: Brauereidetails konnten nicht vom Server geladen werden.</string>
-	
+
     <!-- Beer create -->
     <string name="beercreate_activitytitle">Bier erstellen</string>
     <string name="beercreate_createbeer">Bier erstellen</string>
     <string name="beercreate_chooseBeertype">Biertyp wählen</string>
     <string name="beercreate_chooseBrewery">Brauerei wählen</string>
-    
+
+    <!-- Brewery create -->
+    <string name="brewerycreate_createBrewery">Brauerei erstellen</string>
+    <string name="brewerycreate_title">Brauerei erstellen</string>
+
     <!-- About screen -->
     <string name="aboutscreen_activitytitle">Über BierIdee</string>
     <string name="aboutscreen_title">Über BierIdee</string>

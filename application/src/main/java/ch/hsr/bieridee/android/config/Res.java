@@ -48,13 +48,16 @@ public final class Res {
 	// consumption
 	public static final String CONSUMPTION_COLLECTION = "/consumptions";
 	public static final String CONSUMPTION_DOCUMENT = BEER_DOCUMENT + CONSUMPTION_COLLECTION + "/{" + USER_REQ_ATTR + "}";
-	
+
 	// brand
 	public static final String BRAND_COLLECTION = "/brands";
-	
+
 	// timeline
 	public static final String TIMELINE_COLLECTION = "/timeline";
 	public static final String TIMELINE_FILTER_USERNAME = "username";
+
+	// brewerysize
+	public static final String BREWERYSIZE_COLLECTION = "/brewerysizes";
 
 	/**
 	 * Returns the specified URI.
