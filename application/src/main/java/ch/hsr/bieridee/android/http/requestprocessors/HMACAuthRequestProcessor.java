@@ -56,13 +56,6 @@ public class HMACAuthRequestProcessor implements IRequestProcessor {
 			}
 		}
 
-		Log.d(LOG_TAG, "URI: " + uri);
-		Log.d(LOG_TAG, "Method: " + method);
-		Log.d(LOG_TAG, "Accept: " + accept);
-		Log.d(LOG_TAG, "Content-Length: " + contentLength);
-		Log.d(LOG_TAG, "Body: " + body);
-		Log.d(LOG_TAG, "Processing HMAC Processor");
-
 		final String hmacInputData = method + uri + accept + contentLength + body;
 		String macString = "";
 		try {
@@ -85,7 +78,7 @@ public class HMACAuthRequestProcessor implements IRequestProcessor {
 		}
 		final String authorizationHeader = this.username + ":" + macString;
 		request.setHeader("Authorization", authorizationHeader);
-		Log.d(LOG_TAG, "Setting Authorization header to \"" + authorizationHeader + "\".");
+
 		return request;
 	}
 }
