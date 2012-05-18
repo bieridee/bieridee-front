@@ -36,10 +36,12 @@ public class RegistrationScreenActivity extends Activity {
 	private EditText inputPrename;
 	private EditText inputSurname;
 	private Button buttonRegister;
-	private TextView usernameHint;
+	private TextView usernameInvalidHint;
+	private TextView usernameUnavailableHint;
 	private TextView emailHint;
 	private TextView prenameHint;
 	private TextView surnameHint;
+	private TextView passwordHint;
 	private ProgressDialog progressDialog;
 
 	@Override
@@ -58,10 +60,12 @@ public class RegistrationScreenActivity extends Activity {
 		this.buttonRegister = (Button) this.findViewById(R.id_registrationscreen.registrationButton);
 
 		// Hints
-		this.usernameHint = (TextView) this.findViewById(R.id_registrationscreen.usernameHint);
 		this.emailHint = (TextView) this.findViewById(R.id_registrationscreen.emailHint);
 		this.prenameHint = (TextView) this.findViewById(R.id_registrationscreen.prenameHint);
 		this.surnameHint = (TextView) this.findViewById(R.id_registrationscreen.surnameHint);
+		this.usernameInvalidHint = (TextView) this.findViewById(R.id_registrationscreen.usernameInvalidHint);
+		this.usernameUnavailableHint = (TextView) this.findViewById(R.id_registrationscreen.usernameUnavailableHint);
+		this.passwordHint = (TextView) this.findViewById(R.id_registrationscreen.passwordHint);
 
 		this.addRegisterOnClickListener();
 	}
@@ -75,19 +79,22 @@ public class RegistrationScreenActivity extends Activity {
 				final String surname = RegistrationScreenActivity.this.inputSurname.getText().toString().trim();
 				final String prename = RegistrationScreenActivity.this.inputPrename.getText().toString().trim();
 				final String email = RegistrationScreenActivity.this.inputEmail.getText().toString().trim();
-				final String password = RegistrationScreenActivity.this.inputPassword.getText().toString().trim();
+				final String password = RegistrationScreenActivity.this.inputPassword.getText().toString();
 
 				boolean allValid = true;
 
 				if (!Validators.validateUsername(username)) {
-					RegistrationScreenActivity.this.usernameHint.setVisibility(View.VISIBLE);
+					RegistrationScreenActivity.this.usernameInvalidHint.setVisibility(View.VISIBLE);
 					allValid = false;
 				}
 				if (!Validators.validateEmail(email)) {
 					RegistrationScreenActivity.this.emailHint.setVisibility(View.VISIBLE);
 					allValid = false;
 				}
-
+				if (!Validators.validatePassword(password)) {
+					RegistrationScreenActivity.this.passwordHint.setVisibility(View.VISIBLE);
+					allValid = false;
+				}
 				if (!Validators.validateName(prename)) {
 					RegistrationScreenActivity.this.prenameHint.setVisibility(View.VISIBLE);
 					allValid = false;
@@ -168,6 +175,12 @@ public class RegistrationScreenActivity extends Activity {
 					intent.putExtra("password", this.cleartextPassword);
 					startActivity(intent);
 					return;
+				} else if (statusCode == HttpStatus.SC_CONFLICT) {
+					// Show unavailable username hint
+					RegistrationScreenActivity.this.usernameUnavailableHint.setVisibility(View.VISIBLE);
+
+					// Set focus
+					RegistrationScreenActivity.this.inputUsername.requestFocus();
 				}
 				Log.e(LOG_TAG, "Registration failed with HTTP status code " + statusCode);
 			}
@@ -183,8 +196,10 @@ public class RegistrationScreenActivity extends Activity {
 	private void resetHints() {
 		Log.d(LOG_TAG, "Resetting Hints");
 		this.emailHint.setVisibility(View.GONE);
-		this.usernameHint.setVisibility(View.GONE);
+		this.usernameInvalidHint.setVisibility(View.GONE);
+		this.usernameUnavailableHint.setVisibility(View.GONE);
 		this.prenameHint.setVisibility(View.GONE);
 		this.surnameHint.setVisibility(View.GONE);
+		this.passwordHint.setVisibility(View.GONE);
 	}
 }
