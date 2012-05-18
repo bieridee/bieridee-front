@@ -241,7 +241,6 @@ public class BeerDetailActivity extends Activity {
 			Log.d(LOG_TAG, "TrackConsumption doInBackground()");
 
 			final String uri = Res.getURI(Res.CONSUMPTION_DOCUMENT, Long.toString(BeerDetailActivity.this.beerId), BeerDetailActivity.this.username);
-			Log.d(LOG_TAG, "POST " + uri);
 			final HttpResponse response = BeerDetailActivity.this.httpHelper.post(uri);
 
 			if (response == null) {
@@ -276,12 +275,13 @@ public class BeerDetailActivity extends Activity {
 				throw new BierIdeeException("Could not create rating JSONObject", e);
 			}
 
-			try {
-				BeerDetailActivity.this.httpHelper.post(uri, newRating);
-			} catch (BierIdeeException e) {
+			final HttpResponse response = BeerDetailActivity.this.httpHelper.post(uri, newRating);
+
+			if (response == null) {
 				return false;
 			}
-			return true;
+			final int statusCode = response.getStatusLine().getStatusCode();
+			return statusCode == HttpStatus.SC_CREATED;
 		}
 
 		@Override
