@@ -79,7 +79,7 @@ public class RegistrationScreenActivity extends Activity {
 				final String surname = RegistrationScreenActivity.this.inputSurname.getText().toString().trim();
 				final String prename = RegistrationScreenActivity.this.inputPrename.getText().toString().trim();
 				final String email = RegistrationScreenActivity.this.inputEmail.getText().toString().trim();
-				final String password = RegistrationScreenActivity.this.inputPassword.getText().toString();
+				final String password = RegistrationScreenActivity.this.inputPassword.getText().toString().trim();
 
 				boolean allValid = true;
 
