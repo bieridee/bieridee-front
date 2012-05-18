@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" 
-    android:padding="10dp">
+    android:orientation="vertical"
+    android:padding="10dp" >
 
     <TextView
         android:layout_width="wrap_content"
@@ -17,7 +17,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="textCapWords" />
+        android:inputType="textCapWords" >
+
+        <requestFocus android:layout_width="wrap_content" />
+    </EditText>
 
     <TextView
         android:layout_width="wrap_content"
@@ -26,22 +29,21 @@
         android:text="@string/brewerydetail_breweryDescription"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <AutoCompleteTextView
+    <EditText
         android:id="@+id_brewerycreate/breweryDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10" >
-
-        <requestFocus android:layout_width="wrap_content" />
-
-    </AutoCompleteTextView>
+        android:ems="10"
+        android:inputType="textMultiLine"
+        android:lines="3" >
+    </EditText>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="3dp"
-        android:text="@string/brewerydetail_brewerySize" 
-        android:textAppearance="?android:attr/textAppearanceMedium"/>
+        android:text="@string/brewerydetail_brewerySize"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <Spinner
         android:id="@+id_brewerycreate/brewerySizeSpinner"
@@ -51,12 +53,12 @@
 
     <Button
         android:id="@+id_brewerycreate/createButton"
-        android:layout_marginTop="20dp"
-        android:layout_gravity="center_horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/brewerycreate_createBrewery"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
         android:minHeight="20dp"
-        android:minWidth="200dp"/>
+        android:minWidth="200dp"
+        android:text="@string/brewerycreate_createBrewery" />
 
 </LinearLayout>
