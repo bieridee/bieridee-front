@@ -65,8 +65,8 @@ public final class HttpHelper {
 	 * @return A HttpResponse instance
 	 */
 	public HttpResponse get(String uri) {
-		final HttpRequestBase request = this.applyRequestProcessors(new HttpGet(uri));
-		return this.execute(request);
+		final HttpRequestBase request = new HttpGet(uri);
+		return this.execute(this.applyRequestProcessors(request));
 	}
 
 	/**
@@ -103,14 +103,14 @@ public final class HttpHelper {
 	 * @return A HttpResponse instance
 	 */
 	public HttpResponse post(String uri, AbstractHttpEntity data, String contentType) {
-		final HttpPost request = (HttpPost) this.applyRequestProcessors(new HttpPost(uri));
+		final HttpPost request = new HttpPost(uri);
 		if (data != null) {
 			request.setEntity(data);
 		}
 		if (contentType != null) {
 			request.setHeader("Content-type", contentType);
 		}
-		return this.execute(request);
+		return this.execute(this.applyRequestProcessors(request));
 	}
 
 	/**
@@ -147,14 +147,14 @@ public final class HttpHelper {
 	 * @return A HttpResponse instance
 	 */
 	public HttpResponse put(String uri, AbstractHttpEntity data, String contentType) {
-		final HttpPut request = (HttpPut) this.applyRequestProcessors(new HttpPut(uri));
+		final HttpPut request = new HttpPut(uri);
 		if (data != null) {
 			request.setEntity(data);
 		}
 		if (contentType != null) {
 			request.setHeader("Content-type", contentType);
 		}
-		return this.execute(request);
+		return this.execute(this.applyRequestProcessors(request));
 	}
 
 	/**
@@ -163,8 +163,8 @@ public final class HttpHelper {
 	 * @return A HttpResponse instance
 	 */
 	public HttpResponse delete(String uri) {
-		final HttpRequestBase request = this.applyRequestProcessors(new HttpDelete(uri));
-		return this.execute(request);
+		final HttpRequestBase request = new HttpDelete(uri);
+		return this.execute(this.applyRequestProcessors(request));
 	}
 
 	/**
@@ -192,6 +192,7 @@ public final class HttpHelper {
 		// Initialize HttpClient with previously defined parameters
 		final HttpClient client = new DefaultHttpClient(httpParameters);
 
+		// TODO IOException weiterwerfen
 		try {
 			return client.execute(request);
 		} catch (IOException e) {

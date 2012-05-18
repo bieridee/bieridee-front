@@ -49,12 +49,19 @@ public class HomeScreenActivity extends Activity {
 	}
 
 	@Override
-	public void onStart() {
-		super.onStart();
+	public void onResume() {
+		super.onResume();
 		// Only show screen if login information have been set
 		if (!Auth.dataAvailable()) {
 			final Intent intent = new Intent(this.getBaseContext(), LoginScreenActivity.class);
-			startActivity(intent);
+			startActivityForResult(intent, LoginScreenActivity.REQUEST_CODE_LOGIN);
+		}
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (resultCode == LoginScreenActivity.RESULT_CODE_EXIT) {
+			finish();
 		}
 	}
 

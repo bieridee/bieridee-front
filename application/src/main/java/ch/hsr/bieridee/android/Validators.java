@@ -43,6 +43,16 @@ public final class Validators {
 	}
 
 	/**
+	 * Validate a password.
+	 *
+	 * @param password Password string
+	 * @return boolean
+	 */
+	public static boolean validatePassword(String password) {
+		return password.matches("\\w{8,}");
+	}
+
+	/**
 	 * Checks if a string is not emtpy.
 	 * 
 	 * @param string

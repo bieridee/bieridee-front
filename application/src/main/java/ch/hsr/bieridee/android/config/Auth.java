@@ -12,7 +12,6 @@ public final class Auth {
 	private static final String PREFS_NAME = "auth";
 	private static final String USERNAME_KEY = "username";
 	private static final String PASSWORD_KEY = "password";
-	private static final String AUTOLOGIN_KEY = "autologin";
 
 	/**
 	 * Returns shared preferences.
@@ -33,19 +32,11 @@ public final class Auth {
 	/**
 	 * Saves user data to the shared settings.
 	 */
-	public static void setAuth(String username, String password, boolean autologin) {
+	public static void setAuth(String username, String password) {
 		SharedPreferences.Editor editor = getEditor();
 		editor.putString(USERNAME_KEY, username);
 		editor.putString(PASSWORD_KEY, password);
-		editor.putBoolean(AUTOLOGIN_KEY, autologin);
 		editor.commit();
-	}
-
-	/**
-	 * Saves user data to the shared settings. Enables autologin.
-	 */
-	public static void setAuth(String username, String password) {
-		setAuth(username, password, true);
 	}
 
 	/**
@@ -75,15 +66,6 @@ public final class Auth {
 	public static String getPassword() {
 		SharedPreferences authStore = getSharedPreferences();
 		return authStore.getString(PASSWORD_KEY, "");
-	}
-
-	/**
-	 * Returns the autologin setting.
-	 * @return Whether or not autologin is enabled.
-	 */
-	public static boolean getAutologin() {
-		SharedPreferences authStore = getSharedPreferences();
-		return authStore.getBoolean(AUTOLOGIN_KEY, false);
 	}
 
 	/**

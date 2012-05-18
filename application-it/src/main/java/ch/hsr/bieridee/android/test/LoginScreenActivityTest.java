@@ -24,12 +24,11 @@ public class LoginScreenActivityTest extends ActivityInstrumentationTestCase2<Lo
 
 	public void testSavingLoginInformation() {
 		// Set test data
-		final String testUsername = "Chuck Norris";
-		final String testPassword = "roundhouse";
+		final String testUsername = "testuser";
+		final String testPassword = "testpass";
 		final boolean autologinEnabled = true;
 
 		// Initialize GUI elements
-		final CheckBox autologinInputBefore;
 		final EditText usernameInputBefore;
 		final EditText passwordInputBefore;
 
@@ -39,7 +38,6 @@ public class LoginScreenActivityTest extends ActivityInstrumentationTestCase2<Lo
 
 		usernameInputBefore = (EditText) activity.findViewById(ch.hsr.bieridee.android.R.id_loginscreen.inputUsername);
 		passwordInputBefore = (EditText) activity.findViewById(ch.hsr.bieridee.android.R.id_loginscreen.inputPassword);
-		autologinInputBefore = (CheckBox) activity.findViewById(ch.hsr.bieridee.android.R.id_loginscreen.checkboxAutologin);
 
 		// Set test data
 		activity.runOnUiThread(new Runnable() {
@@ -47,7 +45,6 @@ public class LoginScreenActivityTest extends ActivityInstrumentationTestCase2<Lo
 			public void run() {
 				usernameInputBefore.setText(testUsername);
 				passwordInputBefore.setText(testPassword);
-				autologinInputBefore.setChecked(autologinEnabled);
 			}
 		});
 
@@ -59,10 +56,8 @@ public class LoginScreenActivityTest extends ActivityInstrumentationTestCase2<Lo
 		// Verify data (should have been stored)
 		usernameInputAfter = (EditText) activity.findViewById(ch.hsr.bieridee.android.R.id_loginscreen.inputUsername);
 		passwordInputAfter = (EditText) activity.findViewById(ch.hsr.bieridee.android.R.id_loginscreen.inputPassword);
-		autologinInputAfter = (CheckBox) activity.findViewById(ch.hsr.bieridee.android.R.id_loginscreen.checkboxAutologin);
 
 		assertEquals(testUsername, usernameInputAfter.getText().toString());
 		assertEquals(testPassword, passwordInputAfter.getText().toString());
-		assertEquals(autologinEnabled, autologinInputAfter.isChecked());
 	}
 }

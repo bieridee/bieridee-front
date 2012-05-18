@@ -1,99 +1,133 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent"
-              android:orientation="vertical"
-              android:gravity="center">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:fillViewport="true"
+            android:overScrollMode="always"
+            android:isScrollContainer="true"
+            android:scrollbarAlwaysDrawVerticalTrack="false"
+            android:scrollbarStyle="outsideInset"
+            android:scrollbars="vertical">
 
-	<!-- Prename Field -->
+	<LinearLayout android:layout_width="fill_parent"
+	              android:layout_height="fill_parent"
+	              android:paddingTop="20dp"
+	              android:paddingBottom="20dp"
+	              android:orientation="vertical"
+	              android:gravity="center">
 
-	<EditText
-		android:id="@+id_registrationscreen/prenameInput"
-		android:inputType="textPersonName"
-		android:layout_width="250dp"
-		android:layout_height="wrap_content"
-		android:clickable="true"
-		android:hint="@string/prename" />
+		<!-- Prename Field -->
 
-	<TextView
-		android:id="@+id_registrationscreen/prenameHint"
-		android:layout_width="250dp"
-		android:layout_height="wrap_content"
-		android:text="@string/registrationscreen_invalidInput"
-		android:textColor="@color/red"
-		android:visibility="gone" />
+		<EditText
+			android:id="@+id_registrationscreen/prenameInput"
+			android:inputType="textPersonName"
+			android:layout_width="250dp"
+			android:layout_height="wrap_content"
+			android:clickable="true"
+			android:hint="@string/prename" />
 
-	<!-- Surname Field -->
+		<TextView
+			android:id="@+id_registrationscreen/prenameHint"
+			android:layout_width="250dp"
+			android:layout_height="wrap_content"
+			android:layout_marginBottom="15dp"
+			android:text="@string/registrationscreen_invalidInput"
+			android:textColor="@color/red"
+			android:visibility="gone" />
 
-	<EditText
-		android:id="@+id_registrationscreen/surnameInput"
-		android:inputType="textPersonName"
-		android:layout_width="250dp"
-		android:layout_height="wrap_content"
-		android:clickable="true"
-		android:hint="@string/surname" />
+		<!-- Surname Field -->
 
-	<TextView
-		android:id="@+id_registrationscreen/surnameHint"
-		android:layout_width="250dp"
-		android:layout_height="wrap_content"
-		android:text="@string/registrationscreen_invalidInput"
-		android:textColor="@color/red"
-		android:visibility="gone" />
+		<EditText
+			android:id="@+id_registrationscreen/surnameInput"
+			android:inputType="textPersonName"
+			android:layout_width="250dp"
+			android:layout_height="wrap_content"
+			android:clickable="true"
+			android:hint="@string/surname" />
 
-	<!--  Username Field -->
+		<TextView
+			android:id="@+id_registrationscreen/surnameHint"
+			android:layout_width="250dp"
+			android:layout_height="wrap_content"
+			android:layout_marginBottom="15dp"
+			android:text="@string/registrationscreen_invalidInput"
+			android:textColor="@color/red"
+			android:visibility="gone" />
 
-	<EditText
-		android:id="@+id_registrationscreen/usernameInput"
-		android:inputType="text"
-		android:layout_width="250dp"
-		android:layout_height="wrap_content"
-		android:clickable="true"
-		android:hint="@string/username" />
+		<!--  Username Field -->
 
-	<TextView
-		android:id="@+id_registrationscreen/usernameHint"
-		android:layout_width="250dp"
-		android:layout_height="wrap_content"
-		android:text="@string/registrationscreen_usernameUnavailable"
-		android:textColor="@color/red"
-		android:visibility="gone" />
+		<EditText
+			android:id="@+id_registrationscreen/usernameInput"
+			android:inputType="text"
+			android:layout_width="250dp"
+			android:layout_height="wrap_content"
+			android:clickable="true"
+			android:hint="@string/username" />
 
-	<!-- Password Field -->
+		<TextView
+			android:id="@+id_registrationscreen/usernameInvalidHint"
+			android:layout_width="250dp"
+			android:layout_height="wrap_content"
+			android:layout_marginBottom="15dp"
+			android:text="@string/registrationscreen_invalidInput"
+			android:textColor="@color/red"
+			android:visibility="gone" />
 
-	<EditText
-		android:id="@+id_registrationscreen/passwordInput"
-		android:inputType="textPassword"
-		android:layout_width="250dp"
-		android:layout_height="wrap_content"
-		android:clickable="true"
-		android:hint="@string/password" />
+		<TextView
+			android:id="@+id_registrationscreen/usernameUnavailableHint"
+			android:layout_width="250dp"
+			android:layout_height="wrap_content"
+			android:layout_marginBottom="15dp"
+			android:text="@string/registrationscreen_unavailableUsername"
+			android:textColor="@color/red"
+			android:visibility="gone" />
 
-	<!-- Email Field -->
+		<!-- Password Field -->
 
-	<EditText
-		android:id="@+id_registrationscreen/emailInput"
-		android:inputType="textEmailAddress"
-		android:layout_width="250dp"
-		android:layout_height="wrap_content"
-		android:clickable="true"
-		android:hint="@string/email" />
+		<EditText
+			android:id="@+id_registrationscreen/passwordInput"
+			android:inputType="textPassword"
+			android:layout_width="250dp"
+			android:layout_height="wrap_content"
+			android:clickable="true"
+			android:hint="@string/password" />
 
-	<TextView
-		android:id="@+id_registrationscreen/emailHint"
-		android:layout_width="250dp"
-		android:layout_height="wrap_content"
-		android:text="@string/registrationscreen_invalidEmail"
-		android:textColor="@color/red"
-		android:visibility="gone" />
+		<TextView
+			android:id="@+id_registrationscreen/passwordHint"
+			android:layout_width="250dp"
+			android:layout_height="wrap_content"
+			android:layout_marginBottom="15dp"
+			android:text="@string/registrationscreen_invalidPassword"
+			android:textColor="@color/red"
+			android:visibility="gone" />
 
-	<!-- Registration Button -->
+		<!-- Email Field -->
 
-	<Button
-		android:id="@+id_registrationscreen/registrationButton"
-		android:layout_width="250dp"
-		android:layout_height="wrap_content"
-		android:layout_marginTop="20dp"
-		android:text="@string/register" />
+		<EditText
+			android:id="@+id_registrationscreen/emailInput"
+			android:inputType="textEmailAddress"
+			android:layout_width="250dp"
+			android:layout_height="wrap_content"
+			android:clickable="true"
+			android:hint="@string/email" />
 
-</LinearLayout>
+		<TextView
+			android:id="@+id_registrationscreen/emailHint"
+			android:layout_width="250dp"
+			android:layout_height="wrap_content"
+			android:layout_marginBottom="15dp"
+			android:text="@string/registrationscreen_invalidEmail"
+			android:textColor="@color/red"
+			android:visibility="gone" />
+
+		<!-- Registration Button -->
+
+		<Button
+			android:id="@+id_registrationscreen/registrationButton"
+			android:layout_width="250dp"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="20dp"
+			android:text="@string/register" />
+
+	</LinearLayout>
+</ScrollView>

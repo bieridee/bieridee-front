@@ -18,7 +18,7 @@ import ch.hsr.bieridee.android.config.Res;
 import ch.hsr.bieridee.android.exceptions.BierIdeeException;
 import ch.hsr.bieridee.android.http.HttpHelper;
 import ch.hsr.bieridee.android.http.requestprocessors.AcceptRequestProcessor;
-import ch.hsr.bieridee.android.http.requestprocessors.HMACAuthRequestProcessor;
+import ch.hsr.bieridee.android.utils.Crypto;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.json.JSONException;
@@ -36,10 +36,12 @@ public class RegistrationScreenActivity extends Activity {
 	private EditText inputPrename;
 	private EditText inputSurname;
 	private Button buttonRegister;
-	private TextView usernameHint;
+	private TextView usernameInvalidHint;
+	private TextView usernameUnavailableHint;
 	private TextView emailHint;
 	private TextView prenameHint;
 	private TextView surnameHint;
+	private TextView passwordHint;
 	private ProgressDialog progressDialog;
 
 	@Override
@@ -58,10 +60,12 @@ public class RegistrationScreenActivity extends Activity {
 		this.buttonRegister = (Button) this.findViewById(R.id_registrationscreen.registrationButton);
 
 		// Hints
-		this.usernameHint = (TextView) this.findViewById(R.id_registrationscreen.usernameHint);
 		this.emailHint = (TextView) this.findViewById(R.id_registrationscreen.emailHint);
 		this.prenameHint = (TextView) this.findViewById(R.id_registrationscreen.prenameHint);
 		this.surnameHint = (TextView) this.findViewById(R.id_registrationscreen.surnameHint);
+		this.usernameInvalidHint = (TextView) this.findViewById(R.id_registrationscreen.usernameInvalidHint);
+		this.usernameUnavailableHint = (TextView) this.findViewById(R.id_registrationscreen.usernameUnavailableHint);
+		this.passwordHint = (TextView) this.findViewById(R.id_registrationscreen.passwordHint);
 
 		this.addRegisterOnClickListener();
 	}
@@ -80,14 +84,17 @@ public class RegistrationScreenActivity extends Activity {
 				boolean allValid = true;
 
 				if (!Validators.validateUsername(username)) {
-					RegistrationScreenActivity.this.usernameHint.setVisibility(View.VISIBLE);
+					RegistrationScreenActivity.this.usernameInvalidHint.setVisibility(View.VISIBLE);
 					allValid = false;
 				}
 				if (!Validators.validateEmail(email)) {
 					RegistrationScreenActivity.this.emailHint.setVisibility(View.VISIBLE);
 					allValid = false;
 				}
-
+				if (!Validators.validatePassword(password)) {
+					RegistrationScreenActivity.this.passwordHint.setVisibility(View.VISIBLE);
+					allValid = false;
+				}
 				if (!Validators.validateName(prename)) {
 					RegistrationScreenActivity.this.prenameHint.setVisibility(View.VISIBLE);
 					allValid = false;
@@ -111,20 +118,23 @@ public class RegistrationScreenActivity extends Activity {
 	 */
 	private class Register extends AsyncTask<String, Void, HttpResponse> {
 		private String username;
-		private String password;
+		private String cleartextPassword;
+		private String hashedPassword;
 
 		@Override
 		protected void onPreExecute() {
 			RegistrationScreenActivity.this.progressDialog = ProgressDialog.show(
 					RegistrationScreenActivity.this, getString(R.string.pleaseWait), getString(R.string.loadingData), true);
 		}
+
 		@Override
 		protected HttpResponse doInBackground(String... params) {
 			if (params.length != 5) {
 				throw new BierIdeeException("Invalid number of parameters to Register AsyncTask (5 expected, " + params.length + " given).");
 			}
 			this.username = params[0];
-			this.password = params[4];
+			this.cleartextPassword = params[4];
+			this.hashedPassword = Crypto.hashUserPw(this.cleartextPassword, this.username);
 
 			final JSONObject user = new JSONObject();
 			try {
@@ -132,32 +142,45 @@ public class RegistrationScreenActivity extends Activity {
 				user.put("prename", params[1]);
 				user.put("surname", params[2]);
 				user.put("email", params[3]);
-				user.put("password", this.username);
+				user.put("password", this.hashedPassword);
 			} catch (JSONException e) {
 				throw new BierIdeeException("Creating the user JSON object failed.", e);
 			}
 
-			// Send HTTP request
+			// Send HTTP request (TODO: In production, this should happen via SSL/TLS)
 			final HttpHelper httpHelper = new HttpHelper();
 			httpHelper.addRequestProcessor(new AcceptRequestProcessor(AcceptRequestProcessor.ContentType.JSON));
 			return httpHelper.put(Res.getURI(Res.USER_DOCUMENT, this.username), user);
 		}
+
 		@Override
 		protected void onPostExecute(HttpResponse response) {
 			RegistrationScreenActivity.this.progressDialog.dismiss();
 			if (response != null) {
 				final int statusCode = response.getStatusLine().getStatusCode();
-				if (statusCode == HttpStatus.SC_NO_CONTENT) {
+				if (statusCode == HttpStatus.SC_CREATED) {
 					// Store auth data
-					Auth.setAuth(this.username, this.password, true);
+					Auth.setAuth(this.username, this.hashedPassword);
 
 					// Show success message
-					Toast.makeText(RegistrationScreenActivity.this.getApplicationContext(), getString(R.string.registrationscreen_success_registration), Toast.LENGTH_SHORT).show();
+					Toast.makeText(
+							RegistrationScreenActivity.this.getApplicationContext(),
+							getString(R.string.registrationscreen_success_registration),
+							Toast.LENGTH_SHORT
+					).show();
 
 					// Return to login activity
 					final Intent intent = new Intent(RegistrationScreenActivity.this.getBaseContext(), LoginScreenActivity.class);
+					intent.putExtra("username", this.username);
+					intent.putExtra("password", this.cleartextPassword);
 					startActivity(intent);
 					return;
+				} else if (statusCode == HttpStatus.SC_CONFLICT) {
+					// Show unavailable username hint
+					RegistrationScreenActivity.this.usernameUnavailableHint.setVisibility(View.VISIBLE);
+
+					// Set focus
+					RegistrationScreenActivity.this.inputUsername.requestFocus();
 				}
 				Log.e(LOG_TAG, "Registration failed with HTTP status code " + statusCode);
 			}
@@ -173,8 +196,10 @@ public class RegistrationScreenActivity extends Activity {
 	private void resetHints() {
 		Log.d(LOG_TAG, "Resetting Hints");
 		this.emailHint.setVisibility(View.GONE);
-		this.usernameHint.setVisibility(View.GONE);
+		this.usernameInvalidHint.setVisibility(View.GONE);
+		this.usernameUnavailableHint.setVisibility(View.GONE);
 		this.prenameHint.setVisibility(View.GONE);
 		this.surnameHint.setVisibility(View.GONE);
+		this.passwordHint.setVisibility(View.GONE);
 	}
 }

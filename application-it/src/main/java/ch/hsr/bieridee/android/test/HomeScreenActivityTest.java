@@ -49,7 +49,7 @@ public class HomeScreenActivityTest extends ActivityInstrumentationTestCase2<Hom
 	 * Set dummy authentication information and restart activity.
 	 */
 	private void testWithLogin() {
-		Auth.setAuth("testuser", "testpass", true);
+		Auth.setAuth("testuser", "$2$10$ae5deb822e0d719929004uD0KL0l5rHNCSFKcfBvoTzG5Og6O/Xxu");
 		this.restartActivity();
 	}
 
@@ -62,8 +62,8 @@ public class HomeScreenActivityTest extends ActivityInstrumentationTestCase2<Hom
 		assertTrue(solo.searchText("Timeline"));
 		assertTrue(solo.searchText("Brauereien"));
 		assertTrue(solo.searchText("Profil"));
-		assertTrue(solo.searchText("Konsum"));
-		assertTrue(solo.searchText("Rating"));
+		assertTrue(solo.searchText("Bier erfassen"));
+		assertTrue(solo.searchText("Empfehlungen"));
 	}
 
 	/**

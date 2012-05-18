@@ -2,6 +2,7 @@ package ch.hsr.bieridee.android.activities;
 
 import java.io.IOException;
 
+import ch.hsr.bieridee.android.http.AuthJsonHttp;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.impl.client.BasicResponseHandler;
@@ -97,7 +98,7 @@ public class TimelineListActivity extends ListActivity {
 			if (TimelineListActivity.this.username != null) {
 				resourceUri += "?username=" + TimelineListActivity.this.username;
 			}
-			final HttpHelper httpHelper = new HttpHelper();
+			final HttpHelper httpHelper = AuthJsonHttp.create();
 			final HttpResponse response = httpHelper.get(Res.getURI(resourceUri));
 
 			if (response != null) {

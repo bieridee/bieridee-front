@@ -4,6 +4,7 @@ import android.util.Log;
 import ch.hsr.bieridee.android.config.Auth;
 import ch.hsr.bieridee.android.exceptions.BierIdeeException;
 import ch.hsr.bieridee.android.http.IRequestProcessor;
+import org.apache.commons.codec.binary.Hex;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
 import org.apache.http.client.methods.HttpRequestBase;
@@ -39,12 +40,12 @@ public class HMACAuthRequestProcessor implements IRequestProcessor {
 		final String accept = request.getFirstHeader("Accept").getValue();
 
 		String body = "";
-		String contentLength = "";
+		String contentLength = "0";
 
 		if (request instanceof HttpEntityEnclosingRequestBase) {
 			final HttpEntity entity = ((HttpEntityEnclosingRequestBase) request).getEntity();
 			if (entity != null) {
-				contentLength = request.getFirstHeader("Content-Length").getValue();
+				contentLength = String.valueOf(entity.getContentLength());
 				final byte[] content = new byte[(int)entity.getContentLength()];
 				try {
 					((HttpEntityEnclosingRequestBase) request).getEntity().getContent().read(content);
@@ -54,13 +55,6 @@ public class HMACAuthRequestProcessor implements IRequestProcessor {
 				body = new String(content);
 			}
 		}
-
-		Log.d(LOG_TAG, "URI: " + uri);
-		Log.d(LOG_TAG, "Method: " + method);
-		Log.d(LOG_TAG, "Accept: " + accept);
-		Log.d(LOG_TAG, "Content-Length: " + contentLength);
-		Log.d(LOG_TAG, "Body: " + body);
-		Log.d(LOG_TAG, "Processing HMAC Processor");
 
 		final String hmacInputData = method + uri + accept + contentLength + body;
 		String macString = "";
@@ -72,10 +66,7 @@ public class HMACAuthRequestProcessor implements IRequestProcessor {
 			m.update(hmacInputData.getBytes());
 			byte[] macBytes = m.doFinal();
 
-			// Convert byte array to hex string
-			for (byte b : macBytes) {
-				macString += Integer.toString((b & 0xff) + 0x100, 16).substring(1);
-			}
+			macString = new String(Hex.encodeHex(macBytes));
 		} catch (NoSuchAlgorithmException e) {
 			throw new BierIdeeException("HmacSHA256 algorithm missing", e);
 		} catch (InvalidKeyException e) {
@@ -87,7 +78,7 @@ public class HMACAuthRequestProcessor implements IRequestProcessor {
 		}
 		final String authorizationHeader = this.username + ":" + macString;
 		request.setHeader("Authorization", authorizationHeader);
-		Log.d(LOG_TAG, "Setting Authorization header to \"" + authorizationHeader + "\".");
+
 		return request;
 	}
 }

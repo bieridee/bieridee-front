@@ -38,6 +38,9 @@ public final class Res {
 	public static final String USER_REQ_ATTR = "user-name";
 	public static final String USER_DOCUMENT = "/users/{" + USER_REQ_ATTR + "}";
 
+	// usercredentials
+	public static final String USERCREDENTIALS_CONTROLLER = "/usercredentials";
+
 	// rating
 	public static final String RATING_COLLECTION = "/ratings";
 	public static final String RATING_DOCUMENT = BEER_DOCUMENT + RATING_COLLECTION + "/{" + USER_REQ_ATTR + "}";
@@ -45,13 +48,16 @@ public final class Res {
 	// consumption
 	public static final String CONSUMPTION_COLLECTION = "/consumptions";
 	public static final String CONSUMPTION_DOCUMENT = BEER_DOCUMENT + CONSUMPTION_COLLECTION + "/{" + USER_REQ_ATTR + "}";
-	
+
 	// brand
 	public static final String BRAND_COLLECTION = "/brands";
-	
+
 	// timeline
 	public static final String TIMELINE_COLLECTION = "/timeline";
 	public static final String TIMELINE_FILTER_USERNAME = "username";
+
+	// brewerysize
+	public static final String BREWERYSIZE_COLLECTION = "/brewerysizes";
 
 	/**
 	 * Returns the specified URI.

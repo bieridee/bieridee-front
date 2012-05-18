@@ -18,6 +18,7 @@
     <string name="loadingData">Daten werden geladen</string>
     <string name="warning">Warnung</string>
     <string name="error">Fehler</string>
+    <string name="handsomeError">Ein Fehler ist aufgetreten. Bitte erneut versuchen.</string>
     <string name="success">Erfolg</string>
     <string name="about">Über</string>
     <string name="refresh">Aktualisieren</string>
@@ -29,6 +30,7 @@
     <string name="type">Typ</string>
     <string name="more">Mehr</string>
     <string name="add">Erfassen</string>
+    <string name="pleaseProvideAllData">Bitte alle Felder ausfüllen</string>
 
     <!-- Login screen specific strings -->
     <string name="loginscreen_title">BierIdee Login</string>
@@ -37,12 +39,17 @@
     <string name="loginscreen_registrationLinkText">Registrieren.</string>
     <string name="loginscreen_autologinText">Angemeldet bleiben</string>
     <string name="loginscreen_imageDescription">Bieridee Logo</string>
+	<string name="loginscreen_verifyingData">Logindaten werden verifiziert</string>
+	<string name="loginscreen_loginFailed">Login ist fehlgeschlagen</string>
+	<string name="loginscreen_loginError">Beim Login ist ein Fehler aufgetreten</string>
+	<string name="loginscreen_loginSuccess">Login erfolgreich</string>
 
     <!-- Registration screen specific strings -->
     <string name="registrationscreen_title">BierIdee Registration</string>
     <string name="registrationscreen_invalidInput">Die Eingabe ist ungültig</string>
     <string name="registrationscreen_invalidEmail">Bitte gibt eine gültige Emailadresse ein.</string>
-    <string name="registrationscreen_usernameUnavailable">Dieser Benutzername ist bereits vergeben. Bitte wähle einen anderen.</string>
+	<string name="registrationscreen_invalidPassword">Das Passwort ist ungültig. Mindestlänge: 8 Zeichen.</string>
+    <string name="registrationscreen_unavailableUsername">Dieser Benutzername ist bereits vergeben. Bitte wähle einen anderen.</string>
     <string name="registrationscreen_success_registration">Registrierung erfolgreich!</string>
     <string name="registrationscreen_fail_registration">Die Registrierung ist fehlgeschlagen.</string>
 
@@ -84,7 +91,7 @@
     <string name="brewerydetail_national">National</string>
     <string name="brewerydetail_international">International</string>
     <string name="brewerydetail_fail_loadDetail">Fehler: Brauereidetails konnten nicht vom Server geladen werden.</string>
-	
+
     <!-- Beer create -->
     <string name="beercreate_activitytitle">Bier erfassen</string>
     <string name="beercreate_createbeer">Bier erfassen</string>
@@ -95,7 +102,12 @@
     <string name="beercreate_brandInfo">Bei der Marke handelt es sich um die Handelsmarke des Bieres. Die Marke entspricht oft der Brauerei, teilweise aber nicht. Zum Beispiel beim \'Vollmond Bier\' ist die Marke \'Appenzeller Bier\' die Brauerei jedoch \'Locher AG\'.</string>
     <string name="beercreate_beertypeInfo">Hier wird der Typ des Bieres definiert. Tippe auf \'Mehr\' um mehr über die Biertypen zu erfahren.</string>
     <string name="beercreate_breweryInfo">Wer hat dieses Bier gebraut? Falls die Brauerei für dieses Bier noch nicht erfasst ist, kannst du sie mit gleich mit \'Erfassen\' hinzufügen.</string>
-    
+
+    <!-- Brewery create -->
+    <string name="brewerycreate_createBrewery">Brauerei erstellen</string>
+    <string name="brewerycreate_title">Brauerei erstellen</string>
+    <string name="brewerycreate_successfull">Brauerei wurde erstellt</string>
+
     <!-- About screen -->
     <string name="aboutscreen_activitytitle">Über BierIdee</string>
     <string name="aboutscreen_title">Über BierIdee</string>
