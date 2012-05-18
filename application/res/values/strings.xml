@@ -26,6 +26,7 @@
     <string name="beertype">Bieryp</string>
     <string name="brewery">Brauerei</string>
     <string name="size">Grösse</string>
+    <string name="type">Typ</string>
     <string name="more">Mehr</string>
     <string name="add">Erfassen</string>
 

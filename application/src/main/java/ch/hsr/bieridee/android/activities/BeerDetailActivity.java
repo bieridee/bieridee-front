@@ -1,5 +1,13 @@
 package ch.hsr.bieridee.android.activities;
 
+import java.io.IOException;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.impl.client.BasicResponseHandler;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -17,13 +25,6 @@ import ch.hsr.bieridee.android.config.Res;
 import ch.hsr.bieridee.android.exceptions.BierIdeeException;
 import ch.hsr.bieridee.android.http.AuthJsonHttp;
 import ch.hsr.bieridee.android.http.HttpHelper;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.impl.client.BasicResponseHandler;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
 
 /**
  * Activity that shows a beer detail.
@@ -34,6 +35,7 @@ public class BeerDetailActivity extends Activity {
 	private TextView name;
 	private TextView brand;
 	private TextView brewery;
+	private TextView beertype;
 	private RatingBar averageRating;
 	private RatingBar ratingBar;
 	private long beerId;
@@ -67,6 +69,7 @@ public class BeerDetailActivity extends Activity {
 		this.name = (TextView) this.findViewById(R.id_beerdetail.beerName);
 		this.brand = (TextView) this.findViewById(R.id_beerdetail.beerBrand);
 		this.brewery = (TextView) this.findViewById(R.id_beerdetail.beerBrewery);
+		this.beertype = (TextView) this.findViewById(R.id_beerdetail.beertype);
 		this.averageRating = (RatingBar) this.findViewById(R.id_beerdetail.beerAverageratingBar);
 
 		this.ratingBar = (RatingBar) this.findViewById(R.id_beerdetail.ratingBar);
@@ -158,10 +161,13 @@ public class BeerDetailActivity extends Activity {
 					final String brand = getString(R.string.brand) + ": " + result.getString("brand");
 					final JSONObject resultBrewery = result.getJSONObject("brewery");
 					final String brewery = getString(R.string.brewery) + ": " + resultBrewery.getString("name");
+					final JSONObject resultBeertype = result.getJSONObject("beertype");
+					final String beertype = getString(R.string.type) + ": " + resultBeertype.getString("name");
 					final float averageRating = Float.parseFloat(result.getString("rating"));
 					BeerDetailActivity.this.name.setText(name);
 					BeerDetailActivity.this.brand.setText(brand);
 					BeerDetailActivity.this.brewery.setText(brewery);
+					BeerDetailActivity.this.beertype.setText(beertype);
 					BeerDetailActivity.this.averageRating.setRating(averageRating);
 				} catch (JSONException e) {
 					Log.e(LOG_TAG, "JSONException in GetBeerDetail::onPostExecute");
