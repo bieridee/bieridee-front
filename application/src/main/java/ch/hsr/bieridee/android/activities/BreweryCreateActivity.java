@@ -32,7 +32,7 @@ import ch.hsr.bieridee.android.http.HttpHelper;
  */
 public class BreweryCreateActivity extends Activity {
 
-	private static final String LOG_TAG = BreweryListActivity.class.getName();
+	private static final String LOG_TAG = BreweryCreateActivity.class.getName();
 	private BrewerySizeSpinnerAdapter brewerySizeAdapter;
 	private HttpHelper httpHelper;
 	private MultithreadProgressDialog progressDialog;

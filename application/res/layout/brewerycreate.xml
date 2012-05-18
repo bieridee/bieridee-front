@@ -1,65 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="10dp" >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
-        android:text="@string/brewerydetail_breweryName"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <EditText
-        android:id="@+id_brewerycreate/breweryName"
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textCapWords" >
+        android:orientation="vertical"
+        android:padding="10dp" >
 
-        <requestFocus android:layout_width="wrap_content" />
-    </EditText>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:text="@string/brewerydetail_breweryName"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
-        android:text="@string/brewerydetail_breweryDescription"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        <EditText
+            android:id="@+id_brewerycreate/breweryName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textCapWords" >
 
-    <EditText
-        android:id="@+id_brewerycreate/breweryDescription"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textMultiLine"
-        android:lines="3"
-        android:gravity="top|left">
-    </EditText>
+            <requestFocus android:layout_width="wrap_content" />
+        </EditText>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
-        android:text="@string/brewerydetail_brewerySize"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:text="@string/brewerydetail_breweryDescription"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <Spinner
-        android:id="@+id_brewerycreate/brewerySizeSpinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:prompt="@string/beercreate_chooseBeertype" />
+        <EditText
+            android:id="@+id_brewerycreate/breweryDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:gravity="top|left"
+            android:inputType="textMultiLine"
+            android:lines="3" >
+        </EditText>
 
-    <Button
-        android:id="@+id_brewerycreate/createButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp"
-        android:minHeight="20dp"
-        android:minWidth="200dp"
-        android:text="@string/brewerycreate_createBrewery" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:text="@string/brewerydetail_brewerySize"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
-</LinearLayout>
+        <Spinner
+            android:id="@+id_brewerycreate/brewerySizeSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:prompt="@string/beercreate_chooseBeertype" />
+
+        <Button
+            android:id="@+id_brewerycreate/createButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:minHeight="20dp"
+            android:minWidth="200dp"
+            android:text="@string/brewerycreate_createBrewery" />
+    </LinearLayout>
+</ScrollView>
