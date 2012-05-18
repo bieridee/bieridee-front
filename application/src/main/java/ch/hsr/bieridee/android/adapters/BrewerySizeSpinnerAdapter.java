@@ -1,55 +1,69 @@
 package ch.hsr.bieridee.android.adapters;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
-import android.database.DataSetObserver;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.CheckedTextView;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
-public class BrewerySizeSpinnerAdapter extends BaseAdapter implements SpinnerAdapter {
+/**
+ * The BreweryListAdapter adapts the JSON brewery structure to the Android ListView.
+ * 
+ * For further information, see the Adapter interface:
+ * http://developer.android.com/reference/android/widget/Adapter.html
+ */
+public class BrewerySizeSpinnerAdapter extends BreweryListAdapter implements SpinnerAdapter {
 
-	List<String> sizes;
-	Activity activity;
-
+	/**
+	 * @param activity
+	 *            The activity
+	 */
 	public BrewerySizeSpinnerAdapter(Activity activity) {
-		super();
-		this.activity = activity;
-		sizes = new LinkedList<String>();
-		sizes.add("Small");
-		sizes.add("Medium");
-		sizes.add("Large");
+		super(activity);
 	}
 
-	public int getCount() {
-		// TODO Auto-generated method stub
-		return sizes.size();
+	/**
+	 * Return the view for specified position, as dropdown.
+	 * 
+	 * @param position
+	 *            Position in list
+	 * @param convertView
+	 *            The old view to reuse, if possible
+	 * @param parent
+	 *            The parent that this view will eventually be attached to
+	 * @return A View corresponding to the data at the specified position.
+	 */
+	public View getDropDownView(int position, View convertView, ViewGroup parent) {
+		// Get & inflate brewerylist item from XML
+		if (convertView == null) {
+			convertView = this.activity.getLayoutInflater().inflate(android.R.layout.simple_spinner_dropdown_item, null);
+		}
+
+		// Assign values to brewerylist item
+		final String brewerySize = (String) this.getItem(position);
+		final CheckedTextView name = (CheckedTextView) convertView;
+		name.setText(brewerySize);
+
+		return convertView;
 	}
 
-	public Object getItem(int position) {
-		// TODO Auto-generated method stub
-		return sizes.get(position);
-	}
-
-	public long getItemId(int position) {
-		// TODO Auto-generated method stub
-		return position;
-	}
-
-	public int getItemViewType(int position) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
+	/**
+	 * Return the view for specified position.
+	 * 
+	 * @param position
+	 *            Position in list
+	 * @param convertView
+	 *            The old view to reuse, if possible
+	 * @param parent
+	 *            The parent that this view will eventually be attached to
+	 * @return A View corresponding to the data at the specified position.
+	 */
 	public View getView(int position, View convertView, ViewGroup parent) {
+		// Get & inflate brewerylist item from XML
 		if (convertView == null) {
 			convertView = this.activity.getLayoutInflater().inflate(android.R.layout.simple_spinner_item, null);
 		}
@@ -58,46 +72,37 @@ public class BrewerySizeSpinnerAdapter extends BaseAdapter implements SpinnerAda
 		final String brewerySize = (String) this.getItem(position);
 		final TextView name = (TextView) convertView;
 		name.setText(brewerySize);
+
 		return convertView;
 	}
 
-	public int getViewTypeCount() {
-		// TODO Auto-generated method stub
-		return 0;
+	@Override
+	public String toString() {
+		return "BrewerySizeSpinnerAdapter{activity=" + this.activity.getClass().getName() + '}';
 	}
 
-	public boolean hasStableIds() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public boolean isEmpty() {
-		// TODO Auto-generated method stub
-		return sizes.isEmpty();
-	}
-
-	public void registerDataSetObserver(DataSetObserver observer) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void unregisterDataSetObserver(DataSetObserver observer) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public View getDropDownView(int position, View convertView, ViewGroup parent) {
-		// Get & inflate brewerylist item from XML
-		if (convertView == null) {
-			convertView = this.activity.getLayoutInflater().inflate(android.R.layout.simple_spinner_dropdown_item, null);
+	@Override
+	public Object getItem(int position) {
+		String value = "empty";
+		try {
+			value = (String) this.jsonBreweries.get(position);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-
-		// Assign values to brewerylist item
-		final String brewery = (String) this.getItem(position);
-		final CheckedTextView name = (CheckedTextView) convertView;
-		name.setText(brewery);
-
-		return convertView;
+		return value;
 	}
 
+	/**
+	 * Return an unique ID of the specified item.
+	 * 
+	 * @param position
+	 *            Position in list
+	 * @return The id of the item at the specified position
+	 */
+
+	@Override
+	public long getItemId(int position) {
+		return position;
+	}
 }

@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.impl.client.BasicResponseHandler;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -62,6 +63,7 @@ public class BreweryCreateActivity extends Activity {
 	@Override
 	public void onStart() {
 		super.onStart();
+		new GetBrewerySizes().execute();
 	}
 
 	private void setButtonAction() {
@@ -125,147 +127,55 @@ public class BreweryCreateActivity extends Activity {
 			if (result != null) {
 				Toast.makeText(BreweryCreateActivity.this, "Brauerei wurde erfolgreich erstellt", Toast.LENGTH_SHORT).show();
 				BreweryCreateActivity.this.breweryName.setText("");
+				// TODO proper "go back" to the previous activity
+				BreweryCreateActivity.this.finish();
 			} else {
 				Toast.makeText(BreweryCreateActivity.this, "whoa, fehler!", Toast.LENGTH_SHORT).show();
-				// TODO Call finish() to go back to the previous activity
 			}
 		}
 
 	}
 
-	//
-	//
-	// /**
-	// * Async task to get beertypes from server and update UI.
-	// */
-	// private class GetBeertypeData extends AsyncTask<Void, Void, JSONArray> {
-	// @Override
-	// protected void onPreExecute() {
-	// Log.d(LOG_TAG, "onPreExecute()");
-	// BreweryCreateActivity.this.progressDialog.display(BreweryCreateActivity.this, true);
-	// }
-	//
-	// @Override
-	// protected JSONArray doInBackground(Void... voids) {
-	// Log.d(LOG_TAG, "doInBackground()");
-	//
-	// final HttpResponse response = BreweryCreateActivity.this.httpHelper.get(Res.getURI(Res.BEERTYPE_COLLECTION));
-	//
-	// if (response != null) {
-	// final int statusCode = response.getStatusLine().getStatusCode();
-	// if (statusCode == HttpStatus.SC_OK) {
-	// try {
-	// final String responseText = new BasicResponseHandler().handleResponse(response);
-	// return new JSONArray(responseText);
-	// } catch (IOException e) {
-	// e.printStackTrace();
-	// } catch (JSONException e) {
-	// e.printStackTrace();
-	// }
-	// }
-	// }
-	// return null;
-	// }
-	//
-	// @Override
-	// protected void onPostExecute(JSONArray result) {
-	// Log.d(LOG_TAG, "onPostExecute()");
-	// if (result != null) {
-	// BreweryCreateActivity.this.brewerySizeAdapter.updateData(result);
-	// BreweryCreateActivity.this.brewerySizeAdapter.notifyDataSetChanged();
-	// }
-	// BreweryCreateActivity.this.progressDialog.hide();
-	// }
-	// }
-	//
-	// /**
-	// * Async task to get breweries from server and update UI.
-	// */
-	// private class GetBreweryData extends AsyncTask<Void, Void, JSONArray> {
-	// @Override
-	// protected void onPreExecute() {
-	// Log.d(LOG_TAG, "onPreExecute()");
-	// BreweryCreateActivity.this.progressDialog.display(BreweryCreateActivity.this, true);
-	// }
-	//
-	// @Override
-	// protected JSONArray doInBackground(Void... voids) {
-	// Log.d(LOG_TAG, "doInBackground()");
-	//
-	// final HttpResponse response = BreweryCreateActivity.this.httpHelper.get(Res.getURI(Res.BREWERY_COLLECTION));
-	//
-	// if (response != null) {
-	// final int statusCode = response.getStatusLine().getStatusCode();
-	// if (statusCode == HttpStatus.SC_OK) {
-	// try {
-	// final String responseText = new BasicResponseHandler().handleResponse(response);
-	// return new JSONArray(responseText);
-	// } catch (IOException e) {
-	// e.printStackTrace();
-	// } catch (JSONException e) {
-	// e.printStackTrace();
-	// }
-	// }
-	// }
-	// return null;
-	// }
-	//
-	// @Override
-	// protected void onPostExecute(JSONArray result) {
-	// Log.d(LOG_TAG, "onPostExecute()");
-	// if (result != null) {
-	// }
-	// BreweryCreateActivity.this.progressDialog.hide();
-	// }
-	// }
-	//
-	// /**
-	// * Async task to get brands from server and add to the autocomplete list.
-	// */
-	// private class GetBrandData extends AsyncTask<Void, Void, JSONArray> {
-	// @Override
-	// protected void onPreExecute() {
-	// Log.d(LOG_TAG, "onPreExecute()");
-	// BreweryCreateActivity.this.progressDialog.display(BreweryCreateActivity.this, true);
-	// }
-	//
-	// @Override
-	// protected JSONArray doInBackground(Void... voids) {
-	// Log.d(LOG_TAG, "doInBackground()");
-	//
-	// final HttpResponse response = BreweryCreateActivity.this.httpHelper.get(Res.getURI(Res.BRAND_COLLECTION));
-	//
-	// if (response != null) {
-	// final int statusCode = response.getStatusLine().getStatusCode();
-	// if (statusCode == HttpStatus.SC_OK) {
-	// try {
-	// final String responseText = new BasicResponseHandler().handleResponse(response);
-	// return new JSONArray(responseText);
-	// } catch (IOException e) {
-	// e.printStackTrace();
-	// } catch (JSONException e) {
-	// e.printStackTrace();
-	// }
-	// }
-	// }
-	// return null;
-	// }
-	//
-	// @Override
-	// protected void onPostExecute(JSONArray result) {
-	// Log.d(LOG_TAG, "onPostExecute()");
-	// if (result != null) {
-	// final String[] brands = new String[result.length()];
-	// for (int i = 0; i < result.length(); i++) {
-	// try {
-	// brands[i] = result.getString(i);
-	// } catch (JSONException e) {
-	// e.printStackTrace();
-	// }
-	// }
-	// }
-	// BreweryCreateActivity.this.progressDialog.hide();
-	// }
-	// }
+	/**
+	 * Async task to get breweriesSizes from server and update UI.
+	 */
+	private class GetBrewerySizes extends AsyncTask<Void, Void, JSONArray> {
+		@Override
+		protected void onPreExecute() {
+			Log.d(LOG_TAG, "onPreExecute()");
+			BreweryCreateActivity.this.progressDialog.display(BreweryCreateActivity.this, true);
+		}
 
+		@Override
+		protected JSONArray doInBackground(Void... voids) {
+			Log.d(LOG_TAG, "doInBackground()");
+
+			final HttpResponse response = BreweryCreateActivity.this.httpHelper.get(Res.getURI(Res.BREWERYSIZE_COLLECTION));
+
+			if (response != null) {
+				final int statusCode = response.getStatusLine().getStatusCode();
+				if (statusCode == HttpStatus.SC_OK) {
+					try {
+						final String responseText = new BasicResponseHandler().handleResponse(response);
+						return new JSONArray(responseText);
+					} catch (IOException e) {
+						e.printStackTrace();
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(JSONArray result) {
+			Log.d(LOG_TAG, "onPostExecute()");
+			if (result != null) {
+			}
+			BreweryCreateActivity.this.brewerySizeAdapter.updateData(result);
+			BreweryCreateActivity.this.brewerySizeAdapter.notifyDataSetChanged();
+			BreweryCreateActivity.this.progressDialog.hide();
+		}
+	}
 }
