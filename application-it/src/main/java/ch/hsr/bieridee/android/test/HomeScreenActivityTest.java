@@ -62,7 +62,7 @@ public class HomeScreenActivityTest extends ActivityInstrumentationTestCase2<Hom
 		assertTrue(solo.searchText("Timeline"));
 		assertTrue(solo.searchText("Brauereien"));
 		assertTrue(solo.searchText("Profil"));
-		assertTrue(solo.searchText("Konsum"));
+		assertTrue(solo.searchText("Bier erfassen"));
 		assertTrue(solo.searchText("Rating"));
 	}
 

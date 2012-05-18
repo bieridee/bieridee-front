@@ -21,7 +21,7 @@ public class BreweryDetailActivityTest extends ActivityInstrumentationTestCase2<
 		Auth.setAuth("testuser", "$2$10$ae5deb822e0d719929004uD0KL0l5rHNCSFKcfBvoTzG5Og6O/Xxu");
 
 		final Intent i = new Intent();
-		i.putExtra(BreweryDetailActivity.EXTRA_BREWERY_ID, 71L);
+		i.putExtra(BreweryDetailActivity.EXTRA_BREWERY_ID, 70L);
 		setActivityIntent(i);
 
 		final BreweryDetailActivity activity = getActivity();

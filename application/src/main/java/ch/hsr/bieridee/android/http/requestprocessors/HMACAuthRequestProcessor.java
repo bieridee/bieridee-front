@@ -45,7 +45,7 @@ public class HMACAuthRequestProcessor implements IRequestProcessor {
 		if (request instanceof HttpEntityEnclosingRequestBase) {
 			final HttpEntity entity = ((HttpEntityEnclosingRequestBase) request).getEntity();
 			if (entity != null) {
-				contentLength = request.getFirstHeader("Content-Length").getValue();
+				contentLength = String.valueOf(entity.getContentLength());
 				final byte[] content = new byte[(int)entity.getContentLength()];
 				try {
 					((HttpEntityEnclosingRequestBase) request).getEntity().getContent().read(content);

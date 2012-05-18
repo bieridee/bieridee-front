@@ -24,8 +24,8 @@ public class LoginScreenActivityTest extends ActivityInstrumentationTestCase2<Lo
 
 	public void testSavingLoginInformation() {
 		// Set test data
-		final String testUsername = "Chuck Norris";
-		final String testPassword = "roundhouse";
+		final String testUsername = "testuser";
+		final String testPassword = "testpass";
 		final boolean autologinEnabled = true;
 
 		// Initialize GUI elements

@@ -17,8 +17,8 @@ public class TimlineListActivityTest extends ActivityInstrumentationTestCase2<Ti
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
+		Auth.setAuth("testuser", "$2$10$ae5deb822e0d719929004uD0KL0l5rHNCSFKcfBvoTzG5Og6O/Xxu");
 		solo = new Solo(getInstrumentation(), getActivity());
-		Auth.setAuth("testuser", "testpass", true);
 	}
 
 	@Override
