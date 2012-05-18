@@ -4,15 +4,16 @@ package ch.hsr.bieridee.android;
  * A collection of static validator methods that return a boolean value.
  */
 public final class Validators {
-	
+
 	private Validators() {
 		// do not instantiate
 	}
-	
+
 	/**
 	 * Validate a name.
 	 * 
-	 * @param name Name string
+	 * @param name
+	 *            Name string
 	 * @return boolean
 	 */
 	public static boolean validateName(String name) {
@@ -22,7 +23,8 @@ public final class Validators {
 	/**
 	 * Validate a username.
 	 * 
-	 * @param username Username string
+	 * @param username
+	 *            Username string
 	 * @return boolean
 	 */
 	public static boolean validateUsername(String username) {
@@ -32,7 +34,8 @@ public final class Validators {
 	/**
 	 * Validate an email address.
 	 * 
-	 * @param email Email string
+	 * @param email
+	 *            Email string
 	 * @return boolean
 	 */
 	public static boolean validateEmail(String email) {
@@ -47,5 +50,16 @@ public final class Validators {
 	 */
 	public static boolean validatePassword(String password) {
 		return password.matches("\\w{8,}");
+	}
+
+	/**
+	 * Checks if a string is not emtpy.
+	 * 
+	 * @param string
+	 *            String to be checked
+	 * @return True if not emtpy else if otherwise
+	 */
+	public static boolean validateNonEmpty(String string) {
+		return string != null && string.length() > 0;
 	}
 }

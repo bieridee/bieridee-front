@@ -27,16 +27,25 @@ public class HomeScreenActivity extends Activity {
 		this.setContentView(R.layout.homescreen);
 		this.addOnClickListener((Button) findViewById(R.id_dashboardscreen.buttonBeerlist), BeerListActivity.class);
 		this.addOnClickListener((Button) findViewById(R.id_dashboardscreen.buttonBreweries), BreweryListActivity.class);
+		this.addOnClickListener((Button) findViewById(R.id_dashboardscreen.buttonCreate), BeerCreateActivity.class);
+		this.addOnClickListener((Button) findViewById(R.id_dashboardscreen.buttonTimeline), TimelineListActivity.class);
 
 		final OnClickListener notYetImplementedListener = new OnClickListener() {
 			public void onClick(View view) {
 				Toast.makeText(HomeScreenActivity.this.getBaseContext(), "TODO implement!", Toast.LENGTH_LONG).show();
 			}
 		};
-		findViewById(R.id_dashboardscreen.buttonConsumption).setOnClickListener(notYetImplementedListener);
-		findViewById(R.id_dashboardscreen.buttonProfile).setOnClickListener(notYetImplementedListener);
+
+		findViewById(R.id_dashboardscreen.buttonProfile).setOnClickListener(new OnClickListener() {
+
+			public void onClick(View v) {
+				final Intent intent = new Intent(v.getContext(), TimelineListActivity.class);
+				intent.putExtra(TimelineListActivity.EXTRA_USERNAME, Auth.getUsername());
+				startActivity(intent);
+
+			}
+		});
 		findViewById(R.id_dashboardscreen.buttonRating).setOnClickListener(notYetImplementedListener);
-		findViewById(R.id_dashboardscreen.buttonTimeline).setOnClickListener(notYetImplementedListener);
 	}
 
 	@Override
