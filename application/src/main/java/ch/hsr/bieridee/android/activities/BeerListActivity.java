@@ -7,7 +7,6 @@ import org.apache.http.HttpStatus;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import android.app.ListActivity;
 import android.app.ProgressDialog;
@@ -22,6 +21,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemLongClickListener;
 import ch.hsr.bieridee.android.R;
 import ch.hsr.bieridee.android.adapters.BeerListAdapter;
@@ -50,13 +50,12 @@ public class BeerListActivity extends ListActivity {
 		setListAdapter(this.adapter);
 		this.addOnClickListeners();
 		this.registerForContextMenu(this.getListView());
-		this.addOnLongClickListeners();
 	}
 
 	@Override
 	public void onStart() {
 		super.onStart();
-		new DeleteBeer().execute();
+		new GetBeerData().execute();
 	}
 
 	@Override
@@ -89,20 +88,10 @@ public class BeerListActivity extends ListActivity {
 		});
 	}
 
-	private void addOnLongClickListeners() {
-		this.getListView().setOnItemLongClickListener(new OnItemLongClickListener() {
-
-			public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-				Log.d("long press", "long press was performed " + arg0 + " " + arg1 + " " + arg2 + " " + arg3);
-				return true;
-			}
-
-		});
-	}
-
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
+		Log.d("context", "contextmenu was called");
 		menu.setHeaderTitle(BeerListActivity.this.getString(R.string.beerlistContextTitle));
 		menu.add(0, v.getId(), 0, BeerListActivity.this.getString(R.string.beerlistContextDelete));
 		menu.add(0, v.getId(), 0, BeerListActivity.this.getString(R.string.beerlistContextEdit));
@@ -110,10 +99,11 @@ public class BeerListActivity extends ListActivity {
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
+		final AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
 		if (item.getTitle() == BeerListActivity.this.getString(R.string.beerlistContextDelete)) {
-			new DeleteBeer().execute(item.getItemId());
+			new DeleteBeer().execute(info.id);
 		} else if (item.getTitle() == BeerListActivity.this.getString(R.string.beerlistContextEdit)) {
-			// function2(item.getItemId());
+			// TODO call edit beer activity.
 		} else {
 			return false;
 		}
@@ -162,20 +152,22 @@ public class BeerListActivity extends ListActivity {
 	/**
 	 * Async task to delete beer from server and update UI.
 	 */
-	private class DeleteBeer extends AsyncTask<Integer, Void, Void> {
+	private class DeleteBeer extends AsyncTask<Long, Void, Void> {
 		@Override
 		protected void onPreExecute() {
 			BeerListActivity.this.progressDialog = ProgressDialog.show(BeerListActivity.this, getString(R.string.pleaseWait), getString(R.string.loadingData), true);
+			Log.d(LOG_TAG, "Delete was called");
 		}
 
 		@Override
-		protected Void doInBackground(Integer... ids) {
-			BeerListActivity.this.httpHelper.delete(Res.BEER_COLLECTION);
-			final HttpResponse response = BeerListActivity.this.httpHelper.get(Res.getURI(Res.BEER_COLLECTION + "?beerid=" + ids[0]));
+		protected Void doInBackground(Long... ids) {
+			final String uri = Res.getURI(Res.BEER_DOCUMENT, ids[0].toString());
+			final HttpResponse response = BeerListActivity.this.httpHelper.delete(uri);
 
 			if (response != null) {
 				final int statusCode = response.getStatusLine().getStatusCode();
 				if (statusCode == HttpStatus.SC_OK) {
+					BeerListActivity.this.adapter.remove(ids[0]);
 				}
 			}
 			return null;
@@ -183,10 +175,7 @@ public class BeerListActivity extends ListActivity {
 
 		@Override
 		protected void onPostExecute(Void result) {
-			if (result != null) {
-				new GetBeerData().execute();
-				// TODO maybe dont update the whole list on delete of one item...
-			} // TODO handle else
+			BeerListActivity.this.adapter.notifyDataSetChanged();
 			BeerListActivity.this.progressDialog.dismiss();
 		}
 	}
