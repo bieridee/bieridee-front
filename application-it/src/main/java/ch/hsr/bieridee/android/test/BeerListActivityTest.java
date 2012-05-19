@@ -5,6 +5,9 @@ import ch.hsr.bieridee.android.activities.BeerListActivity;
 import ch.hsr.bieridee.android.config.Auth;
 import com.jayway.android.robotium.solo.Solo;
 
+/**
+ * Test the BeerList activity.
+ */
 public class BeerListActivityTest extends ActivityInstrumentationTestCase2<BeerListActivity> {
 
 	private Solo solo;
@@ -17,12 +20,12 @@ public class BeerListActivityTest extends ActivityInstrumentationTestCase2<BeerL
 	public void setUp() throws Exception {
 		super.setUp();
 		Auth.setAuth("testuser", "$2$10$ae5deb822e0d719929004uD0KL0l5rHNCSFKcfBvoTzG5Og6O/Xxu");
-		solo = new Solo(getInstrumentation(), getActivity());
+		this.solo = new Solo(getInstrumentation(), getActivity());
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-		solo.finishOpenedActivities();
+		this.solo.finishOpenedActivities();
 		super.tearDown();
 	}
 
@@ -30,8 +33,8 @@ public class BeerListActivityTest extends ActivityInstrumentationTestCase2<BeerL
 	 * Test activity content.
 	 */
 	public void testActivityContent() {
-		assertTrue(solo.searchText("Bierliste")); // title
-		assertTrue(solo.searchText("Holzfass Bier")); // beer name
-		assertTrue(solo.searchText("Appenzeller Bier")); // beer brand
+		assertTrue(this.solo.searchText("Bierliste")); // title
+		assertTrue(this.solo.searchText("Holzfass Bier")); // beer name
+		assertTrue(this.solo.searchText("Appenzeller Bier")); // beer brand
 	}
 }

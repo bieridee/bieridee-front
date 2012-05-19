@@ -8,6 +8,9 @@ import ch.hsr.bieridee.android.activities.LoginScreenActivity;
 import ch.hsr.bieridee.android.config.Auth;
 import com.jayway.android.robotium.solo.Solo;
 
+/**
+ * Test the home screen activity.
+ */
 public class HomeScreenActivityTest extends ActivityInstrumentationTestCase2<HomeScreenActivity> {
 
 	private Solo solo;
@@ -19,12 +22,12 @@ public class HomeScreenActivityTest extends ActivityInstrumentationTestCase2<Hom
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		solo = new Solo(getInstrumentation(), getActivity());
+		this.solo = new Solo(getInstrumentation(), getActivity());
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-		solo.finishOpenedActivities();
+		this.solo.finishOpenedActivities();
 		super.tearDown();
 	}
 
@@ -58,12 +61,12 @@ public class HomeScreenActivityTest extends ActivityInstrumentationTestCase2<Hom
 	 */
 	public void testDashboardItems() {
 		this.testWithLogin();
-		assertTrue(solo.searchText("Bierliste"));
-		assertTrue(solo.searchText("Timeline"));
-		assertTrue(solo.searchText("Brauereien"));
-		assertTrue(solo.searchText("Profil"));
-		assertTrue(solo.searchText("Bier erfassen"));
-		assertTrue(solo.searchText("Empfehlungen"));
+		assertTrue(this.solo.searchText("Bierliste"));
+		assertTrue(this.solo.searchText("Timeline"));
+		assertTrue(this.solo.searchText("Brauereien"));
+		assertTrue(this.solo.searchText("Profil"));
+		assertTrue(this.solo.searchText("Bier erfassen"));
+		assertTrue(this.solo.searchText("Empfehlungen"));
 	}
 
 	/**
@@ -72,8 +75,8 @@ public class HomeScreenActivityTest extends ActivityInstrumentationTestCase2<Hom
 	public void testLoggedIn() {
 		this.testWithLogin();
 		getInstrumentation().callActivityOnRestart(getActivity());
-		assertTrue(solo.searchText("Bieridee Dashboard"));
-		solo.assertCurrentActivity("Expected home screen activity to stay open.", HomeScreenActivity.class);
+		assertTrue(this.solo.searchText("Bieridee Dashboard"));
+		this.solo.assertCurrentActivity("Expected home screen activity to stay open.", HomeScreenActivity.class);
 	}
 
 	/**
@@ -82,24 +85,30 @@ public class HomeScreenActivityTest extends ActivityInstrumentationTestCase2<Hom
 	public void testLoggedOut() {
 		this.testWithoutLogin();
 		getInstrumentation().callActivityOnRestart(getActivity());
-		solo.assertCurrentActivity("Expected login activity to launch.", LoginScreenActivity.class);
+		this.solo.assertCurrentActivity("Expected login activity to launch.", LoginScreenActivity.class);
 	}
 
+	/**
+	 * Test whether the logout button works and launches the login activity.
+	 */
 	public void testLogoutButton() {
 		this.testWithLogin();
 		assertTrue("Expected auth data to be available.", Auth.dataAvailable());
-		solo.assertCurrentActivity("Expected home screen activity to be active.", HomeScreenActivity.class);
-		solo.sendKey(Solo.MENU);
-		solo.clickOnText("Logout");
+		this.solo.assertCurrentActivity("Expected home screen activity to be active.", HomeScreenActivity.class);
+		this.solo.sendKey(Solo.MENU);
+		this.solo.clickOnText("Logout");
 		assertFalse("Expected auth data to be gone.", Auth.dataAvailable());
-		solo.assertCurrentActivity("Expected login activity to launch.", LoginScreenActivity.class);
+		this.solo.assertCurrentActivity("Expected login activity to launch.", LoginScreenActivity.class);
 	}
 
+	/**
+	 * Test whether the about button launches the about screen.
+	 */
 	public void testAboutButton() {
 		this.testWithLogin();
-		solo.assertCurrentActivity("Expected home screen activity to be active.", HomeScreenActivity.class);
-		solo.sendKey(Solo.MENU);
-		solo.clickOnText("Über");
-		solo.assertCurrentActivity("Expected about screen activity to launch.", AboutScreenActivity.class);
+		this.solo.assertCurrentActivity("Expected home screen activity to be active.", HomeScreenActivity.class);
+		this.solo.sendKey(Solo.MENU);
+		this.solo.clickOnText("Über");
+		this.solo.assertCurrentActivity("Expected about screen activity to launch.", AboutScreenActivity.class);
 	}
 }

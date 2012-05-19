@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content">
 
 	<LinearLayout
 		xmlns:android="http://schemas.android.com/apk/res/android"
@@ -10,28 +10,14 @@
 		android:orientation="vertical"
 		android:padding="10dp">
 
-		<LinearLayout
-			xmlns:android="http://schemas.android.com/apk/res/android"
-			android:layout_width="match_parent"
+		<TextView
+			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_marginBottom="10dp"
-			android:orientation="horizontal">
-
-			<ImageView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_gravity="center_vertical"
-				android:layout_marginRight="5dp"
-				android:contentDescription="@string/beer"
-				android:src="@drawable/ic_beer" />
-
-			<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginTop="3dp"
-				android:text="@string/beercreate_introText"
-				android:textAppearance="?android:attr/textAppearanceMedium" />
-		</LinearLayout>
+			android:layout_marginTop="3dp"
+			android:layout_marginBottom="15dp"
+			android:drawableLeft="@drawable/ic_beer"
+			android:text="@string/beercreate_introText"
+			android:textAppearance="?android:attr/textAppearanceMedium" />
 
 		<TextView
 			android:layout_width="wrap_content"

@@ -12,5 +12,5 @@ public interface IRequestProcessor {
 	 * @param request HTTP request object
 	 * @return Processed HTTP request object
 	 */
-	public HttpRequestBase processRequest(HttpRequestBase request);
+	HttpRequestBase processRequest(HttpRequestBase request);
 }

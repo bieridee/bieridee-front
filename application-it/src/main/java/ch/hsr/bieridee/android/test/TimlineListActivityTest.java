@@ -6,6 +6,9 @@ import ch.hsr.bieridee.android.config.Auth;
 
 import com.jayway.android.robotium.solo.Solo;
 
+/**
+ * Test the timeline list activity.
+ */
 public class TimlineListActivityTest extends ActivityInstrumentationTestCase2<TimelineListActivity> {
 
 	private Solo solo;
@@ -18,12 +21,12 @@ public class TimlineListActivityTest extends ActivityInstrumentationTestCase2<Ti
 	public void setUp() throws Exception {
 		super.setUp();
 		Auth.setAuth("testuser", "$2$10$ae5deb822e0d719929004uD0KL0l5rHNCSFKcfBvoTzG5Og6O/Xxu");
-		solo = new Solo(getInstrumentation(), getActivity());
+		this.solo = new Solo(getInstrumentation(), getActivity());
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-		solo.finishOpenedActivities();
+		this.solo.finishOpenedActivities();
 		super.tearDown();
 	}
 
@@ -31,7 +34,7 @@ public class TimlineListActivityTest extends ActivityInstrumentationTestCase2<Ti
 	 * Test activity content.
 	 */
 	public void testActivityContent() {
-		assertTrue(solo.searchText("felt thirsty")); // title
-		assertTrue(solo.searchText("rated")); // beer name
+		assertTrue(this.solo.searchText("felt thirsty")); // title
+		assertTrue(this.solo.searchText("rated")); // beer name
 	}
 }

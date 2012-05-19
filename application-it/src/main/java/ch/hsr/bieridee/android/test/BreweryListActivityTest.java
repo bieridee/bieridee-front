@@ -5,6 +5,9 @@ import ch.hsr.bieridee.android.activities.BreweryListActivity;
 import ch.hsr.bieridee.android.config.Auth;
 import com.jayway.android.robotium.solo.Solo;
 
+/**
+ * Test the brewery list activity.
+ */
 public class BreweryListActivityTest extends ActivityInstrumentationTestCase2<BreweryListActivity> {
 
 	private Solo solo;
@@ -17,12 +20,12 @@ public class BreweryListActivityTest extends ActivityInstrumentationTestCase2<Br
 	public void setUp() throws Exception {
 		super.setUp();
 		Auth.setAuth("testuser", "$2$10$ae5deb822e0d719929004uD0KL0l5rHNCSFKcfBvoTzG5Og6O/Xxu");
-		solo = new Solo(getInstrumentation(), getActivity());
+		this.solo = new Solo(getInstrumentation(), getActivity());
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-		solo.finishOpenedActivities();
+		this.solo.finishOpenedActivities();
 		super.tearDown();
 	}
 
@@ -30,8 +33,8 @@ public class BreweryListActivityTest extends ActivityInstrumentationTestCase2<Br
 	 * Test activity content.
 	 */
 	public void testActivityContent() {
-		assertTrue(solo.searchText("Brauereien")); // title
-		assertTrue(solo.searchText("Brauerei Locher AG")); // brewery name
-		assertTrue(solo.searchText("Die Brauerei Locher ist ein traditionsreicher Familienbetrieb in Appenzell.")); // description
+		assertTrue(this.solo.searchText("Brauereien")); // title
+		assertTrue(this.solo.searchText("Brauerei Locher AG")); // brewery name
+		assertTrue(this.solo.searchText("Die Brauerei Locher ist ein traditionsreicher Familienbetrieb in Appenzell.")); // description
 	}
 }
