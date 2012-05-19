@@ -76,7 +76,7 @@ public class BeerCreateActivity extends Activity {
 		this.createBreweryButton = (ImageButton) findViewById(R.id_beercreate.createBreweryButton);
 		this.createButton = (Button) findViewById(R.id_beercreate.createButton);
 
-		setButtonAction();
+		setCreateButtonAction();
 		setBreweryCreateAction();
 		
 		this.beerNameInfoButton = (ImageButton) findViewById(R.id_beercreate.nameInfoButton);
@@ -185,7 +185,7 @@ public class BeerCreateActivity extends Activity {
 		new GetBreweryData().execute();
 	}
 
-	private void setButtonAction() {
+	private void setCreateButtonAction() {
 		this.createButton.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View view) {
@@ -199,7 +199,13 @@ public class BeerCreateActivity extends Activity {
 					try {
 						newBeer.put("name", beername);
 						newBeer.put("brand", brand);
+						if(beertypeId < 0) { // id -1 means beertype is unknown
+							newBeer.put("unknownbeertype", true);
+						}
 						newBeer.put("beertype", beertypeId);
+						if(breweryId < 0) { // id -1 means brewery is unknown
+							newBeer.put("unknownbrewery", true);
+						}
 						newBeer.put("brewery", breweryId);
 					} catch (JSONException e) {
 						e.printStackTrace();

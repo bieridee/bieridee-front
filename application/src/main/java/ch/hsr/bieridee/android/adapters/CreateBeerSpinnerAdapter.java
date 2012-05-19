@@ -1,7 +1,10 @@
 package ch.hsr.bieridee.android.adapters;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import ch.hsr.bieridee.android.R;
 
 import android.app.Activity;
 import android.view.View;
@@ -11,12 +14,10 @@ import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 /**
- * The BreweryListAdapter adapts the JSON brewery structure to the Android ListView.
+ * The CreateBeerSpinnerAdapter adapts the JSON bewery and beertype structure to the Android Spinner.
  * 
- * For further information, see the Adapter interface:
- * http://developer.android.com/reference/android/widget/Adapter.html
  */
-public class CreateBeerSpinnerAdapter extends BreweryListAdapter implements SpinnerAdapter {
+public class CreateBeerSpinnerAdapter extends JsonListAdapter implements SpinnerAdapter {
 
 	/**
 	 * @param activity The activity
@@ -24,7 +25,6 @@ public class CreateBeerSpinnerAdapter extends BreweryListAdapter implements Spin
 	public CreateBeerSpinnerAdapter(Activity activity) {
 		super(activity);
 	}
-
 	
 	/**
 	 * Return the view for specified position, as dropdown.
@@ -38,12 +38,10 @@ public class CreateBeerSpinnerAdapter extends BreweryListAdapter implements Spin
 	 * @return A View corresponding to the data at the specified position.
 	 */
 	public View getDropDownView(int position, View convertView, ViewGroup parent) {
-		// Get & inflate brewerylist item from XML
 		if (convertView == null) {
 			convertView = this.activity.getLayoutInflater().inflate(android.R.layout.simple_spinner_dropdown_item, null);
 		}
 
-		// Assign values to brewerylist item
 		final JSONObject jsonBrewery = (JSONObject) this.getItem(position);
 		final CheckedTextView name = (CheckedTextView) convertView;
 		try {
@@ -68,12 +66,10 @@ public class CreateBeerSpinnerAdapter extends BreweryListAdapter implements Spin
 	 * @return A View corresponding to the data at the specified position.
 	 */
 	public View getView(int position, View convertView, ViewGroup parent) {
-		// Get & inflate brewerylist item from XML
 		if (convertView == null) {
 			convertView = this.activity.getLayoutInflater().inflate(android.R.layout.simple_spinner_item, null);
 		}
 
-		// Assign values to brewerylist item
 		final JSONObject jsonBrewery = (JSONObject) this.getItem(position);
 		final TextView name = (TextView) convertView;
 		try {
@@ -83,6 +79,23 @@ public class CreateBeerSpinnerAdapter extends BreweryListAdapter implements Spin
 		}
 
 		return convertView;
+	}
+	
+	@Override
+	public void updateData(JSONArray jsonArray) {
+		final JSONObject unknownOption = new JSONObject();
+		final JSONArray newJsonArray = new JSONArray();
+		try {
+			unknownOption.put("id", -1l);
+			unknownOption.put("name", this.activity.getString(R.string.unknown));
+			newJsonArray.put(unknownOption);
+			for(int i = 0; i< jsonArray.length(); ++i) {
+				newJsonArray.put(jsonArray.get(i));
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		this.jsonArray = newJsonArray;
 	}
 
 	@Override
