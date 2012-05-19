@@ -39,16 +39,16 @@
     <string name="loginscreen_registrationLinkText">Registrieren.</string>
     <string name="loginscreen_autologinText">Angemeldet bleiben</string>
     <string name="loginscreen_imageDescription">Bieridee Logo</string>
-	<string name="loginscreen_verifyingData">Logindaten werden verifiziert</string>
-	<string name="loginscreen_loginFailed">Login ist fehlgeschlagen</string>
-	<string name="loginscreen_loginError">Beim Login ist ein Fehler aufgetreten</string>
-	<string name="loginscreen_loginSuccess">Login erfolgreich</string>
+    <string name="loginscreen_verifyingData">Logindaten werden verifiziert</string>
+    <string name="loginscreen_loginFailed">Login ist fehlgeschlagen</string>
+    <string name="loginscreen_loginError">Beim Login ist ein Fehler aufgetreten</string>
+    <string name="loginscreen_loginSuccess">Login erfolgreich</string>
 
     <!-- Registration screen specific strings -->
     <string name="registrationscreen_title">BierIdee Registration</string>
     <string name="registrationscreen_invalidInput">Die Eingabe ist ungültig</string>
     <string name="registrationscreen_invalidEmail">Bitte gibt eine gültige Emailadresse ein.</string>
-	<string name="registrationscreen_invalidPassword">Das Passwort ist ungültig. Mindestlänge: 8 Zeichen.</string>
+    <string name="registrationscreen_invalidPassword">Das Passwort ist ungültig. Mindestlänge: 8 Zeichen.</string>
     <string name="registrationscreen_unavailableUsername">Dieser Benutzername ist bereits vergeben. Bitte wähle einen anderen.</string>
     <string name="registrationscreen_success_registration">Registrierung erfolgreich!</string>
     <string name="registrationscreen_fail_registration">Die Registrierung ist fehlgeschlagen.</string>
@@ -65,6 +65,9 @@
 
     <!-- Beer list -->
     <string name="beerlist_title">Bierliste</string>
+    <string name="beerlistContextTitle">Optionen</string>
+    <string name="beerlistContextEdit">Bier bearbeiten</string>
+    <string name="beerlistContextDelete">Bier löschen</string>
 
     <!-- Beer detail -->
     <string name="beerdetail_title">Bier Informationen</string>
