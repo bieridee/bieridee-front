@@ -7,7 +7,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -33,11 +32,9 @@ public class BeerListAdapter extends BaseAdapter {
 	 * 
 	 */
 	public void remove(long id) {
-		Log.d("remove", "removing " + id);
 		for (int i = 0; i < this.beers.size(); ++i) {
 			try {
 				if (this.beers.get(i).getLong("id") == id) {
-					Log.d("remove", "remove performed in colleciton");
 					this.beers.remove(i);
 				}
 			} catch (JSONException e) {
