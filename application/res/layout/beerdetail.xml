@@ -1,103 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="10dp" >
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:fillViewport="true"
+            android:overScrollMode="always"
+            android:isScrollContainer="true"
+            android:scrollbarAlwaysDrawVerticalTrack="false"
+            android:scrollbarStyle="outsideInset"
+            android:scrollbars="vertical">
 
-    <TextView
-        android:id="@+id_beerdetail/beerName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="10dp"
-        android:text="@string/beerdetail_title"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	              android:layout_width="match_parent"
+	              android:layout_height="match_parent"
+	              android:orientation="vertical"
+	              android:padding="10dp">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+		<TextView
+			android:id="@+id_beerdetail/beerName"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center_horizontal"
+			android:layout_marginBottom="10dp"
+			android:text="@string/beerdetail_title"
+			android:textAppearance="?android:attr/textAppearanceLarge" />
 
-        <ImageView
-            android:id="@+id_beerdetail/beerPicture"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/beer"
-            android:minHeight="90dp"
-            android:minWidth="120dp"
-            android:src="@drawable/ic_beer" />
+		<LinearLayout
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingLeft="10dp" >
+			<ImageView
+				android:id="@+id_beerdetail/beerPicture"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:contentDescription="@string/beer"
+				android:minHeight="90dp"
+				android:minWidth="120dp"
+				android:src="@drawable/ic_beer" />
 
-            <TextView
-                android:id="@+id_beerdetail/beerBrand"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:singleLine="true" />
+			<LinearLayout
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:orientation="vertical"
+				android:paddingLeft="10dp">
 
-            <TextView
-                android:id="@+id_beerdetail/beerBrewery"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:singleLine="true" />
-            
-            <TextView
-                android:id="@+id_beerdetail/beertype"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:singleLine="true" />
+				<TextView
+					android:id="@+id_beerdetail/beerBrand"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:ellipsize="end"
+					android:singleLine="true" />
 
-            <RatingBar
-                android:id="@+id_beerdetail/beerAverageratingBar"
-                style="?android:attr/ratingBarStyleSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:isIndicator="true"
-                android:numStars="5"
-                android:stepSize="0.5" />
-        </LinearLayout>
-    </LinearLayout>
+				<TextView
+					android:id="@+id_beerdetail/beerBrewery"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:ellipsize="end"
+					android:singleLine="true" />
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:orientation="vertical" >
+				<TextView
+					android:id="@+id_beerdetail/beertype"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:ellipsize="end"
+					android:singleLine="true" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="@string/beerdetail_yourRating"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+				<RatingBar
+					android:id="@+id_beerdetail/beerAverageratingBar"
+					style="?android:attr/ratingBarStyleSmall"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="5dp"
+					android:isIndicator="true"
+					android:numStars="5"
+					android:stepSize="0.5" />
+			</LinearLayout>
+		</LinearLayout>
 
-        <RatingBar
-            android:id="@+id_beerdetail/ratingBar"
-            style="?android:attr/ratingBarStyleIndicator"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="5dp"
-            android:isIndicator="false" />
+		<LinearLayout
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center_horizontal"
+			android:orientation="vertical">
 
-        <Button
-            android:id="@+id_beerdetail/consumptionButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp"
-            android:minHeight="20dp"
-            android:minWidth="200dp"
-            android:text="@string/beerdetail_drinkingNow" />
-    </LinearLayout>
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="20dp"
+				android:text="@string/beerdetail_yourRating"
+				android:textAppearance="?android:attr/textAppearanceSmall" />
 
-</LinearLayout>
+			<RatingBar
+				android:id="@+id_beerdetail/ratingBar"
+				style="?android:attr/ratingBarStyleIndicator"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_horizontal"
+				android:layout_marginTop="5dp"
+				android:isIndicator="false" />
+
+			<Button
+				android:id="@+id_beerdetail/consumptionButton"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_horizontal"
+				android:layout_marginTop="20dp"
+				android:minHeight="20dp"
+				android:minWidth="200dp"
+				android:text="@string/beerdetail_drinkingNow" />
+		</LinearLayout>
+
+	</LinearLayout>
+</ScrollView>
