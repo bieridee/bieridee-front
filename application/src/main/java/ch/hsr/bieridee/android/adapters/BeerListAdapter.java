@@ -159,6 +159,6 @@ public class BeerListAdapter extends BaseAdapter {
 
 	@Override
 	public String toString() {
-		return "BeerListAdapter{activity=" + activity.getClass().getName() + '}';
+		return "BeerListAdapter{activity=" + this.activity.getClass().getName() + '}';
 	}
 }
