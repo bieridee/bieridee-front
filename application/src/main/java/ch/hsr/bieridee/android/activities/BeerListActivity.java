@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import ch.hsr.bieridee.android.R;
 import ch.hsr.bieridee.android.adapters.BeerListAdapter;
 import ch.hsr.bieridee.android.config.Res;
+import ch.hsr.bieridee.android.exceptions.BierIdeeException;
 import ch.hsr.bieridee.android.http.AuthJsonHttp;
 import ch.hsr.bieridee.android.http.HttpHelper;
 import org.apache.http.HttpResponse;
@@ -88,9 +89,9 @@ public class BeerListActivity extends ListActivity {
 						final String responseText = new BasicResponseHandler().handleResponse(response);
 						return new JSONArray(responseText);
 					} catch (IOException e) {
-						e.printStackTrace();
+						throw new BierIdeeException(e.getMessage() , e);
 					} catch (JSONException e) {
-						e.printStackTrace();
+						throw new BierIdeeException("Malformed data." , e);
 					}
 				}
 			}

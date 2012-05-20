@@ -1,5 +1,6 @@
 package ch.hsr.bieridee.android;
 
+import ch.hsr.bieridee.android.exceptions.CatchAllExceptionHandler;
 import android.app.Application;
 import android.content.Context;
 
@@ -12,6 +13,7 @@ public class BierideeApplication extends Application {
 
 	public void onCreate() {
 		super.onCreate();
+		Thread.setDefaultUncaughtExceptionHandler(new CatchAllExceptionHandler(Thread.getDefaultUncaughtExceptionHandler()));
 		BierideeApplication.context = getApplicationContext();
 	}
 
