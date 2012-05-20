@@ -1,5 +1,14 @@
 package ch.hsr.bieridee.android.activities;
 
+import java.io.IOException;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.impl.client.BasicResponseHandler;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -22,14 +31,6 @@ import ch.hsr.bieridee.android.adapters.CreateBeerSpinnerAdapter;
 import ch.hsr.bieridee.android.config.Res;
 import ch.hsr.bieridee.android.http.AuthJsonHttp;
 import ch.hsr.bieridee.android.http.HttpHelper;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.impl.client.BasicResponseHandler;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
 
 /**
  * Activity to create a new beer.
@@ -52,7 +53,6 @@ public class BeerCreateActivity extends Activity {
 	private ImageButton beertypeInfoButton;
 	private ImageButton breweryInfoButton;
 	private Button createButton;
-	private ImageButton createBreweryButton;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -73,11 +73,8 @@ public class BeerCreateActivity extends Activity {
 		this.breweryAdapter = new CreateBeerSpinnerAdapter(this);
 		this.brewerySpinner.setAdapter(this.breweryAdapter);
 
-		this.createBreweryButton = (ImageButton) findViewById(R.id_beercreate.createBreweryButton);
 		this.createButton = (Button) findViewById(R.id_beercreate.createButton);
-
-		setButtonAction();
-		setBreweryCreateAction();
+		this.setCreateButtonAction();
 		
 		this.beerNameInfoButton = (ImageButton) findViewById(R.id_beercreate.nameInfoButton);
 		this.setBeerNameInfoButtonAction();
@@ -157,22 +154,12 @@ public class BeerCreateActivity extends Activity {
 				})
 				.setNeutralButton(BeerCreateActivity.this.getString(R.string.add), new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
-						Toast.makeText(BeerCreateActivity.this, "TOFU", Toast.LENGTH_SHORT).show();
-						dialog.cancel();
+						final Intent intent = new Intent(BeerCreateActivity.this, BreweryCreateActivity.class);
+						startActivity(intent);
 					}
 				});
 				final AlertDialog info = builder.create();
 				info.show();
-			}
-		});
-	}
-
-	private void setBreweryCreateAction() {
-		this.createBreweryButton.setOnClickListener(new OnClickListener() {
-
-			public void onClick(View v) {
-				final Intent intent = new Intent(v.getContext(), BreweryCreateActivity.class);
-				startActivity(intent);
 			}
 		});
 	}
@@ -185,7 +172,7 @@ public class BeerCreateActivity extends Activity {
 		new GetBreweryData().execute();
 	}
 
-	private void setButtonAction() {
+	private void setCreateButtonAction() {
 		this.createButton.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View view) {

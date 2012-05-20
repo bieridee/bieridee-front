@@ -107,6 +107,7 @@
     <string name="brewerycreate_createBrewery">Brauerei erstellen</string>
     <string name="brewerycreate_title">Brauerei erstellen</string>
     <string name="brewerycreate_successfull">Brauerei wurde erstellt</string>
+    <string name="brewerycreate_chooseSize">Brauereigrösse wählen</string>
 
     <!-- About screen -->
     <string name="aboutscreen_activitytitle">Über BierIdee</string>

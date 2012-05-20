@@ -84,14 +84,6 @@
 				android:ems="10" />
 
 			<ImageButton
-				android:id="@+id_beercreate/createBreweryButton"
-				android:layout_weight="1"
-				android:layout_width="0dip"
-				android:layout_height="match_parent"
-				android:src="@android:drawable/ic_input_add"
-				android:contentDescription="@android:drawable/ic_input_add" />
-
-			<ImageButton
 				android:id="@+id_beercreate/brandInfoButton"
 				android:layout_width="0dip"
 				android:layout_height="wrap_content"
