@@ -24,18 +24,19 @@ public class BreweryListAdapter extends BaseAdapter {
 	protected JSONArray jsonBreweries;
 
 	/**
-	 * @param activity Activity	public BrewerySpinnerAdapter(Activity activity) {
-		super(activity);
-	}
-
+	 * @param activity
+	 *            Activity public BrewerySpinnerAdapter(Activity activity) { super(activity); }
 	 */
 	public BreweryListAdapter(Activity activity) {
 		this.activity = activity;
 		this.jsonBreweries = new JSONArray();
 	}
+
 	/**
-	 * @param activity Activity
-	 * @param jsonBreweries JSONArray with list data
+	 * @param activity
+	 *            Activity
+	 * @param jsonBreweries
+	 *            JSONArray with list data
 	 */
 	public BreweryListAdapter(Activity activity, JSONArray jsonBreweries) {
 		this.jsonBreweries = jsonBreweries;
@@ -49,6 +50,15 @@ public class BreweryListAdapter extends BaseAdapter {
 	 */
 	public int getCount() {
 		return this.jsonBreweries.length();
+	}
+
+	public int getPositionOf(long id) {
+		for (int i = 0; i < getCount(); ++i) {
+			if (this.getItemId(i) == id) {
+				return i;
+			}
+		}
+		return -1;
 	}
 
 	/**

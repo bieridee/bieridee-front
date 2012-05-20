@@ -102,6 +102,11 @@ public class BeerListActivity extends ListActivity {
 		if (item.getTitle() == BeerListActivity.this.getString(R.string.beerlistContextDelete)) {
 			new DeleteBeer().execute(info.id);
 		} else if (item.getTitle() == BeerListActivity.this.getString(R.string.beerlistContextEdit)) {
+			Intent editBeerIntent = new Intent(BeerListActivity.this.getBaseContext(), BeerCreateActivity.class);
+			editBeerIntent.putExtra("beerToUpdate", info.id);
+			Log.d("info", "called Beer Create with id " + info.id);
+			startActivity(editBeerIntent);
+
 			// TODO call edit beer activity.
 		} else {
 			return false;
