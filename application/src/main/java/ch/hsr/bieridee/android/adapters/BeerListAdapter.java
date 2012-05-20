@@ -1,18 +1,19 @@
 package ch.hsr.bieridee.android.adapters;
 
-import ch.hsr.bieridee.android.R;
+import java.util.ArrayList;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
-import android.text.Html;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import ch.hsr.bieridee.android.R;
 
 /**
  * The BeerListAdapter adapts the JSON beer structure to the Android ListView.
@@ -23,7 +24,25 @@ import android.widget.TextView;
 public class BeerListAdapter extends BaseAdapter {
 
 	private final Activity activity;
-	private JSONArray jsonBeers;
+	private ArrayList<JSONObject> beers;
+
+	/**
+	 * @param id
+	 *            id of beer to be removed
+	 * 
+	 */
+	public void remove(long id) {
+		for (int i = 0; i < this.beers.size(); ++i) {
+			try {
+				if (this.beers.get(i).getLong("id") == id) {
+					this.beers.remove(i);
+				}
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
 
 	/**
 	 * @param activity
@@ -31,7 +50,7 @@ public class BeerListAdapter extends BaseAdapter {
 	 */
 	public BeerListAdapter(Activity activity) {
 		this.activity = activity;
-		this.jsonBeers = new JSONArray();
+		this.beers = new ArrayList<JSONObject>();
 	}
 
 	/**
@@ -41,8 +60,20 @@ public class BeerListAdapter extends BaseAdapter {
 	 *            JSONArray with list data
 	 */
 	public BeerListAdapter(Activity activity, JSONArray jsonBeers) {
-		this.jsonBeers = jsonBeers;
+		fillJSONToArrayList(jsonBeers);
 		this.activity = activity;
+	}
+
+	private void fillJSONToArrayList(JSONArray jsonBeers) {
+		this.beers.clear();
+		for (int i = 0; i < jsonBeers.length(); ++i) {
+			try {
+				this.beers.add((JSONObject) jsonBeers.get(i));
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 	/**
@@ -51,7 +82,7 @@ public class BeerListAdapter extends BaseAdapter {
 	 * @return Count of list items
 	 */
 	public int getCount() {
-		return this.jsonBeers.length();
+		return this.beers.size();
 	}
 
 	/**
@@ -62,7 +93,7 @@ public class BeerListAdapter extends BaseAdapter {
 	 * @return JSON beer object at the specified position
 	 */
 	public Object getItem(int position) {
-		return this.jsonBeers.optJSONObject(position);
+		return this.beers.get(position);
 	}
 
 	/**
@@ -73,8 +104,7 @@ public class BeerListAdapter extends BaseAdapter {
 	 * @return The id of the item at the specified position
 	 */
 	public long getItemId(int position) {
-		final JSONObject jsonBeer = (JSONObject) this.getItem(position);
-		return jsonBeer.optLong("id");
+		return this.beers.get(position).optLong("id");
 	}
 
 	/**
@@ -121,11 +151,11 @@ public class BeerListAdapter extends BaseAdapter {
 	 *            New data to replace the old JSONArray
 	 */
 	public void updateData(JSONArray jsonBeers) {
-		this.jsonBeers = jsonBeers;
+		this.fillJSONToArrayList(jsonBeers);
 	}
 
 	@Override
 	public String toString() {
-		return "BeerListAdapter{activity=" + activity.getClass().getName() + '}';
+		return "BeerListAdapter{activity=" + this.activity.getClass().getName() + '}';
 	}
 }
