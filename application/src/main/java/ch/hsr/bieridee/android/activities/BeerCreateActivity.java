@@ -421,11 +421,6 @@ public class BeerCreateActivity extends Activity {
 			super();
 		}
 
-		public GetBeerDetail(boolean showDialog) {
-			super();
-			this.showDialog = showDialog;
-		}
-
 		@Override
 		protected void onPreExecute() {
 			Log.d(LOG_TAG, "onPreExecute()");
@@ -444,8 +439,8 @@ public class BeerCreateActivity extends Activity {
 				if (statusCode == HttpStatus.SC_OK) {
 					try {
 						final String responseText = new BasicResponseHandler().handleResponse(response);
-						
-						// wait for all other tasks to be finished.
+
+						// wait for all other data loading tasks to be finished.
 						BeerCreateActivity.this.allLoadingTasksFinished.await();
 						return new JSONObject(responseText);
 					} catch (IOException e) {
@@ -455,7 +450,7 @@ public class BeerCreateActivity extends Activity {
 						Log.e(LOG_TAG, "JSONException in GetBeerDetail::doInBackground");
 						e.printStackTrace();
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
+						Log.e(LOG_TAG, "InterruptedException in GetBeerDetail:doInBackground");
 						e.printStackTrace();
 					}
 				} else {
@@ -472,28 +467,23 @@ public class BeerCreateActivity extends Activity {
 			if (result != null) {
 				try {
 
-					// Query String and brand
+					// Set String and brand
 					BeerCreateActivity.this.beername.setText(result.getString("name"));
 					BeerCreateActivity.this.brand.setText(result.getString("brand"));
 
-					// Query Brewery
+					// Set Brewery in spinner
 					final JSONObject resultBrewery = result.getJSONObject("brewery");
 					final long breweryId = resultBrewery.optLong("id");
 					final BreweryListAdapter breweryListAdapter = (BreweryListAdapter) BeerCreateActivity.this.brewerySpinner.getAdapter();
-					Log.d("info", "Data in breweryList: " + breweryListAdapter.getCount());
 					final int breweryPosition = breweryListAdapter.getPositionOf(breweryId);
 					BeerCreateActivity.this.brewerySpinner.setSelection(breweryPosition);
-					Log.d("info", "brewery: " + breweryId + " position: " + breweryPosition);
 
-					// Query Beertype
+					// Set Beertype in spinner
 					final JSONObject resultBeertype = result.getJSONObject("beertype");
-					Log.d("info", resultBrewery.toString());
-					Log.d("info", resultBeertype.toString());
 					final BreweryListAdapter beertypeListAdapter = (BreweryListAdapter) BeerCreateActivity.this.beertypeSpinner.getAdapter();
 					final long beertypeId = resultBeertype.optLong("id");
 					final int beerTypePosition = beertypeListAdapter.getPositionOf(beertypeId);
 					BeerCreateActivity.this.beertypeSpinner.setSelection(beerTypePosition);
-					Log.d("info", "beertype: " + beertypeId + " position: " + beerTypePosition);
 
 				} catch (JSONException e) {
 					Log.e(LOG_TAG, "JSONException in GetBeerDetail::onPostExecute");
