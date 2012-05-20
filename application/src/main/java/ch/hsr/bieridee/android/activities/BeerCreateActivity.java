@@ -135,8 +135,8 @@ public class BeerCreateActivity extends Activity {
 				})
 				.setNeutralButton(BeerCreateActivity.this.getString(R.string.more), new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
-						Toast.makeText(BeerCreateActivity.this, "TOFU", Toast.LENGTH_SHORT).show();
-						dialog.cancel();
+						final Intent intent = new Intent(BeerCreateActivity.this, BeertypeListActivity.class);
+						BeerCreateActivity.this.startActivity(intent);
 					}
 				});
 				final AlertDialog info = builder.create();
