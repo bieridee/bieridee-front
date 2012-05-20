@@ -2,7 +2,6 @@ package ch.hsr.bieridee.android.activities;
 
 import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutionException;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -62,6 +61,7 @@ public class BeerCreateActivity extends Activity {
 	private GetBrandData getBrandDataTask;
 	private GetBreweryData getBreweryDataTask;
 	private GetBeertypeData getBeertypeDataTask;
+	private final CountDownLatch allLoadingTasksFinished = new CountDownLatch(3);
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -96,6 +96,11 @@ public class BeerCreateActivity extends Activity {
 		setBeertypeInfoButtonAction();
 		this.breweryInfoButton = (ImageButton) findViewById(R.id_beercreate.breweryInfoButton);
 		setBreweryInfoButtonAction();
+		final Bundle extras = getIntent().getExtras();
+		if (extras != null && extras.getLong("beerToUpdate") > 0) {
+			BeerCreateActivity.this.beerId = extras.getLong("beerToUpdate");
+			new GetBeerDetail().execute();
+		}
 
 	}
 
@@ -301,6 +306,8 @@ public class BeerCreateActivity extends Activity {
 				BeerCreateActivity.this.beertypeAdapter.notifyDataSetChanged();
 			}
 			BeerCreateActivity.this.progressDialog.hide();
+			BeerCreateActivity.this.allLoadingTasksFinished.countDown();
+			Log.d("info", "Beertype data finished");
 		}
 	}
 
@@ -344,11 +351,8 @@ public class BeerCreateActivity extends Activity {
 				BeerCreateActivity.this.breweryAdapter.notifyDataSetChanged();
 			}
 			BeerCreateActivity.this.progressDialog.hide();
-			final Bundle extras = getIntent().getExtras();
-			if (extras != null && extras.getLong("beerToUpdate") > 0) {
-				BeerCreateActivity.this.beerId = extras.getLong("beerToUpdate");
-				new GetBeerDetail().execute();
-			}
+			BeerCreateActivity.this.allLoadingTasksFinished.countDown();
+			Log.d("info", "Brewery data finished");
 		}
 	}
 
@@ -400,6 +404,9 @@ public class BeerCreateActivity extends Activity {
 				BeerCreateActivity.this.brand.setAdapter(BeerCreateActivity.this.autoCompleteAdapter);
 			}
 			BeerCreateActivity.this.progressDialog.hide();
+			BeerCreateActivity.this.allLoadingTasksFinished.countDown();
+			Log.d("info", "Brand data finished");
+
 		}
 	}
 
@@ -437,6 +444,9 @@ public class BeerCreateActivity extends Activity {
 				if (statusCode == HttpStatus.SC_OK) {
 					try {
 						final String responseText = new BasicResponseHandler().handleResponse(response);
+						
+						// wait for all other tasks to be finished.
+						BeerCreateActivity.this.allLoadingTasksFinished.await();
 						return new JSONObject(responseText);
 					} catch (IOException e) {
 						Log.e(LOG_TAG, "IOException in GetBeerDetail::doInBackground");
@@ -444,12 +454,16 @@ public class BeerCreateActivity extends Activity {
 					} catch (JSONException e) {
 						Log.e(LOG_TAG, "JSONException in GetBeerDetail::doInBackground");
 						e.printStackTrace();
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
 				} else {
 					Log.e(LOG_TAG, "HTTP Response " + statusCode + " in GetBeerDetail::doInBackground");
 				}
 			}
 			Log.e(LOG_TAG, "HTTP Response was null in GetBeerDetail::doInBackground");
+
 			return null;
 		}
 
@@ -473,8 +487,8 @@ public class BeerCreateActivity extends Activity {
 
 					// Query Beertype
 					final JSONObject resultBeertype = result.getJSONObject("beertype");
-					Log.d("info",resultBrewery.toString());
-					Log.d("info",resultBeertype.toString());
+					Log.d("info", resultBrewery.toString());
+					Log.d("info", resultBeertype.toString());
 					final BreweryListAdapter beertypeListAdapter = (BreweryListAdapter) BeerCreateActivity.this.beertypeSpinner.getAdapter();
 					final long beertypeId = resultBeertype.optLong("id");
 					final int beerTypePosition = beertypeListAdapter.getPositionOf(beertypeId);
