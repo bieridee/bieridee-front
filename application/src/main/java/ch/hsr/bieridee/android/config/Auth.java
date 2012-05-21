@@ -9,6 +9,10 @@ import ch.hsr.bieridee.android.BierideeApplication;
  */
 public final class Auth {
 
+	private Auth() {
+		// Do not instantiate
+	}
+
 	private static final String PREFS_NAME = "auth";
 	private static final String USERNAME_KEY = "username";
 	private static final String PASSWORD_KEY = "password";
@@ -31,9 +35,11 @@ public final class Auth {
 
 	/**
 	 * Saves user data to the shared settings.
+	 * @param username Username string
+	 * @param password Password string
 	 */
 	public static void setAuth(String username, String password) {
-		SharedPreferences.Editor editor = getEditor();
+		final SharedPreferences.Editor editor = getEditor();
 		editor.putString(USERNAME_KEY, username);
 		editor.putString(PASSWORD_KEY, password);
 		editor.commit();
@@ -43,7 +49,7 @@ public final class Auth {
 	 * Removes all saved settings from the shared settings editor.
 	 */
 	public static void clearAuth() {
-		SharedPreferences.Editor editor = getEditor();
+		final SharedPreferences.Editor editor = getEditor();
 		editor.clear();
 		editor.commit();
 	}
@@ -51,32 +57,29 @@ public final class Auth {
 	/**
 	 * Returns the username setting. May be empty if not set.
 	 * @return The username
-	 * @throws RuntimeException Thrown if username could not be retrieved
 	 */
 	public static String getUsername() {
-		SharedPreferences authStore = getSharedPreferences();
+		final SharedPreferences authStore = getSharedPreferences();
 		return authStore.getString(USERNAME_KEY, "");
 	}
 
 	/**
 	 * Returns the password setting. May be empty if not set.
 	 * @return The password
-	 * @throws RuntimeException Thrown if password could not be retrieved
 	 */
 	public static String getPassword() {
-		SharedPreferences authStore = getSharedPreferences();
+		final SharedPreferences authStore = getSharedPreferences();
 		return authStore.getString(PASSWORD_KEY, "");
 	}
 
 	/**
 	 * Returns whether or not username and password are available.
-	 * @return
+	 * @return Whether or not username and password are available
 	 */
 	public static boolean dataAvailable() {
-		SharedPreferences authStore = getSharedPreferences();
-		boolean keysAvailable = authStore.contains(USERNAME_KEY) && authStore.contains(PASSWORD_KEY);
-
-		boolean nonEmptyValues = !(getUsername().isEmpty() || getPassword().isEmpty());
+		final SharedPreferences authStore = getSharedPreferences();
+		final boolean keysAvailable = authStore.contains(USERNAME_KEY) && authStore.contains(PASSWORD_KEY);
+		final boolean nonEmptyValues = !(getUsername().isEmpty() || getPassword().isEmpty());
 		return keysAvailable && nonEmptyValues;
 	}
 }

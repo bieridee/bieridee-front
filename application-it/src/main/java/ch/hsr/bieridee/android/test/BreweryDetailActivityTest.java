@@ -1,11 +1,15 @@
 package ch.hsr.bieridee.android.test;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 import ch.hsr.bieridee.android.activities.BreweryDetailActivity;
 import ch.hsr.bieridee.android.config.Auth;
 import com.jayway.android.robotium.solo.Solo;
 
+/**
+ * Test the brewery detail activity.
+ */
 public class BreweryDetailActivityTest extends ActivityInstrumentationTestCase2<BreweryDetailActivity> {
 
 	private Solo solo;
@@ -24,8 +28,9 @@ public class BreweryDetailActivityTest extends ActivityInstrumentationTestCase2<
 		i.putExtra(BreweryDetailActivity.EXTRA_BREWERY_ID, 70L);
 		setActivityIntent(i);
 
-		final BreweryDetailActivity activity = getActivity();
-		solo = new Solo(getInstrumentation(), activity);
+		final Activity activity;
+		activity = getActivity();
+		this.solo = new Solo(getInstrumentation(), activity);
 	}
 
 	@Override
@@ -38,9 +43,9 @@ public class BreweryDetailActivityTest extends ActivityInstrumentationTestCase2<
 	 * Test activity content.
 	 */
 	public void testActivityContent() {
-		assertTrue(solo.searchText("St. Francis")); // brewery name
-		assertTrue(solo.searchText("Abbey Brewery")); // brewery name
-		assertTrue(solo.searchText("National")); // brewery size
-		assertTrue(solo.searchText("Die älteste irische Brauerei, welche unter Anderem das Kilkenny Bier braut.")); // description
+		assertTrue(this.solo.searchText("St. Francis")); // brewery name
+		assertTrue(this.solo.searchText("Abbey Brewery")); // brewery name
+		assertTrue(this.solo.searchText("National")); // brewery size
+		assertTrue(this.solo.searchText("Die älteste irische Brauerei, welche unter Anderem das Kilkenny Bier braut.")); // description
 	}
 }

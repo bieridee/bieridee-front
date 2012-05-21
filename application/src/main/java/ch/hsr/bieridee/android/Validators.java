@@ -60,6 +60,6 @@ public final class Validators {
 	 * @return True if not emtpy else if otherwise
 	 */
 	public static boolean validateNonEmpty(String string) {
-		return string != null && string.length() > 0;
+		return string != null && string.isEmpty();
 	}
 }

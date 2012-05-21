@@ -10,10 +10,10 @@ import org.apache.http.client.methods.HttpRequestBase;
  */
 public class AcceptRequestProcessor implements IRequestProcessor {
 
-	private String contentType;
+	private final String contentType;
 
 	/**
-	 * Content type enum. Item values can be retrieved using <code>.value()</code>.
+	 * Content type enum. Item values can be retrieved using {@code .value()}.
 	 */
 	public static enum ContentType {
 		JSON("application/json"),
@@ -23,7 +23,7 @@ public class AcceptRequestProcessor implements IRequestProcessor {
 		JPEG("image/jpeg"),
 		TEXT("text/plain");
 
-		private String value;
+		private final String value;
 
 		ContentType(String value) {
 			this.value = value;
@@ -39,10 +39,10 @@ public class AcceptRequestProcessor implements IRequestProcessor {
 	}
 
 	/**
-	 * Create a new <code>AcceptRequestProcessor</code> instance that adds
-	 * the specified <code>ContentType</code> to the accept header of the request.
+	 * Create a new {@code AcceptRequestProcessor} instance that adds
+	 * the specified {@code ContentType} to the accept header of the request.
 	 *
-	 * @param contentType An instance of <code>AcceptRequestProcessor.ContentType</code>
+	 * @param contentType An instance of {@code AcceptRequestProcessor.ContentType}
 	 */
 	public AcceptRequestProcessor(ContentType contentType) {
 		this.contentType = contentType.value();
