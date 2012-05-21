@@ -35,8 +35,8 @@ public class LoginScreenActivity extends Activity {
 	private TextView registrationLink;
 	private ProgressDialog progressDialog;
 
-	public static int REQUEST_CODE_LOGIN = 0;
-	public static int RESULT_CODE_EXIT = -1;
+	public static final int REQUEST_CODE_LOGIN = 0;
+	public static final int RESULT_CODE_EXIT = -1;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

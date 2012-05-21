@@ -1,14 +1,12 @@
 package ch.hsr.bieridee.android.adapters;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckedTextView;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
+import org.json.JSONException;
 
 /**
  * The BreweryListAdapter adapts the JSON brewery structure to the Android ListView.

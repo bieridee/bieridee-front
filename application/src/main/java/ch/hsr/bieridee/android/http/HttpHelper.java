@@ -3,7 +3,7 @@ package ch.hsr.bieridee.android.http;
 import android.util.Log;
 import ch.hsr.bieridee.android.BierideeApplication;
 import ch.hsr.bieridee.android.exceptions.BierIdeeException;
-import org.apache.http.HttpHost;
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpDelete;
@@ -11,8 +11,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
-import org.apache.http.conn.params.ConnRoutePNames;
-import org.apache.http.entity.AbstractHttpEntity;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.BasicHttpParams;
@@ -24,15 +22,15 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.Collection;
 import java.util.LinkedList;
-import java.util.List;
 
 /**
  * A helper class that simplifies HTTP requests.
  * It supports request processors that can be added with addRequestProcessor.
  */
 public final class HttpHelper {
-	private List<IRequestProcessor> requestProcessors = new LinkedList<IRequestProcessor>();
+	private final Collection<IRequestProcessor> requestProcessors = new LinkedList<IRequestProcessor>();
 	private final static String LOG_TAG = "HttpHelper";
 
 	private final static int CONNECTION_TIMEOUT = 3000;
@@ -102,7 +100,7 @@ public final class HttpHelper {
 	 * @param contentType The Content-type string
 	 * @return A HttpResponse instance
 	 */
-	public HttpResponse post(String uri, AbstractHttpEntity data, String contentType) {
+	public HttpResponse post(String uri, HttpEntity data, String contentType) {
 		final HttpPost request = new HttpPost(uri);
 		if (data != null) {
 			request.setEntity(data);
@@ -146,7 +144,7 @@ public final class HttpHelper {
 	 * @param contentType The Content-type string
 	 * @return A HttpResponse instance
 	 */
-	public HttpResponse put(String uri, AbstractHttpEntity data, String contentType) {
+	public HttpResponse put(String uri, HttpEntity data, String contentType) {
 		final HttpPut request = new HttpPut(uri);
 		if (data != null) {
 			request.setEntity(data);

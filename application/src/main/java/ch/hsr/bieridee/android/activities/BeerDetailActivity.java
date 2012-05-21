@@ -60,7 +60,6 @@ public class BeerDetailActivity extends Activity {
 
 		// Get brewery ID from intent
 		this.beerId = this.getIntent().getExtras().getLong(EXTRA_BEER_ID);
-		Log.d(LOG_TAG, "onStart() with breweryId " + this.beerId);
 
 		this.username = Auth.getUsername();
 
