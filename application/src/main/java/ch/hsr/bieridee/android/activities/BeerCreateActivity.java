@@ -223,6 +223,7 @@ public class BeerCreateActivity extends Activity {
 					Log.d(LOG_TAG, newBeer.toString());
 					new BeerCreateActivity.AddNewBeer().execute(newBeer);
 				} else {
+					Log.d("info","name: "+beername+" brand: "+brand);
 					Toast.makeText(BeerCreateActivity.this, BeerCreateActivity.this.getString(R.string.pleaseProvideAllData), Toast.LENGTH_SHORT).show();
 				}
 
