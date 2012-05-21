@@ -117,6 +117,7 @@
 	
     <!-- Beertypelist -->
     <string name="beertypelist_title">Biertypen</string>
+	<string name="beertypelist_menu_expandall">Alle anzeigen</string>
     
     <!-- Timeline list -->
     <string name="timelinelist_title">Timeline</string>
