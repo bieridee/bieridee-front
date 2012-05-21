@@ -31,6 +31,7 @@
     <string name="more">Mehr</string>
     <string name="add">Erfassen</string>
     <string name="pleaseProvideAllData">Bitte alle Felder ausfüllen</string>
+    <string name="changesSaved">Änderungen wurden gespeichert</string>
 
     <!-- Login screen specific strings -->
     <string name="loginscreen_title">BierIdee Login</string>
@@ -105,6 +106,7 @@
     <string name="beercreate_brandInfo">Bei der Marke handelt es sich um die Handelsmarke des Bieres. Die Marke entspricht oft der Brauerei, teilweise aber nicht. Zum Beispiel beim \'Vollmond Bier\' ist die Marke \'Appenzeller Bier\' die Brauerei jedoch \'Locher AG\'.</string>
     <string name="beercreate_beertypeInfo">Hier wird der Typ des Bieres definiert. Tippe auf \'Mehr\' um mehr über die Biertypen zu erfahren.</string>
     <string name="beercreate_breweryInfo">Wer hat dieses Bier gebraut? Falls die Brauerei für dieses Bier noch nicht erfasst ist, kannst du sie mit gleich mit \'Erfassen\' hinzufügen.</string>
+    <string name="beercreate_success">Bier wurde gespeichert</string>
 
     <!-- Brewery create -->
     <string name="brewerycreate_createBrewery">Brauerei erstellen</string>

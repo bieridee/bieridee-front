@@ -57,6 +57,7 @@ public class BeerCreateActivity extends Activity {
 	private Button createButton;
 	private ImageButton createBreweryButton;
 	private long beerId;
+	private boolean newBeer;
 
 	private GetBrandData getBrandDataTask;
 	private GetBreweryData getBreweryDataTask;
@@ -85,6 +86,8 @@ public class BeerCreateActivity extends Activity {
 		this.createBreweryButton = (ImageButton) findViewById(R.id_beercreate.createBreweryButton);
 		this.createButton = (Button) findViewById(R.id_beercreate.createButton);
 
+		this.newBeer = true;
+
 		setButtonAction();
 		setBreweryCreateAction();
 
@@ -99,6 +102,8 @@ public class BeerCreateActivity extends Activity {
 		final Bundle extras = getIntent().getExtras();
 		if (extras != null && extras.getLong("beerToUpdate") > 0) {
 			BeerCreateActivity.this.beerId = extras.getLong("beerToUpdate");
+			this.newBeer = false;
+			this.createButton.setText("Save");
 			new GetBeerDetail().execute();
 		}
 
@@ -218,7 +223,7 @@ public class BeerCreateActivity extends Activity {
 					Log.d(LOG_TAG, newBeer.toString());
 					new BeerCreateActivity.AddNewBeer().execute(newBeer);
 				} else {
-					Toast.makeText(BeerCreateActivity.this, "Bitte alles ausfüllen", Toast.LENGTH_SHORT).show();
+					Toast.makeText(BeerCreateActivity.this, BeerCreateActivity.this.getString(R.string.pleaseProvideAllData), Toast.LENGTH_SHORT).show();
 				}
 
 			}
@@ -235,7 +240,13 @@ public class BeerCreateActivity extends Activity {
 		protected JSONObject doInBackground(JSONObject... params) {
 			Log.d(LOG_TAG, "doInBackground()");
 
-			final HttpResponse response = BeerCreateActivity.this.httpHelper.post(Res.getURI(Res.BEER_COLLECTION), params[0]);
+			HttpResponse response;
+			if (BeerCreateActivity.this.newBeer) {
+				response = BeerCreateActivity.this.httpHelper.post(Res.getURI(Res.BEER_COLLECTION), params[0]);
+			} else {
+				final String uri = Res.getURI(Res.BEER_DOCUMENT, BeerCreateActivity.this.beerId + "");
+				response = BeerCreateActivity.this.httpHelper.put(uri, params[0]);
+			}
 
 			if (response != null) {
 				final int statusCode = response.getStatusLine().getStatusCode();
@@ -256,12 +267,25 @@ public class BeerCreateActivity extends Activity {
 		@Override
 		protected void onPostExecute(JSONObject result) {
 			if (result != null) {
-				Toast.makeText(BeerCreateActivity.this, "Bier wurde erfolgreich erstellt", Toast.LENGTH_SHORT).show();
-				BeerCreateActivity.this.beername.setText("");
-				BeerCreateActivity.this.brand.setText("");
+				if (BeerCreateActivity.this.newBeer) {
+					onPostNewBeer(result);
+				} else {
+					onPostChangeBeer(result);
+				}
 			} else {
-				Toast.makeText(BeerCreateActivity.this, "whoa, fehler!", Toast.LENGTH_SHORT).show();
+				Toast.makeText(BeerCreateActivity.this, BeerCreateActivity.this.getString(R.string.handsomeError), Toast.LENGTH_SHORT).show();
 			}
+		}
+
+		private void onPostChangeBeer(JSONObject result) {
+			Toast.makeText(BeerCreateActivity.this, BeerCreateActivity.this.getString(R.string.changesSaved), Toast.LENGTH_SHORT).show();
+			BeerCreateActivity.this.finish();
+		}
+
+		private void onPostNewBeer(JSONObject result) {
+			Toast.makeText(BeerCreateActivity.this, BeerCreateActivity.this.getString(R.string.beercreate_success), Toast.LENGTH_SHORT).show();
+			BeerCreateActivity.this.beername.setText("");
+			BeerCreateActivity.this.brand.setText("");
 		}
 
 	}
@@ -405,8 +429,6 @@ public class BeerCreateActivity extends Activity {
 			}
 			BeerCreateActivity.this.progressDialog.hide();
 			BeerCreateActivity.this.allLoadingTasksFinished.countDown();
-			Log.d("info", "Brand data finished");
-
 		}
 	}
 
@@ -467,7 +489,7 @@ public class BeerCreateActivity extends Activity {
 			if (result != null) {
 				try {
 
-					// Set String and brand
+					// Set Name and brand
 					BeerCreateActivity.this.beername.setText(result.getString("name"));
 					BeerCreateActivity.this.brand.setText(result.getString("brand"));
 

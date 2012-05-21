@@ -13,7 +13,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
@@ -90,26 +89,23 @@ public class BeerListActivity extends ListActivity {
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
-		Log.d("context", "contextmenu was called");
 		menu.setHeaderTitle(BeerListActivity.this.getString(R.string.beerlistContextTitle));
-		menu.add(0, v.getId(), 0, BeerListActivity.this.getString(R.string.beerlistContextDelete));
+		// Contextmenu delete entry.
+		// menu.add(0, v.getId(), 0, BeerListActivity.this.getString(R.string.beerlistContextDelete));
 		menu.add(0, v.getId(), 0, BeerListActivity.this.getString(R.string.beerlistContextEdit));
 	}
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		final AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
-		if (item.getTitle() == BeerListActivity.this.getString(R.string.beerlistContextDelete)) {
-			new DeleteBeer().execute(info.id);
-		} else if (item.getTitle() == BeerListActivity.this.getString(R.string.beerlistContextEdit)) {
-			Intent editBeerIntent = new Intent(BeerListActivity.this.getBaseContext(), BeerCreateActivity.class);
+		// Deletion of a beer.
+		// if (item.getTitle() == BeerListActivity.this.getString(R.string.beerlistContextDelete)) {
+		// new DeleteBeer().execute(info.id);
+		// } else
+		if (item.getTitle() == BeerListActivity.this.getString(R.string.beerlistContextEdit)) {
+			final Intent editBeerIntent = new Intent(BeerListActivity.this.getBaseContext(), BeerCreateActivity.class);
 			editBeerIntent.putExtra("beerToUpdate", info.id);
-			Log.d("info", "called Beer Create with id " + info.id);
 			startActivity(editBeerIntent);
-
-			// TODO call edit beer activity.
-		} else {
-			return false;
 		}
 		return true;
 	}
@@ -156,31 +152,32 @@ public class BeerListActivity extends ListActivity {
 	/**
 	 * Async task to delete beer from server and update UI.
 	 */
-	private class DeleteBeer extends AsyncTask<Long, Void, Void> {
-		@Override
-		protected void onPreExecute() {
-			BeerListActivity.this.progressDialog = ProgressDialog.show(BeerListActivity.this, getString(R.string.pleaseWait), getString(R.string.loadingData), true);
-		}
-
-		@Override
-		protected Void doInBackground(Long... ids) {
-			final String uri = Res.getURI(Res.BEER_DOCUMENT, ids[0].toString());
-			final HttpResponse response = BeerListActivity.this.httpHelper.delete(uri);
-
-			if (response != null) {
-				final int statusCode = response.getStatusLine().getStatusCode();
-				if (statusCode == HttpStatus.SC_OK) {
-					BeerListActivity.this.adapter.remove(ids[0]);
-				}
-			}
-			return null;
-		}
-
-		@Override
-		protected void onPostExecute(Void result) {
-			BeerListActivity.this.adapter.notifyDataSetChanged();
-			BeerListActivity.this.progressDialog.dismiss();
-		}
-	}
+	// private class DeleteBeer extends AsyncTask<Long, Void, Void> {
+	// @Override
+	// protected void onPreExecute() {
+	// BeerListActivity.this.progressDialog = ProgressDialog.show(BeerListActivity.this, getString(R.string.pleaseWait),
+	// getString(R.string.loadingData), true);
+	// }
+	//
+	// @Override
+	// protected Void doInBackground(Long... ids) {
+	// final String uri = Res.getURI(Res.BEER_DOCUMENT, ids[0].toString());
+	// final HttpResponse response = BeerListActivity.this.httpHelper.delete(uri);
+	//
+	// if (response != null) {
+	// final int statusCode = response.getStatusLine().getStatusCode();
+	// if (statusCode == HttpStatus.SC_OK) {
+	// BeerListActivity.this.adapter.remove(ids[0]);
+	// }
+	// }
+	// return null;
+	// }
+	//
+	// @Override
+	// protected void onPostExecute(Void result) {
+	// BeerListActivity.this.adapter.notifyDataSetChanged();
+	// BeerListActivity.this.progressDialog.dismiss();
+	// }
+	// }
 
 }
