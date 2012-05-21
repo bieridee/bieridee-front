@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id_beertypelist_menu/refresh"
+          android:title="@string/refresh"
+          android:icon="@drawable/ic_menu_refresh" />
+    <item android:id="@+id_beertypelist_menu/expandall"
+          android:title="@string/beertypelist_menu_expandall"
+          android:icon="@drawable/ic_menu_showall" />
+</menu>
