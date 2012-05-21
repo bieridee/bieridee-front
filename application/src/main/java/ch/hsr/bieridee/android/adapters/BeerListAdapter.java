@@ -1,18 +1,16 @@
 package ch.hsr.bieridee.android.adapters;
 
-import ch.hsr.bieridee.android.R;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.app.Activity;
-import android.text.Html;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import ch.hsr.bieridee.android.R;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * The BeerListAdapter adapts the JSON beer structure to the Android ListView.

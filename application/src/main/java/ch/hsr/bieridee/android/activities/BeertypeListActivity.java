@@ -1,13 +1,5 @@
 package ch.hsr.bieridee.android.activities;
 
-import java.io.IOException;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.impl.client.BasicResponseHandler;
-import org.json.JSONArray;
-import org.json.JSONException;
-
 import android.app.ExpandableListActivity;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -19,6 +11,13 @@ import ch.hsr.bieridee.android.adapters.BeertypeListAdapter;
 import ch.hsr.bieridee.android.config.Res;
 import ch.hsr.bieridee.android.http.AuthJsonHttp;
 import ch.hsr.bieridee.android.http.HttpHelper;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.impl.client.BasicResponseHandler;
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.io.IOException;
 
 /**
  * Activity that shows a list of all beertype in our database.
@@ -36,9 +35,9 @@ public class BeertypeListActivity extends ExpandableListActivity {
 		setContentView(R.layout.beertypelist);
 
 		this.httpHelper = AuthJsonHttp.create();
-		
+
 		this.progressDialog = new MultithreadProgressDialog(getString(R.string.pleaseWait), getString(R.string.loadingData));
-		
+
 		this.adapter = new BeertypeListAdapter(this);
 	}
 
@@ -51,15 +50,20 @@ public class BeertypeListActivity extends ExpandableListActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		final MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.refresh_menu, menu);
+		inflater.inflate(R.menu.beertypelist_menu, menu);
 		return true;
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case R.id_refreshmenu.refresh:
+			case R.id_beertypelist_menu.refresh:
 				new GetBeertypeData().execute();
+				break;
+			case R.id_beertypelist_menu.expandall:
+				for (int i = 0; i < getExpandableListAdapter().getGroupCount(); i++) {
+					getExpandableListView().expandGroup(i);
+				}
 				break;
 		}
 		return true;
@@ -73,6 +77,7 @@ public class BeertypeListActivity extends ExpandableListActivity {
 		protected void onPreExecute() {
 			BeertypeListActivity.this.progressDialog.display(BeertypeListActivity.this, true);
 		}
+
 		@Override
 		protected JSONArray doInBackground(Void... voids) {
 			final HttpResponse response = BeertypeListActivity.this.httpHelper.get(Res.getURI(Res.BEERTYPE_COLLECTION));
@@ -92,6 +97,7 @@ public class BeertypeListActivity extends ExpandableListActivity {
 			}
 			return null;
 		}
+
 		@Override
 		protected void onPostExecute(JSONArray result) {
 			if (result != null) {
