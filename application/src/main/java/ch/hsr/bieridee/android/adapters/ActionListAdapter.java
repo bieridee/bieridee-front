@@ -1,5 +1,7 @@
 package ch.hsr.bieridee.android.adapters;
 
+import java.util.ArrayList;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,7 +25,7 @@ import ch.hsr.bieridee.android.R;
 public class ActionListAdapter extends BaseAdapter {
 
 	private final Activity activity;
-	private JSONArray jsonActivities;
+	private ArrayList<JSONObject> actions;
 
 	/**
 	 * @param activity
@@ -31,7 +33,7 @@ public class ActionListAdapter extends BaseAdapter {
 	 */
 	public ActionListAdapter(Activity activity) {
 		this.activity = activity;
-		this.jsonActivities = new JSONArray();
+		this.actions = new ArrayList<JSONObject>();
 	}
 
 	/**
@@ -41,8 +43,8 @@ public class ActionListAdapter extends BaseAdapter {
 	 *            JSONArray with list data
 	 */
 	public ActionListAdapter(Activity activity, JSONArray jsonActivities) {
-		this.jsonActivities = jsonActivities;
 		this.activity = activity;
+		this.actions.addAll(this.convertJSONArrayToList(jsonActivities));
 	}
 
 	/**
@@ -51,18 +53,18 @@ public class ActionListAdapter extends BaseAdapter {
 	 * @return Count of list items
 	 */
 	public int getCount() {
-		return this.jsonActivities.length();
+		return this.actions.size();
 	}
 
 	/**
 	 * Return the list item at the specified position.
 	 * 
 	 * @param position
-	 *            Position in list
+	 *            Position in listtext
 	 * @return JSON action object at the specified position
 	 */
 	public Object getItem(int position) {
-		return this.jsonActivities.optJSONObject(position);
+		return this.actions.get(position);
 	}
 
 	/**
@@ -103,33 +105,36 @@ public class ActionListAdapter extends BaseAdapter {
 			convertView = this.activity.getLayoutInflater().inflate(R.layout.timelinelist_item, null);
 		}
 
-		// Assign values to actionlist item
-		final JSONObject jsonAction = (JSONObject) this.getItem(position);
 		final LinearLayout wrapper = (LinearLayout) convertView;
 		final TextView name = (TextView) wrapper.findViewById(R.id_timelinelist.itemName);
 		final TextView time = (TextView) wrapper.findViewById(R.id_timelinelist.itemTime);
 		final ImageView icon = (ImageView) wrapper.findViewById(R.id_timelinelist.icon);
 		final TextView description = (TextView) wrapper.findViewById(R.id_timelinelist.itemDescription);
-		try {
-			final JSONObject beer = jsonAction.getJSONObject("beer");
-			final JSONObject user = jsonAction.getJSONObject("user");
-			final long secondsAgo = Long.parseLong(jsonAction.getString("secondsAgo"));
-			
-			final String title = user.getString("user");
-			String detailText;
-			detailText = createDetailText(jsonAction, user, beer);
-			time.setText(getTimeString(secondsAgo));
-			
-			if ("consumption".equals(jsonAction.getString("type"))) {
-				icon.setImageResource(R.drawable.ic_consumation2);
-			} else {
-				icon.setImageResource(R.drawable.ic_rating);
+
+		if (position <= this.actions.size()) {
+			// Assign values to actionlist item
+			final JSONObject jsonAction = (JSONObject) this.getItem(position);
+			try {
+				final JSONObject beer = jsonAction.getJSONObject("beer");
+				final JSONObject user = jsonAction.getJSONObject("user");
+				final long secondsAgo = Long.parseLong(jsonAction.getString("secondsAgo"));
+
+				final String title = user.getString("user");
+				String detailText;
+				detailText = createDetailText(jsonAction, user, beer);
+				time.setText(getTimeString(secondsAgo));
+
+				if ("consumption".equals(jsonAction.getString("type"))) {
+					icon.setImageResource(R.drawable.ic_consumation2);
+				} else {
+					icon.setImageResource(R.drawable.ic_rating);
+				}
+
+				name.setText(title);
+				description.setText(detailText);
+			} catch (JSONException e) {
+				e.printStackTrace(); // TODO Auto-generated catch block
 			}
-			
-			name.setText(title);
-			description.setText(detailText);
-		} catch (JSONException e) {
-			e.printStackTrace(); // TODO Auto-generated catch block
 		}
 
 		return convertView;
@@ -173,7 +178,15 @@ public class ActionListAdapter extends BaseAdapter {
 	 *            New data to replace the old JSONArray
 	 */
 	public void updateData(JSONArray jsonActions) {
-		this.jsonActivities = jsonActions;
+		this.actions.addAll(convertJSONArrayToList(jsonActions));
+	}
+	
+	private ArrayList<JSONObject> convertJSONArrayToList(JSONArray jsonArray) {
+		final ArrayList<JSONObject> list = new ArrayList<JSONObject>();
+		for(int i = 0; i < jsonArray.length(); ++i) {
+			list.add(jsonArray.optJSONObject(i));
+		}
+		return list;
 	}
 
 	@Override
