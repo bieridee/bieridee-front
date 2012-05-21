@@ -12,7 +12,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-yimport java.util.ArrayList;
+import java.util.ArrayList;
 
 /**
  * The BeerListAdapter adapts the JSON beer structure to the Android ListView.
