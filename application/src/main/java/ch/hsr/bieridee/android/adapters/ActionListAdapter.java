@@ -1,6 +1,5 @@
 package ch.hsr.bieridee.android.adapters;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -8,61 +7,22 @@ import android.app.Activity;
 import android.content.res.Resources;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import ch.hsr.bieridee.android.R;
 
 /**
- * The AcitonListAdapter adapts the JSON action structure to the Android ListView.
+ * The ActionListAdapter adapts the JSON action structure to the Android ListView.
  * 
- * For further information, see the Adapter interface:
- * http://developer.android.com/reference/android/widget/Adapter.html
  */
-public class ActionListAdapter extends BaseAdapter {
-
-	private final Activity activity;
-	private JSONArray jsonActivities;
-
+public class ActionListAdapter extends JsonListAdapter {
+	
 	/**
-	 * @param activity
-	 *            Activity
+	 * @param activity Activity
 	 */
 	public ActionListAdapter(Activity activity) {
-		this.activity = activity;
-		this.jsonActivities = new JSONArray();
-	}
-
-	/**
-	 * @param activity
-	 *            Activity
-	 * @param jsonActivities
-	 *            JSONArray with list data
-	 */
-	public ActionListAdapter(Activity activity, JSONArray jsonActivities) {
-		this.jsonActivities = jsonActivities;
-		this.activity = activity;
-	}
-
-	/**
-	 * Returns the number of list items.
-	 * 
-	 * @return Count of list items
-	 */
-	public int getCount() {
-		return this.jsonActivities.length();
-	}
-
-	/**
-	 * Return the list item at the specified position.
-	 * 
-	 * @param position
-	 *            Position in list
-	 * @return JSON action object at the specified position
-	 */
-	public Object getItem(int position) {
-		return this.jsonActivities.optJSONObject(position);
+		super(activity);
 	}
 
 	/**
@@ -164,16 +124,6 @@ public class ActionListAdapter extends BaseAdapter {
 			final int ratingValue = jsonAction.getInt("rating");
 			return this.activity.getString(R.string.timelinelist_ratedBeer, username, beerName, ratingValue);
 		}
-	}
-
-	/**
-	 * Update the internal JSONArray with new data.
-	 * 
-	 * @param jsonActions
-	 *            New data to replace the old JSONArray
-	 */
-	public void updateData(JSONArray jsonActions) {
-		this.jsonActivities = jsonActions;
 	}
 
 	@Override

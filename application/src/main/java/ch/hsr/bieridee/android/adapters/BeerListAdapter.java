@@ -17,8 +17,6 @@ import java.util.ArrayList;
 /**
  * The BeerListAdapter adapts the JSON beer structure to the Android ListView.
  * 
- * For further information, see the Adapter interface:
- * http://developer.android.com/reference/android/widget/Adapter.html
  */
 public class BeerListAdapter extends BaseAdapter {
 
@@ -118,12 +116,10 @@ public class BeerListAdapter extends BaseAdapter {
 	 * @return A View corresponding to the data at the specified position.
 	 */
 	public View getView(int position, View convertView, ViewGroup parent) {
-		// Get & inflate beerlist item from XML
 		if (convertView == null) {
 			convertView = this.activity.getLayoutInflater().inflate(R.layout.beerlist_item, null);
 		}
 
-		// Assign values to beerlist item
 		final JSONObject jsonBeer = (JSONObject) this.getItem(position);
 		final LinearLayout wrapper = (LinearLayout) convertView;
 		final TextView name = (TextView) wrapper.findViewById(R.id.beerListItemName);
@@ -135,7 +131,12 @@ public class BeerListAdapter extends BaseAdapter {
 			avgRating.setRating((float) jsonBeer.getDouble("rating"));
 			brand.setText(this.activity.getString(R.string.brand) + ": " + jsonBeer.getString("brand"));
 			final JSONObject jsonBrewery = jsonBeer.getJSONObject("brewery");
-			brewery.setText(this.activity.getString(R.string.brewery) + ": " + jsonBrewery.getString("name"));
+			if (jsonBrewery.optBoolean("unknown")) {
+				brewery.setText(this.activity.getString(R.string.brewery) + ": " + this.activity.getString(R.string.unknown));
+			} else {
+				brewery.setText(this.activity.getString(R.string.brewery) + ": " + jsonBrewery.getString("name"));
+			}
+
 		} catch (JSONException e) {
 			e.printStackTrace(); // TODO Auto-generated catch block
 		}

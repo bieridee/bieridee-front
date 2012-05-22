@@ -74,6 +74,7 @@ public class BeerCreateActivity extends Activity {
 		this.brewerySpinner.setAdapter(this.breweryAdapter);
 
 		this.createButton = (Button) findViewById(R.id_beercreate.createButton);
+
 		this.setCreateButtonAction();
 		
 		this.beerNameInfoButton = (ImageButton) findViewById(R.id_beercreate.nameInfoButton);
@@ -186,7 +187,13 @@ public class BeerCreateActivity extends Activity {
 					try {
 						newBeer.put("name", beername);
 						newBeer.put("brand", brand);
+						if(beertypeId < 0) { // id -1 means beertype is unknown
+							newBeer.put("unknownbeertype", true);
+						}
 						newBeer.put("beertype", beertypeId);
+						if(breweryId < 0) { // id -1 means brewery is unknown
+							newBeer.put("unknownbrewery", true);
+						}
 						newBeer.put("brewery", breweryId);
 					} catch (JSONException e) {
 						e.printStackTrace();
