@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"	
+    android:orientation="vertical"
+    android:padding="10dp" >
+
+    <TextView
+        android:id="@+id_beerdetail_popup/addTagTitle"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/beerdetail_addTag" />
+
+    <EditText
+        android:id="@+id_beerdetail_popup/tagInputField"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textShortMessage" />
+
+    <TextView
+        android:id="@+id_beerdetail_popup/tagInvalidHint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/beerdetail_fail_invalidChars"
+        android:textColor="@color/red"
+        android:visibility="invisible" />
+
+    <Button
+        android:id="@+id_beerdetail_popup/saveTagButton"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/save" />
+
+</LinearLayout>
