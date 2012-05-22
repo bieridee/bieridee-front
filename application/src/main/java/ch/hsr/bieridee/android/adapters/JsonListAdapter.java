@@ -20,15 +20,19 @@ public abstract class JsonListAdapter extends BaseAdapter {
 	protected JSONArray jsonArray;
 
 	/**
-	 * @param activity Activity
+	 * @param activity
+	 *            Activity
 	 */
 	public JsonListAdapter(Activity activity) {
 		this.activity = activity;
 		this.jsonArray = new JSONArray();
 	}
+
 	/**
-	 * @param activity Activity
-	 * @param jsonArray JSONArray with list data
+	 * @param activity
+	 *            Activity
+	 * @param jsonArray
+	 *            JSONArray with list data
 	 */
 	public JsonListAdapter(Activity activity, JSONArray jsonArray) {
 		this.jsonArray = jsonArray;
@@ -89,5 +93,21 @@ public abstract class JsonListAdapter extends BaseAdapter {
 	public void updateData(JSONArray jsonArray) {
 		this.jsonArray = jsonArray;
 	}
-	
+
+	/**
+	 * Gets the position of an element in the list by id.
+	 * 
+	 * @param id
+	 *            Id of the object
+	 * @return The position
+	 */
+	public int getPositionOf(long id) {
+		for (int i = 0; i < getCount(); ++i) {
+			if (this.getItemId(i) == id) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
 }

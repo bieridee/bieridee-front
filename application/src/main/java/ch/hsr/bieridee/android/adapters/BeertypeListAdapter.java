@@ -4,16 +4,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import ch.hsr.bieridee.android.R;
-
 import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.CheckedTextView;
-import android.widget.LinearLayout;
-import android.widget.RatingBar;
 import android.widget.TextView;
+import ch.hsr.bieridee.android.R;
 
 /**
  * The BeerListAdapter adapts the JSON beer structure to the Android ListView.

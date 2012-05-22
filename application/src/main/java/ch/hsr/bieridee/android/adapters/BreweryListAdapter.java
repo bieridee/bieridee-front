@@ -17,7 +17,8 @@ import ch.hsr.bieridee.android.R;
 public class BreweryListAdapter extends JsonListAdapter {
 
 	/**
-	 * @param activity Activity
+	 * @param activity
+	 *            Activity
 	 */
 	public BreweryListAdapter(Activity activity) {
 		super(activity);
