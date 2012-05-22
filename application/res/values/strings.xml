@@ -32,6 +32,7 @@
     <string name="add">Erfassen</string>
     <string name="pleaseProvideAllData">Bitte alle Felder ausfüllen</string>
     <string name="unknown">Unbekannt</string>
+    <string name="loading">Lade&#8230;</string>
 
     <!-- Login screen specific strings -->
     <string name="loginscreen_title">BierIdee Login</string>
