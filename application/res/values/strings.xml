@@ -31,6 +31,7 @@
     <string name="more">Mehr</string>
     <string name="add">Erfassen</string>
     <string name="pleaseProvideAllData">Bitte alle Felder ausfüllen</string>
+    <string name="save">speichern</string>
 
     <!-- Login screen specific strings -->
     <string name="loginscreen_title">BierIdee Login</string>
@@ -75,10 +76,16 @@
     <string name="beerdetail_yourRating">Deine Bewertung:</string>
     <string name="beerdetail_success_saveConsumption">Bierkonsum erfolgreich gespeichert.</string>
     <string name="beerdetail_success_saveRating">Bewertung erfolgreich gespeichert.</string>
+    <string name="beerdetail_success_saveTag">Tag wurde erfolgreich gespeichert</string>
     <string name="beerdetail_fail_saveConsumption">Speichern des Bierkonsums ist fehlgeschlagen.</string>
     <string name="beerdetail_fail_saveRating">Fehler: Speichern der Bewertung ist fehlgeschlagen.</string>
     <string name="beerdetail_fail_loadDetail">Fehler: Informationen zum Bier konnten nicht vom Server geladen werden.</string>
     <string name="beerdetail_fail_loadRating">Fehler: Bier-Bewertung konnte nicht vom Server geladen werden.</string>
+    <string name="beerdetail_fail_saveTag">Fehler: Der Tag konnte nicht gespeichert werden.</string>
+    <string name="beerdetail_addTag">Tag hinzufügen</string>
+    <string name="beerdetail_tags">Tags</string>
+    <string name="beerdetail_enterValue">Bitte gib Wert ein</string>
+    <string name="beerdetail_fail_invalidChars">Tag darf nur folgende Zeichen enthalten: [0&#8211;9][az&#8211;AZ]</string>
 
     <!-- Brewery list -->
     <string name="brewerylist_title">Brauereien</string>
