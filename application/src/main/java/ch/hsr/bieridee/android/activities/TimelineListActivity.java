@@ -7,6 +7,7 @@ import org.apache.http.HttpStatus;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.ListActivity;
 import android.app.ProgressDialog;
@@ -39,6 +40,7 @@ public class TimelineListActivity extends ListActivity implements ListView.OnScr
 
 	public static final long THRESHOLD = 30000;
 	private long updateTimestamp = 0;
+	private static final int SIMILARITY_TIMEDIFF = 15;
 
 	private int currentPage = 0;
 	private static final int VISIBLECOUNT = 7;
@@ -142,6 +144,11 @@ public class TimelineListActivity extends ListActivity implements ListView.OnScr
 		@Override
 		protected void onPostExecute(JSONArray result) {
 			if (result != null) {
+				try {
+					result = TimelineListActivity.this.collapseTimeline(result);
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
 				TimelineListActivity.this.adapter.updateData(result);
 				TimelineListActivity.this.adapter.notifyDataSetChanged();
 			}
@@ -150,6 +157,55 @@ public class TimelineListActivity extends ListActivity implements ListView.OnScr
 			}
 			TimelineListActivity.this.loadingFooter.setVisibility(View.GONE);
 		}
+	}
+
+	private JSONArray collapseTimeline(JSONArray timeline) throws JSONException {
+		int index = 0;
+		final JSONArray collapsedTimeline = new JSONArray();
+
+		// check complete timeline
+		while (index < timeline.length()) {
+			final JSONObject action = timeline.getJSONObject(index);
+			collapsedTimeline.put(action);
+			// only collapse ratings
+			if ("rating".equals(action.getString("type"))) {
+				// take next action to compare
+				int counter = 1;
+				JSONObject nextAction = timeline.optJSONObject(index + counter);
+				// compare with next until end of timeline or non-similarity
+				while (nextAction != null && isSimilar(action, nextAction)) {
+					++counter;
+					nextAction = timeline.optJSONObject(index + counter);
+				}
+				index += counter;
+			} else {
+				++index;
+			}
+		}
+		return collapsedTimeline;
+	}
+
+	private boolean isSimilar(JSONObject current, JSONObject next) throws JSONException {
+		// not similar if different type
+		if (!current.getString("type").equals(next.getString("type"))) {
+			return false;
+		}
+		// not similar if different beer
+		if (current.getJSONObject("beer").getLong("id") != next.getJSONObject("beer").getLong("id")) {
+			return false;
+		}
+		// not similar if different user
+		if (!current.getJSONObject("user").getString("user").equals(next.getJSONObject("user").getString("user"))) {
+			return false;
+		}
+		// not similar if time difference is greater than n seconds
+		// SUPPRESS CHECKSTYLE: dividing by 1000 (magic number), miliseconds -> seconds
+		final long timediff = current.getLong("timestamp") / 1000 - next.getLong("timestamp") / 1000;
+		if (timediff >= SIMILARITY_TIMEDIFF) {
+			return false;
+		}
+		// otherwise actions are similar
+		return true;
 	}
 
 	/**
