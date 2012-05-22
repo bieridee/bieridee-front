@@ -1,5 +1,8 @@
 package ch.hsr.bieridee.android.config;
 
+import java.util.Map;
+import java.util.Map.Entry;
+
 /**
  * Resources.
  */
@@ -32,6 +35,7 @@ public final class Res {
 	public static final String TAG_COLLECTION = "/tags";
 	public static final String TAG_REQ_ATTR = "tag-name";
 	public static final String TAG_DOCUMENT = "/tags/{" + TAG_REQ_ATTR + "}";
+	public static final String TAG_COLLECTION_FILTER_PARAMETER_BEERID = "beerId";
 
 	// user
 	public static final String USER_COLLECTION = "/users";
@@ -61,10 +65,10 @@ public final class Res {
 
 	/**
 	 * Returns the specified URI.
-	 *
+	 * 
 	 * This is done by appending the resource URI to the base URI. If there are parameters in the URI, those are
 	 * replaced using the provided attrs.
-	 *
+	 * 
 	 * @param resource
 	 *            Resource string ({@code Res} constants should be used).
 	 * @param attrs
@@ -78,5 +82,48 @@ public final class Res {
 			parsedResource = parsedResource.replaceFirst("\\{[^\\}]*\\}", attr);
 		}
 		return API_URL + parsedResource;
+	}
+
+	/**
+	 * Returns the specified URI.
+	 * 
+	 * This is done by appending the resource URI to the base URI. The key value pairs in the map are appended as query
+	 * parameters (GET)
+	 * 
+	 * @param resource
+	 *            Resource string ({@code Res} constants should be used).
+	 * @param getQueryParameters
+	 *            map containing key value pairs
+	 * @return a string with appended query parameters.
+	 */
+	public static String getURIwithGETParams(String resource, Map<String, String> getQueryParameters) {
+		if (getQueryParameters.isEmpty()) {
+			return API_URL + resource;
+		}
+		resource += "?";
+		for (Entry<String, String> entry : getQueryParameters.entrySet()) {
+			resource += entry.getKey() + "=" + entry.getValue();
+		}
+		return API_URL + resource.substring(0, resource.length() - 2);
+
+	}
+
+	/**
+	 * Returns the specified URI.
+	 * 
+	 * This is done by appending the resource URI to the base URI. The key value pair is appended as a query parameter
+	 * (GET).
+	 * 
+	 * @see getURI(String resource, Map<String,String> getQueryparameters)
+	 * @param resource
+	 *            Resource string ({@code Res} constants should be used).
+	 * @param key
+	 *            Key
+	 * @param value
+	 *            Value
+	 * @return a string with the appended query parameter
+	 */
+	public static String getURIwithGETParams(String resource, String key, String value) {
+		return API_URL + resource + "?" + key + "=" + value;
 	}
 }

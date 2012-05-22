@@ -1,6 +1,7 @@
 package ch.hsr.bieridee.android.activities;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -364,7 +365,8 @@ public class BeerDetailActivity extends Activity {
 		protected Boolean doInBackground(String... tags) {
 			Log.d(LOG_TAG, "SaveRating doInBackground()");
 
-			final String uri = Res.getURI(Res.TAG_COLLECTION + "?beerId=" + BeerDetailActivity.this.beerId);
+			final String uri = Res.getURIwithGETParams(Res.TAG_COLLECTION, Res.TAG_COLLECTION_FILTER_PARAMETER_BEERID, BeerDetailActivity.this.beerId + "");
+			// final String uri = Res.getURI(Res.TAG_COLLECTION + "?beerId=" + BeerDetailActivity.this.beerId);
 			Log.d("info", "called uri: " + uri);
 
 			final JSONObject newTag = new JSONObject();
