@@ -12,7 +12,7 @@
         android:layout_gravity="center_vertical"
         android:layout_marginRight="5dp"
         android:contentDescription="@string/beer"
-        android:src="@drawable/icon_pixelbeer" />
+        android:src="@drawable/ic_consumation2" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -40,12 +40,30 @@
                 android:layout_centerVertical="true" />
         </RelativeLayout>
 
-        <TextView
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id_timelinelist/itemDescription"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
-        </TextView>
+            android:layout_height="wrap_content" >
+
+            <TextView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id_timelinelist/itemDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+            </TextView>
+
+            <RatingBar
+                android:id="@+id_timelinelist/rating"
+                style="?android:attr/ratingBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="3dp"
+                android:layout_toRightOf="@+id_timelinelist/itemDescription"
+                android:isIndicator="true"
+                android:numStars="5"
+                android:visibility="gone"
+                android:stepSize="1" />
+        </RelativeLayout>
     </LinearLayout>
 
 </LinearLayout>

@@ -8,11 +8,13 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.res.Resources;
+import android.opengl.Visibility;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import ch.hsr.bieridee.android.R;
 
@@ -107,6 +109,7 @@ public class ActionListAdapter extends BaseAdapter {
 		final TextView time = (TextView) wrapper.findViewById(R.id_timelinelist.itemTime);
 		final ImageView icon = (ImageView) wrapper.findViewById(R.id_timelinelist.icon);
 		final TextView description = (TextView) wrapper.findViewById(R.id_timelinelist.itemDescription);
+		final RatingBar rating = (RatingBar) wrapper.findViewById(R.id_timelinelist.rating);
 
 		if (position <= this.actions.size()) {
 			// Assign values to actionlist item
@@ -116,19 +119,19 @@ public class ActionListAdapter extends BaseAdapter {
 				final JSONObject user = jsonAction.getJSONObject("user");
 				final long secondsAgo = Long.parseLong(jsonAction.getString("secondsAgo"));
 
-				final String title = user.getString("user");
-				String detailText;
-				detailText = createDetailText(jsonAction, user, beer);
-				time.setText(getTimeString(secondsAgo));
-
 				if ("consumption".equals(jsonAction.getString("type"))) {
 					icon.setImageResource(R.drawable.ic_consumation2);
+					rating.setVisibility(View.GONE);
 				} else {
 					icon.setImageResource(R.drawable.ic_rating);
+					final float ratingValue = (float)jsonAction.getInt("rating");
+					rating.setRating(ratingValue);
+					rating.setVisibility(View.VISIBLE);
 				}
 
-				name.setText(title);
-				description.setText(detailText);
+				name.setText(beer.getString("name"));
+				time.setText(getTimeString(secondsAgo));
+				description.setText(createDetailText(jsonAction, user));
 			} catch (JSONException e) {
 				e.printStackTrace(); // TODO Auto-generated catch block
 			}
@@ -144,27 +147,25 @@ public class ActionListAdapter extends BaseAdapter {
 		final long hours = minutes / 60;
 		final long days = hours / 24;
 		if (seconds < 60) {
-			return seconds + " " + res.getQuantityString(R.plurals.numberOfSeconds, (int) seconds);
+			return res.getQuantityString(R.plurals.numberOfSeconds, (int) seconds, seconds);
 		} else if (minutes < 60) {
-			return minutes + " " + res.getQuantityString(R.plurals.numberOfMinutes, (int) minutes);
+			return res.getQuantityString(R.plurals.numberOfMinutes, (int) minutes, minutes);
 		} else if (hours < 24) {
-			return hours + " " + res.getQuantityString(R.plurals.numberOfHours, (int) hours);
+			return res.getQuantityString(R.plurals.numberOfHours, (int) hours, hours);
 		} else if (days < 100) {
-			return days + " " + res.getQuantityString(R.plurals.numberOfDays, (int) days);
+			return res.getQuantityString(R.plurals.numberOfDays, (int) days, days);
 		} else {
 			return this.activity.getString(R.string.timelinelist_longAgo);
 		}
 	}
 
-	private String createDetailText(JSONObject jsonAction, JSONObject user, JSONObject beer) throws JSONException {
-		final String beerName = beer.getString("name");
+	private String createDetailText(JSONObject jsonAction, JSONObject user) throws JSONException {
 		final String username = user.getString("user");
 
 		if ("consumption".equals(jsonAction.getString("type"))) {
-			return username + " " + this.activity.getString(R.string.timelinelist_feltThirty) + " " + beerName;
+			return this.activity.getString(R.string.timelinelist_feltThirty, username);
 		} else {
-			final int ratingValue = jsonAction.getInt("rating");
-			return this.activity.getString(R.string.timelinelist_ratedBeer, username, beerName, ratingValue);
+			return this.activity.getString(R.string.timelinelist_ratedBeer, username);
 		}
 	}
 
