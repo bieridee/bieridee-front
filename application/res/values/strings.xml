@@ -32,6 +32,9 @@
     <string name="add">Erfassen</string>
     <string name="pleaseProvideAllData">Bitte alle Felder ausfüllen</string>
     <string name="save">speichern</string>
+    <string name="unknown">Unbekannt</string>
+    <string name="loading">Lade&#8230;</string>
+    <string name="changesSaved">Änderungen wurden gespeichert</string>
 
     <!-- Login screen specific strings -->
     <string name="loginscreen_title">BierIdee Login</string>
@@ -112,18 +115,24 @@
     <string name="beercreate_brandInfo">Bei der Marke handelt es sich um die Handelsmarke des Bieres. Die Marke entspricht oft der Brauerei, teilweise aber nicht. Zum Beispiel beim \'Vollmond Bier\' ist die Marke \'Appenzeller Bier\' die Brauerei jedoch \'Locher AG\'.</string>
     <string name="beercreate_beertypeInfo">Hier wird der Typ des Bieres definiert. Tippe auf \'Mehr\' um mehr über die Biertypen zu erfahren.</string>
     <string name="beercreate_breweryInfo">Wer hat dieses Bier gebraut? Falls die Brauerei für dieses Bier noch nicht erfasst ist, kannst du sie mit gleich mit \'Erfassen\' hinzufügen.</string>
+    <string name="beercreate_success">Bier wurde gespeichert</string>
 
     <!-- Brewery create -->
     <string name="brewerycreate_createBrewery">Brauerei erstellen</string>
     <string name="brewerycreate_title">Brauerei erstellen</string>
     <string name="brewerycreate_successfull">Brauerei wurde erstellt</string>
+    <string name="brewerycreate_chooseSize">Brauereigrösse wählen</string>
 
     <!-- About screen -->
     <string name="aboutscreen_activitytitle">Über BierIdee</string>
     <string name="aboutscreen_title">Über BierIdee</string>
     <string name="aboutscreen_text">Das Projekt "BierIdee" ist als Semesterarbeit an der Hochschule für Technik in Rapperswil entstanden.</string>
     <string name="aboutscreen_imageDescription">Bieridee Logo</string>
-
+	
+    <!-- Beertypelist -->
+    <string name="beertypelist_title">Biertypen</string>
+	<string name="beertypelist_menu_expandall">Alle anzeigen</string>
+    
     <!-- Timeline list -->
     <string name="timelinelist_title">Timeline</string>
     <string name="timelinelist_longAgo">Damn long ago</string>

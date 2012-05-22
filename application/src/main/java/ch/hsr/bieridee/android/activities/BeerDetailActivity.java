@@ -208,13 +208,23 @@ public class BeerDetailActivity extends Activity {
 					final String name = result.getString("name");
 					final String brand = getString(R.string.brand) + ": " + result.getString("brand");
 					final JSONObject resultBrewery = result.getJSONObject("brewery");
-					final String brewery = getString(R.string.brewery) + ": " + resultBrewery.getString("name");
+					String brewery = getString(R.string.brewery) + ": ";
+					if (resultBrewery.optBoolean("unknown")) {
+						brewery += BeerDetailActivity.this.getString(R.string.unknown);
+					} else {
+						brewery += resultBrewery.getString("name");
+					}
 					final JSONObject resultBeertype = result.getJSONObject("beertype");
-					final String beertype = getString(R.string.type) + ": " + resultBeertype.getString("name");
 					final JSONArray tags = result.getJSONArray("tags");
 					final StringBuilder sb = new StringBuilder();
 					for (int i = 0; i < tags.length(); ++i) {
 						sb.append("#" + tags.getJSONObject(i).getString("name") + " ");
+					}
+					String beertype = getString(R.string.type) + ": ";
+					if (resultBeertype.optBoolean("unknown")) {
+						beertype += BeerDetailActivity.this.getString(R.string.unknown);
+					} else {
+						beertype += resultBeertype.getString("name");
 					}
 					final float averageRating = Float.parseFloat(result.getString("rating"));
 					BeerDetailActivity.this.name.setText(name);
