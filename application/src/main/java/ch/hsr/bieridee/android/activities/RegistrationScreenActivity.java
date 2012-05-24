@@ -115,7 +115,7 @@ public class RegistrationScreenActivity extends Activity {
 
 	/**
 	 * Async task to send registration HTTP request.
-	 * <code>execute()</code> expects the following parameters (order relevant!):
+	 * {@code execute()} expects the following parameters (order relevant!):
 	 * username, prename, surname, email, password
 	 */
 	private class Register extends AsyncTask<String, Void, HttpResponse> {
@@ -203,7 +203,6 @@ public class RegistrationScreenActivity extends Activity {
 	 * Hide all hints.
 	 */
 	private void resetHints() {
-		Log.d(LOG_TAG, "Resetting Hints");
 		this.emailHint.setVisibility(View.GONE);
 		this.usernameInvalidHint.setVisibility(View.GONE);
 		this.usernameUnavailableHint.setVisibility(View.GONE);

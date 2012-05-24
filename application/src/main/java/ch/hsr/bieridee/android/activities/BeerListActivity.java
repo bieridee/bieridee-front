@@ -13,11 +13,14 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import ch.hsr.bieridee.android.R;
 import ch.hsr.bieridee.android.adapters.BeerListAdapter;
 import ch.hsr.bieridee.android.config.Res;
@@ -44,6 +47,7 @@ public class BeerListActivity extends ListActivity {
 		this.adapter = new BeerListAdapter(this);
 		setListAdapter(this.adapter);
 		this.addOnClickListeners();
+		this.registerForContextMenu(this.getListView());
 	}
 
 	@Override
@@ -65,6 +69,43 @@ public class BeerListActivity extends ListActivity {
 			case R.id_refreshmenu.refresh:
 				new GetBeerData().execute();
 				break;
+		}
+		return true;
+	}
+
+	/**
+	 * Add onClick listeners to UI elements.
+	 */
+	private void addOnClickListeners() {
+		this.getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				final Intent intent = new Intent(view.getContext(), BeerDetailActivity.class);
+				intent.putExtra(BeerDetailActivity.EXTRA_BEER_ID, id);
+				startActivity(intent);
+			}
+		});
+	}
+
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+		super.onCreateContextMenu(menu, v, menuInfo);
+		menu.setHeaderTitle(BeerListActivity.this.getString(R.string.beerlistContextTitle));
+		// Contextmenu delete entry.
+		// menu.add(0, v.getId(), 0, BeerListActivity.this.getString(R.string.beerlistContextDelete));
+		menu.add(0, v.getId(), 0, BeerListActivity.this.getString(R.string.beerlistContextEdit));
+	}
+
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		final AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+		// Deletion of a beer.
+		// if (item.getTitle() == BeerListActivity.this.getString(R.string.beerlistContextDelete)) {
+		// new DeleteBeer().execute(info.id);
+		// } else
+		if (item.getTitle() == BeerListActivity.this.getString(R.string.beerlistContextEdit)) {
+			final Intent editBeerIntent = new Intent(BeerListActivity.this.getBaseContext(), BeerCreateActivity.class);
+			editBeerIntent.putExtra("beerToUpdate", info.id);
+			startActivity(editBeerIntent);
 		}
 		return true;
 	}
@@ -114,15 +155,34 @@ public class BeerListActivity extends ListActivity {
 	}
 
 	/**
-	 * Add onClick listeners to UI elements.
+	 * Async task to delete beer from server and update UI.
 	 */
-	private void addOnClickListeners() {
-		this.getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				final Intent intent = new Intent(view.getContext(), BeerDetailActivity.class);
-				intent.putExtra(BeerDetailActivity.EXTRA_BEER_ID, id);
-				startActivity(intent);
-			}
-		});
-	}
+	// private class DeleteBeer extends AsyncTask<Long, Void, Void> {
+	// @Override
+	// protected void onPreExecute() {
+	// BeerListActivity.this.progressDialog = ProgressDialog.show(BeerListActivity.this, getString(R.string.pleaseWait),
+	// getString(R.string.loadingData), true);
+	// }
+	//
+	// @Override
+	// protected Void doInBackground(Long... ids) {
+	// final String uri = Res.getURI(Res.BEER_DOCUMENT, ids[0].toString());
+	// final HttpResponse response = BeerListActivity.this.httpHelper.delete(uri);
+	//
+	// if (response != null) {
+	// final int statusCode = response.getStatusLine().getStatusCode();
+	// if (statusCode == HttpStatus.SC_OK) {
+	// BeerListActivity.this.adapter.remove(ids[0]);
+	// }
+	// }
+	// return null;
+	// }
+	//
+	// @Override
+	// protected void onPostExecute(Void result) {
+	// BeerListActivity.this.adapter.notifyDataSetChanged();
+	// BeerListActivity.this.progressDialog.dismiss();
+	// }
+	// }
+
 }

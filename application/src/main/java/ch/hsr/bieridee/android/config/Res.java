@@ -61,12 +61,12 @@ public final class Res {
 
 	/**
 	 * Returns the specified URI.
-	 * 
+	 *
 	 * This is done by appending the resource URI to the base URI. If there are parameters in the URI, those are
 	 * replaced using the provided attrs.
-	 * 
+	 *
 	 * @param resource
-	 *            Resource string (<code>Res</code> constants should be used).
+	 *            Resource string ({@code Res} constants should be used).
 	 * @param attrs
 	 *            Arbitrary number of URI attribute replacements (should match the number of attributes marked with
 	 *            curly braces).

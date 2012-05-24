@@ -63,7 +63,6 @@ public class BeerDetailActivity extends Activity {
 
 		// Get brewery ID from intent
 		this.beerId = this.getIntent().getExtras().getLong(EXTRA_BEER_ID);
-		Log.d(LOG_TAG, "onStart() with breweryId " + this.beerId);
 
 		this.username = Auth.getUsername();
 
@@ -169,9 +168,19 @@ public class BeerDetailActivity extends Activity {
 					final String name = result.getString("name");
 					final String brand = getString(R.string.brand) + ": " + result.getString("brand");
 					final JSONObject resultBrewery = result.getJSONObject("brewery");
-					final String brewery = getString(R.string.brewery) + ": " + resultBrewery.getString("name");
+					String brewery = getString(R.string.brewery) + ": ";
+					if (resultBrewery.optBoolean("unknown")) {
+						brewery += BeerDetailActivity.this.getString(R.string.unknown);
+					} else {
+						brewery += resultBrewery.getString("name");
+					}
 					final JSONObject resultBeertype = result.getJSONObject("beertype");
-					final String beertype = getString(R.string.type) + ": " + resultBeertype.getString("name");
+					String beertype = getString(R.string.type) + ": ";
+					if (resultBeertype.optBoolean("unknown")) {
+						beertype += BeerDetailActivity.this.getString(R.string.unknown);
+					} else {
+						beertype += resultBeertype.getString("name");
+					}
 					final float averageRating = Float.parseFloat(result.getString("rating"));
 					BeerDetailActivity.this.name.setText(name);
 					BeerDetailActivity.this.brand.setText(brand);

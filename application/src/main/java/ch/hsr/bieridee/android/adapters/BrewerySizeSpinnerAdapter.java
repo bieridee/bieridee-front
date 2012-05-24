@@ -1,7 +1,6 @@
 package ch.hsr.bieridee.android.adapters;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import android.app.Activity;
 import android.view.View;
@@ -11,12 +10,10 @@ import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 /**
- * The BreweryListAdapter adapts the JSON brewery structure to the Android ListView.
+ * The BrewerySpinnerAdapter adapts the JSON brewerySize structure to the Android ListView.
  * 
- * For further information, see the Adapter interface:
- * http://developer.android.com/reference/android/widget/Adapter.html
  */
-public class BrewerySizeSpinnerAdapter extends BreweryListAdapter implements SpinnerAdapter {
+public class BrewerySizeSpinnerAdapter extends JsonListAdapter implements SpinnerAdapter {
 
 	/**
 	 * @param activity
@@ -38,12 +35,10 @@ public class BrewerySizeSpinnerAdapter extends BreweryListAdapter implements Spi
 	 * @return A View corresponding to the data at the specified position.
 	 */
 	public View getDropDownView(int position, View convertView, ViewGroup parent) {
-		// Get & inflate brewerylist item from XML
 		if (convertView == null) {
 			convertView = this.activity.getLayoutInflater().inflate(android.R.layout.simple_spinner_dropdown_item, null);
 		}
 
-		// Assign values to brewerylist item
 		final String brewerySize = (String) this.getItem(position);
 		final CheckedTextView name = (CheckedTextView) convertView;
 		name.setText(brewerySize);
@@ -63,12 +58,10 @@ public class BrewerySizeSpinnerAdapter extends BreweryListAdapter implements Spi
 	 * @return A View corresponding to the data at the specified position.
 	 */
 	public View getView(int position, View convertView, ViewGroup parent) {
-		// Get & inflate brewerylist item from XML
 		if (convertView == null) {
 			convertView = this.activity.getLayoutInflater().inflate(android.R.layout.simple_spinner_item, null);
 		}
 
-		// Assign values to brewerylist item
 		final String brewerySize = (String) this.getItem(position);
 		final TextView name = (TextView) convertView;
 		name.setText(brewerySize);
@@ -85,7 +78,7 @@ public class BrewerySizeSpinnerAdapter extends BreweryListAdapter implements Spi
 	public Object getItem(int position) {
 		String value = "empty";
 		try {
-			value = (String) this.jsonBreweries.get(position);
+			value = (String) this.jsonArray.get(position);
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

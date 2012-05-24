@@ -1,5 +1,15 @@
 package ch.hsr.bieridee.android.activities;
 
+import java.io.IOException;
+import java.util.concurrent.CountDownLatch;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.impl.client.BasicResponseHandler;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -18,6 +28,8 @@ import android.widget.Spinner;
 import android.widget.Toast;
 import ch.hsr.bieridee.android.R;
 import ch.hsr.bieridee.android.Validators;
+import ch.hsr.bieridee.android.adapters.BreweryListAdapter;
+import ch.hsr.bieridee.android.adapters.BrewerySizeSpinnerAdapter;
 import ch.hsr.bieridee.android.adapters.CreateBeerSpinnerAdapter;
 import ch.hsr.bieridee.android.config.Res;
 import ch.hsr.bieridee.android.http.AuthJsonHttp;
@@ -55,10 +67,14 @@ public class BeerCreateActivity extends Activity {
 	private ImageButton breweryInfoButton;
 	private Button createButton;
 	private ImageButton createBreweryButton;
-	
-	private GetBeertypeData getBeertypeTask;
-	private GetBrandData getBrandTask;
-	private GetBreweryData getBreweryTask;
+
+	private long beerId;
+	private boolean newBeer;
+
+	private GetBrandData getBrandDataTask;
+	private GetBreweryData getBreweryDataTask;
+	private GetBeertypeData getBeertypeDataTask;
+	private final CountDownLatch allLoadingTasksFinished = new CountDownLatch(3);
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -79,12 +95,11 @@ public class BeerCreateActivity extends Activity {
 		this.breweryAdapter = new CreateBeerSpinnerAdapter(this);
 		this.brewerySpinner.setAdapter(this.breweryAdapter);
 
-		this.createBreweryButton = (ImageButton) findViewById(R.id_beercreate.createBreweryButton);
 		this.createButton = (Button) findViewById(R.id_beercreate.createButton);
 
-		setButtonAction();
-		setBreweryCreateAction();
-		
+		this.newBeer = true;
+		this.setCreateButtonAction();
+
 		this.beerNameInfoButton = (ImageButton) findViewById(R.id_beercreate.nameInfoButton);
 		this.setBeerNameInfoButtonAction();
 		this.brandInfoButton = (ImageButton) findViewById(R.id_beercreate.brandInfoButton);
@@ -93,32 +108,36 @@ public class BeerCreateActivity extends Activity {
 		setBeertypeInfoButtonAction();
 		this.breweryInfoButton = (ImageButton) findViewById(R.id_beercreate.breweryInfoButton);
 		setBreweryInfoButtonAction();
-	}
+		final Bundle extras = getIntent().getExtras();
+		if (extras != null && extras.getLong("beerToUpdate") > 0) {
+			BeerCreateActivity.this.beerId = extras.getLong("beerToUpdate");
+			this.newBeer = false;
+			this.createButton.setText("Save");
+			new GetBeerDetail().execute();
+		}
 
+	}
 
 	private void setBeerNameInfoButtonAction() {
 		this.beerNameInfoButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				final AlertDialog.Builder builder = new AlertDialog.Builder(BeerCreateActivity.this);
-				builder.setMessage(BeerCreateActivity.this.getString(R.string.beercreate_nameInfo))
-				       .setCancelable(true)
-				       .setPositiveButton(BeerCreateActivity.this.getString(android.R.string.ok), new DialogInterface.OnClickListener() {
-				           public void onClick(DialogInterface dialog, int id) {
-				        	   dialog.cancel();
-				           }
-				       }) ;
+				builder.setMessage(BeerCreateActivity.this.getString(R.string.beercreate_nameInfo)).setCancelable(true).setPositiveButton(BeerCreateActivity.this.getString(android.R.string.ok), new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						dialog.cancel();
+					}
+				});
 				final AlertDialog info = builder.create();
 				info.show();
 			}
 		});
 	}
+
 	private void setBrandNameInfoButtonAction() {
 		this.brandInfoButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				final AlertDialog.Builder builder = new AlertDialog.Builder(BeerCreateActivity.this);
-				builder.setMessage(BeerCreateActivity.this.getString(R.string.beercreate_brandInfo))
-				.setCancelable(true)
-				.setPositiveButton(BeerCreateActivity.this.getString(android.R.string.ok), new DialogInterface.OnClickListener() {
+				builder.setMessage(BeerCreateActivity.this.getString(R.string.beercreate_brandInfo)).setCancelable(true).setPositiveButton(BeerCreateActivity.this.getString(android.R.string.ok), new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
 						dialog.cancel();
 					}
@@ -128,21 +147,19 @@ public class BeerCreateActivity extends Activity {
 			}
 		});
 	}
+
 	private void setBeertypeInfoButtonAction() {
 		this.beertypeInfoButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				final AlertDialog.Builder builder = new AlertDialog.Builder(BeerCreateActivity.this);
-				builder.setMessage(BeerCreateActivity.this.getString(R.string.beercreate_beertypeInfo))
-				.setCancelable(true)
-				.setPositiveButton(BeerCreateActivity.this.getString(android.R.string.ok), new DialogInterface.OnClickListener() {
+				builder.setMessage(BeerCreateActivity.this.getString(R.string.beercreate_beertypeInfo)).setCancelable(true).setPositiveButton(BeerCreateActivity.this.getString(android.R.string.ok), new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
 						dialog.cancel();
 					}
-				})
-				.setNeutralButton(BeerCreateActivity.this.getString(R.string.more), new DialogInterface.OnClickListener() {
+				}).setNeutralButton(BeerCreateActivity.this.getString(R.string.more), new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
-						Toast.makeText(BeerCreateActivity.this, "TOFU", Toast.LENGTH_SHORT).show();
-						dialog.cancel();
+						final Intent intent = new Intent(BeerCreateActivity.this, BeertypeListActivity.class);
+						BeerCreateActivity.this.startActivity(intent);
 					}
 				});
 				final AlertDialog info = builder.create();
@@ -150,35 +167,23 @@ public class BeerCreateActivity extends Activity {
 			}
 		});
 	}
+
 	private void setBreweryInfoButtonAction() {
 		this.breweryInfoButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				final AlertDialog.Builder builder = new AlertDialog.Builder(BeerCreateActivity.this);
-				builder.setMessage(BeerCreateActivity.this.getString(R.string.beercreate_breweryInfo))
-				.setCancelable(true)
-				.setPositiveButton(BeerCreateActivity.this.getString(android.R.string.ok), new DialogInterface.OnClickListener() {
+				builder.setMessage(BeerCreateActivity.this.getString(R.string.beercreate_breweryInfo)).setCancelable(true).setPositiveButton(BeerCreateActivity.this.getString(android.R.string.ok), new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
 						dialog.cancel();
 					}
-				})
-				.setNeutralButton(BeerCreateActivity.this.getString(R.string.add), new DialogInterface.OnClickListener() {
+				}).setNeutralButton(BeerCreateActivity.this.getString(R.string.add), new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
-						Toast.makeText(BeerCreateActivity.this, "TOFU", Toast.LENGTH_SHORT).show();
-						dialog.cancel();
+						final Intent intent = new Intent(BeerCreateActivity.this, BreweryCreateActivity.class);
+						startActivity(intent);
 					}
 				});
 				final AlertDialog info = builder.create();
 				info.show();
-			}
-		});
-	}
-
-	private void setBreweryCreateAction() {
-		this.createBreweryButton.setOnClickListener(new OnClickListener() {
-
-			public void onClick(View v) {
-				final Intent intent = new Intent(v.getContext(), BreweryCreateActivity.class);
-				startActivity(intent);
 			}
 		});
 	}
@@ -186,15 +191,17 @@ public class BeerCreateActivity extends Activity {
 	@Override
 	public void onStart() {
 		super.onStart();
-		this.getBrandTask = new GetBrandData();
-		this.getBrandTask.execute();
-		this.getBeertypeTask = new GetBeertypeData();
-		this.getBrandTask.execute();
-		this.getBreweryTask = new GetBreweryData();
-		this.getBreweryTask.execute();
+
+		this.getBrandDataTask = new GetBrandData();
+		this.getBeertypeDataTask = new GetBeertypeData();
+		this.getBreweryDataTask = new GetBreweryData();
+
+		this.getBrandDataTask.execute();
+		this.getBeertypeDataTask.execute();
+		this.getBreweryDataTask.execute();
 	}
 
-	private void setButtonAction() {
+	private void setCreateButtonAction() {
 		this.createButton.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View view) {
@@ -208,15 +215,22 @@ public class BeerCreateActivity extends Activity {
 					try {
 						newBeer.put("name", beername);
 						newBeer.put("brand", brand);
+						if (beertypeId < 0) { // id -1 means beertype is unknown
+							newBeer.put("unknownbeertype", true);
+						}
 						newBeer.put("beertype", beertypeId);
+						if (breweryId < 0) { // id -1 means brewery is unknown
+							newBeer.put("unknownbrewery", true);
+						}
 						newBeer.put("brewery", breweryId);
 					} catch (JSONException e) {
 						ErrorHelper.onError(BeerCreateActivity.this.getString(R.string.malformedData), BeerCreateActivity.this);
 					}
-					
+
 					new BeerCreateActivity.AddNewBeer().execute(newBeer);
 				} else {
-					Toast.makeText(BeerCreateActivity.this, "Bitte alles ausfüllen", Toast.LENGTH_SHORT).show();
+					Log.d("info", "name: " + beername + " brand: " + brand);
+					Toast.makeText(BeerCreateActivity.this, BeerCreateActivity.this.getString(R.string.pleaseProvideAllData), Toast.LENGTH_SHORT).show();
 				}
 
 			}
@@ -235,10 +249,15 @@ public class BeerCreateActivity extends Activity {
 
 			HttpResponse response = null;
 			try {
-				response = BeerCreateActivity.this.httpHelper.post(Res.getURI(Res.BEER_COLLECTION), params[0]);
-			} catch (IOException e1) {
+				if (BeerCreateActivity.this.newBeer) {
+					response = BeerCreateActivity.this.httpHelper.post(Res.getURI(Res.BEER_COLLECTION), params[0]);
+				} else {
+					final String uri = Res.getURI(Res.BEER_DOCUMENT, BeerCreateActivity.this.beerId + "");
+					response = BeerCreateActivity.this.httpHelper.put(uri, params[0]);
+				}
+			} catch (IOException e) {
 				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				e.printStackTrace();
 			}
 
 			if (response != null) {
@@ -260,12 +279,25 @@ public class BeerCreateActivity extends Activity {
 		@Override
 		protected void onPostExecute(JSONObject result) {
 			if (result != null) {
-				Toast.makeText(BeerCreateActivity.this, "Bier wurde erfolgreich erstellt", Toast.LENGTH_SHORT).show();
-				BeerCreateActivity.this.beername.setText("");
-				BeerCreateActivity.this.brand.setText("");
+				if (BeerCreateActivity.this.newBeer) {
+					onPostNewBeer(result);
+				} else {
+					onPostChangeBeer(result);
+				}
 			} else {
-				Toast.makeText(BeerCreateActivity.this, "whoa, fehler!", Toast.LENGTH_SHORT).show();
+				Toast.makeText(BeerCreateActivity.this, BeerCreateActivity.this.getString(R.string.handsomeError), Toast.LENGTH_SHORT).show();
 			}
+		}
+
+		private void onPostChangeBeer(JSONObject result) {
+			Toast.makeText(BeerCreateActivity.this, BeerCreateActivity.this.getString(R.string.changesSaved), Toast.LENGTH_SHORT).show();
+			BeerCreateActivity.this.finish();
+		}
+
+		private void onPostNewBeer(JSONObject result) {
+			Toast.makeText(BeerCreateActivity.this, BeerCreateActivity.this.getString(R.string.beercreate_success), Toast.LENGTH_SHORT).show();
+			BeerCreateActivity.this.beername.setText("");
+			BeerCreateActivity.this.brand.setText("");
 		}
 
 	}
@@ -316,6 +348,8 @@ public class BeerCreateActivity extends Activity {
 				BeerCreateActivity.this.beertypeAdapter.notifyDataSetChanged();
 			}
 			BeerCreateActivity.this.progressDialog.hide();
+			BeerCreateActivity.this.allLoadingTasksFinished.countDown();
+			Log.d("info", "Beertype data finished");
 		}
 	}
 
@@ -365,6 +399,8 @@ public class BeerCreateActivity extends Activity {
 				BeerCreateActivity.this.breweryAdapter.notifyDataSetChanged();
 			}
 			BeerCreateActivity.this.progressDialog.hide();
+			BeerCreateActivity.this.allLoadingTasksFinished.countDown();
+			Log.d("info", "Brewery data finished");
 		}
 	}
 
@@ -422,6 +458,101 @@ public class BeerCreateActivity extends Activity {
 				BeerCreateActivity.this.brand.setAdapter(BeerCreateActivity.this.autoCompleteAdapter);
 			}
 			BeerCreateActivity.this.progressDialog.hide();
+			BeerCreateActivity.this.allLoadingTasksFinished.countDown();
+		}
+	}
+
+	/**
+	 * Async task to get beer detail from server and update UI.
+	 */
+	private class GetBeerDetail extends AsyncTask<Void, Void, JSONObject> {
+
+		private boolean showDialog = false;
+
+		public GetBeerDetail() {
+			super();
+		}
+
+		@Override
+		protected void onPreExecute() {
+			Log.d(LOG_TAG, "onPreExecute()");
+			if (this.showDialog) {
+				BeerCreateActivity.this.progressDialog.display(BeerCreateActivity.this, true);
+			}
+		}
+
+		@Override
+		protected JSONObject doInBackground(Void... voids) {
+			final String uri = Res.getURI(Res.BEER_DOCUMENT, Long.toString(BeerCreateActivity.this.beerId));
+			HttpResponse response = null;
+			try {
+				response = BeerCreateActivity.this.httpHelper.get(uri);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+
+			if (response != null) {
+				final int statusCode = response.getStatusLine().getStatusCode();
+				if (statusCode == HttpStatus.SC_OK) {
+					try {
+						final String responseText = new BasicResponseHandler().handleResponse(response);
+
+						// wait for all other data loading tasks to be finished.
+						BeerCreateActivity.this.allLoadingTasksFinished.await();
+						return new JSONObject(responseText);
+					} catch (IOException e) {
+						Log.e(LOG_TAG, "IOException in GetBeerDetail::doInBackground");
+						e.printStackTrace();
+					} catch (JSONException e) {
+						Log.e(LOG_TAG, "JSONException in GetBeerDetail::doInBackground");
+						e.printStackTrace();
+					} catch (InterruptedException e) {
+						Log.e(LOG_TAG, "InterruptedException in GetBeerDetail:doInBackground");
+						e.printStackTrace();
+					}
+				} else {
+					Log.e(LOG_TAG, "HTTP Response " + statusCode + " in GetBeerDetail::doInBackground");
+				}
+			}
+			Log.e(LOG_TAG, "HTTP Response was null in GetBeerDetail::doInBackground");
+
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(JSONObject result) {
+			if (result != null) {
+				try {
+
+					// Set Name and brand
+					BeerCreateActivity.this.beername.setText(result.getString("name"));
+					BeerCreateActivity.this.brand.setText(result.getString("brand"));
+
+					// Set Brewery in spinner
+					final JSONObject resultBrewery = result.getJSONObject("brewery");
+					final long breweryId = resultBrewery.optLong("id");
+					final CreateBeerSpinnerAdapter breweryListAdapter = (CreateBeerSpinnerAdapter) BeerCreateActivity.this.brewerySpinner.getAdapter();
+					final int breweryPosition = breweryListAdapter.getPositionOf(breweryId);
+					BeerCreateActivity.this.brewerySpinner.setSelection(breweryPosition);
+
+					// Set Beertype in spinner
+					final JSONObject resultBeertype = result.getJSONObject("beertype");
+					final CreateBeerSpinnerAdapter beertypeListAdapter = (CreateBeerSpinnerAdapter) BeerCreateActivity.this.beertypeSpinner.getAdapter();
+					final long beertypeId = resultBeertype.optLong("id");
+					final int beerTypePosition = beertypeListAdapter.getPositionOf(beertypeId);
+					BeerCreateActivity.this.beertypeSpinner.setSelection(beerTypePosition);
+
+				} catch (JSONException e) {
+					Log.e(LOG_TAG, "JSONException in GetBeerDetail::onPostExecute");
+					e.printStackTrace();
+				}
+			} else {
+				Log.w(LOG_TAG, "Result was null in GetBeerDetail::onPostExecute");
+			}
+			if (this.showDialog) {
+				BeerCreateActivity.this.progressDialog.hide();
+			}
 		}
 	}
 

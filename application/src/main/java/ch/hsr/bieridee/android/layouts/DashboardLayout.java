@@ -119,8 +119,8 @@ public class DashboardLayout extends ViewGroup {
 		while (true) {
 			rows = (visibleCount - 1) / cols + 1;
 
-			hSpace = ((width - mMaxChildWidth * cols) / (cols + 1));
-			vSpace = ((height - mMaxChildHeight * rows) / (rows + 1));
+			hSpace = (width - mMaxChildWidth * cols) / (cols + 1);
+			vSpace = (height - mMaxChildHeight * rows) / (rows + 1);
 
 			spaceDifference = Math.abs(vSpace - hSpace);
 			if (rows * cols != visibleCount) {
@@ -140,8 +140,8 @@ public class DashboardLayout extends ViewGroup {
 				// This is a worse whitespace ratio, use the previous value of cols and exit.
 				--cols;
 				rows = (visibleCount - 1) / cols + 1;
-				hSpace = ((width - mMaxChildWidth * cols) / (cols + 1));
-				vSpace = ((height - mMaxChildHeight * rows) / (rows + 1));
+				hSpace = (width - mMaxChildWidth * cols) / (cols + 1);
+				vSpace = (height - mMaxChildHeight * rows) / (rows + 1);
 				break;
 			}
 

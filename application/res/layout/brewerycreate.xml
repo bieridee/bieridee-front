@@ -57,7 +57,7 @@
             android:id="@+id_brewerycreate/brewerySizeSpinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:prompt="@string/beercreate_chooseBeertype" />
+            android:prompt="@string/brewerycreate_chooseSize" />
 
         <Button
             android:id="@+id_brewerycreate/createButton"

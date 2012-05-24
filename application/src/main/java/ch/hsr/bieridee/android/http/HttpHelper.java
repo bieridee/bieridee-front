@@ -2,8 +2,8 @@ package ch.hsr.bieridee.android.http;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.Collection;
 import java.util.LinkedList;
-import java.util.List;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -31,7 +31,7 @@ import ch.hsr.bieridee.android.exceptions.BierIdeeException;
  * addRequestProcessor.
  */
 public final class HttpHelper {
-	private List<IRequestProcessor> requestProcessors = new LinkedList<IRequestProcessor>();
+	private final Collection<IRequestProcessor> requestProcessors = new LinkedList<IRequestProcessor>();
 	private final static String LOG_TAG = "HttpHelper";
 
 	private final static int CONNECTION_TIMEOUT = 3000;

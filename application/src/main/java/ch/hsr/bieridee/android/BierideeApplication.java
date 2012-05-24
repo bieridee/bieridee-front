@@ -1,6 +1,5 @@
 package ch.hsr.bieridee.android;
 
-import ch.hsr.bieridee.android.exceptions.CatchAllExceptionHandler;
 import android.app.Application;
 import android.content.Context;
 
@@ -8,16 +7,23 @@ import android.content.Context;
  * Application class to provide a context for all nonstatic and static classes.
  */
 public class BierideeApplication extends Application {
-	private static Context context;
+	private static Context CONTEXT;
 	public final static String VERSION = "0.1.0";
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public void onCreate() {
 		super.onCreate();
-		//Thread.setDefaultUncaughtExceptionHandler(new CatchAllExceptionHandler(Thread.getDefaultUncaughtExceptionHandler()));
-		BierideeApplication.context = getApplicationContext();
+		BierideeApplication.CONTEXT = getApplicationContext();
 	}
 
+	/**
+	 * Return the Application Context.
+	 * @return Application Context object
+	 */
 	public static Context getAppContext() {
-		return BierideeApplication.context;
+		return BierideeApplication.CONTEXT;
 	}
 }

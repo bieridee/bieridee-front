@@ -13,8 +13,8 @@ public class MultithreadProgressDialog {
 
 	private int callCounter;
 	private ProgressDialog instance;
-	private String message;
-	private String title;
+	private final String message;
+	private final String title;
 
 	/**
 	 * Creates a new Dialog.

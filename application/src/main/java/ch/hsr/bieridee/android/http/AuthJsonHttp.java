@@ -29,6 +29,8 @@ public final class AuthJsonHttp {
 	 * Create a new HttpHelper instance, add the AcceptRequestProcessor
 	 * and the HMACAuthRequestProcessor with cusotm login data to it
 	 * and return it.
+	 * @param username Username string
+	 * @param password Password string
 	 * @return HttpHelper instance
 	 */
 	public static HttpHelper create(String username, String password) {
