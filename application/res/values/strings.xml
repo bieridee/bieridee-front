@@ -135,25 +135,25 @@
     
     <!-- Timeline list -->
     <string name="timelinelist_title">Timeline</string>
-    <string name="timelinelist_longAgo">Damn long ago</string>
-    <string name="timelinelist_feltThirty"> felt thirsty and drank a </string>
-    <string name="timelinelist_ratedBeer">%1$s rated %2$s with %3$s</string>
+    <string name="timelinelist_longAgo">vor Urzeiten</string>
+    <string name="timelinelist_feltThirsty">%1$s war durstig!</string>
+    <string name="timelinelist_ratedBeer">%1$s rated </string>
 
     <plurals name="numberOfSeconds">
-        <item quantity="one">second ago</item>
-        <item quantity="other">seconds ago</item>
+        <item quantity="one">vor %1$d Sekunde</item>
+        <item quantity="other">vor %1$d Sekunden</item>
     </plurals>
     <plurals name="numberOfMinutes">
-        <item quantity="one">minute ago</item>
-        <item quantity="other">minutes ago</item>
+        <item quantity="one">vor %1$d Minute </item>
+        <item quantity="other">vor %1$d Minuten</item>
     </plurals>
     <plurals name="numberOfHours">
-        <item quantity="one">hour ago</item>
-        <item quantity="other">hours ago</item>
+        <item quantity="one">vor %1$d Stunde</item>
+        <item quantity="other">vor %1$d Stunden</item>
     </plurals>
     <plurals name="numberOfDays">
-        <item quantity="one">day ago</item>
-        <item quantity="other">days ago</item>
+        <item quantity="one">vor %1$d Tag</item>
+        <item quantity="other">vor %1$d Tagen</item>
     </plurals>
 
 </resources>

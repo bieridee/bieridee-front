@@ -120,7 +120,7 @@ public class TimelineListActivity extends ListActivity implements ListView.OnScr
 		protected JSONArray doInBackground(Void... voids) {
 			String resourceUri = Res.TIMELINE_COLLECTION + "?nOfItems=" + PAGESIZE + "&page=" + TimelineListActivity.this.currentPage;
 			if (TimelineListActivity.this.username != null) {
-				resourceUri += "?username=" + TimelineListActivity.this.username;
+				resourceUri += "&username=" + TimelineListActivity.this.username;
 			}
 			final HttpHelper httpHelper = AuthJsonHttp.create();
 			final HttpResponse response = httpHelper.get(Res.getURI(resourceUri));
