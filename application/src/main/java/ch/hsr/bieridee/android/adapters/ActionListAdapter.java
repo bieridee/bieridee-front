@@ -163,7 +163,7 @@ public class ActionListAdapter extends BaseAdapter {
 		final String username = user.getString("user");
 
 		if ("consumption".equals(jsonAction.getString("type"))) {
-			return this.activity.getString(R.string.timelinelist_feltThirty, username);
+			return this.activity.getString(R.string.timelinelist_feltThirsty, username);
 		} else {
 			return this.activity.getString(R.string.timelinelist_ratedBeer, username);
 		}
