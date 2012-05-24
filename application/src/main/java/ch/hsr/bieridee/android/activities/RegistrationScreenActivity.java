@@ -21,6 +21,8 @@ import ch.hsr.bieridee.android.exceptions.BierIdeeException;
 import ch.hsr.bieridee.android.http.HttpHelper;
 import ch.hsr.bieridee.android.http.requestprocessors.AcceptRequestProcessor;
 import ch.hsr.bieridee.android.utils.Crypto;
+import ch.hsr.bieridee.android.utils.ErrorHelper;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.json.JSONException;
@@ -114,9 +116,8 @@ public class RegistrationScreenActivity extends Activity {
 	}
 
 	/**
-	 * Async task to send registration HTTP request.
-	 * {@code execute()} expects the following parameters (order relevant!):
-	 * username, prename, surname, email, password
+	 * Async task to send registration HTTP request. {@code execute()} expects the following parameters (order
+	 * relevant!): username, prename, surname, email, password
 	 */
 	private class Register extends AsyncTask<String, Void, HttpResponse> {
 		private String username;
@@ -125,8 +126,7 @@ public class RegistrationScreenActivity extends Activity {
 
 		@Override
 		protected void onPreExecute() {
-			RegistrationScreenActivity.this.progressDialog = ProgressDialog.show(
-					RegistrationScreenActivity.this, getString(R.string.pleaseWait), getString(R.string.loadingData), true);
+			RegistrationScreenActivity.this.progressDialog = ProgressDialog.show(RegistrationScreenActivity.this, getString(R.string.pleaseWait), getString(R.string.loadingData), true);
 		}
 
 		@Override
@@ -146,7 +146,8 @@ public class RegistrationScreenActivity extends Activity {
 				user.put("email", params[3]);
 				user.put("password", this.hashedPassword);
 			} catch (JSONException e) {
-				throw new BierIdeeException("Creating the user JSON object failed.", e);
+				Log.d(LOG_TAG, e.getMessage(), e);
+				ErrorHelper.onError(RegistrationScreenActivity.this.getString(R.string.malformedData), RegistrationScreenActivity.this);
 			}
 
 			// Send HTTP request (TODO: In production, this should happen via SSL/TLS)
@@ -156,8 +157,8 @@ public class RegistrationScreenActivity extends Activity {
 			try {
 				response = httpHelper.put(Res.getURI(Res.USER_DOCUMENT, this.username), user);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Log.d(LOG_TAG, e.getMessage(), e);
+				ErrorHelper.onError(RegistrationScreenActivity.this.getString(R.string.connectionError), RegistrationScreenActivity.this);
 			}
 			return response;
 		}
@@ -172,11 +173,7 @@ public class RegistrationScreenActivity extends Activity {
 					Auth.setAuth(this.username, this.hashedPassword);
 
 					// Show success message
-					Toast.makeText(
-							RegistrationScreenActivity.this.getApplicationContext(),
-							getString(R.string.registrationscreen_success_registration),
-							Toast.LENGTH_SHORT
-					).show();
+					Toast.makeText(RegistrationScreenActivity.this.getApplicationContext(), getString(R.string.registrationscreen_success_registration), Toast.LENGTH_SHORT).show();
 
 					// Return to login activity
 					final Intent intent = new Intent(RegistrationScreenActivity.this.getBaseContext(), LoginScreenActivity.class);

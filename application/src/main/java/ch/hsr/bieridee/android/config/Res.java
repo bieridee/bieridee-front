@@ -9,7 +9,7 @@ public final class Res {
 		// do not instantiate.
 	}
 
-	public static final String API_URL = "http://brauhausddddd.nusszipfel.com:8080";
+	public static final String API_URL = "http://brauhaus.nusszipfel.com:8080";
 
 	// beer
 	public static final String BEER_COLLECTION = "/beers";

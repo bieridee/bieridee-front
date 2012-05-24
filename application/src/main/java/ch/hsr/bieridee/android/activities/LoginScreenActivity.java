@@ -112,8 +112,7 @@ public class LoginScreenActivity extends Activity {
 	}
 
 	/**
-	 * Async task to verify login information.
-	 * Expects username and hashed password strings as parameters.
+	 * Async task to verify login information. Expects username and hashed password strings as parameters.
 	 */
 	private class VerifyLoginData extends AsyncTask<String, Void, HttpResponse> {
 		private String username;
@@ -121,8 +120,7 @@ public class LoginScreenActivity extends Activity {
 
 		@Override
 		protected void onPreExecute() {
-			LoginScreenActivity.this.progressDialog = ProgressDialog.show(
-					LoginScreenActivity.this, getString(R.string.pleaseWait), getString(R.string.loginscreen_verifyingData), true);
+			LoginScreenActivity.this.progressDialog = ProgressDialog.show(LoginScreenActivity.this, getString(R.string.pleaseWait), getString(R.string.loginscreen_verifyingData), true);
 		}
 
 		@Override
@@ -142,8 +140,8 @@ public class LoginScreenActivity extends Activity {
 			try {
 				response = httpHelper.post(Res.getURI(Res.USERCREDENTIALS_CONTROLLER));
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				// fail silent, error handled in onPostExecute
+				Log.d(LOG_TAG, e.getMessage(), e);
 			}
 			return response;
 		}
@@ -153,38 +151,27 @@ public class LoginScreenActivity extends Activity {
 			LoginScreenActivity.this.progressDialog.dismiss();
 
 			if (response == null) {
-				throw new BierIdeeException("Response was null in VerifyLoginData");
+				Toast.makeText(LoginScreenActivity.this, getString(R.string.connectionError), Toast.LENGTH_LONG).show();
+				return;
 			}
 
 			final int statusCode = response.getStatusLine().getStatusCode();
 			if (statusCode == HttpStatus.SC_UNAUTHORIZED) {
-				Toast.makeText(
-						LoginScreenActivity.this,
-						getString(R.string.loginscreen_loginFailed),
-						Toast.LENGTH_LONG
-				).show();
+				Toast.makeText(LoginScreenActivity.this, getString(R.string.loginscreen_loginFailed), Toast.LENGTH_LONG).show();
 				Log.d(LOG_TAG, "Login failed, invalid credentials.");
 			} else if (statusCode == HttpStatus.SC_NO_CONTENT) {
 				// Show success message
-				Toast.makeText(
-						LoginScreenActivity.this.getApplicationContext(),
-						getString(R.string.loginscreen_loginSuccess),
-						Toast.LENGTH_SHORT
-				).show();
+				Toast.makeText(LoginScreenActivity.this.getApplicationContext(), getString(R.string.loginscreen_loginSuccess), Toast.LENGTH_SHORT).show();
 				Log.d(LOG_TAG, "Login successful.");
 
 				// Save data
 				Auth.setAuth(this.username, this.hashedPassword);
 
 				// Open homescreen activity
-			   final Intent intent = new Intent(LoginScreenActivity.this.getBaseContext(), HomeScreenActivity.class);
-			   startActivity(intent);
+				final Intent intent = new Intent(LoginScreenActivity.this.getBaseContext(), HomeScreenActivity.class);
+				startActivity(intent);
 			} else {
-				Toast.makeText(
-						LoginScreenActivity.this.getApplicationContext(),
-						getString(R.string.loginscreen_loginError),
-						Toast.LENGTH_LONG
-				).show();
+				Toast.makeText(LoginScreenActivity.this.getApplicationContext(), getString(R.string.loginscreen_loginError), Toast.LENGTH_LONG).show();
 				Log.e(LOG_TAG, "Unexpected return status (HTTP " + statusCode + ") in VerifyLoginData.");
 			}
 		}

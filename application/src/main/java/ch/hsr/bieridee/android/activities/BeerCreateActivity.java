@@ -28,22 +28,11 @@ import android.widget.Spinner;
 import android.widget.Toast;
 import ch.hsr.bieridee.android.R;
 import ch.hsr.bieridee.android.Validators;
-import ch.hsr.bieridee.android.adapters.BreweryListAdapter;
-import ch.hsr.bieridee.android.adapters.BrewerySizeSpinnerAdapter;
 import ch.hsr.bieridee.android.adapters.CreateBeerSpinnerAdapter;
 import ch.hsr.bieridee.android.config.Res;
 import ch.hsr.bieridee.android.http.AuthJsonHttp;
 import ch.hsr.bieridee.android.http.HttpHelper;
 import ch.hsr.bieridee.android.utils.ErrorHelper;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.impl.client.BasicResponseHandler;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
 
 /**
  * Activity to create a new beer.
@@ -51,7 +40,7 @@ import java.io.IOException;
  */
 public class BeerCreateActivity extends Activity {
 
-	private static final String LOG_TAG = BreweryListActivity.class.getName();
+	private static final String LOG_TAG = BreweryCreateActivity.class.getName();
 	private CreateBeerSpinnerAdapter breweryAdapter;
 	private CreateBeerSpinnerAdapter beertypeAdapter;
 	private ArrayAdapter<String> autoCompleteAdapter;
@@ -66,7 +55,6 @@ public class BeerCreateActivity extends Activity {
 	private ImageButton beertypeInfoButton;
 	private ImageButton breweryInfoButton;
 	private Button createButton;
-	private ImageButton createBreweryButton;
 
 	private long beerId;
 	private boolean newBeer;
@@ -74,6 +62,7 @@ public class BeerCreateActivity extends Activity {
 	private GetBrandData getBrandDataTask;
 	private GetBreweryData getBreweryDataTask;
 	private GetBeertypeData getBeertypeDataTask;
+	private GetBeerDetail getBeerDetailTask;
 	private final CountDownLatch allLoadingTasksFinished = new CountDownLatch(3);
 
 	@Override
@@ -113,7 +102,8 @@ public class BeerCreateActivity extends Activity {
 			BeerCreateActivity.this.beerId = extras.getLong("beerToUpdate");
 			this.newBeer = false;
 			this.createButton.setText("Save");
-			new GetBeerDetail().execute();
+			this.getBeerDetailTask = new GetBeerDetail();
+			this.getBeerDetailTask.execute();
 		}
 
 	}
@@ -224,12 +214,12 @@ public class BeerCreateActivity extends Activity {
 						}
 						newBeer.put("brewery", breweryId);
 					} catch (JSONException e) {
+						Log.d(LOG_TAG, e.getMessage(), e);
 						ErrorHelper.onError(BeerCreateActivity.this.getString(R.string.malformedData), BeerCreateActivity.this);
 					}
 
 					new BeerCreateActivity.AddNewBeer().execute(newBeer);
 				} else {
-					Log.d("info", "name: " + beername + " brand: " + brand);
 					Toast.makeText(BeerCreateActivity.this, BeerCreateActivity.this.getString(R.string.pleaseProvideAllData), Toast.LENGTH_SHORT).show();
 				}
 
@@ -256,8 +246,8 @@ public class BeerCreateActivity extends Activity {
 					response = BeerCreateActivity.this.httpHelper.put(uri, params[0]);
 				}
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Log.d(LOG_TAG, e.getMessage(), e);
+				BeerCreateActivity.this.onError(BeerCreateActivity.this.getString(R.string.connectionError));
 			}
 
 			if (response != null) {
@@ -267,9 +257,11 @@ public class BeerCreateActivity extends Activity {
 						final String responseText = new BasicResponseHandler().handleResponse(response);
 						return new JSONObject(responseText);
 					} catch (IOException e) {
-						e.printStackTrace();
+						Log.d(LOG_TAG, e.getMessage(), e);
+						BeerCreateActivity.this.onError(BeerCreateActivity.this.getString(R.string.malformedData));
 					} catch (JSONException e) {
-						e.printStackTrace();
+						Log.d(LOG_TAG, e.getMessage(), e);
+						BeerCreateActivity.this.onError(BeerCreateActivity.this.getString(R.string.malformedData));
 					}
 				}
 			}
@@ -278,6 +270,11 @@ public class BeerCreateActivity extends Activity {
 
 		@Override
 		protected void onPostExecute(JSONObject result) {
+			Log.d(LOG_TAG, "onPostExecute");
+			if(isCancelled()) {
+				Log.d(LOG_TAG, "cancel onPostExecute");
+				return;
+			}
 			if (result != null) {
 				if (BeerCreateActivity.this.newBeer) {
 					onPostNewBeer(result);
@@ -319,9 +316,9 @@ public class BeerCreateActivity extends Activity {
 			HttpResponse response = null;
 			try {
 				response = BeerCreateActivity.this.httpHelper.get(Res.getURI(Res.BEERTYPE_COLLECTION));
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+			} catch (IOException e) {
+				Log.d(LOG_TAG, e.getMessage(), e);
+				BeerCreateActivity.this.onError(BeerCreateActivity.this.getString(R.string.connectionError));
 			}
 
 			if (response != null) {
@@ -331,9 +328,11 @@ public class BeerCreateActivity extends Activity {
 						final String responseText = new BasicResponseHandler().handleResponse(response);
 						return new JSONArray(responseText);
 					} catch (IOException e) {
-						e.printStackTrace();
+						Log.d(LOG_TAG, e.getMessage(), e);
+						BeerCreateActivity.this.onError(BeerCreateActivity.this.getString(R.string.malformedData));
 					} catch (JSONException e) {
-						e.printStackTrace();
+						Log.d(LOG_TAG, e.getMessage(), e);
+						BeerCreateActivity.this.onError(BeerCreateActivity.this.getString(R.string.malformedData));
 					}
 				}
 			}
@@ -343,13 +342,16 @@ public class BeerCreateActivity extends Activity {
 		@Override
 		protected void onPostExecute(JSONArray result) {
 			Log.d(LOG_TAG, "onPostExecute()");
+			if(isCancelled()) {
+				Log.d(LOG_TAG, "cancel onPostExecute()");
+				return;
+			}
 			if (result != null) {
 				BeerCreateActivity.this.beertypeAdapter.updateData(result);
 				BeerCreateActivity.this.beertypeAdapter.notifyDataSetChanged();
 			}
 			BeerCreateActivity.this.progressDialog.hide();
 			BeerCreateActivity.this.allLoadingTasksFinished.countDown();
-			Log.d("info", "Beertype data finished");
 		}
 	}
 
@@ -370,9 +372,9 @@ public class BeerCreateActivity extends Activity {
 			HttpResponse response = null;
 			try {
 				response = BeerCreateActivity.this.httpHelper.get(Res.getURI(Res.BREWERY_COLLECTION));
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+			} catch (IOException e) {
+				Log.d(LOG_TAG, e.getMessage(), e);
+				BeerCreateActivity.this.onError(BeerCreateActivity.this.getString(R.string.connectionError));
 			}
 
 			if (response != null) {
@@ -382,9 +384,11 @@ public class BeerCreateActivity extends Activity {
 						final String responseText = new BasicResponseHandler().handleResponse(response);
 						return new JSONArray(responseText);
 					} catch (IOException e) {
-						e.printStackTrace();
+						Log.d(LOG_TAG, e.getMessage(), e);
+						BeerCreateActivity.this.onError(BeerCreateActivity.this.getString(R.string.malformedData));
 					} catch (JSONException e) {
-						e.printStackTrace();
+						Log.d(LOG_TAG, e.getMessage(), e);
+						BeerCreateActivity.this.onError(BeerCreateActivity.this.getString(R.string.malformedData));
 					}
 				}
 			}
@@ -394,13 +398,16 @@ public class BeerCreateActivity extends Activity {
 		@Override
 		protected void onPostExecute(JSONArray result) {
 			Log.d(LOG_TAG, "onPostExecute()");
+			if(isCancelled()) {
+				Log.d(LOG_TAG, "cancel onPostExecute()");
+				return;
+			}
 			if (result != null) {
 				BeerCreateActivity.this.breweryAdapter.updateData(result);
 				BeerCreateActivity.this.breweryAdapter.notifyDataSetChanged();
 			}
 			BeerCreateActivity.this.progressDialog.hide();
 			BeerCreateActivity.this.allLoadingTasksFinished.countDown();
-			Log.d("info", "Brewery data finished");
 		}
 	}
 
@@ -421,9 +428,9 @@ public class BeerCreateActivity extends Activity {
 			HttpResponse response = null;
 			try {
 				response = BeerCreateActivity.this.httpHelper.get(Res.getURI(Res.BRAND_COLLECTION));
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+			} catch (IOException e) {
+				Log.d(LOG_TAG, e.getMessage(), e);
+				BeerCreateActivity.this.onError(BeerCreateActivity.this.getString(R.string.connectionError));
 			}
 
 			if (response != null) {
@@ -433,9 +440,11 @@ public class BeerCreateActivity extends Activity {
 						final String responseText = new BasicResponseHandler().handleResponse(response);
 						return new JSONArray(responseText);
 					} catch (IOException e) {
-						e.printStackTrace();
+						Log.d(LOG_TAG, e.getMessage(), e);
+						BeerCreateActivity.this.onError(BeerCreateActivity.this.getString(R.string.malformedData));
 					} catch (JSONException e) {
-						e.printStackTrace();
+						Log.d(LOG_TAG, e.getMessage(), e);
+						BeerCreateActivity.this.onError(BeerCreateActivity.this.getString(R.string.malformedData));
 					}
 				}
 			}
@@ -445,6 +454,10 @@ public class BeerCreateActivity extends Activity {
 		@Override
 		protected void onPostExecute(JSONArray result) {
 			Log.d(LOG_TAG, "onPostExecute()");
+			if(isCancelled()) {
+				Log.d(LOG_TAG, "cancel onPostExecute()");
+				return;
+			}
 			if (result != null) {
 				final String[] brands = new String[result.length()];
 				for (int i = 0; i < result.length(); i++) {
@@ -487,9 +500,9 @@ public class BeerCreateActivity extends Activity {
 			HttpResponse response = null;
 			try {
 				response = BeerCreateActivity.this.httpHelper.get(uri);
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+			} catch (IOException e) {
+				Log.d(LOG_TAG, e.getMessage(), e);
+				BeerCreateActivity.this.onError(BeerCreateActivity.this.getString(R.string.connectionError));
 			}
 
 			if (response != null) {
@@ -502,14 +515,14 @@ public class BeerCreateActivity extends Activity {
 						BeerCreateActivity.this.allLoadingTasksFinished.await();
 						return new JSONObject(responseText);
 					} catch (IOException e) {
-						Log.e(LOG_TAG, "IOException in GetBeerDetail::doInBackground");
-						e.printStackTrace();
+						Log.d(LOG_TAG, e.getMessage(), e);
+						BeerCreateActivity.this.onError(BeerCreateActivity.this.getString(R.string.connectionError));
 					} catch (JSONException e) {
-						Log.e(LOG_TAG, "JSONException in GetBeerDetail::doInBackground");
-						e.printStackTrace();
+						Log.d(LOG_TAG, e.getMessage(), e);
+						BeerCreateActivity.this.onError(BeerCreateActivity.this.getString(R.string.malformedData));
 					} catch (InterruptedException e) {
-						Log.e(LOG_TAG, "InterruptedException in GetBeerDetail:doInBackground");
-						e.printStackTrace();
+						Log.d(LOG_TAG, e.getMessage(), e);
+						BeerCreateActivity.this.onError(BeerCreateActivity.this.getString(R.string.connectionError));
 					}
 				} else {
 					Log.e(LOG_TAG, "HTTP Response " + statusCode + " in GetBeerDetail::doInBackground");
@@ -522,6 +535,11 @@ public class BeerCreateActivity extends Activity {
 
 		@Override
 		protected void onPostExecute(JSONObject result) {
+			Log.d(LOG_TAG, "onPostExecute()");
+			if(isCancelled()) {
+				Log.d(LOG_TAG, "cancel onPostExecute()");
+				return;
+			}
 			if (result != null) {
 				try {
 
@@ -544,8 +562,8 @@ public class BeerCreateActivity extends Activity {
 					BeerCreateActivity.this.beertypeSpinner.setSelection(beerTypePosition);
 
 				} catch (JSONException e) {
-					Log.e(LOG_TAG, "JSONException in GetBeerDetail::onPostExecute");
-					e.printStackTrace();
+					Log.d(LOG_TAG, e.getMessage(), e);
+					BeerCreateActivity.this.onError(BeerCreateActivity.this.getString(R.string.malformedData));
 				}
 			} else {
 				Log.w(LOG_TAG, "Result was null in GetBeerDetail::onPostExecute");
@@ -554,6 +572,22 @@ public class BeerCreateActivity extends Activity {
 				BeerCreateActivity.this.progressDialog.hide();
 			}
 		}
+	}
+
+	private void onError(String message) {
+		if (this.getBeerDetailTask != null) {
+			this.getBeerDetailTask.cancel(true);
+		}
+		if(this.getBeertypeDataTask != null) {
+			this.getBeertypeDataTask.cancel(true);
+		}
+		if(this.getBrandDataTask != null) {
+		this.getBrandDataTask.cancel(true);
+		}
+		if (this.getBreweryDataTask != null) {
+			this.getBreweryDataTask.cancel(true);
+		}
+		ErrorHelper.onError(message, this);
 	}
 
 }

@@ -135,9 +135,9 @@ public class BeerListActivity extends ListActivity {
 						final String responseText = new BasicResponseHandler().handleResponse(response);
 						return new JSONArray(responseText);
 					} catch (IOException e) {
-						ErrorHelper.onError(getString(R.string.connectionError), BeerListActivity.this);
+						ErrorHelper.onError(getString(R.string.malformedData), BeerListActivity.this);
 					} catch (JSONException e) {
-						ErrorHelper.onError(getString(R.string.connectionError), BeerListActivity.this);
+						ErrorHelper.onError(getString(R.string.malformedData), BeerListActivity.this);
 					}
 				}
 			}

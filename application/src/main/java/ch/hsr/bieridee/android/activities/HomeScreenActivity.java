@@ -20,8 +20,6 @@ import ch.hsr.bieridee.android.config.Auth;
  */
 public class HomeScreenActivity extends Activity {
 
-	private static final String LOG_TAG = HomeScreenActivity.class.getName();
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

@@ -8,20 +8,24 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.res.Resources;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import ch.hsr.bieridee.android.BierideeApplication;
 import ch.hsr.bieridee.android.R;
+import ch.hsr.bieridee.android.utils.ErrorHelper;
 
 /**
  * The ActionListAdapter adapts the JSON action structure to the Android ListView.
  * 
  */
 public class ActionListAdapter extends BaseAdapter {
-
+	
+	private static final String LOG_TAG = ActionListAdapter.class.getName();
 	private final Activity activity;
 	private ArrayList<JSONObject> actions;
 
@@ -79,8 +83,8 @@ public class ActionListAdapter extends BaseAdapter {
 			beer = jsonAction.getJSONObject("beer");
 			id = beer.getLong("id");
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.d(LOG_TAG, e.getMessage(), e);
+			ErrorHelper.onError(BierideeApplication.getAppContext().getString(R.string.malformedData), this.activity);
 		}
 		return id;
 	}
@@ -130,7 +134,8 @@ public class ActionListAdapter extends BaseAdapter {
 				name.setText(title);
 				description.setText(detailText);
 			} catch (JSONException e) {
-				e.printStackTrace(); // TODO Auto-generated catch block
+				Log.d(LOG_TAG, e.getMessage(), e);
+				ErrorHelper.onError(BierideeApplication.getAppContext().getString(R.string.malformedData), this.activity);
 			}
 		}
 

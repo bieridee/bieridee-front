@@ -5,11 +5,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
+import ch.hsr.bieridee.android.BierideeApplication;
 import ch.hsr.bieridee.android.R;
+import ch.hsr.bieridee.android.utils.ErrorHelper;
 
 /**
  * The BeerListAdapter adapts the JSON beer structure to the Android ListView.
@@ -18,7 +21,8 @@ import ch.hsr.bieridee.android.R;
  * http://developer.android.com/reference/android/widget/Adapter.html
  */
 public class BeertypeListAdapter extends BaseExpandableListAdapter {
-
+	
+	private static final String LOG_TAG = BeertypeListAdapter.class.getName();
 	private final Activity activity;
 	private JSONArray jsonArray;
 	private String[] groups;
@@ -56,8 +60,8 @@ public class BeertypeListAdapter extends BaseExpandableListAdapter {
 				this.children[i][0] = beertypeJson.getString("description"); // no second loop needed, bc we have always
 																				// only one child
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Log.d(LOG_TAG, e.getMessage(), e);
+				ErrorHelper.onError(BierideeApplication.getAppContext().getString(R.string.malformedData), this.activity);
 			}
 		}
 	}

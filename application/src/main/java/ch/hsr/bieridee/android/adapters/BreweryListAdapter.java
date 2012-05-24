@@ -4,18 +4,23 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import ch.hsr.bieridee.android.BierideeApplication;
 import ch.hsr.bieridee.android.R;
+import ch.hsr.bieridee.android.utils.ErrorHelper;
 
 /**
  * The BreweryListAdapter adapts the JSON brewery structure to the Android ListView.
  * 
  */
 public class BreweryListAdapter extends JsonListAdapter {
-
+	
+	private static final String LOG_TAG = BreweryListAdapter.class.getName();
+	
 	/**
 	 * @param activity
 	 *            Activity
@@ -48,7 +53,8 @@ public class BreweryListAdapter extends JsonListAdapter {
 			name.setText(jsonBrewery.getString("name"));
 			description.setText(jsonBrewery.getString("description"));
 		} catch (JSONException e) {
-			e.printStackTrace(); // TODO Auto-generated catch block
+			Log.d(LOG_TAG, e.getMessage(), e);
+			ErrorHelper.onError(BierideeApplication.getAppContext().getString(R.string.malformedData), this.activity);
 		}
 
 		return convertView;

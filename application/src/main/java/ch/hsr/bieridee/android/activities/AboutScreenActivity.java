@@ -9,8 +9,6 @@ import ch.hsr.bieridee.android.R;
  */
 public class AboutScreenActivity extends Activity {
 
-	private static final String LOG_TAG = AboutScreenActivity.class.getName();
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

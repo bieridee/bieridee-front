@@ -25,6 +25,7 @@ import ch.hsr.bieridee.android.adapters.BrewerySizeSpinnerAdapter;
 import ch.hsr.bieridee.android.config.Res;
 import ch.hsr.bieridee.android.http.AuthJsonHttp;
 import ch.hsr.bieridee.android.http.HttpHelper;
+import ch.hsr.bieridee.android.utils.ErrorHelper;
 
 /**
  * Activity to create a new beer.
@@ -82,7 +83,8 @@ public class BreweryCreateActivity extends Activity {
 						newBrewery.put("size", brewerySize);
 						newBrewery.put("picture", "");
 					} catch (JSONException e) {
-						e.printStackTrace();
+						Log.d(LOG_TAG, e.getMessage(), e);
+						ErrorHelper.onError(BreweryCreateActivity.this.getString(R.string.malformedData), BreweryCreateActivity.this);
 					}
 					new BreweryCreateActivity.AddNewBrewery().execute(newBrewery);
 				} else {
@@ -106,9 +108,9 @@ public class BreweryCreateActivity extends Activity {
 			HttpResponse response = null;
 			try {
 				response = BreweryCreateActivity.this.httpHelper.post(Res.getURI(Res.BREWERY_COLLECTION), params[0]);
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+			} catch (IOException e) {
+				Log.d(LOG_TAG, e.getMessage(), e);
+				ErrorHelper.onError(BreweryCreateActivity.this.getString(R.string.connectionError), BreweryCreateActivity.this);
 			}
 
 			if (response != null) {
@@ -118,9 +120,11 @@ public class BreweryCreateActivity extends Activity {
 						final String responseText = new BasicResponseHandler().handleResponse(response);
 						return new JSONObject(responseText);
 					} catch (IOException e) {
-						e.printStackTrace();
+						Log.d(LOG_TAG, e.getMessage(), e);
+						ErrorHelper.onError(BreweryCreateActivity.this.getString(R.string.malformedData), BreweryCreateActivity.this);
 					} catch (JSONException e) {
-						e.printStackTrace();
+						Log.d(LOG_TAG, e.getMessage(), e);
+						ErrorHelper.onError(BreweryCreateActivity.this.getString(R.string.malformedData), BreweryCreateActivity.this);
 					}
 				}
 			}
@@ -132,7 +136,6 @@ public class BreweryCreateActivity extends Activity {
 			if (result != null) {
 				Toast.makeText(BreweryCreateActivity.this, BreweryCreateActivity.this.getString(R.string.brewerycreate_successfull), Toast.LENGTH_SHORT).show();
 				BreweryCreateActivity.this.breweryName.setText("");
-				// TODO proper "go back" to the previous activity
 				BreweryCreateActivity.this.finish();
 			} else {
 				Toast.makeText(BreweryCreateActivity.this, BreweryCreateActivity.this.getString(R.string.handsomeError), Toast.LENGTH_SHORT).show();
@@ -158,9 +161,9 @@ public class BreweryCreateActivity extends Activity {
 			HttpResponse response = null;
 			try {
 				response = BreweryCreateActivity.this.httpHelper.get(Res.getURI(Res.BREWERYSIZE_COLLECTION));
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+			} catch (IOException e) {
+				Log.d(LOG_TAG, e.getMessage(), e);
+				ErrorHelper.onError(BreweryCreateActivity.this.getString(R.string.connectionError), BreweryCreateActivity.this);
 			}
 
 			if (response != null) {
@@ -170,9 +173,11 @@ public class BreweryCreateActivity extends Activity {
 						final String responseText = new BasicResponseHandler().handleResponse(response);
 						return new JSONArray(responseText);
 					} catch (IOException e) {
-						e.printStackTrace();
+						Log.d(LOG_TAG, e.getMessage(), e);
+						ErrorHelper.onError(BreweryCreateActivity.this.getString(R.string.malformedData), BreweryCreateActivity.this);
 					} catch (JSONException e) {
-						e.printStackTrace();
+						Log.d(LOG_TAG, e.getMessage(), e);
+						ErrorHelper.onError(BreweryCreateActivity.this.getString(R.string.malformedData), BreweryCreateActivity.this);
 					}
 				}
 			}
