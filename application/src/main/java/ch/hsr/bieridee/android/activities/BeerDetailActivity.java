@@ -9,6 +9,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,6 +21,7 @@ import android.widget.RatingBar;
 import android.widget.RatingBar.OnRatingBarChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
+import ch.hsr.bieridee.android.BierideeApplication;
 import ch.hsr.bieridee.android.R;
 import ch.hsr.bieridee.android.config.Auth;
 import ch.hsr.bieridee.android.config.Res;
@@ -130,7 +133,13 @@ public class BeerDetailActivity extends Activity {
 		@Override
 		protected JSONObject doInBackground(Void... voids) {
 			final String uri = Res.getURI(Res.BEER_DOCUMENT, Long.toString(BeerDetailActivity.this.beerId));
-			final HttpResponse response = BeerDetailActivity.this.httpHelper.get(uri);
+			HttpResponse response = null;
+			try {
+				response = BeerDetailActivity.this.httpHelper.get(uri);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 
 			if (response != null) {
 				final int statusCode = response.getStatusLine().getStatusCode();
@@ -198,7 +207,13 @@ public class BeerDetailActivity extends Activity {
 
 			final String uri = Res.getURI(Res.RATING_DOCUMENT, Long.toString(BeerDetailActivity.this.beerId), BeerDetailActivity.this.username);
 			Log.d(LOG_TAG, "GET " + uri);
-			final HttpResponse response = BeerDetailActivity.this.httpHelper.get(uri);
+			HttpResponse response = null;
+			try {
+				response = BeerDetailActivity.this.httpHelper.get(uri);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 
 			if (response != null) {
 				final int statusCode = response.getStatusLine().getStatusCode();
@@ -251,7 +266,13 @@ public class BeerDetailActivity extends Activity {
 			Log.d(LOG_TAG, "TrackConsumption doInBackground()");
 
 			final String uri = Res.getURI(Res.CONSUMPTION_DOCUMENT, Long.toString(BeerDetailActivity.this.beerId), BeerDetailActivity.this.username);
-			final HttpResponse response = BeerDetailActivity.this.httpHelper.post(uri);
+			HttpResponse response = null;
+			try {
+				response = BeerDetailActivity.this.httpHelper.post(uri);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 			if (response == null) {
 				return false;
@@ -285,7 +306,13 @@ public class BeerDetailActivity extends Activity {
 				throw new BierIdeeException("Could not create rating JSONObject", e);
 			}
 
-			final HttpResponse response = BeerDetailActivity.this.httpHelper.post(uri, newRating);
+			HttpResponse response = null;
+			try {
+				response = BeerDetailActivity.this.httpHelper.post(uri, newRating);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 			if (response == null) {
 				return false;
@@ -302,4 +329,5 @@ public class BeerDetailActivity extends Activity {
 			new GetBeerDetail(false).execute();
 		}
 	}
+	
 }

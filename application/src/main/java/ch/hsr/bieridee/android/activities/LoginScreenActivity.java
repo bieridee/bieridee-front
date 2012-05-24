@@ -1,5 +1,7 @@
 package ch.hsr.bieridee.android.activities;
 
+import java.io.IOException;
+
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -136,7 +138,14 @@ public class LoginScreenActivity extends Activity {
 
 			// Send HTTP request
 			final HttpHelper httpHelper = AuthJsonHttp.create(this.username, this.hashedPassword);
-			return httpHelper.post(Res.getURI(Res.USERCREDENTIALS_CONTROLLER));
+			HttpResponse response = null;
+			try {
+				response = httpHelper.post(Res.getURI(Res.USERCREDENTIALS_CONTROLLER));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return response;
 		}
 
 		@Override

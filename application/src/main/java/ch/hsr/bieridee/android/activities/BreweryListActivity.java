@@ -84,7 +84,13 @@ public final class BreweryListActivity extends ListActivity {
 		protected JSONArray doInBackground(Void... voids) {
 			Log.d(LOG_TAG, "doInBackground()");
 
-			final HttpResponse response = BreweryListActivity.this.httpHelper.get(Res.getURI(Res.BREWERY_COLLECTION));
+			HttpResponse response = null;
+			try {
+				response = BreweryListActivity.this.httpHelper.get(Res.getURI(Res.BREWERY_COLLECTION));
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 
 			if (response != null) {
 				final int statusCode = response.getStatusLine().getStatusCode();

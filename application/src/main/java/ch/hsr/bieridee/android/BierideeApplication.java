@@ -13,7 +13,7 @@ public class BierideeApplication extends Application {
 
 	public void onCreate() {
 		super.onCreate();
-		Thread.setDefaultUncaughtExceptionHandler(new CatchAllExceptionHandler(Thread.getDefaultUncaughtExceptionHandler()));
+		//Thread.setDefaultUncaughtExceptionHandler(new CatchAllExceptionHandler(Thread.getDefaultUncaughtExceptionHandler()));
 		BierideeApplication.context = getApplicationContext();
 	}
 

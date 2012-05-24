@@ -18,7 +18,6 @@
     <string name="loadingData">Daten werden geladen</string>
     <string name="warning">Warnung</string>
     <string name="error">Fehler</string>
-    <string name="handsomeError">Ein Fehler ist aufgetreten. Bitte erneut versuchen.</string>
     <string name="success">Erfolg</string>
     <string name="about">Über</string>
     <string name="refresh">Aktualisieren</string>
@@ -30,8 +29,14 @@
     <string name="type">Typ</string>
     <string name="more">Mehr</string>
     <string name="add">Erfassen</string>
+	
+    <!-- Errors -->
+    <string name="handsomeError">Ein Fehler ist aufgetreten. Bitte erneut versuchen.</string>
     <string name="pleaseProvideAllData">Bitte alle Felder ausfüllen</string>
-
+    <string name="connectionError">Verbindungsfehler</string>
+    <string name="malformedData">Fehlerhafte Daten</string>
+ 	
+    
     <!-- Login screen specific strings -->
     <string name="loginscreen_title">BierIdee Login</string>
     <string name="loginscreen_wrongCredentials">Bitte Logindaten überprüfen</string>

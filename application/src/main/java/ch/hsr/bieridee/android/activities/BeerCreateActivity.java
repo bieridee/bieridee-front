@@ -22,6 +22,8 @@ import ch.hsr.bieridee.android.adapters.CreateBeerSpinnerAdapter;
 import ch.hsr.bieridee.android.config.Res;
 import ch.hsr.bieridee.android.http.AuthJsonHttp;
 import ch.hsr.bieridee.android.http.HttpHelper;
+import ch.hsr.bieridee.android.utils.ErrorHelper;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.impl.client.BasicResponseHandler;
@@ -53,6 +55,10 @@ public class BeerCreateActivity extends Activity {
 	private ImageButton breweryInfoButton;
 	private Button createButton;
 	private ImageButton createBreweryButton;
+	
+	private GetBeertypeData getBeertypeTask;
+	private GetBrandData getBrandTask;
+	private GetBreweryData getBreweryTask;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -180,9 +186,12 @@ public class BeerCreateActivity extends Activity {
 	@Override
 	public void onStart() {
 		super.onStart();
-		new GetBrandData().execute();
-		new GetBeertypeData().execute();
-		new GetBreweryData().execute();
+		this.getBrandTask = new GetBrandData();
+		this.getBrandTask.execute();
+		this.getBeertypeTask = new GetBeertypeData();
+		this.getBrandTask.execute();
+		this.getBreweryTask = new GetBreweryData();
+		this.getBreweryTask.execute();
 	}
 
 	private void setButtonAction() {
@@ -202,9 +211,9 @@ public class BeerCreateActivity extends Activity {
 						newBeer.put("beertype", beertypeId);
 						newBeer.put("brewery", breweryId);
 					} catch (JSONException e) {
-						e.printStackTrace();
+						ErrorHelper.onError(BeerCreateActivity.this.getString(R.string.malformedData), BeerCreateActivity.this);
 					}
-					Log.d(LOG_TAG, newBeer.toString());
+					
 					new BeerCreateActivity.AddNewBeer().execute(newBeer);
 				} else {
 					Toast.makeText(BeerCreateActivity.this, "Bitte alles ausfüllen", Toast.LENGTH_SHORT).show();
@@ -224,7 +233,13 @@ public class BeerCreateActivity extends Activity {
 		protected JSONObject doInBackground(JSONObject... params) {
 			Log.d(LOG_TAG, "doInBackground()");
 
-			final HttpResponse response = BeerCreateActivity.this.httpHelper.post(Res.getURI(Res.BEER_COLLECTION), params[0]);
+			HttpResponse response = null;
+			try {
+				response = BeerCreateActivity.this.httpHelper.post(Res.getURI(Res.BEER_COLLECTION), params[0]);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 
 			if (response != null) {
 				final int statusCode = response.getStatusLine().getStatusCode();
@@ -269,7 +284,13 @@ public class BeerCreateActivity extends Activity {
 		protected JSONArray doInBackground(Void... voids) {
 			Log.d(LOG_TAG, "doInBackground()");
 
-			final HttpResponse response = BeerCreateActivity.this.httpHelper.get(Res.getURI(Res.BEERTYPE_COLLECTION));
+			HttpResponse response = null;
+			try {
+				response = BeerCreateActivity.this.httpHelper.get(Res.getURI(Res.BEERTYPE_COLLECTION));
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 
 			if (response != null) {
 				final int statusCode = response.getStatusLine().getStatusCode();
@@ -312,7 +333,13 @@ public class BeerCreateActivity extends Activity {
 		protected JSONArray doInBackground(Void... voids) {
 			Log.d(LOG_TAG, "doInBackground()");
 
-			final HttpResponse response = BeerCreateActivity.this.httpHelper.get(Res.getURI(Res.BREWERY_COLLECTION));
+			HttpResponse response = null;
+			try {
+				response = BeerCreateActivity.this.httpHelper.get(Res.getURI(Res.BREWERY_COLLECTION));
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 
 			if (response != null) {
 				final int statusCode = response.getStatusLine().getStatusCode();
@@ -355,7 +382,13 @@ public class BeerCreateActivity extends Activity {
 		protected JSONArray doInBackground(Void... voids) {
 			Log.d(LOG_TAG, "doInBackground()");
 
-			final HttpResponse response = BeerCreateActivity.this.httpHelper.get(Res.getURI(Res.BRAND_COLLECTION));
+			HttpResponse response = null;
+			try {
+				response = BeerCreateActivity.this.httpHelper.get(Res.getURI(Res.BRAND_COLLECTION));
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 
 			if (response != null) {
 				final int statusCode = response.getStatusLine().getStatusCode();

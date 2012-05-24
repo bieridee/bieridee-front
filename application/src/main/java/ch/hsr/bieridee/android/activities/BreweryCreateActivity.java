@@ -103,7 +103,13 @@ public class BreweryCreateActivity extends Activity {
 		protected JSONObject doInBackground(JSONObject... params) {
 			Log.d(LOG_TAG, "doInBackground()");
 
-			final HttpResponse response = BreweryCreateActivity.this.httpHelper.post(Res.getURI(Res.BREWERY_COLLECTION), params[0]);
+			HttpResponse response = null;
+			try {
+				response = BreweryCreateActivity.this.httpHelper.post(Res.getURI(Res.BREWERY_COLLECTION), params[0]);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 
 			if (response != null) {
 				final int statusCode = response.getStatusLine().getStatusCode();
@@ -149,7 +155,13 @@ public class BreweryCreateActivity extends Activity {
 		protected JSONArray doInBackground(Void... voids) {
 			Log.d(LOG_TAG, "doInBackground()");
 
-			final HttpResponse response = BreweryCreateActivity.this.httpHelper.get(Res.getURI(Res.BREWERYSIZE_COLLECTION));
+			HttpResponse response = null;
+			try {
+				response = BreweryCreateActivity.this.httpHelper.get(Res.getURI(Res.BREWERYSIZE_COLLECTION));
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 
 			if (response != null) {
 				final int statusCode = response.getStatusLine().getStatusCode();

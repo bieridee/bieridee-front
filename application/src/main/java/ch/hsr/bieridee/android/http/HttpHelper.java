@@ -1,9 +1,10 @@
 package ch.hsr.bieridee.android.http;
 
-import android.util.Log;
-import ch.hsr.bieridee.android.BierideeApplication;
-import ch.hsr.bieridee.android.exceptions.BierIdeeException;
-import org.apache.http.HttpHost;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.LinkedList;
+import java.util.List;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpDelete;
@@ -11,7 +12,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
-import org.apache.http.conn.params.ConnRoutePNames;
 import org.apache.http.entity.AbstractHttpEntity;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -22,14 +22,13 @@ import org.apache.http.params.HttpParams;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.util.LinkedList;
-import java.util.List;
+import android.util.Log;
+import ch.hsr.bieridee.android.BierideeApplication;
+import ch.hsr.bieridee.android.exceptions.BierIdeeException;
 
 /**
- * A helper class that simplifies HTTP requests.
- * It supports request processors that can be added with addRequestProcessor.
+ * A helper class that simplifies HTTP requests. It supports request processors that can be added with
+ * addRequestProcessor.
  */
 public final class HttpHelper {
 	private List<IRequestProcessor> requestProcessors = new LinkedList<IRequestProcessor>();
@@ -41,7 +40,9 @@ public final class HttpHelper {
 
 	/**
 	 * Add a request processor.
-	 * @param requestProcessor A subclass of IRequestProcessor
+	 * 
+	 * @param requestProcessor
+	 *            A subclass of IRequestProcessor
 	 */
 	public void addRequestProcessor(IRequestProcessor requestProcessor) {
 		this.requestProcessors.add(requestProcessor);
@@ -49,7 +50,9 @@ public final class HttpHelper {
 
 	/**
 	 * Apply request processors.
-	 * @param getRequest The HTTP request object
+	 * 
+	 * @param getRequest
+	 *            The HTTP request object
 	 * @return The processed HTTP request object
 	 */
 	private HttpRequestBase applyRequestProcessors(HttpRequestBase getRequest) {
@@ -61,48 +64,63 @@ public final class HttpHelper {
 
 	/**
 	 * Perform a GET request.
-	 * @param uri Full URI of the server resource
+	 * 
+	 * @param uri
+	 *            Full URI of the server resource
 	 * @return A HttpResponse instance
+	 * @throws IOException IOException
 	 */
-	public HttpResponse get(String uri) {
+	public HttpResponse get(String uri) throws IOException {
 		final HttpRequestBase request = new HttpGet(uri);
 		return this.execute(this.applyRequestProcessors(request));
 	}
 
 	/**
 	 * Perform a POST request without body data.
-	 * @param uri Full URI of the server resource
+	 * 
+	 * @param uri
+	 *            Full URI of the server resource
 	 * @return A HttpResponse instance
+	 * @throws IOException IOException
 	 */
-	public HttpResponse post(String uri) {
+	public HttpResponse post(String uri) throws IOException {
 		return this.post(uri, null, null);
 	}
 
 	/**
 	 * Perform a POST request with attached JSONObject entity.
-	 * @param uri Full URI of the server resource
-	 * @param data A NameValuePair array containing
+	 * 
+	 * @param uri
+	 *            Full URI of the server resource
+	 * @param data
+	 *            A NameValuePair array containing
 	 * @return A HttpResponse instance
+	 * @throws IOException IOException
 	 */
-	public HttpResponse post(String uri, JSONObject data) {
+	public HttpResponse post(String uri, JSONObject data) throws IOException {
 		try {
 			final StringEntity stringEntity = new StringEntity(data.toString(2));
 			return this.post(uri, stringEntity, "application/json");
 		} catch (UnsupportedEncodingException e) {
 			throw new BierIdeeException("Unsupported encoding for POST body data.", e);
-		} catch(JSONException e){
+		} catch (JSONException e) {
 			throw new BierIdeeException("Could not properly decode JSON body data.", e);
 		}
 	}
 
 	/**
 	 * Perform a POST request with attached entity.
-	 * @param uri Full URI of the server resource
-	 * @param data A NameValuePair array containing
-	 * @param contentType The Content-type string
+	 * 
+	 * @param uri
+	 *            Full URI of the server resource
+	 * @param data
+	 *            A NameValuePair array containing
+	 * @param contentType
+	 *            The Content-type string
 	 * @return A HttpResponse instance
+	 * @throws IOException IOException
 	 */
-	public HttpResponse post(String uri, AbstractHttpEntity data, String contentType) {
+	public HttpResponse post(String uri, AbstractHttpEntity data, String contentType) throws IOException {
 		final HttpPost request = new HttpPost(uri);
 		if (data != null) {
 			request.setEntity(data);
@@ -115,38 +133,50 @@ public final class HttpHelper {
 
 	/**
 	 * Perform a PUT request without body data.
-	 * @param uri Full URI of the server resource
+	 * 
+	 * @param uri
+	 *            Full URI of the server resource
 	 * @return A HttpResponse instance
+	 * @throws IOException IOException
 	 */
-	public HttpResponse put(String uri) {
+	public HttpResponse put(String uri) throws IOException {
 		return this.put(uri, null, null);
 	}
 
 	/**
 	 * Perform a PUT request with attached JSONObject entity.
-	 * @param uri Full URI of the server resource
-	 * @param data A NameValuePair array containing
+	 * 
+	 * @param uri
+	 *            Full URI of the server resource
+	 * @param data
+	 *            A NameValuePair array containing
 	 * @return A HttpResponse instance
+	 * @throws IOException IOException
 	 */
-	public HttpResponse put(String uri, JSONObject data) {
+	public HttpResponse put(String uri, JSONObject data) throws IOException {
 		try {
 			final StringEntity stringEntity = new StringEntity(data.toString(2));
 			return this.put(uri, stringEntity, "application/json");
 		} catch (UnsupportedEncodingException e) {
 			throw new BierIdeeException("Unsupported encoding for PUT body data.", e);
-		} catch(JSONException e){
+		} catch (JSONException e) {
 			throw new BierIdeeException("Could not properly decode JSON body data.", e);
 		}
 	}
 
 	/**
 	 * Perform a PUT request with attached entity.
-	 * @param uri Full URI of the server resource
-	 * @param data A NameValuePair array containing
-	 * @param contentType The Content-type string
+	 * 
+	 * @param uri
+	 *            Full URI of the server resource
+	 * @param data
+	 *            A NameValuePair array containing
+	 * @param contentType
+	 *            The Content-type string
 	 * @return A HttpResponse instance
+	 * @throws IOException IOException
 	 */
-	public HttpResponse put(String uri, AbstractHttpEntity data, String contentType) {
+	public HttpResponse put(String uri, AbstractHttpEntity data, String contentType) throws IOException {
 		final HttpPut request = new HttpPut(uri);
 		if (data != null) {
 			request.setEntity(data);
@@ -159,20 +189,26 @@ public final class HttpHelper {
 
 	/**
 	 * Perform a DELETE request.
-	 * @param uri Full URI of the server resource
+	 * 
+	 * @param uri
+	 *            Full URI of the server resource
 	 * @return A HttpResponse instance
+	 * @throws IOException IOException
 	 */
-	public HttpResponse delete(String uri) {
+	public HttpResponse delete(String uri) throws IOException {
 		final HttpRequestBase request = new HttpDelete(uri);
 		return this.execute(this.applyRequestProcessors(request));
 	}
 
 	/**
 	 * Actually perform a request.
-	 * @param request HttpRequest to execute
+	 * 
+	 * @param request
+	 *            HttpRequest to execute
 	 * @return A HttpResponse instance
+	 * @throws IOException IOException
 	 */
-	private HttpResponse execute(HttpRequestBase request) {
+	private HttpResponse execute(HttpRequestBase request) throws IOException {
 		Log.d(LOG_TAG, request.getMethod() + " " + request.getURI());
 
 		// Initialize HTTP parameters
@@ -186,18 +222,12 @@ public final class HttpHelper {
 		httpParameters.setParameter(CoreProtocolPNames.USER_AGENT, USER_AGENT);
 
 		// Set proxy (for testing purposes)
-		//final HttpHost proxy = new HttpHost("192.168.2.33", 8080); // your proxy
-		//httpParameters.setParameter(ConnRoutePNames.DEFAULT_PROXY, proxy);
+		// final HttpHost proxy = new HttpHost("192.168.2.33", 8080); // your proxy
+		// httpParameters.setParameter(ConnRoutePNames.DEFAULT_PROXY, proxy);
 
 		// Initialize HttpClient with previously defined parameters
 		final HttpClient client = new DefaultHttpClient(httpParameters);
 
-		// TODO IOException weiterwerfen
-		try {
-			return client.execute(request);
-		} catch (IOException e) {
-			e.printStackTrace();
-			throw new BierIdeeException("IOException in " + request.getMethod().toUpperCase() + " request.", e);
-		}
+		return client.execute(request);
 	}
 }

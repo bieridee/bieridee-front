@@ -72,7 +72,13 @@ public final class BreweryDetailActivity extends Activity {
 		@Override
 		protected JSONObject doInBackground(Void... voids) {
 			final String uri = Res.getURI(Res.BREWERY_DOCUMENT, Long.toString(BreweryDetailActivity.this.breweryId));
-			final HttpResponse response = BreweryDetailActivity.this.httpHelper.get(uri);
+			HttpResponse response = null;
+			try {
+				response = BreweryDetailActivity.this.httpHelper.get(uri);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 
 			if (response != null) {
 				final int statusCode = response.getStatusLine().getStatusCode();

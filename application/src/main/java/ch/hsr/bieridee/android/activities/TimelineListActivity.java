@@ -99,7 +99,13 @@ public class TimelineListActivity extends ListActivity {
 				resourceUri += "?username=" + TimelineListActivity.this.username;
 			}
 			final HttpHelper httpHelper = AuthJsonHttp.create();
-			final HttpResponse response = httpHelper.get(Res.getURI(resourceUri));
+			HttpResponse response = null;
+			try {
+				response = httpHelper.get(Res.getURI(resourceUri));
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 
 			if (response != null) {
 				final int statusCode = response.getStatusLine().getStatusCode();
