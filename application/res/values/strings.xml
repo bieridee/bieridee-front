@@ -142,7 +142,6 @@
     <string name="timelinelist_longAgo">vor Urzeiten</string>
     <string name="timelinelist_feltThirsty">%1$s war durstig!</string>
     <string name="timelinelist_ratedBeer">%1$s rated </string>
-
     <plurals name="numberOfSeconds">
         <item quantity="one">vor %1$d Sekunde</item>
         <item quantity="other">vor %1$d Sekunden</item>
@@ -159,5 +158,8 @@
         <item quantity="one">vor %1$d Tag</item>
         <item quantity="other">vor %1$d Tagen</item>
     </plurals>
+
+	<!-- Barcode scan -->
+	<string name="barcodescan_title">Strichcode scannen</string>
 
 </resources>

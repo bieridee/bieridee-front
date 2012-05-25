@@ -45,6 +45,7 @@ public class HomeScreenActivity extends Activity {
 
 			}
 		});
+
 		findViewById(R.id_dashboardscreen.buttonRating).setOnClickListener(notYetImplementedListener);
 		
 		if(this.getIntent().getExtras() != null && this.getIntent().getExtras().containsKey("errormessage")) {
@@ -60,6 +61,13 @@ public class HomeScreenActivity extends Activity {
 			final AlertDialog info = builder.create();
 			info.show();
 		}
+
+		/*findViewById(R.id_dashboardscreen.buttonRating).setOnClickListener(new OnClickListener() {
+			public void onClick(View view) {
+				final Intent intent = new Intent(view.getContext(), BarcodeScanActivity.class);
+				startActivity(intent);
+			}
+		});*/
 	}
 
 	@Override
