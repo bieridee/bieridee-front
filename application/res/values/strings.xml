@@ -155,5 +155,11 @@
         <item quantity="one">vor %1$d Tag</item>
         <item quantity="other">vor %1$d Tagen</item>
     </plurals>
+    
+    <!-- Recommendations -->
+    <string name="recommendations_title">Bierempfehlungen</string>
+    <string name="recommendations_absoluteWeight">Diese Empfehlung hat eine Gewichtung von %1$.0f</string>
+    
+    
 
 </resources>

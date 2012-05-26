@@ -29,12 +29,7 @@ public class HomeScreenActivity extends Activity {
 		this.addOnClickListener((Button) findViewById(R.id_dashboardscreen.buttonBreweries), BreweryListActivity.class);
 		this.addOnClickListener((Button) findViewById(R.id_dashboardscreen.buttonCreate), BeerCreateActivity.class);
 		this.addOnClickListener((Button) findViewById(R.id_dashboardscreen.buttonTimeline), TimelineListActivity.class);
-
-		final OnClickListener notYetImplementedListener = new OnClickListener() {
-			public void onClick(View view) {
-				Toast.makeText(HomeScreenActivity.this.getBaseContext(), "TODO implement!", Toast.LENGTH_LONG).show();
-			}
-		};
+		this.addOnClickListener((Button) findViewById(R.id_dashboardscreen.buttonRecommendations), RecommendationsListActivity.class);
 
 		findViewById(R.id_dashboardscreen.buttonProfile).setOnClickListener(new OnClickListener() {
 
@@ -45,7 +40,6 @@ public class HomeScreenActivity extends Activity {
 
 			}
 		});
-		findViewById(R.id_dashboardscreen.buttonRating).setOnClickListener(notYetImplementedListener);
 	}
 
 	@Override
