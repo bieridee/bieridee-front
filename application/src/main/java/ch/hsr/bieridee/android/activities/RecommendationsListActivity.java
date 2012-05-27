@@ -13,6 +13,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -24,13 +25,14 @@ import ch.hsr.bieridee.android.config.Auth;
 import ch.hsr.bieridee.android.config.Res;
 import ch.hsr.bieridee.android.http.AuthJsonHttp;
 import ch.hsr.bieridee.android.http.HttpHelper;
+import ch.hsr.bieridee.android.utils.ErrorHelper;
 
 /**
  * Activity that shows a list of beer recommendations.
  */
 public class RecommendationsListActivity extends ListActivity {
 
-	//private static final String LOG_TAG = RecommendationsListActivity.class.getName();
+	private static final String LOG_TAG = RecommendationsListActivity.class.getName();
 	private RecommendationsListAdapter adapter;
 	private ProgressDialog progressDialog;
 	private HttpHelper httpHelper;
@@ -80,6 +82,7 @@ public class RecommendationsListActivity extends ListActivity {
 	 * Async task to get recommedations from server and update UI.
 	 */
 	private class GetRecommendationsData extends AsyncTask<Void, Void, JSONArray> {
+		
 		@Override
 		protected void onPreExecute() {
 			RecommendationsListActivity.this.progressDialog = ProgressDialog.show(RecommendationsListActivity.this, getString(R.string.pleaseWait), getString(R.string.loadingData), true);
@@ -87,7 +90,13 @@ public class RecommendationsListActivity extends ListActivity {
 
 		@Override
 		protected JSONArray doInBackground(Void... voids) {
-			final HttpResponse response = RecommendationsListActivity.this.httpHelper.get(Res.getURI(Res.USER_RECOMMENDATION_COLLECTION, Auth.getUsername()));
+			HttpResponse response = null;
+			try {
+				response = RecommendationsListActivity.this.httpHelper.get(Res.getURI(Res.USER_RECOMMENDATION_COLLECTION, Auth.getUsername()));
+			} catch (IOException e) {
+				Log.d(LOG_TAG, e.getMessage(), e);
+				ErrorHelper.onError(RecommendationsListActivity.this.getString(R.string.connectionError), RecommendationsListActivity.this);
+			}
 
 			if (response != null) {
 				final int statusCode = response.getStatusLine().getStatusCode();
@@ -96,9 +105,11 @@ public class RecommendationsListActivity extends ListActivity {
 						final String responseText = new BasicResponseHandler().handleResponse(response);
 						return new JSONArray(responseText);
 					} catch (IOException e) {
-						e.printStackTrace();
+						Log.d(LOG_TAG, e.getMessage(), e);
+						ErrorHelper.onError(RecommendationsListActivity.this.getString(R.string.malformedData), RecommendationsListActivity.this);
 					} catch (JSONException e) {
-						e.printStackTrace();
+						Log.d(LOG_TAG, e.getMessage(), e);
+						ErrorHelper.onError(RecommendationsListActivity.this.getString(R.string.malformedData), RecommendationsListActivity.this);
 					}
 				}
 			}

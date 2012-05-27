@@ -102,7 +102,7 @@ public abstract class JsonListAdapter extends BaseAdapter {
 	 * @return The position
 	 */
 	public int getPositionOf(long id) {
-		for (int i = 0; i < getCount(); ++i) {
+		for (int i = 0; i < this.getCount(); ++i) {
 			if (this.getItemId(i) == id) {
 				return i;
 			}

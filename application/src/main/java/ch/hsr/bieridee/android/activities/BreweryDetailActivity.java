@@ -1,24 +1,24 @@
 package ch.hsr.bieridee.android.activities;
 
-import android.app.Activity;
-import android.app.ProgressDialog;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.util.Log;
-import android.widget.TextView;
-import android.widget.Toast;
-import ch.hsr.bieridee.android.R;
-import ch.hsr.bieridee.android.config.Res;
-import ch.hsr.bieridee.android.exceptions.BierIdeeException;
-import ch.hsr.bieridee.android.http.AuthJsonHttp;
-import ch.hsr.bieridee.android.http.HttpHelper;
+import java.io.IOException;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.util.Log;
+import android.widget.TextView;
+import ch.hsr.bieridee.android.R;
+import ch.hsr.bieridee.android.config.Res;
+import ch.hsr.bieridee.android.http.AuthJsonHttp;
+import ch.hsr.bieridee.android.http.HttpHelper;
+import ch.hsr.bieridee.android.utils.ErrorHelper;
 
 /**
  * Activity that shows a brewery detail.
@@ -72,7 +72,13 @@ public final class BreweryDetailActivity extends Activity {
 		@Override
 		protected JSONObject doInBackground(Void... voids) {
 			final String uri = Res.getURI(Res.BREWERY_DOCUMENT, Long.toString(BreweryDetailActivity.this.breweryId));
-			final HttpResponse response = BreweryDetailActivity.this.httpHelper.get(uri);
+			HttpResponse response = null;
+			try {
+				response = BreweryDetailActivity.this.httpHelper.get(uri);
+			} catch (IOException e) {
+				Log.d(LOG_TAG, e.getMessage(), e);
+				ErrorHelper.onError(BreweryDetailActivity.this.getString(R.string.connectionError), BreweryDetailActivity.this);
+			}
 
 			if (response != null) {
 				final int statusCode = response.getStatusLine().getStatusCode();
@@ -81,10 +87,11 @@ public final class BreweryDetailActivity extends Activity {
 						final String responseText = new BasicResponseHandler().handleResponse(response);
 						return new JSONObject(responseText);
 					} catch (IOException e) {
-						throw new BierIdeeException("IOException in GetBreweryDetail::doInBackground", e);
+						Log.d(LOG_TAG, e.getMessage(), e);
+						ErrorHelper.onError(BreweryDetailActivity.this.getString(R.string.malformedData), BreweryDetailActivity.this);
 					} catch (JSONException e) {
-						Toast.makeText(BreweryDetailActivity.this, getString(R.string.brewerydetail_fail_loadDetail), Toast.LENGTH_LONG).show();
-						e.printStackTrace();
+						Log.d(LOG_TAG, e.getMessage(), e);
+						ErrorHelper.onError(BreweryDetailActivity.this.getString(R.string.malformedData), BreweryDetailActivity.this);
 					}
 				} else {
 					Log.e(LOG_TAG, "HTTP Response " + statusCode + " in GetBreweryDetail::doInBackground");
@@ -106,8 +113,8 @@ public final class BreweryDetailActivity extends Activity {
 					BreweryDetailActivity.this.size.setText(BreweryDetailActivity.this.translateSize(size));
 					BreweryDetailActivity.this.description.setText(description);
 				} catch (JSONException e) {
-					Toast.makeText(BreweryDetailActivity.this, getString(R.string.brewerydetail_fail_loadDetail), Toast.LENGTH_LONG).show();
-					e.printStackTrace();
+					Log.d(LOG_TAG, e.getMessage(), e);
+					ErrorHelper.onError(BreweryDetailActivity.this.getString(R.string.malformedData), BreweryDetailActivity.this);
 				}
 			} else {
 				Log.w(LOG_TAG, "Result was null in GetBreweryDetail::onPostExecute");

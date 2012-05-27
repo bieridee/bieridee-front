@@ -1,13 +1,17 @@
 package ch.hsr.bieridee.android.adapters;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import ch.hsr.bieridee.android.BierideeApplication;
 import ch.hsr.bieridee.android.R;
+import ch.hsr.bieridee.android.utils.ErrorHelper;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,7 +23,8 @@ import java.util.ArrayList;
  * 
  */
 public class BeerListAdapter extends BaseAdapter {
-
+	
+	private static final String LOG_TAG = BeerListAdapter.class.getName();
 	private final Activity activity;
 	private ArrayList<JSONObject> beers;
 
@@ -35,8 +40,8 @@ public class BeerListAdapter extends BaseAdapter {
 					this.beers.remove(i);
 				}
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Log.d(LOG_TAG, e.getMessage(), e);
+				ErrorHelper.onError(BierideeApplication.getAppContext().getString(R.string.malformedData), this.activity);
 			}
 		}
 	}
@@ -67,8 +72,8 @@ public class BeerListAdapter extends BaseAdapter {
 			try {
 				this.beers.add((JSONObject) jsonBeers.get(i));
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Log.d(LOG_TAG, e.getMessage(), e);
+				ErrorHelper.onError(BierideeApplication.getAppContext().getString(R.string.malformedData), this.activity);
 			}
 		}
 	}
@@ -138,7 +143,8 @@ public class BeerListAdapter extends BaseAdapter {
 			}
 
 		} catch (JSONException e) {
-			e.printStackTrace(); // TODO Auto-generated catch block
+			Log.d(LOG_TAG, e.getMessage(), e);
+			ErrorHelper.onError(BierideeApplication.getAppContext().getString(R.string.malformedData), this.activity);
 		}
 
 		return convertView;

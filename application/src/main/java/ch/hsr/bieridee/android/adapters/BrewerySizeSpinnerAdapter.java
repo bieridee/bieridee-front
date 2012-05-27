@@ -2,7 +2,12 @@ package ch.hsr.bieridee.android.adapters;
 
 import org.json.JSONException;
 
+import ch.hsr.bieridee.android.BierideeApplication;
+import ch.hsr.bieridee.android.R;
+import ch.hsr.bieridee.android.utils.ErrorHelper;
+
 import android.app.Activity;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckedTextView;
@@ -15,6 +20,8 @@ import android.widget.TextView;
  */
 public class BrewerySizeSpinnerAdapter extends JsonListAdapter implements SpinnerAdapter {
 
+	private static final String LOG_TAG = BrewerySizeSpinnerAdapter.class.getName();
+	
 	/**
 	 * @param activity
 	 *            The activity
@@ -80,8 +87,8 @@ public class BrewerySizeSpinnerAdapter extends JsonListAdapter implements Spinne
 		try {
 			value = (String) this.jsonArray.get(position);
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.d(LOG_TAG, e.getMessage(), e);
+			ErrorHelper.onError(BierideeApplication.getAppContext().getString(R.string.malformedData), this.activity);
 		}
 		return value;
 	}

@@ -1,7 +1,6 @@
 package ch.hsr.bieridee.android.activities;
 
 import java.io.IOException;
-import java.util.HashMap;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -31,6 +30,7 @@ import ch.hsr.bieridee.android.config.Res;
 import ch.hsr.bieridee.android.exceptions.BierIdeeException;
 import ch.hsr.bieridee.android.http.AuthJsonHttp;
 import ch.hsr.bieridee.android.http.HttpHelper;
+import ch.hsr.bieridee.android.utils.ErrorHelper;
 
 /**
  * Activity that shows a beer detail.
@@ -55,6 +55,9 @@ public class BeerDetailActivity extends Activity {
 	private static final String LOG_TAG = BeerDetailActivity.class.getName();
 	public static final String EXTRA_BEER_ID = "beerId";
 	private HttpHelper httpHelper;
+
+	private GetBeerDetail getBeerDetailTask;
+	private GetBeerRating getBeerRatingTask;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -92,8 +95,10 @@ public class BeerDetailActivity extends Activity {
 
 		this.setAddTagButtonAction();
 
-		new GetBeerDetail().execute();
-		new GetBeerRating().execute();
+		this.getBeerDetailTask = new GetBeerDetail();
+		this.getBeerDetailTask.execute();
+		this.getBeerRatingTask = new GetBeerRating();
+		this.getBeerRatingTask.execute();
 
 	}
 
@@ -178,7 +183,13 @@ public class BeerDetailActivity extends Activity {
 		@Override
 		protected JSONObject doInBackground(Void... voids) {
 			final String uri = Res.getURI(Res.BEER_DOCUMENT, Long.toString(BeerDetailActivity.this.beerId));
-			final HttpResponse response = BeerDetailActivity.this.httpHelper.get(uri);
+			HttpResponse response = null;
+			try {
+				response = BeerDetailActivity.this.httpHelper.get(uri);
+			} catch (IOException e) {
+				Log.d(LOG_TAG, e.getMessage(), e);
+				BeerDetailActivity.this.onError(BeerDetailActivity.this.getString(R.string.connectionError));
+			}
 
 			if (response != null) {
 				final int statusCode = response.getStatusLine().getStatusCode();
@@ -187,11 +198,11 @@ public class BeerDetailActivity extends Activity {
 						final String responseText = new BasicResponseHandler().handleResponse(response);
 						return new JSONObject(responseText);
 					} catch (IOException e) {
-						Log.e(LOG_TAG, "IOException in GetBeerDetail::doInBackground");
-						e.printStackTrace();
+						Log.d(LOG_TAG, e.getMessage(), e);
+						BeerDetailActivity.this.onError(BeerDetailActivity.this.getString(R.string.malformedData));
 					} catch (JSONException e) {
-						Log.e(LOG_TAG, "JSONException in GetBeerDetail::doInBackground");
-						e.printStackTrace();
+						Log.d(LOG_TAG, e.getMessage(), e);
+						BeerDetailActivity.this.onError(BeerDetailActivity.this.getString(R.string.malformedData));
 					}
 				} else {
 					Log.e(LOG_TAG, "HTTP Response " + statusCode + " in GetBeerDetail::doInBackground");
@@ -203,6 +214,11 @@ public class BeerDetailActivity extends Activity {
 
 		@Override
 		protected void onPostExecute(JSONObject result) {
+			Log.d(LOG_TAG, "onPostExecute()");
+			if (isCancelled()) {
+				Log.d(LOG_TAG, "cancel onPostExecute()");
+				return;
+			}
 			if (result != null) {
 				try {
 					final String name = result.getString("name");
@@ -262,7 +278,13 @@ public class BeerDetailActivity extends Activity {
 
 			final String uri = Res.getURI(Res.RATING_DOCUMENT, Long.toString(BeerDetailActivity.this.beerId), BeerDetailActivity.this.username);
 			Log.d(LOG_TAG, "GET " + uri);
-			final HttpResponse response = BeerDetailActivity.this.httpHelper.get(uri);
+			HttpResponse response = null;
+			try {
+				response = BeerDetailActivity.this.httpHelper.get(uri);
+			} catch (IOException e) {
+				Log.d(LOG_TAG, e.getMessage(), e);
+				BeerDetailActivity.this.onError(BeerDetailActivity.this.getString(R.string.connectionError));
+			}
 
 			if (response != null) {
 				final int statusCode = response.getStatusLine().getStatusCode();
@@ -271,11 +293,11 @@ public class BeerDetailActivity extends Activity {
 						final String responseText = new BasicResponseHandler().handleResponse(response);
 						return new JSONObject(responseText);
 					} catch (IOException e) {
-						Log.e(LOG_TAG, "IOException in GetBeerRating::doInBackground");
-						e.printStackTrace();
+						Log.d(LOG_TAG, e.getMessage(), e);
+						BeerDetailActivity.this.onError(BeerDetailActivity.this.getString(R.string.malformedData));
 					} catch (JSONException e) {
-						Toast.makeText(BeerDetailActivity.this, getString(R.string.beerdetail_fail_loadRating), Toast.LENGTH_LONG).show();
-						e.printStackTrace();
+						Log.d(LOG_TAG, e.getMessage(), e);
+						BeerDetailActivity.this.onError(BeerDetailActivity.this.getString(R.string.malformedData));
 					}
 				} else if (statusCode == HttpStatus.SC_NOT_FOUND) {
 					Log.i(LOG_TAG, "No current rating found.");
@@ -291,13 +313,17 @@ public class BeerDetailActivity extends Activity {
 		@Override
 		protected void onPostExecute(JSONObject result) {
 			Log.d(LOG_TAG, "onPostExecute()");
+			if (isCancelled()) {
+				Log.d(LOG_TAG, "cancel onPostExecute()");
+				return;
+			}
 			if (result != null) {
 				try {
 					final int currentRating = result.getInt("rating");
 					BeerDetailActivity.this.ratingBar.setRating(currentRating);
 				} catch (JSONException e) {
-					Log.e(LOG_TAG, "JSONException in GetBeerRating::onPostExecute");
-					e.printStackTrace();
+					Log.d(LOG_TAG, e.getMessage(), e);
+					BeerDetailActivity.this.onError(BeerDetailActivity.this.getString(R.string.malformedData));
 				}
 			} else {
 				Log.w(LOG_TAG, "Result was null in GetBeerRating::onPostExecute");
@@ -315,7 +341,13 @@ public class BeerDetailActivity extends Activity {
 			Log.d(LOG_TAG, "TrackConsumption doInBackground()");
 
 			final String uri = Res.getURI(Res.CONSUMPTION_DOCUMENT, Long.toString(BeerDetailActivity.this.beerId), BeerDetailActivity.this.username);
-			final HttpResponse response = BeerDetailActivity.this.httpHelper.post(uri);
+			HttpResponse response = null;
+			try {
+				response = BeerDetailActivity.this.httpHelper.post(uri);
+			} catch (IOException e) {
+				// fail silently, error handled in onPostExecute
+				Log.d(LOG_TAG, e.getMessage(), e);
+			}
 
 			if (response == null) {
 				return false;
@@ -349,7 +381,13 @@ public class BeerDetailActivity extends Activity {
 				throw new BierIdeeException("Could not create rating JSONObject", e);
 			}
 
-			final HttpResponse response = BeerDetailActivity.this.httpHelper.post(uri, newRating);
+			HttpResponse response = null;
+			try {
+				response = BeerDetailActivity.this.httpHelper.post(uri, newRating);
+			} catch (IOException e) {
+				// fail silently, error handled in onPostExecute
+				Log.d(LOG_TAG, e.getMessage(), e);
+			}
 
 			if (response == null) {
 				return false;
@@ -376,17 +414,22 @@ public class BeerDetailActivity extends Activity {
 			Log.d(LOG_TAG, "SaveRating doInBackground()");
 
 			final String uri = Res.getURIwithGETParams(Res.TAG_COLLECTION, Res.TAG_COLLECTION_FILTER_PARAMETER_BEERID, BeerDetailActivity.this.beerId + "");
-			// final String uri = Res.getURI(Res.TAG_COLLECTION + "?beerId=" + BeerDetailActivity.this.beerId);
 			Log.d("info", "called uri: " + uri);
 
 			final JSONObject newTag = new JSONObject();
 			try {
 				newTag.put("value", tags[0]);
 			} catch (JSONException e) {
-				throw new BierIdeeException("Could not create rating JSONObject", e);
+				Log.d(LOG_TAG, e.getMessage(), e);
+				return false;
 			}
 
-			final HttpResponse response = BeerDetailActivity.this.httpHelper.post(uri, newTag);
+			HttpResponse response = null;
+			try {
+				response = BeerDetailActivity.this.httpHelper.post(uri, newTag);
+			} catch (IOException e) {
+				Log.d(LOG_TAG, e.getMessage(), e);
+			}
 
 			if (response == null) {
 				return false;
@@ -435,4 +478,15 @@ public class BeerDetailActivity extends Activity {
 			}
 		});
 	}
+
+	private void onError(String message) {
+		if (this.getBeerDetailTask != null) {
+			this.getBeerDetailTask.cancel(true);
+		}
+		if (this.getBeerRatingTask != null) {
+			this.getBeerRatingTask.cancel(true);
+		}
+		ErrorHelper.onError(message, this);
+	}
+
 }

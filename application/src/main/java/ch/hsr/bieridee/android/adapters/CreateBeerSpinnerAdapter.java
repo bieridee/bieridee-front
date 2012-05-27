@@ -4,9 +4,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import ch.hsr.bieridee.android.BierideeApplication;
 import ch.hsr.bieridee.android.R;
+import ch.hsr.bieridee.android.utils.ErrorHelper;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckedTextView;
@@ -18,7 +21,9 @@ import android.widget.TextView;
  * 
  */
 public class CreateBeerSpinnerAdapter extends JsonListAdapter implements SpinnerAdapter {
-
+	
+	private static final String LOG_TAG = CreateBeerSpinnerAdapter.class.getName();
+	
 	/**
 	 * @param activity The activity
 	 */
@@ -47,7 +52,8 @@ public class CreateBeerSpinnerAdapter extends JsonListAdapter implements Spinner
 		try {
 			name.setText(jsonBrewery.getString("name"));
 		} catch (JSONException e) {
-			e.printStackTrace(); // TODO Auto-generated catch block
+			Log.d(LOG_TAG, e.getMessage(), e);
+			ErrorHelper.onError(BierideeApplication.getAppContext().getString(R.string.malformedData), this.activity);
 		}
 
 		return convertView;
@@ -75,7 +81,8 @@ public class CreateBeerSpinnerAdapter extends JsonListAdapter implements Spinner
 		try {
 			name.setText(jsonBrewery.getString("name"));
 		} catch (JSONException e) {
-			e.printStackTrace(); // TODO Auto-generated catch block
+			Log.d(LOG_TAG, e.getMessage(), e);
+			ErrorHelper.onError(BierideeApplication.getAppContext().getString(R.string.malformedData), this.activity);
 		}
 
 		return convertView;

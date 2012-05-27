@@ -1,5 +1,6 @@
 package ch.hsr.bieridee.android.http.requestprocessors;
 
+import android.util.Log;
 import ch.hsr.bieridee.android.config.Auth;
 import ch.hsr.bieridee.android.exceptions.BierIdeeException;
 import ch.hsr.bieridee.android.http.IRequestProcessor;
@@ -30,6 +31,7 @@ public class HMACAuthRequestProcessor implements IRequestProcessor {
 		this.username = Auth.getUsername();
 		this.password = Auth.getPassword();
 		if (this.username.isEmpty() || this.password.isEmpty()) {
+			Log.d(LOG_TAG, "Could not retrieve username / password for signing the request.");
 			throw new BierIdeeException("Could not retrieve username / password for signing the request.");
 		}
 	}
@@ -55,7 +57,7 @@ public class HMACAuthRequestProcessor implements IRequestProcessor {
 		final String method = request.getMethod();
 		final String accept = request.getFirstHeader("Accept").getValue();
 
-		String body = "";
+		final String body = "";
 		String contentLength = "0";
 
 		if (request instanceof HttpEntityEnclosingRequest) {
@@ -84,12 +86,15 @@ public class HMACAuthRequestProcessor implements IRequestProcessor {
 
 			macString = new String(Hex.encodeHex(macBytes));
 		} catch (NoSuchAlgorithmException e) {
+			Log.d(LOG_TAG, "HmacSHA256 algorithm missing", e);
 			throw new BierIdeeException("HmacSHA256 algorithm missing", e);
 		} catch (InvalidKeyException e) {
+			Log.d(LOG_TAG, "Invalid key for HmacSHA256 signing", e);
 			throw new BierIdeeException("Invalid key for HmacSHA256 signing", e);
 		}
 
 		if (macString.isEmpty()) {
+			Log.d(LOG_TAG, "Empty Authorization-HMAC");
 			throw new BierIdeeException("Empty Authorization-HMAC");
 		}
 		final String authorizationHeader = this.username + ":" + macString;

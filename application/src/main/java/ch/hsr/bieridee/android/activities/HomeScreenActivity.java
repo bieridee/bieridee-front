@@ -18,8 +18,6 @@ import ch.hsr.bieridee.android.config.Auth;
  */
 public class HomeScreenActivity extends Activity {
 
-	private static final String LOG_TAG = HomeScreenActivity.class.getName();
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -51,7 +49,7 @@ public class HomeScreenActivity extends Activity {
 			startActivityForResult(intent, LoginScreenActivity.REQUEST_CODE_LOGIN);
 		}
 	}
-
+	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (resultCode == LoginScreenActivity.RESULT_CODE_EXIT) {

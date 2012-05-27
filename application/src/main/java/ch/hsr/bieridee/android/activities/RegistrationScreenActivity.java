@@ -1,5 +1,7 @@
 package ch.hsr.bieridee.android.activities;
 
+import java.io.IOException;
+
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -19,6 +21,8 @@ import ch.hsr.bieridee.android.exceptions.BierIdeeException;
 import ch.hsr.bieridee.android.http.HttpHelper;
 import ch.hsr.bieridee.android.http.requestprocessors.AcceptRequestProcessor;
 import ch.hsr.bieridee.android.utils.Crypto;
+import ch.hsr.bieridee.android.utils.ErrorHelper;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.json.JSONException;
@@ -112,9 +116,8 @@ public class RegistrationScreenActivity extends Activity {
 	}
 
 	/**
-	 * Async task to send registration HTTP request.
-	 * {@code execute()} expects the following parameters (order relevant!):
-	 * username, prename, surname, email, password
+	 * Async task to send registration HTTP request. {@code execute()} expects the following parameters (order
+	 * relevant!): username, prename, surname, email, password
 	 */
 	private class Register extends AsyncTask<String, Void, HttpResponse> {
 		private String username;
@@ -123,16 +126,17 @@ public class RegistrationScreenActivity extends Activity {
 
 		@Override
 		protected void onPreExecute() {
-			RegistrationScreenActivity.this.progressDialog = ProgressDialog.show(
-					RegistrationScreenActivity.this, getString(R.string.pleaseWait), getString(R.string.loadingData), true);
+			RegistrationScreenActivity.this.progressDialog = ProgressDialog.show(RegistrationScreenActivity.this, getString(R.string.pleaseWait), getString(R.string.loadingData), true);
 		}
 
 		@Override
 		protected HttpResponse doInBackground(String... params) {
+			//SUPPRESS CHECKSTYLE: no magic number! 
 			if (params.length != 5) {
 				throw new BierIdeeException("Invalid number of parameters to Register AsyncTask (5 expected, " + params.length + " given).");
 			}
 			this.username = params[0];
+			//SUPPRESS CHECKSTYLE: no magic number! 
 			this.cleartextPassword = params[4];
 			this.hashedPassword = Crypto.hashUserPw(this.cleartextPassword, this.username);
 
@@ -141,16 +145,25 @@ public class RegistrationScreenActivity extends Activity {
 				user.put("username", this.username);
 				user.put("prename", params[1]);
 				user.put("surname", params[2]);
+				//SUPPRESS CHECKSTYLE: no magic number! 
 				user.put("email", params[3]);
 				user.put("password", this.hashedPassword);
 			} catch (JSONException e) {
-				throw new BierIdeeException("Creating the user JSON object failed.", e);
+				Log.d(LOG_TAG, e.getMessage(), e);
+				ErrorHelper.onError(RegistrationScreenActivity.this.getString(R.string.malformedData), RegistrationScreenActivity.this);
 			}
 
-			// Send HTTP request (TODO: In production, this should happen via SSL/TLS)
+			// Send HTTP request (In production, this should happen via SSL/TLS)
 			final HttpHelper httpHelper = new HttpHelper();
 			httpHelper.addRequestProcessor(new AcceptRequestProcessor(AcceptRequestProcessor.ContentType.JSON));
-			return httpHelper.put(Res.getURI(Res.USER_DOCUMENT, this.username), user);
+			HttpResponse response = null;
+			try {
+				response = httpHelper.put(Res.getURI(Res.USER_DOCUMENT, this.username), user);
+			} catch (IOException e) {
+				Log.d(LOG_TAG, e.getMessage(), e);
+				ErrorHelper.onError(RegistrationScreenActivity.this.getString(R.string.connectionError), RegistrationScreenActivity.this);
+			}
+			return response;
 		}
 
 		@Override
@@ -163,11 +176,7 @@ public class RegistrationScreenActivity extends Activity {
 					Auth.setAuth(this.username, this.hashedPassword);
 
 					// Show success message
-					Toast.makeText(
-							RegistrationScreenActivity.this.getApplicationContext(),
-							getString(R.string.registrationscreen_success_registration),
-							Toast.LENGTH_SHORT
-					).show();
+					Toast.makeText(RegistrationScreenActivity.this.getApplicationContext(), getString(R.string.registrationscreen_success_registration), Toast.LENGTH_SHORT).show();
 
 					// Return to login activity
 					final Intent intent = new Intent(RegistrationScreenActivity.this.getBaseContext(), LoginScreenActivity.class);
