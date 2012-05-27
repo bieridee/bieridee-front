@@ -8,7 +8,7 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.res.Resources;
-import android.opengl.Visibility;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -16,14 +16,17 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import ch.hsr.bieridee.android.BierideeApplication;
 import ch.hsr.bieridee.android.R;
+import ch.hsr.bieridee.android.utils.ErrorHelper;
 
 /**
  * The ActionListAdapter adapts the JSON action structure to the Android ListView.
  * 
  */
 public class ActionListAdapter extends BaseAdapter {
-
+	
+	private static final String LOG_TAG = ActionListAdapter.class.getName();
 	private final Activity activity;
 	private ArrayList<JSONObject> actions;
 
@@ -81,8 +84,8 @@ public class ActionListAdapter extends BaseAdapter {
 			beer = jsonAction.getJSONObject("beer");
 			id = beer.getLong("id");
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.d(LOG_TAG, e.getMessage(), e);
+			ErrorHelper.onError(BierideeApplication.getAppContext().getString(R.string.malformedData), this.activity);
 		}
 		return id;
 	}
@@ -133,7 +136,8 @@ public class ActionListAdapter extends BaseAdapter {
 				time.setText(getTimeString(secondsAgo));
 				description.setText(createDetailText(jsonAction, user));
 			} catch (JSONException e) {
-				e.printStackTrace(); // TODO Auto-generated catch block
+				Log.d(LOG_TAG, e.getMessage(), e);
+				ErrorHelper.onError(BierideeApplication.getAppContext().getString(R.string.malformedData), this.activity);
 			}
 		}
 
@@ -141,18 +145,23 @@ public class ActionListAdapter extends BaseAdapter {
 	}
 
 	private String getTimeString(long secondsAgo) {
+		final int secPerMin = 60;
+		final int minPerHour = 60;
+		final int hoursPerDay = 24;
+		final int longAgoLimit = 100;
+		
 		final Resources res = this.activity.getResources();
 		final long seconds = secondsAgo;
-		final long minutes = seconds / 60;
-		final long hours = minutes / 60;
-		final long days = hours / 24;
-		if (seconds < 60) {
+		final long minutes = seconds / secPerMin;
+		final long hours = minutes / minPerHour;
+		final long days = hours / hoursPerDay;
+		if (seconds < secPerMin) {
 			return res.getQuantityString(R.plurals.numberOfSeconds, (int) seconds, seconds);
-		} else if (minutes < 60) {
+		} else if (minutes < minPerHour) {
 			return res.getQuantityString(R.plurals.numberOfMinutes, (int) minutes, minutes);
-		} else if (hours < 24) {
+		} else if (hours < hoursPerDay) {
 			return res.getQuantityString(R.plurals.numberOfHours, (int) hours, hours);
-		} else if (days < 100) {
+		} else if (days < longAgoLimit) {
 			return res.getQuantityString(R.plurals.numberOfDays, (int) days, days);
 		} else {
 			return this.activity.getString(R.string.timelinelist_longAgo);

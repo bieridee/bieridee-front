@@ -10,4 +10,9 @@
         <item name="android:textColor">@color/dashboardButtonText</item>
         <item name="android:background">@null</item>
     </style>
+     <style name="starRating" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/start_rating</item>
+        <item name="android:minHeight">32dip</item>
+        <item name="android:maxHeight">32dip</item>
+    </style>
 </resources>

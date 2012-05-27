@@ -14,6 +14,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -27,12 +28,14 @@ import ch.hsr.bieridee.android.adapters.ActionListAdapter;
 import ch.hsr.bieridee.android.config.Res;
 import ch.hsr.bieridee.android.http.AuthJsonHttp;
 import ch.hsr.bieridee.android.http.HttpHelper;
+import ch.hsr.bieridee.android.utils.ErrorHelper;
 
 /**
  * Activity that shows a list of all actions in our database.
  */
 public class TimelineListActivity extends ListActivity implements ListView.OnScrollListener {
-
+	
+	private static final String LOG_TAG = TimelineListActivity.class.getName();
 	private ActionListAdapter adapter;
 	private ProgressDialog progressDialog;
 	public static final String EXTRA_USERNAME = "username";
@@ -123,7 +126,13 @@ public class TimelineListActivity extends ListActivity implements ListView.OnScr
 				resourceUri += "&username=" + TimelineListActivity.this.username;
 			}
 			final HttpHelper httpHelper = AuthJsonHttp.create();
-			final HttpResponse response = httpHelper.get(Res.getURI(resourceUri));
+			HttpResponse response = null;
+			try {
+				response = httpHelper.get(Res.getURI(resourceUri));
+			} catch (IOException e) {
+				Log.d(LOG_TAG, e.getMessage(), e);
+				ErrorHelper.onError(TimelineListActivity.this.getString(R.string.connectionError),TimelineListActivity.this);
+			}
 
 			if (response != null) {
 				final int statusCode = response.getStatusLine().getStatusCode();
@@ -132,9 +141,11 @@ public class TimelineListActivity extends ListActivity implements ListView.OnScr
 						final String responseText = new BasicResponseHandler().handleResponse(response);
 						return new JSONArray(responseText);
 					} catch (IOException e) {
-						e.printStackTrace();
+						Log.d(LOG_TAG, e.getMessage(), e);
+						ErrorHelper.onError(TimelineListActivity.this.getString(R.string.malformedData),TimelineListActivity.this);
 					} catch (JSONException e) {
-						e.printStackTrace();
+						Log.d(LOG_TAG, e.getMessage(), e);
+						ErrorHelper.onError(TimelineListActivity.this.getString(R.string.malformedData),TimelineListActivity.this);
 					}
 				}
 			}
@@ -223,7 +234,7 @@ public class TimelineListActivity extends ListActivity implements ListView.OnScr
 
 	// SUPPRESS CHECKSTYLE: Method not used but needed by interface
 	public void onScroll(AbsListView arg0, int arg1, int arg2, int arg3) {
-		// nuffin
+		// nuffin (muffin|bluffing)
 	}
 
 	/**

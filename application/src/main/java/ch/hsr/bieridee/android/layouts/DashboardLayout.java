@@ -1,3 +1,4 @@
+//CHECKSTYLE:OFF
 /*
  * Copyright 2011 Google Inc.
  *

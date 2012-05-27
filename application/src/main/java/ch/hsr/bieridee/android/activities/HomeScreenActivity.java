@@ -1,6 +1,8 @@
 package ch.hsr.bieridee.android.activities;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -17,8 +19,6 @@ import ch.hsr.bieridee.android.config.Auth;
  * Activity that shows a list of all beers in our database.
  */
 public class HomeScreenActivity extends Activity {
-
-	private static final String LOG_TAG = HomeScreenActivity.class.getName();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -46,6 +46,20 @@ public class HomeScreenActivity extends Activity {
 			}
 		});
 		findViewById(R.id_dashboardscreen.buttonRating).setOnClickListener(notYetImplementedListener);
+		
+		if(this.getIntent().getExtras() != null && this.getIntent().getExtras().containsKey("errormessage")) {
+			final String message = this.getIntent().getExtras().getString("errormessage");
+			final AlertDialog.Builder builder = new AlertDialog.Builder(HomeScreenActivity.this);
+			builder.setMessage(message)
+			       .setCancelable(false)
+			       .setPositiveButton(HomeScreenActivity.this.getString(android.R.string.ok), new DialogInterface.OnClickListener() {
+			           public void onClick(DialogInterface dialog, int id) {
+			        	   dialog.cancel();
+			           }
+			       }) ;
+			final AlertDialog info = builder.create();
+			info.show();
+		}
 	}
 
 	@Override
@@ -57,7 +71,7 @@ public class HomeScreenActivity extends Activity {
 			startActivityForResult(intent, LoginScreenActivity.REQUEST_CODE_LOGIN);
 		}
 	}
-
+	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (resultCode == LoginScreenActivity.RESULT_CODE_EXIT) {

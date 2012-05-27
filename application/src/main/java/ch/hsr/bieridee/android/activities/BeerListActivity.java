@@ -13,6 +13,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
@@ -26,13 +27,14 @@ import ch.hsr.bieridee.android.adapters.BeerListAdapter;
 import ch.hsr.bieridee.android.config.Res;
 import ch.hsr.bieridee.android.http.AuthJsonHttp;
 import ch.hsr.bieridee.android.http.HttpHelper;
+import ch.hsr.bieridee.android.utils.ErrorHelper;
 
 /**
  * Activity that shows a list of all beers in our database.
  */
 public class BeerListActivity extends ListActivity {
 
-	private static final String LOG_TAG = BeerListActivity.class.getName();
+	private final static String LOG_TAG = BeerListActivity.class.getName();
 	private BeerListAdapter adapter;
 	private ProgressDialog progressDialog;
 	private HttpHelper httpHelper;
@@ -121,7 +123,13 @@ public class BeerListActivity extends ListActivity {
 
 		@Override
 		protected JSONArray doInBackground(Void... voids) {
-			final HttpResponse response = BeerListActivity.this.httpHelper.get(Res.getURI(Res.BEER_COLLECTION));
+			HttpResponse response = null;
+			try {
+				response = BeerListActivity.this.httpHelper.get(Res.getURI(Res.BEER_COLLECTION));
+			} catch (IOException e) {
+				Log.d(LOG_TAG, e.getMessage(), e);
+				ErrorHelper.onError(getString(R.string.connectionError), BeerListActivity.this);
+			}
 
 			if (response != null) {
 				final int statusCode = response.getStatusLine().getStatusCode();
@@ -130,9 +138,11 @@ public class BeerListActivity extends ListActivity {
 						final String responseText = new BasicResponseHandler().handleResponse(response);
 						return new JSONArray(responseText);
 					} catch (IOException e) {
-						e.printStackTrace();
+						Log.d(LOG_TAG, e.getMessage(), e);
+						ErrorHelper.onError(getString(R.string.malformedData), BeerListActivity.this);
 					} catch (JSONException e) {
-						e.printStackTrace();
+						Log.d(LOG_TAG, e.getMessage(), e);
+						ErrorHelper.onError(getString(R.string.malformedData), BeerListActivity.this);
 					}
 				}
 			}
@@ -144,13 +154,14 @@ public class BeerListActivity extends ListActivity {
 			if (result != null) {
 				BeerListActivity.this.adapter.updateData(result);
 				BeerListActivity.this.adapter.notifyDataSetChanged();
-			} // TODO handle else
+			}
 			BeerListActivity.this.progressDialog.dismiss();
 		}
 	}
 
 	/**
-	 * Async task to delete beer from server and update UI.
+	 * Async task to delete beer from server and update UI. 
+	 * --> Currently not supported, thus commented out.
 	 */
 	// private class DeleteBeer extends AsyncTask<Long, Void, Void> {
 	// @Override

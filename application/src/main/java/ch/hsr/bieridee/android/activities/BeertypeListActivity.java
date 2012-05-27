@@ -3,6 +3,7 @@ package ch.hsr.bieridee.android.activities;
 import android.app.ExpandableListActivity;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -11,6 +12,8 @@ import ch.hsr.bieridee.android.adapters.BeertypeListAdapter;
 import ch.hsr.bieridee.android.config.Res;
 import ch.hsr.bieridee.android.http.AuthJsonHttp;
 import ch.hsr.bieridee.android.http.HttpHelper;
+import ch.hsr.bieridee.android.utils.ErrorHelper;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.impl.client.BasicResponseHandler;
@@ -80,7 +83,13 @@ public class BeertypeListActivity extends ExpandableListActivity {
 
 		@Override
 		protected JSONArray doInBackground(Void... voids) {
-			final HttpResponse response = BeertypeListActivity.this.httpHelper.get(Res.getURI(Res.BEERTYPE_COLLECTION));
+			HttpResponse response = null;
+			try {
+				response = BeertypeListActivity.this.httpHelper.get(Res.getURI(Res.BEERTYPE_COLLECTION));
+			} catch (IOException e) {
+				Log.d(LOG_TAG, e.getMessage(), e);
+				ErrorHelper.onError(BeertypeListActivity.this.getString(R.string.connectionError), BeertypeListActivity.this);
+			}
 
 			if (response != null) {
 				final int statusCode = response.getStatusLine().getStatusCode();
@@ -89,9 +98,11 @@ public class BeertypeListActivity extends ExpandableListActivity {
 						final String responseText = new BasicResponseHandler().handleResponse(response);
 						return new JSONArray(responseText);
 					} catch (IOException e) {
-						e.printStackTrace();
+						Log.d(LOG_TAG, e.getMessage(), e);
+						ErrorHelper.onError(BeertypeListActivity.this.getString(R.string.malformedData), BeertypeListActivity.this);
 					} catch (JSONException e) {
-						e.printStackTrace();
+						Log.d(LOG_TAG, e.getMessage(), e);
+						ErrorHelper.onError(BeertypeListActivity.this.getString(R.string.malformedData), BeertypeListActivity.this);
 					}
 				}
 			}

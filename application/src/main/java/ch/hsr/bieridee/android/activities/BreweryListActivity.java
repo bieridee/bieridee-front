@@ -16,6 +16,8 @@ import ch.hsr.bieridee.android.adapters.BreweryListAdapter;
 import ch.hsr.bieridee.android.config.Res;
 import ch.hsr.bieridee.android.http.AuthJsonHttp;
 import ch.hsr.bieridee.android.http.HttpHelper;
+import ch.hsr.bieridee.android.utils.ErrorHelper;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.impl.client.BasicResponseHandler;
@@ -76,15 +78,20 @@ public final class BreweryListActivity extends ListActivity {
 		@Override
 		protected void onPreExecute() {
 			Log.d(LOG_TAG, "onPreExecute()");
-			BreweryListActivity.this.progressDialog = ProgressDialog.show(
-					BreweryListActivity.this, getString(R.string.pleaseWait), getString(R.string.loadingData), true);
+			BreweryListActivity.this.progressDialog = ProgressDialog.show(BreweryListActivity.this, getString(R.string.pleaseWait), getString(R.string.loadingData), true);
 		}
 
 		@Override
 		protected JSONArray doInBackground(Void... voids) {
 			Log.d(LOG_TAG, "doInBackground()");
 
-			final HttpResponse response = BreweryListActivity.this.httpHelper.get(Res.getURI(Res.BREWERY_COLLECTION));
+			HttpResponse response = null;
+			try {
+				response = BreweryListActivity.this.httpHelper.get(Res.getURI(Res.BREWERY_COLLECTION));
+			} catch (IOException e) {
+				Log.d(LOG_TAG, e.getMessage(), e);
+				ErrorHelper.onError(BreweryListActivity.this.getString(R.string.connectionError), BreweryListActivity.this);
+			}
 
 			if (response != null) {
 				final int statusCode = response.getStatusLine().getStatusCode();
@@ -93,9 +100,11 @@ public final class BreweryListActivity extends ListActivity {
 						final String responseText = new BasicResponseHandler().handleResponse(response);
 						return new JSONArray(responseText);
 					} catch (IOException e) {
-						e.printStackTrace();
+						Log.d(LOG_TAG, e.getMessage(), e);
+						ErrorHelper.onError(BreweryListActivity.this.getString(R.string.malformedData), BreweryListActivity.this);
 					} catch (JSONException e) {
-						e.printStackTrace();
+						Log.d(LOG_TAG, e.getMessage(), e);
+						ErrorHelper.onError(BreweryListActivity.this.getString(R.string.malformedData), BreweryListActivity.this);
 					}
 				}
 			}
@@ -108,7 +117,7 @@ public final class BreweryListActivity extends ListActivity {
 			if (result != null) {
 				BreweryListActivity.this.adapter.updateData(result);
 				BreweryListActivity.this.adapter.notifyDataSetChanged();
-			} // TODO handle else
+			}
 			BreweryListActivity.this.progressDialog.dismiss();
 		}
 	}
