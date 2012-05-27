@@ -13,11 +13,11 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.TextView;
 import ch.hsr.bieridee.android.R;
 import ch.hsr.bieridee.android.adapters.RecommendationsListAdapter;
 import ch.hsr.bieridee.android.config.Auth;
@@ -34,6 +34,8 @@ public class RecommendationsListActivity extends ListActivity {
 	private RecommendationsListAdapter adapter;
 	private ProgressDialog progressDialog;
 	private HttpHelper httpHelper;
+	private TextView noRecommendationsInfo;
+	private Button goToBeerlist;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -45,30 +47,20 @@ public class RecommendationsListActivity extends ListActivity {
 		this.adapter = new RecommendationsListAdapter(this);
 		setListAdapter(this.adapter);
 		this.addOnClickListeners();
-		this.registerForContextMenu(this.getListView());
+		this.noRecommendationsInfo = (TextView) findViewById(R.id_recommendations.info);
+		this.goToBeerlist = (Button) findViewById(R.id_recommendations.beerlistbutton);
+		this.goToBeerlist.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				final Intent intent = new Intent(v.getContext(), BeerListActivity.class);
+				startActivity(intent);
+			}
+		});
 	}
 
 	@Override
 	public void onStart() {
 		super.onStart();
 		new GetRecommendationsData().execute();
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		final MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.refresh_menu, menu);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case R.id_refreshmenu.refresh:
-				new GetRecommendationsData().execute();
-				break;
-		}
-		return true;
 	}
 
 	/**
@@ -83,7 +75,6 @@ public class RecommendationsListActivity extends ListActivity {
 			}
 		});
 	}
-
 
 	/**
 	 * Async task to get recommedations from server and update UI.
@@ -117,8 +108,15 @@ public class RecommendationsListActivity extends ListActivity {
 		@Override
 		protected void onPostExecute(JSONArray result) {
 			if (result != null) {
-				RecommendationsListActivity.this.adapter.updateData(result);
-				RecommendationsListActivity.this.adapter.notifyDataSetChanged();
+				if(result.length() > 0) {
+					RecommendationsListActivity.this.noRecommendationsInfo.setVisibility(View.GONE);
+					RecommendationsListActivity.this.goToBeerlist.setVisibility(View.GONE);
+					RecommendationsListActivity.this.adapter.updateData(result);
+					RecommendationsListActivity.this.adapter.notifyDataSetChanged();
+				} else {
+					RecommendationsListActivity.this.noRecommendationsInfo.setVisibility(View.VISIBLE);
+					RecommendationsListActivity.this.goToBeerlist.setVisibility(View.VISIBLE);
+				}
 			}
 			RecommendationsListActivity.this.progressDialog.dismiss();
 		}

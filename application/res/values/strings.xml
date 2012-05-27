@@ -158,7 +158,8 @@
     
     <!-- Recommendations -->
     <string name="recommendations_title">Bierempfehlungen</string>
-    <string name="recommendations_absoluteWeight">Diese Empfehlung hat eine Gewichtung von %1$.0f</string>
+    <string name="recommendations_absoluteWeight">Diese Empfehlung hat eine Gewichtung von %1$.1f</string>
+    <string name="recommendations_noRecommendations">Leider konnten keine Empfehlungen für dich gefunden werden. Gib uns mehr Informationen zu deinem Geschmack, in dem du Biere bewerterst!</string>
     
     
 
