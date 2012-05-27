@@ -22,7 +22,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="left"
             android:layout_marginBottom="10dp"
-            android:text="@string/beerdetail_title"
+            android:padding="4dp"
+            android:textSize="30dp"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <LinearLayout
@@ -113,26 +114,25 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal" >
+                android:orientation="horizontal"
+                android:paddingTop="20dp" >
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:gravity="center_vertical"
-                    android:ellipsize="end"
-                    android:paddingTop="10dp"
                     android:singleLine="true"
                     android:text="@string/beerdetail_tags"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
 
                 <ImageButton
                     android:id="@+id_beerdetail/addTagButton"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="40dp"
+                    android:scaleType="fitCenter"
                     android:background="@null"
-                    android:contentDescription="@android:drawable/ic_dialog_info"
-                    android:src="@android:drawable/ic_menu_add" />
+                    android:contentDescription="@string/beer"
+                    android:src="@drawable/ic_menu_add" />
             </LinearLayout>
 
             <TextView
@@ -140,7 +140,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:ellipsize="end"
+                android:textAppearance="?android:attr/textAppearanceMedium"
                 android:paddingTop="10dp" />
         </LinearLayout>
     </LinearLayout>
