@@ -234,7 +234,7 @@ public class TimelineListActivity extends ListActivity implements ListView.OnScr
 
 	// SUPPRESS CHECKSTYLE: Method not used but needed by interface
 	public void onScroll(AbsListView arg0, int arg1, int arg2, int arg3) {
-		// nuffin (muffin)
+		// nuffin (muffin|bluffing)
 	}
 
 	/**

@@ -140,7 +140,7 @@ public class LoginScreenActivity extends Activity {
 			try {
 				response = httpHelper.post(Res.getURI(Res.USERCREDENTIALS_CONTROLLER));
 			} catch (IOException e) {
-				// fail silent, error handled in onPostExecute
+				// fail silently, error handled in onPostExecute
 				Log.d(LOG_TAG, e.getMessage(), e);
 			}
 			return response;

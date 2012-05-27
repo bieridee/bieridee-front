@@ -221,10 +221,6 @@ public final class HttpHelper {
 		// Set useragent
 		httpParameters.setParameter(CoreProtocolPNames.USER_AGENT, USER_AGENT);
 
-		// Set proxy (for testing purposes)
-		// final HttpHost proxy = new HttpHost("192.168.2.33", 8080); // your proxy
-		// httpParameters.setParameter(ConnRoutePNames.DEFAULT_PROXY, proxy);
-
 		// Initialize HttpClient with previously defined parameters
 		final HttpClient client = new DefaultHttpClient(httpParameters);
 

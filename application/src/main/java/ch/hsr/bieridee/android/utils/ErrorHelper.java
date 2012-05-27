@@ -14,7 +14,7 @@ public final class ErrorHelper {
 	}
 
 	/**
-	 * Generic procedure onError. Finish the current acivity and go back to the last one and show a toas with a custom
+	 * Generic procedure onError. Finish the current acivity and go back to the last one and show a toast with a custom
 	 * message.
 	 * 
 	 * @param message The message to be shown

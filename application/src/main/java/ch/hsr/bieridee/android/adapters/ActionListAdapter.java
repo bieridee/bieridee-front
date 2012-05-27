@@ -143,18 +143,23 @@ public class ActionListAdapter extends BaseAdapter {
 	}
 
 	private String getTimeString(long secondsAgo) {
+		final int secPerMin = 60;
+		final int minPerHour = 60;
+		final int hoursPerDay = 24;
+		final int longAgoLimit = 100;
+		
 		final Resources res = this.activity.getResources();
 		final long seconds = secondsAgo;
-		final long minutes = seconds / 60;
-		final long hours = minutes / 60;
-		final long days = hours / 24;
-		if (seconds < 60) {
+		final long minutes = seconds / secPerMin;
+		final long hours = minutes / minPerHour;
+		final long days = hours / hoursPerDay;
+		if (seconds < secPerMin) {
 			return seconds + " " + res.getQuantityString(R.plurals.numberOfSeconds, (int) seconds);
-		} else if (minutes < 60) {
+		} else if (minutes < minPerHour) {
 			return minutes + " " + res.getQuantityString(R.plurals.numberOfMinutes, (int) minutes);
-		} else if (hours < 24) {
+		} else if (hours < hoursPerDay) {
 			return hours + " " + res.getQuantityString(R.plurals.numberOfHours, (int) hours);
-		} else if (days < 100) {
+		} else if (days < longAgoLimit) {
 			return days + " " + res.getQuantityString(R.plurals.numberOfDays, (int) days);
 		} else {
 			return this.activity.getString(R.string.timelinelist_longAgo);

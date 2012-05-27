@@ -291,7 +291,7 @@ public class BeerDetailActivity extends Activity {
 			try {
 				response = BeerDetailActivity.this.httpHelper.post(uri);
 			} catch (IOException e) {
-				// fail silent, error handled in onPostExecute
+				// fail silently, error handled in onPostExecute
 				Log.d(LOG_TAG, e.getMessage(), e);
 			}
 
@@ -331,7 +331,7 @@ public class BeerDetailActivity extends Activity {
 			try {
 				response = BeerDetailActivity.this.httpHelper.post(uri, newRating);
 			} catch (IOException e) {
-				// fail silent, error handled in onPostExecute
+				// fail silently, error handled in onPostExecute
 				Log.d(LOG_TAG, e.getMessage(), e);
 			}
 

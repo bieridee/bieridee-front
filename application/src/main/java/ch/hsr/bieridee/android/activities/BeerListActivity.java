@@ -13,6 +13,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
@@ -33,6 +34,7 @@ import ch.hsr.bieridee.android.utils.ErrorHelper;
  */
 public class BeerListActivity extends ListActivity {
 
+	private final static String LOG_TAG = BeerListActivity.class.getName();
 	private BeerListAdapter adapter;
 	private ProgressDialog progressDialog;
 	private HttpHelper httpHelper;
@@ -125,6 +127,7 @@ public class BeerListActivity extends ListActivity {
 			try {
 				response = BeerListActivity.this.httpHelper.get(Res.getURI(Res.BEER_COLLECTION));
 			} catch (IOException e) {
+				Log.d(LOG_TAG, e.getMessage(), e);
 				ErrorHelper.onError(getString(R.string.connectionError), BeerListActivity.this);
 			}
 
@@ -135,8 +138,10 @@ public class BeerListActivity extends ListActivity {
 						final String responseText = new BasicResponseHandler().handleResponse(response);
 						return new JSONArray(responseText);
 					} catch (IOException e) {
+						Log.d(LOG_TAG, e.getMessage(), e);
 						ErrorHelper.onError(getString(R.string.malformedData), BeerListActivity.this);
 					} catch (JSONException e) {
+						Log.d(LOG_TAG, e.getMessage(), e);
 						ErrorHelper.onError(getString(R.string.malformedData), BeerListActivity.this);
 					}
 				}
@@ -155,7 +160,8 @@ public class BeerListActivity extends ListActivity {
 	}
 
 	/**
-	 * Async task to delete beer from server and update UI.
+	 * Async task to delete beer from server and update UI. 
+	 * --> Currently not supported, thus commented out.
 	 */
 	// private class DeleteBeer extends AsyncTask<Long, Void, Void> {
 	// @Override

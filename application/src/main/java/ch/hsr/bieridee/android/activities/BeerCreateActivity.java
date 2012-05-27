@@ -271,7 +271,7 @@ public class BeerCreateActivity extends Activity {
 		@Override
 		protected void onPostExecute(JSONObject result) {
 			Log.d(LOG_TAG, "onPostExecute");
-			if(isCancelled()) {
+			if (isCancelled()) {
 				Log.d(LOG_TAG, "cancel onPostExecute");
 				return;
 			}
@@ -342,7 +342,7 @@ public class BeerCreateActivity extends Activity {
 		@Override
 		protected void onPostExecute(JSONArray result) {
 			Log.d(LOG_TAG, "onPostExecute()");
-			if(isCancelled()) {
+			if (isCancelled()) {
 				Log.d(LOG_TAG, "cancel onPostExecute()");
 				return;
 			}
@@ -398,7 +398,7 @@ public class BeerCreateActivity extends Activity {
 		@Override
 		protected void onPostExecute(JSONArray result) {
 			Log.d(LOG_TAG, "onPostExecute()");
-			if(isCancelled()) {
+			if (isCancelled()) {
 				Log.d(LOG_TAG, "cancel onPostExecute()");
 				return;
 			}
@@ -454,7 +454,7 @@ public class BeerCreateActivity extends Activity {
 		@Override
 		protected void onPostExecute(JSONArray result) {
 			Log.d(LOG_TAG, "onPostExecute()");
-			if(isCancelled()) {
+			if (isCancelled()) {
 				Log.d(LOG_TAG, "cancel onPostExecute()");
 				return;
 			}
@@ -536,7 +536,7 @@ public class BeerCreateActivity extends Activity {
 		@Override
 		protected void onPostExecute(JSONObject result) {
 			Log.d(LOG_TAG, "onPostExecute()");
-			if(isCancelled()) {
+			if (isCancelled()) {
 				Log.d(LOG_TAG, "cancel onPostExecute()");
 				return;
 			}
@@ -578,11 +578,11 @@ public class BeerCreateActivity extends Activity {
 		if (this.getBeerDetailTask != null) {
 			this.getBeerDetailTask.cancel(true);
 		}
-		if(this.getBeertypeDataTask != null) {
+		if (this.getBeertypeDataTask != null) {
 			this.getBeertypeDataTask.cancel(true);
 		}
-		if(this.getBrandDataTask != null) {
-		this.getBrandDataTask.cancel(true);
+		if (this.getBrandDataTask != null) {
+			this.getBrandDataTask.cancel(true);
 		}
 		if (this.getBreweryDataTask != null) {
 			this.getBreweryDataTask.cancel(true);

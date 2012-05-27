@@ -131,10 +131,12 @@ public class RegistrationScreenActivity extends Activity {
 
 		@Override
 		protected HttpResponse doInBackground(String... params) {
+			//SUPPRESS CHECKSTYLE: no magic number! 
 			if (params.length != 5) {
 				throw new BierIdeeException("Invalid number of parameters to Register AsyncTask (5 expected, " + params.length + " given).");
 			}
 			this.username = params[0];
+			//SUPPRESS CHECKSTYLE: no magic number! 
 			this.cleartextPassword = params[4];
 			this.hashedPassword = Crypto.hashUserPw(this.cleartextPassword, this.username);
 
@@ -143,6 +145,7 @@ public class RegistrationScreenActivity extends Activity {
 				user.put("username", this.username);
 				user.put("prename", params[1]);
 				user.put("surname", params[2]);
+				//SUPPRESS CHECKSTYLE: no magic number! 
 				user.put("email", params[3]);
 				user.put("password", this.hashedPassword);
 			} catch (JSONException e) {
@@ -150,7 +153,7 @@ public class RegistrationScreenActivity extends Activity {
 				ErrorHelper.onError(RegistrationScreenActivity.this.getString(R.string.malformedData), RegistrationScreenActivity.this);
 			}
 
-			// Send HTTP request (TODO: In production, this should happen via SSL/TLS)
+			// Send HTTP request (In production, this should happen via SSL/TLS)
 			final HttpHelper httpHelper = new HttpHelper();
 			httpHelper.addRequestProcessor(new AcceptRequestProcessor(AcceptRequestProcessor.ContentType.JSON));
 			HttpResponse response = null;
