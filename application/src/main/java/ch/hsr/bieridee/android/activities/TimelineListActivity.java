@@ -19,10 +19,13 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import ch.hsr.bieridee.android.R;
 import ch.hsr.bieridee.android.adapters.ActionListAdapter;
 import ch.hsr.bieridee.android.config.Res;
@@ -40,8 +43,11 @@ public class TimelineListActivity extends ListActivity implements ListView.OnScr
 	private ProgressDialog progressDialog;
 	public static final String EXTRA_USERNAME = "username";
 	private String username;
+	
+	private TextView noActions;
+	private Button gotoBeerlistButton;
 
-	public static final long THRESHOLD = 30000;
+	private static final long THRESHOLD = 30000;
 	private long updateTimestamp = 0;
 	private static final int SIMILARITY_TIMEDIFF = 15;
 
@@ -69,6 +75,14 @@ public class TimelineListActivity extends ListActivity implements ListView.OnScr
 			}
 		}
 		getListView().setOnScrollListener(this);
+		this.noActions = (TextView) findViewById(R.id_timelinelist.info);
+		this.gotoBeerlistButton = (Button) findViewById(R.id_timelinelist.beerlistbutton);
+		this.gotoBeerlistButton.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				final Intent intent = new Intent(v.getContext(), BeerListActivity.class);
+				startActivity(intent);
+			}
+		});
 	}
 
 	@Override
@@ -158,10 +172,18 @@ public class TimelineListActivity extends ListActivity implements ListView.OnScr
 				try {
 					result = TimelineListActivity.this.collapseTimeline(result);
 				} catch (JSONException e) {
-					e.printStackTrace();
+					Log.d(LOG_TAG, e.getMessage(), e);
+					ErrorHelper.onError(TimelineListActivity.this.getString(R.string.malformedData), TimelineListActivity.this);
 				}
-				TimelineListActivity.this.adapter.updateData(result);
-				TimelineListActivity.this.adapter.notifyDataSetChanged();
+				if(result.length() > 0) {
+					TimelineListActivity.this.noActions.setVisibility(View.GONE);
+					TimelineListActivity.this.gotoBeerlistButton.setVisibility(View.GONE);
+					TimelineListActivity.this.adapter.updateData(result);
+					TimelineListActivity.this.adapter.notifyDataSetChanged();
+				} else {
+					TimelineListActivity.this.noActions.setVisibility(View.VISIBLE);
+					TimelineListActivity.this.gotoBeerlistButton.setVisibility(View.VISIBLE);
+				}
 			}
 			if (this.showDialog) {
 				TimelineListActivity.this.progressDialog.dismiss();

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical" >
 
     <ListView 
@@ -10,5 +10,23 @@
         android:layout_height="0dip"
         android:layout_weight="1"
         android:drawSelectorOnTop="false"/>
+    
+    <TextView
+        android:id="@+id_timelinelist/info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="@string/timelinelist_noActions"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id_timelinelist/beerlistbutton"
+        style="@style/DashboardButton"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:drawableTop="@drawable/dashboard_button_beerlist"
+        android:text="@string/dashboardscreen_beerlistButtonText"
+        android:visibility="gone" />
 
 </LinearLayout>

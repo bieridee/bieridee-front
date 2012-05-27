@@ -29,11 +29,11 @@
     <string name="type">Typ</string>
     <string name="more">Mehr</string>
     <string name="add">Erfassen</string>
-    <string name="save">speichern</string>
+    <string name="save">Speichern</string>
     <string name="unknown">Unbekannt</string>
-    <string name="loading">Lade&#8230;</string>
+    <string name="loading">Lade…</string>
     <string name="changesSaved">Änderungen wurden gespeichert</string>
-	
+
     <!-- Errors -->
     <string name="handsomeError">Ein Fehler ist aufgetreten. Bitte erneut versuchen.</string>
     <string name="pleaseProvideAllData">Bitte alle Felder ausfüllen</string>
@@ -91,8 +91,8 @@
     <string name="beerdetail_fail_saveTag">Fehler: Der Tag konnte nicht gespeichert werden.</string>
     <string name="beerdetail_addTag">Tag hinzufügen</string>
     <string name="beerdetail_tags">Tags</string>
-    <string name="beerdetail_enterValue">Bitte gib Wert ein</string>
-    <string name="beerdetail_fail_invalidChars">Tag darf nur folgende Zeichen enthalten: [0&#8211;9][az&#8211;AZ]</string>
+    <string name="beerdetail_enterValue">Bitte Tag-Name eingeben:</string>
+    <string name="beerdetail_fail_invalidChars">Tag darf nur folgende Zeichen enthalten: [0–9][az–AZ]</string>
 
     <!-- Brewery list -->
     <string name="brewerylist_title">Brauereien</string>
@@ -132,13 +132,14 @@
     <string name="aboutscreen_title">Über BierIdee</string>
     <string name="aboutscreen_text">Das Projekt "BierIdee" ist als Semesterarbeit an der Hochschule für Technik in Rapperswil entstanden.</string>
     <string name="aboutscreen_imageDescription">Bieridee Logo</string>
-	
+
     <!-- Beertypelist -->
     <string name="beertypelist_title">Biertypen</string>
-	<string name="beertypelist_menu_expandall">Alle anzeigen</string>
-    
+    <string name="beertypelist_menu_expandall">Alle anzeigen</string>
+
     <!-- Timeline list -->
     <string name="timelinelist_title">Timeline</string>
+    <string name="timelinelist_noActions">Es ist leider noch gar nix passiert, bewerte ein Bier um dies zu ändern!</string>
     <string name="timelinelist_longAgo">vor Urzeiten</string>
     <string name="timelinelist_feltThirsty">%1$s war durstig!</string>
     <string name="timelinelist_ratedBeer">%1$s rated </string>
