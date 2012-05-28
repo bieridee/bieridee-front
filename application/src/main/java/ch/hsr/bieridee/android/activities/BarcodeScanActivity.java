@@ -122,7 +122,7 @@ public class BarcodeScanActivity extends Activity {
 						ErrorHelper.onError(getString(R.string.malformedData), BarcodeScanActivity.this);
 					}
 
-					if (beerList.length() > 0) {
+					if (beerList != null && beerList.length() > 0) {
 						try {
 							return (JSONObject) beerList.get(0);
 						} catch (JSONException e) {
