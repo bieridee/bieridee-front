@@ -134,7 +134,7 @@ public class BeerListActivity extends ListActivity implements ListView.OnScrollL
 	 */
 	private class GetBeerData extends AsyncTask<Void, Void, JSONArray> {
 
-		private boolean showDialog = true;
+		private boolean showDialog;
 
 		public GetBeerData() {
 			this.showDialog = true;
@@ -195,6 +195,7 @@ public class BeerListActivity extends ListActivity implements ListView.OnScrollL
 				BeerListActivity.this.progressDialog.dismiss();
 			}
 			BeerListActivity.this.loadingFooter.setVisibility(View.GONE);
+			BeerListActivity.this.currentPage++;
 		}
 	}
 
@@ -216,15 +217,13 @@ public class BeerListActivity extends ListActivity implements ListView.OnScrollL
 		final int last = view.getLastVisiblePosition();
 		switch (scrollState) {
 			case OnScrollListener.SCROLL_STATE_IDLE:
-				if (last >= (this.currentPage + 1) * VISIBLECOUNT) {
+				if (last >= (this.currentPage) * VISIBLECOUNT) {
 					new GetBeerData(false).execute();
-					this.currentPage++;
 				}
 				break;
 			case OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
-				if (last >= (this.currentPage + 1) * VISIBLECOUNT) {
+				if (last >= (this.currentPage) * VISIBLECOUNT) {
 					new GetBeerData(false).execute();
-					this.currentPage++;
 				}
 				break;
 			case OnScrollListener.SCROLL_STATE_FLING:

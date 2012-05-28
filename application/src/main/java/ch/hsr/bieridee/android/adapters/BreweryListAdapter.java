@@ -1,6 +1,5 @@
 package ch.hsr.bieridee.android.adapters;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -28,16 +27,6 @@ public class BreweryListAdapter extends ContinousScrollJsonAdapter {
 	 */
 	public BreweryListAdapter(Activity activity) {
 		super(activity);
-	}
-
-	/**
-	 * @param activity
-	 *            Activity
-	 * @param breweryJson
-	 *            Data
-	 */
-	public BreweryListAdapter(Activity activity, JSONArray breweryJson) {
-		super(activity, breweryJson);
 	}
 
 	@Override

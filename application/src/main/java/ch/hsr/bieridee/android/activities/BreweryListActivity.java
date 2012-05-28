@@ -153,6 +153,7 @@ public final class BreweryListActivity extends ListActivity implements ListView.
 				BreweryListActivity.this.progressDialog.dismiss();
 			}
 			BreweryListActivity.this.loadingFooter.setVisibility(View.GONE);
+			BreweryListActivity.this.currentPage++;
 		}
 	}
 
@@ -187,15 +188,13 @@ public final class BreweryListActivity extends ListActivity implements ListView.
 		final int last = view.getLastVisiblePosition();
 		switch (scrollState) {
 			case OnScrollListener.SCROLL_STATE_IDLE:
-				if (last >= (this.currentPage + 1) * VISIBLECOUNT) {
+				if (last >= (this.currentPage) * VISIBLECOUNT) {
 					new GetBreweryData(false).execute();
-					this.currentPage++;
 				}
 				break;
 			case OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
-				if (last >= (this.currentPage + 1) * VISIBLECOUNT) {
+				if (last >= (this.currentPage) * VISIBLECOUNT) {
 					new GetBreweryData(false).execute();
-					this.currentPage++;
 				}
 				break;
 			case OnScrollListener.SCROLL_STATE_FLING:

@@ -173,6 +173,7 @@ public class TimelineListActivity extends ListActivity implements ListView.OnScr
 				TimelineListActivity.this.progressDialog.dismiss();
 			}
 			TimelineListActivity.this.loadingFooter.setVisibility(View.GONE);
+			TimelineListActivity.this.currentPage++;
 		}
 	}
 
@@ -256,15 +257,13 @@ public class TimelineListActivity extends ListActivity implements ListView.OnScr
 		final int last = view.getLastVisiblePosition();
 		switch (scrollState) {
 			case OnScrollListener.SCROLL_STATE_IDLE:
-				if (last >= (this.currentPage + 1) * VISIBLECOUNT) {
+				if (last >= (this.currentPage) * VISIBLECOUNT) {
 					new GetActionData(false).execute();
-					this.currentPage++;
 				}
 				break;
 			case OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
-				if (last >= (this.currentPage + 1) * VISIBLECOUNT) {
+				if (last >= (this.currentPage) * VISIBLECOUNT) {
 					new GetActionData(false).execute();
-					this.currentPage++;
 				}
 				break;
 			case OnScrollListener.SCROLL_STATE_FLING:
