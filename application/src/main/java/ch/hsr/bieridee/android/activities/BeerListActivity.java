@@ -24,6 +24,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import ch.hsr.bieridee.android.R;
 import ch.hsr.bieridee.android.adapters.BeerListAdapter;
+import ch.hsr.bieridee.android.config.Conf;
 import ch.hsr.bieridee.android.config.Res;
 import ch.hsr.bieridee.android.http.AuthJsonHttp;
 import ch.hsr.bieridee.android.http.HttpHelper;
@@ -38,8 +39,7 @@ public class BeerListActivity extends ListActivity {
 	private BeerListAdapter adapter;
 	private ProgressDialog progressDialog;
 	private HttpHelper httpHelper;
-	
-	private static final long UPDATE_THRESHOLD = 30000;
+
 	private long updateTimestamp = 0;
 
 	@Override
@@ -58,7 +58,7 @@ public class BeerListActivity extends ListActivity {
 	@Override
 	public void onStart() {
 		super.onStart();
-		if (System.currentTimeMillis() - this.updateTimestamp > UPDATE_THRESHOLD) {
+		if (this.isUpdateNecessary()) {
 			new GetBeerData().execute();
 			this.updateTimestamp = System.currentTimeMillis();
 		}
@@ -165,9 +165,12 @@ public class BeerListActivity extends ListActivity {
 		}
 	}
 
+	private boolean isUpdateNecessary() {
+		return System.currentTimeMillis() - this.updateTimestamp > Conf.UPDATE_THRESHOLD;
+	}
+	
 	/**
-	 * Async task to delete beer from server and update UI. 
-	 * --> Currently not supported, thus commented out.
+	 * Async task to delete beer from server and update UI. --> Currently not supported, thus commented out.
 	 */
 	// private class DeleteBeer extends AsyncTask<Long, Void, Void> {
 	// @Override

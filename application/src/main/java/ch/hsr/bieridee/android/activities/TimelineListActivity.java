@@ -28,6 +28,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import ch.hsr.bieridee.android.R;
 import ch.hsr.bieridee.android.adapters.ActionListAdapter;
+import ch.hsr.bieridee.android.config.Conf;
 import ch.hsr.bieridee.android.config.Res;
 import ch.hsr.bieridee.android.http.AuthJsonHttp;
 import ch.hsr.bieridee.android.http.HttpHelper;
@@ -47,7 +48,6 @@ public class TimelineListActivity extends ListActivity implements ListView.OnScr
 	private TextView noActions;
 	private Button gotoBeerlistButton;
 
-	private static final long UPDATE_THRESHOLD = 30000;
 	private long updateTimestamp = 0;
 	private static final int SIMILARITY_TIMEDIFF = 15;
 
@@ -88,7 +88,7 @@ public class TimelineListActivity extends ListActivity implements ListView.OnScr
 	@Override
 	public void onStart() {
 		super.onStart();
-		if (System.currentTimeMillis() - this.updateTimestamp > UPDATE_THRESHOLD) {
+		if (this.isUpdateNecessary()) {
 			new GetActionData().execute();
 			this.updateTimestamp = System.currentTimeMillis();
 		}
@@ -286,5 +286,9 @@ public class TimelineListActivity extends ListActivity implements ListView.OnScr
 			case OnScrollListener.SCROLL_STATE_FLING:
 				break;
 		}
+	}
+	
+	private boolean isUpdateNecessary() {
+		return System.currentTimeMillis() - this.updateTimestamp > Conf.UPDATE_THRESHOLD;
 	}
 }

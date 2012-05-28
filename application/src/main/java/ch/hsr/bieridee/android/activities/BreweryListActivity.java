@@ -21,6 +21,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import ch.hsr.bieridee.android.R;
 import ch.hsr.bieridee.android.adapters.BreweryListAdapter;
+import ch.hsr.bieridee.android.config.Conf;
 import ch.hsr.bieridee.android.config.Res;
 import ch.hsr.bieridee.android.http.AuthJsonHttp;
 import ch.hsr.bieridee.android.http.HttpHelper;
@@ -32,7 +33,6 @@ import ch.hsr.bieridee.android.utils.ErrorHelper;
 public final class BreweryListActivity extends ListActivity {
 
 	private static final String LOG_TAG = BreweryListActivity.class.getName();
-	private static final long UPDATE_THRESHOLD = 30000;
 	private long updateTimestamp = 0;
 	
 	private BreweryListAdapter adapter;
@@ -54,7 +54,7 @@ public final class BreweryListActivity extends ListActivity {
 	@Override
 	public void onStart() {
 		super.onStart();
-		if (System.currentTimeMillis() - this.updateTimestamp > UPDATE_THRESHOLD) {
+		if (this.isUpdateNecessary()) {
 			new GetBreweryData().execute();
 			this.updateTimestamp = System.currentTimeMillis();
 		}
@@ -139,5 +139,9 @@ public final class BreweryListActivity extends ListActivity {
 				startActivity(intent);
 			}
 		});
+	}
+	
+	private boolean isUpdateNecessary() {
+		return System.currentTimeMillis() - this.updateTimestamp > Conf.UPDATE_THRESHOLD;
 	}
 }
