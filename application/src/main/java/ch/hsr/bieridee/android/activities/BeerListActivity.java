@@ -38,6 +38,9 @@ public class BeerListActivity extends ListActivity {
 	private BeerListAdapter adapter;
 	private ProgressDialog progressDialog;
 	private HttpHelper httpHelper;
+	
+	private static final long UPDATE_THRESHOLD = 30000;
+	private long updateTimestamp = 0;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -55,7 +58,10 @@ public class BeerListActivity extends ListActivity {
 	@Override
 	public void onStart() {
 		super.onStart();
-		new GetBeerData().execute();
+		if (System.currentTimeMillis() - this.updateTimestamp > UPDATE_THRESHOLD) {
+			new GetBeerData().execute();
+			this.updateTimestamp = System.currentTimeMillis();
+		}
 	}
 
 	@Override

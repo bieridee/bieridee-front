@@ -1,5 +1,13 @@
 package ch.hsr.bieridee.android.activities;
 
+import java.io.IOException;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.impl.client.BasicResponseHandler;
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -18,20 +26,15 @@ import ch.hsr.bieridee.android.http.AuthJsonHttp;
 import ch.hsr.bieridee.android.http.HttpHelper;
 import ch.hsr.bieridee.android.utils.ErrorHelper;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.impl.client.BasicResponseHandler;
-import org.json.JSONArray;
-import org.json.JSONException;
-
-import java.io.IOException;
-
 /**
  * Activity that shows a list of all breweries in our database.
  */
 public final class BreweryListActivity extends ListActivity {
 
 	private static final String LOG_TAG = BreweryListActivity.class.getName();
+	private static final long UPDATE_THRESHOLD = 30000;
+	private long updateTimestamp = 0;
+	
 	private BreweryListAdapter adapter;
 	private ProgressDialog progressDialog;
 	private HttpHelper httpHelper;
@@ -51,7 +54,10 @@ public final class BreweryListActivity extends ListActivity {
 	@Override
 	public void onStart() {
 		super.onStart();
-		new GetBreweryData().execute();
+		if (System.currentTimeMillis() - this.updateTimestamp > UPDATE_THRESHOLD) {
+			new GetBreweryData().execute();
+			this.updateTimestamp = System.currentTimeMillis();
+		}
 	}
 
 	@Override

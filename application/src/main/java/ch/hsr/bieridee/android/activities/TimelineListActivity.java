@@ -47,7 +47,7 @@ public class TimelineListActivity extends ListActivity implements ListView.OnScr
 	private TextView noActions;
 	private Button gotoBeerlistButton;
 
-	private static final long THRESHOLD = 30000;
+	private static final long UPDATE_THRESHOLD = 30000;
 	private long updateTimestamp = 0;
 	private static final int SIMILARITY_TIMEDIFF = 15;
 
@@ -88,7 +88,7 @@ public class TimelineListActivity extends ListActivity implements ListView.OnScr
 	@Override
 	public void onStart() {
 		super.onStart();
-		if (System.currentTimeMillis() - this.updateTimestamp > THRESHOLD) {
+		if (System.currentTimeMillis() - this.updateTimestamp > UPDATE_THRESHOLD) {
 			new GetActionData().execute();
 			this.updateTimestamp = System.currentTimeMillis();
 		}
