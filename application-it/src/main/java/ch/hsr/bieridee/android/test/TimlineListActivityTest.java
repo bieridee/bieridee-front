@@ -34,7 +34,7 @@ public class TimlineListActivityTest extends ActivityInstrumentationTestCase2<Ti
 	 * Test activity content.
 	 */
 	public void testActivityContent() {
-		assertTrue(this.solo.searchText("felt thirsty")); // title
+		assertTrue(this.solo.searchText("war durstig")); // title
 		assertTrue(this.solo.searchText("rated")); // beer name
 	}
 }
