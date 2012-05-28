@@ -86,6 +86,7 @@ public class BeerListActivity extends ListActivity implements ListView.OnScrollL
 		switch (item.getItemId()) {
 			case R.id_refreshmenu.refresh:
 				new GetBeerData().execute();
+				this.currentPage++;
 				break;
 		}
 		return true;

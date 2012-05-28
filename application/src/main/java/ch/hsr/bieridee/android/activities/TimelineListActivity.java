@@ -94,6 +94,7 @@ public class TimelineListActivity extends ListActivity implements ListView.OnScr
 		switch (item.getItemId()) {
 			case R.id_refreshmenu.refresh:
 				new GetActionData().execute();
+				this.currentPage++;
 				break;
 		}
 		return true;
