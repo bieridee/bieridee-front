@@ -1,6 +1,8 @@
 package ch.hsr.bieridee.android.activities;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -34,7 +36,7 @@ import ch.hsr.bieridee.android.utils.ErrorHelper;
  * Activity that shows a list of all actions in our database.
  */
 public class TimelineListActivity extends ListActivity implements ListView.OnScrollListener {
-	
+
 	private static final String LOG_TAG = TimelineListActivity.class.getName();
 	private ActionListAdapter adapter;
 	private ProgressDialog progressDialog;
@@ -121,17 +123,20 @@ public class TimelineListActivity extends ListActivity implements ListView.OnScr
 
 		@Override
 		protected JSONArray doInBackground(Void... voids) {
-			String resourceUri = Res.TIMELINE_COLLECTION + "?nOfItems=" + PAGESIZE + "&page=" + TimelineListActivity.this.currentPage;
+			final Map<String, String> params = new HashMap<String, String>();
+			params.put("items", PAGESIZE + "");
+			params.put("page", TimelineListActivity.this.currentPage + "");
 			if (TimelineListActivity.this.username != null) {
-				resourceUri += "&username=" + TimelineListActivity.this.username;
+				params.put("username", TimelineListActivity.this.username);
 			}
+			final String resourceUri = Res.getURIwithGETParams(Res.TIMELINE_COLLECTION, params);
 			final HttpHelper httpHelper = AuthJsonHttp.create();
 			HttpResponse response = null;
 			try {
-				response = httpHelper.get(Res.getURI(resourceUri));
+				response = httpHelper.get(resourceUri);
 			} catch (IOException e) {
 				Log.d(LOG_TAG, e.getMessage(), e);
-				ErrorHelper.onError(TimelineListActivity.this.getString(R.string.connectionError),TimelineListActivity.this);
+				ErrorHelper.onError(TimelineListActivity.this.getString(R.string.connectionError), TimelineListActivity.this);
 			}
 
 			if (response != null) {
@@ -142,10 +147,10 @@ public class TimelineListActivity extends ListActivity implements ListView.OnScr
 						return new JSONArray(responseText);
 					} catch (IOException e) {
 						Log.d(LOG_TAG, e.getMessage(), e);
-						ErrorHelper.onError(TimelineListActivity.this.getString(R.string.malformedData),TimelineListActivity.this);
+						ErrorHelper.onError(TimelineListActivity.this.getString(R.string.malformedData), TimelineListActivity.this);
 					} catch (JSONException e) {
 						Log.d(LOG_TAG, e.getMessage(), e);
-						ErrorHelper.onError(TimelineListActivity.this.getString(R.string.malformedData),TimelineListActivity.this);
+						ErrorHelper.onError(TimelineListActivity.this.getString(R.string.malformedData), TimelineListActivity.this);
 					}
 				}
 			}

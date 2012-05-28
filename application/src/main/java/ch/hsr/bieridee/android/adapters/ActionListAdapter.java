@@ -1,7 +1,5 @@
 package ch.hsr.bieridee.android.adapters;
 
-import java.util.ArrayList;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -11,7 +9,6 @@ import android.content.res.Resources;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
@@ -24,18 +21,15 @@ import ch.hsr.bieridee.android.utils.ErrorHelper;
  * The ActionListAdapter adapts the JSON action structure to the Android ListView.
  * 
  */
-public class ActionListAdapter extends BaseAdapter {
+public class ActionListAdapter extends ContinousScrollJsonAdapter {
 	
 	private static final String LOG_TAG = ActionListAdapter.class.getName();
-	private final Activity activity;
-	private ArrayList<JSONObject> actions;
 
 	/**
 	 * @param activity Activity
 	 */
 	public ActionListAdapter(Activity activity) {
-		this.activity = activity;
-		this.actions = new ArrayList<JSONObject>();
+		super(activity);
 	}
 
 	/**
@@ -45,28 +39,7 @@ public class ActionListAdapter extends BaseAdapter {
 	 *            JSONArray with list data
 	 */
 	public ActionListAdapter(Activity activity, JSONArray jsonActivities) {
-		this.activity = activity;
-		this.actions.addAll(this.convertJSONArrayToList(jsonActivities));
-	}
-
-	/**
-	 * Returns the number of list items.
-	 * 
-	 * @return Count of list items
-	 */
-	public int getCount() {
-		return this.actions.size();
-	}
-
-	/**
-	 * Return the list item at the specified position.
-	 * 
-	 * @param position
-	 *            Position in listtext
-	 * @return JSON action object at the specified position
-	 */
-	public Object getItem(int position) {
-		return this.actions.get(position);
+		super(activity, jsonActivities);
 	}
 
 	/**
@@ -114,7 +87,7 @@ public class ActionListAdapter extends BaseAdapter {
 		final TextView description = (TextView) wrapper.findViewById(R.id_timelinelist.itemDescription);
 		final RatingBar rating = (RatingBar) wrapper.findViewById(R.id_timelinelist.rating);
 
-		if (position <= this.actions.size()) {
+		if (position <= this.data.size()) {
 			// Assign values to actionlist item
 			final JSONObject jsonAction = (JSONObject) this.getItem(position);
 			try {
@@ -176,24 +149,6 @@ public class ActionListAdapter extends BaseAdapter {
 		} else {
 			return this.activity.getString(R.string.timelinelist_ratedBeer, username);
 		}
-	}
-
-	/**
-	 * Update the internal JSONArray with new data.
-	 * 
-	 * @param jsonActions
-	 *            New data to replace the old JSONArray
-	 */
-	public void updateData(JSONArray jsonActions) {
-		this.actions.addAll(convertJSONArrayToList(jsonActions));
-	}
-	
-	private ArrayList<JSONObject> convertJSONArrayToList(JSONArray jsonArray) {
-		final ArrayList<JSONObject> list = new ArrayList<JSONObject>();
-		for(int i = 0; i < jsonArray.length(); ++i) {
-			list.add(jsonArray.optJSONObject(i));
-		}
-		return list;
 	}
 
 	@Override

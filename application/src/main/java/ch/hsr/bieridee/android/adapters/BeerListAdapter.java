@@ -1,10 +1,13 @@
 package ch.hsr.bieridee.android.adapters;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Activity;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -12,47 +15,20 @@ import ch.hsr.bieridee.android.BierideeApplication;
 import ch.hsr.bieridee.android.R;
 import ch.hsr.bieridee.android.utils.ErrorHelper;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-
 /**
  * The BeerListAdapter adapts the JSON beer structure to the Android ListView.
  * 
  */
-public class BeerListAdapter extends BaseAdapter {
-	
-	private static final String LOG_TAG = BeerListAdapter.class.getName();
-	private final Activity activity;
-	private ArrayList<JSONObject> beers;
+public class BeerListAdapter extends ContinousScrollJsonAdapter {
 
-	/**
-	 * @param id
-	 *            id of beer to be removed
-	 * 
-	 */
-	public void remove(long id) {
-		for (int i = 0; i < this.beers.size(); ++i) {
-			try {
-				if (this.beers.get(i).getLong("id") == id) {
-					this.beers.remove(i);
-				}
-			} catch (JSONException e) {
-				Log.d(LOG_TAG, e.getMessage(), e);
-				ErrorHelper.onError(BierideeApplication.getAppContext().getString(R.string.malformedData), this.activity);
-			}
-		}
-	}
+	private static final String LOG_TAG = BeerListAdapter.class.getName();
 
 	/**
 	 * @param activity
 	 *            Activity
 	 */
 	public BeerListAdapter(Activity activity) {
-		this.activity = activity;
-		this.beers = new ArrayList<JSONObject>();
+		super(activity);
 	}
 
 	/**
@@ -62,40 +38,7 @@ public class BeerListAdapter extends BaseAdapter {
 	 *            JSONArray with list data
 	 */
 	public BeerListAdapter(Activity activity, JSONArray jsonBeers) {
-		fillJSONToArrayList(jsonBeers);
-		this.activity = activity;
-	}
-
-	private void fillJSONToArrayList(JSONArray jsonBeers) {
-		this.beers.clear();
-		for (int i = 0; i < jsonBeers.length(); ++i) {
-			try {
-				this.beers.add((JSONObject) jsonBeers.get(i));
-			} catch (JSONException e) {
-				Log.d(LOG_TAG, e.getMessage(), e);
-				ErrorHelper.onError(BierideeApplication.getAppContext().getString(R.string.malformedData), this.activity);
-			}
-		}
-	}
-
-	/**
-	 * Returns the number of list items.
-	 * 
-	 * @return Count of list items
-	 */
-	public int getCount() {
-		return this.beers.size();
-	}
-
-	/**
-	 * Return the list item at the specified position.
-	 * 
-	 * @param position
-	 *            Position in list
-	 * @return JSON beer object at the specified position
-	 */
-	public Object getItem(int position) {
-		return this.beers.get(position);
+		super(activity, jsonBeers);
 	}
 
 	/**
@@ -106,7 +49,7 @@ public class BeerListAdapter extends BaseAdapter {
 	 * @return The id of the item at the specified position
 	 */
 	public long getItemId(int position) {
-		return this.beers.get(position).optLong("id");
+		return this.data.get(position).optLong("id");
 	}
 
 	/**
@@ -151,13 +94,21 @@ public class BeerListAdapter extends BaseAdapter {
 	}
 
 	/**
-	 * Update the internal JSONArray with new data.
+	 * @param id
+	 *            id of beer to be removed
 	 * 
-	 * @param jsonBeers
-	 *            New data to replace the old JSONArray
 	 */
-	public void updateData(JSONArray jsonBeers) {
-		this.fillJSONToArrayList(jsonBeers);
+	public void remove(long id) {
+		for (int i = 0; i < this.data.size(); ++i) {
+			try {
+				if (this.data.get(i).getLong("id") == id) {
+					this.data.remove(i);
+				}
+			} catch (JSONException e) {
+				Log.d(LOG_TAG, e.getMessage(), e);
+				ErrorHelper.onError(BierideeApplication.getAppContext().getString(R.string.malformedData), this.activity);
+			}
+		}
 	}
 
 	@Override

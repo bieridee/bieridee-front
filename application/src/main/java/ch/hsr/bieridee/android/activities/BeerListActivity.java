@@ -1,6 +1,8 @@
 package ch.hsr.bieridee.android.activities;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -20,6 +22,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AbsListView;
+import android.widget.ListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import ch.hsr.bieridee.android.R;
@@ -32,12 +37,17 @@ import ch.hsr.bieridee.android.utils.ErrorHelper;
 /**
  * Activity that shows a list of all beers in our database.
  */
-public class BeerListActivity extends ListActivity {
+public class BeerListActivity extends ListActivity implements ListView.OnScrollListener {
 
 	private final static String LOG_TAG = BeerListActivity.class.getName();
 	private BeerListAdapter adapter;
 	private ProgressDialog progressDialog;
 	private HttpHelper httpHelper;
+
+	private int currentPage = 0;
+	private static final int PAGESIZE = 12;
+	private static final int VISIBLECOUNT = 7;
+	private View loadingFooter;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -46,10 +56,16 @@ public class BeerListActivity extends ListActivity {
 
 		this.httpHelper = AuthJsonHttp.create();
 
+		final ListView list = (ListView) this.getListView();
+		this.loadingFooter = getLayoutInflater().inflate(R.layout.loading_item, list, false);
+		list.addFooterView(this.loadingFooter, null, false);
+
 		this.adapter = new BeerListAdapter(this);
 		setListAdapter(this.adapter);
 		this.addOnClickListeners();
 		this.registerForContextMenu(this.getListView());
+
+		getListView().setOnScrollListener(this);
 	}
 
 	@Override
@@ -116,16 +132,35 @@ public class BeerListActivity extends ListActivity {
 	 * Async task to get beers from server and update UI.
 	 */
 	private class GetBeerData extends AsyncTask<Void, Void, JSONArray> {
+
+		private boolean showDialog = true;
+
+		public GetBeerData() {
+			this.showDialog = true;
+		}
+
+		public GetBeerData(boolean showDialog) {
+			this.showDialog = showDialog;
+		}
+
 		@Override
 		protected void onPreExecute() {
-			BeerListActivity.this.progressDialog = ProgressDialog.show(BeerListActivity.this, getString(R.string.pleaseWait), getString(R.string.loadingData), true);
+			BeerListActivity.this.loadingFooter.setVisibility(View.VISIBLE);
+			if (this.showDialog) {
+				BeerListActivity.this.progressDialog = ProgressDialog.show(BeerListActivity.this, getString(R.string.pleaseWait), getString(R.string.loadingData), true);
+			}
 		}
 
 		@Override
 		protected JSONArray doInBackground(Void... voids) {
+			final Map<String, String> params = new HashMap<String, String>();
+			params.put("items", PAGESIZE + "");
+			params.put("page", BeerListActivity.this.currentPage + "");
+			final String resourceUri = Res.getURIwithGETParams(Res.BEER_COLLECTION, params);
+
 			HttpResponse response = null;
 			try {
-				response = BeerListActivity.this.httpHelper.get(Res.getURI(Res.BEER_COLLECTION));
+				response = BeerListActivity.this.httpHelper.get(resourceUri);
 			} catch (IOException e) {
 				Log.d(LOG_TAG, e.getMessage(), e);
 				ErrorHelper.onError(getString(R.string.connectionError), BeerListActivity.this);
@@ -155,13 +190,49 @@ public class BeerListActivity extends ListActivity {
 				BeerListActivity.this.adapter.updateData(result);
 				BeerListActivity.this.adapter.notifyDataSetChanged();
 			}
-			BeerListActivity.this.progressDialog.dismiss();
+			if (this.showDialog) {
+				BeerListActivity.this.progressDialog.dismiss();
+			}
+			BeerListActivity.this.loadingFooter.setVisibility(View.GONE);
+		}
+	}
+
+	// SUPPRESS CHECKSTYLE: Method not used but needed by interface
+	public void onScroll(AbsListView arg0, int arg1, int arg2, int arg3) {
+		// nuffin (muffin|bluffing)
+	}
+
+	/**
+	 * Triggers on scroll state changed.
+	 * 
+	 * @param view
+	 *            The list view
+	 * @param scrollState
+	 *            The scrollstate
+	 * @see android.widget.AbsListView.OnScrollListener#onScrollStateChanged(android.widget.AbsListView, int)
+	 */
+	public void onScrollStateChanged(AbsListView view, int scrollState) {
+		final int last = view.getLastVisiblePosition();
+		switch (scrollState) {
+			case OnScrollListener.SCROLL_STATE_IDLE:
+				if (last >= (this.currentPage + 1) * VISIBLECOUNT) {
+					new GetBeerData(false).execute();
+					this.currentPage++;
+				}
+				break;
+			case OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
+				if (last >= (this.currentPage + 1) * VISIBLECOUNT) {
+					new GetBeerData(false).execute();
+					this.currentPage++;
+				}
+				break;
+			case OnScrollListener.SCROLL_STATE_FLING:
+				break;
 		}
 	}
 
 	/**
-	 * Async task to delete beer from server and update UI. 
-	 * --> Currently not supported, thus commented out.
+	 * Async task to delete beer from server and update UI. --> Currently not supported, thus commented out.
 	 */
 	// private class DeleteBeer extends AsyncTask<Long, Void, Void> {
 	// @Override
