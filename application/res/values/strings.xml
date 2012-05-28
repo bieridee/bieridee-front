@@ -1,167 +1,188 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Commonly used strings -->
-    <string name="hello">Hello bieridee-front!</string>
-    <string name="app_name">BierIdee</string>
-    <string name="appName">BierIdee Login</string>
-    <string name="username">Benutzername</string>
-    <string name="password">Password</string>
-    <string name="email">Email</string>
-    <string name="login">Login</string>
-    <string name="logout">Logout</string>
-    <string name="register">Registrieren</string>
-    <string name="prename">Vorname</string>
-    <string name="surname">Nachname</string>
-    <string name="pleaseWait">Bitte warten…</string>
-    <string name="savingData">Daten werden gespeichert</string>
-    <string name="loadingData">Daten werden geladen</string>
-    <string name="warning">Warnung</string>
-    <string name="error">Fehler</string>
-    <string name="success">Erfolg</string>
-    <string name="about">Über</string>
-    <string name="refresh">Aktualisieren</string>
-    <string name="beer">Bier</string>
-    <string name="brand">Marke</string>
-    <string name="beertype">Bieryp</string>
-    <string name="brewery">Brauerei</string>
-    <string name="size">Grösse</string>
-    <string name="type">Typ</string>
-    <string name="more">Mehr</string>
-    <string name="add">Erfassen</string>
-    <string name="save">speichern</string>
-    <string name="unknown">Unbekannt</string>
-    <string name="loading">Lade&#8230;</string>
-    <string name="changesSaved">Änderungen wurden gespeichert</string>
+	<!-- Commonly used strings -->
+	<string name="hello">Hello bieridee-front!</string>
+	<string name="app_name">BierIdee</string>
+	<string name="appName">BierIdee Login</string>
+	<string name="username">Benutzername</string>
+	<string name="password">Password</string>
+	<string name="email">Email</string>
+	<string name="login">Login</string>
+	<string name="logout">Logout</string>
+	<string name="register">Registrieren</string>
+	<string name="prename">Vorname</string>
+	<string name="surname">Nachname</string>
+	<string name="pleaseWait">Bitte warten…</string>
+	<string name="savingData">Daten werden gespeichert</string>
+	<string name="loadingData">Daten werden geladen</string>
+	<string name="warning">Warnung</string>
+	<string name="error">Fehler</string>
+	<string name="success">Erfolg</string>
+	<string name="about">Über</string>
+	<string name="refresh">Aktualisieren</string>
+	<string name="beer">Bier</string>
+	<string name="brand">Marke</string>
+	<string name="beertype">Bieryp</string>
+	<string name="brewery">Brauerei</string>
+	<string name="size">Grösse</string>
+	<string name="type">Typ</string>
+	<string name="more">Mehr</string>
+	<string name="add">Erfassen</string>
+	<string name="save">speichern</string>
+	<string name="unknown">Unbekannt</string>
+	<string name="loading">Lade&#8230;</string>
+	<string name="changesSaved">Änderungen wurden gespeichert</string>
 
-    <!-- Errors -->
-    <string name="handsomeError">Ein Fehler ist aufgetreten. Bitte erneut versuchen.</string>
-    <string name="pleaseProvideAllData">Bitte alle Felder ausfüllen</string>
-    <string name="connectionError">Verbindungsfehler</string>
-    <string name="malformedData">Fehlerhafte Daten</string>
+	<!-- Errors -->
+	<string name="handsomeError">Ein Fehler ist aufgetreten. Bitte erneut versuchen.</string>
+	<string name="pleaseProvideAllData">Bitte alle Felder ausfüllen</string>
+	<string name="connectionError">Verbindungsfehler</string>
+	<string name="malformedData">Fehlerhafte Daten</string>
 
-    <!-- Login screen specific strings -->
-    <string name="loginscreen_title">BierIdee Login</string>
-    <string name="loginscreen_wrongCredentials">Bitte Logindaten überprüfen</string>
-    <string name="loginscreen_registrationHintText">Noch kein Login?</string>
-    <string name="loginscreen_registrationLinkText">Registrieren.</string>
-    <string name="loginscreen_autologinText">Angemeldet bleiben</string>
-    <string name="loginscreen_imageDescription">Bieridee Logo</string>
-    <string name="loginscreen_verifyingData">Logindaten werden verifiziert</string>
-    <string name="loginscreen_loginFailed">Login ist fehlgeschlagen</string>
-    <string name="loginscreen_loginError">Beim Login ist ein Fehler aufgetreten</string>
-    <string name="loginscreen_loginSuccess">Login erfolgreich</string>
+	<!-- Login screen specific strings -->
+	<string name="loginscreen_title">BierIdee Login</string>
+	<string name="loginscreen_wrongCredentials">Bitte Logindaten überprüfen</string>
+	<string name="loginscreen_registrationHintText">Noch kein Login?</string>
+	<string name="loginscreen_registrationLinkText">Registrieren.</string>
+	<string name="loginscreen_autologinText">Angemeldet bleiben</string>
+	<string name="loginscreen_imageDescription">Bieridee Logo</string>
+	<string name="loginscreen_verifyingData">Logindaten werden verifiziert</string>
+	<string name="loginscreen_loginFailed">Login ist fehlgeschlagen</string>
+	<string name="loginscreen_loginError">Beim Login ist ein Fehler aufgetreten</string>
+	<string name="loginscreen_loginSuccess">Login erfolgreich</string>
 
-    <!-- Registration screen specific strings -->
-    <string name="registrationscreen_title">BierIdee Registration</string>
-    <string name="registrationscreen_invalidInput">Die Eingabe ist ungültig</string>
-    <string name="registrationscreen_invalidEmail">Bitte gibt eine gültige Emailadresse ein.</string>
-    <string name="registrationscreen_invalidPassword">Das Passwort ist ungültig. Mindestlänge: 8 Zeichen.</string>
-    <string name="registrationscreen_unavailableUsername">Dieser Benutzername ist bereits vergeben. Bitte wähle einen anderen.</string>
-    <string name="registrationscreen_success_registration">Registrierung erfolgreich!</string>
-    <string name="registrationscreen_fail_registration">Die Registrierung ist fehlgeschlagen.</string>
+	<!-- Registration screen specific strings -->
+	<string name="registrationscreen_title">BierIdee Registration</string>
+	<string name="registrationscreen_invalidInput">Die Eingabe ist ungültig</string>
+	<string name="registrationscreen_invalidEmail">Bitte gibt eine gültige Emailadresse ein.</string>
+	<string name="registrationscreen_invalidPassword">Das Passwort ist ungültig. Mindestlänge: 8 Zeichen.</string>
+	<string name="registrationscreen_unavailableUsername">Dieser Benutzername ist bereits vergeben. Bitte wähle einen
+		anderen.
+	</string>
+	<string name="registrationscreen_success_registration">Registrierung erfolgreich!</string>
+	<string name="registrationscreen_fail_registration">Die Registrierung ist fehlgeschlagen.</string>
 
-    <!-- Dashboard Screen -->
-    <string name="dashboardscreen_title">Bieridee Dashboard</string>
-    <string name="dashboardscreen_beerlistButtonText">Bierliste</string>
-    <string name="dashboardscreen_timelineButtonText">Timeline</string>
-    <string name="dashboardscreen_breweriesButtonText">Brauereien</string>
-    <string name="dashboardscreen_profileButtonText">Profil</string>
-    <string name="dashboardscreen_createButtonText">Bier erfassen</string>
+	<!-- Dashboard Screen -->
+	<string name="dashboardscreen_title">Bieridee Dashboard</string>
+	<string name="dashboardscreen_beerlistButtonText">Bierliste</string>
+	<string name="dashboardscreen_timelineButtonText">Timeline</string>
+	<string name="dashboardscreen_breweriesButtonText">Brauereien</string>
+	<string name="dashboardscreen_profileButtonText">Profil</string>
+	<string name="dashboardscreen_createButtonText">Bier erfassen</string>
 	<string name="dashboardscreen_scanButtonText">Strichcode scannen</string>
 	<string name="dashboardscreen_recommendationButtonText">Empfehlungen</string>
 	<string name="dashboardscreen_loggedOut">Logout erfolgreich!</string>
 
-    <!-- Beer list -->
-    <string name="beerlist_title">Bierliste</string>
-    <string name="beerlistContextTitle">Optionen</string>
-    <string name="beerlistContextEdit">Bier bearbeiten</string>
-    <string name="beerlistContextDelete">Bier löschen</string>
+	<!-- Beer list -->
+	<string name="beerlist_title">Bierliste</string>
+	<string name="beerlistContextTitle">Optionen</string>
+	<string name="beerlistContextEdit">Bier bearbeiten</string>
+	<string name="beerlistContextDelete">Bier löschen</string>
 
-    <!-- Beer detail -->
-    <string name="beerdetail_title">Bier Informationen</string>
-    <string name="beerdetail_drinkingNow">Soeben getrunken!</string>
-    <string name="beerdetail_yourRating">Deine Bewertung:</string>
-    <string name="beerdetail_success_saveConsumption">Bierkonsum erfolgreich gespeichert.</string>
-    <string name="beerdetail_success_saveRating">Bewertung erfolgreich gespeichert.</string>
-    <string name="beerdetail_success_saveTag">Tag wurde erfolgreich gespeichert</string>
-    <string name="beerdetail_fail_saveConsumption">Speichern des Bierkonsums ist fehlgeschlagen.</string>
-    <string name="beerdetail_fail_saveRating">Fehler: Speichern der Bewertung ist fehlgeschlagen.</string>
-    <string name="beerdetail_fail_loadDetail">Fehler: Informationen zum Bier konnten nicht vom Server geladen werden.</string>
-    <string name="beerdetail_fail_loadRating">Fehler: Bier-Bewertung konnte nicht vom Server geladen werden.</string>
-    <string name="beerdetail_fail_saveTag">Fehler: Der Tag konnte nicht gespeichert werden.</string>
-    <string name="beerdetail_addTag">Tag hinzufügen</string>
-    <string name="beerdetail_tags">Tags</string>
-    <string name="beerdetail_enterValue">Bitte gib Wert ein</string>
-    <string name="beerdetail_fail_invalidChars">Tag darf nur folgende Zeichen enthalten: [0&#8211;9][az&#8211;AZ]</string>
+	<!-- Beer detail -->
+	<string name="beerdetail_title">Bier Informationen</string>
+	<string name="beerdetail_drinkingNow">Soeben getrunken!</string>
+	<string name="beerdetail_yourRating">Deine Bewertung:</string>
+	<string name="beerdetail_success_saveConsumption">Bierkonsum erfolgreich gespeichert.</string>
+	<string name="beerdetail_success_saveRating">Bewertung erfolgreich gespeichert.</string>
+	<string name="beerdetail_success_saveTag">Tag wurde erfolgreich gespeichert</string>
+	<string name="beerdetail_fail_saveConsumption">Speichern des Bierkonsums ist fehlgeschlagen.</string>
+	<string name="beerdetail_fail_saveRating">Fehler: Speichern der Bewertung ist fehlgeschlagen.</string>
+	<string name="beerdetail_fail_loadDetail">Fehler: Informationen zum Bier konnten nicht vom Server geladen werden.
+	</string>
+	<string name="beerdetail_fail_loadRating">Fehler: Bier-Bewertung konnte nicht vom Server geladen werden.</string>
+	<string name="beerdetail_fail_saveTag">Fehler: Der Tag konnte nicht gespeichert werden.</string>
+	<string name="beerdetail_addTag">Tag hinzufügen</string>
+	<string name="beerdetail_tags">Tags</string>
+	<string name="beerdetail_enterValue">Bitte gib Wert ein</string>
+	<string name="beerdetail_fail_invalidChars">Tag darf nur folgende Zeichen enthalten: [0&#8211;9][az&#8211;AZ]
+	</string>
 
-    <!-- Brewery list -->
-    <string name="brewerylist_title">Brauereien</string>
+	<!-- Brewery list -->
+	<string name="brewerylist_title">Brauereien</string>
 
-    <!-- Brewery detail -->
-    <string name="brewerydetail_title">Brauerei Informationen</string>
-    <string name="brewerydetail_descriptionTitle">Beschreibung:</string>
-    <string name="brewerydetail_breweryName">Brauerei Name</string>
-    <string name="brewerydetail_brewerySize">Brauerei Grösse</string>
-    <string name="brewerydetail_breweryDescription">Brauerei Beschreibung</string>
-    <string name="brewerydetail_micro">Mikro</string>
-    <string name="brewerydetail_regional">Regional</string>
-    <string name="brewerydetail_national">National</string>
-    <string name="brewerydetail_international">International</string>
-    <string name="brewerydetail_fail_loadDetail">Fehler: Brauereidetails konnten nicht vom Server geladen werden.</string>
+	<!-- Brewery detail -->
+	<string name="brewerydetail_title">Brauerei Informationen</string>
+	<string name="brewerydetail_descriptionTitle">Beschreibung:</string>
+	<string name="brewerydetail_breweryName">Brauerei Name</string>
+	<string name="brewerydetail_brewerySize">Brauerei Grösse</string>
+	<string name="brewerydetail_breweryDescription">Brauerei Beschreibung</string>
+	<string name="brewerydetail_micro">Mikro</string>
+	<string name="brewerydetail_regional">Regional</string>
+	<string name="brewerydetail_national">National</string>
+	<string name="brewerydetail_international">International</string>
+	<string name="brewerydetail_fail_loadDetail">Fehler: Brauereidetails konnten nicht vom Server geladen werden.
+	</string>
 
-    <!-- Beer create -->
-    <string name="beercreate_activitytitle">Bier erfassen</string>
-    <string name="beercreate_createbeer">Bier erfassen</string>
-    <string name="beercreate_chooseBeertype">Biertyp wählen</string>
-    <string name="beercreate_chooseBrewery">Brauerei wählen</string>
-    <string name="beercreate_introText">Hier hast du die Möglichkeit ein neues Bier zu erfassen:</string>
-    <string name="beercreate_nameInfo">Gib hier den Namen des Bieres ein.</string>
-    <string name="beercreate_brandInfo">Bei der Marke handelt es sich um die Handelsmarke des Bieres. Die Marke entspricht oft der Brauerei, teilweise aber nicht. Zum Beispiel beim \'Vollmond Bier\' ist die Marke \'Appenzeller Bier\' die Brauerei jedoch \'Locher AG\'.</string>
-    <string name="beercreate_beertypeInfo">Hier wird der Typ des Bieres definiert. Tippe auf \'Mehr\' um mehr über die Biertypen zu erfahren.</string>
-    <string name="beercreate_breweryInfo">Wer hat dieses Bier gebraut? Falls die Brauerei für dieses Bier noch nicht erfasst ist, kannst du sie mit gleich mit \'Erfassen\' hinzufügen.</string>
-    <string name="beercreate_success">Bier wurde gespeichert</string>
+	<!-- Beer create -->
+	<string name="beercreate_activitytitle">Bier erfassen</string>
+	<string name="beercreate_createbeer">Bier erfassen</string>
+	<string name="beercreate_chooseBeertype">Biertyp wählen</string>
+	<string name="beercreate_chooseBrewery">Brauerei wählen</string>
+	<string name="beercreate_introText">Hier hast du die Möglichkeit ein neues Bier zu erfassen:</string>
+	<string name="beercreate_nameInfo">Gib hier den Namen des Bieres ein.</string>
+	<string name="beercreate_brandInfo">Bei der Marke handelt es sich um die Handelsmarke des Bieres. Die Marke
+		entspricht oft der Brauerei, teilweise aber nicht. Zum Beispiel beim \'Vollmond Bier\' ist die Marke
+		\'Appenzeller Bier\' die Brauerei jedoch \'Locher AG\'.
+	</string>
+	<string name="beercreate_beertypeInfo">Hier wird der Typ des Bieres definiert. Tippe auf \'Mehr\' um mehr über die
+		Biertypen zu erfahren.
+	</string>
+	<string name="beercreate_breweryInfo">Wer hat dieses Bier gebraut? Falls die Brauerei für dieses Bier noch nicht
+		erfasst ist, kannst du sie mit gleich mit \'Erfassen\' hinzufügen.
+	</string>
+	<string name="beercreate_success">Bier wurde gespeichert</string>
 
-    <!-- Brewery create -->
-    <string name="brewerycreate_createBrewery">Brauerei erstellen</string>
-    <string name="brewerycreate_title">Brauerei erstellen</string>
-    <string name="brewerycreate_successfull">Brauerei wurde erstellt</string>
-    <string name="brewerycreate_chooseSize">Brauereigrösse wählen</string>
+	<!-- Brewery create -->
+	<string name="brewerycreate_createBrewery">Brauerei erstellen</string>
+	<string name="brewerycreate_title">Brauerei erstellen</string>
+	<string name="brewerycreate_successfull">Brauerei wurde erstellt</string>
+	<string name="brewerycreate_chooseSize">Brauereigrösse wählen</string>
 
-    <!-- About screen -->
-    <string name="aboutscreen_activitytitle">Über BierIdee</string>
-    <string name="aboutscreen_title">Über BierIdee</string>
-    <string name="aboutscreen_text">Das Projekt "BierIdee" ist als Semesterarbeit an der Hochschule für Technik in Rapperswil entstanden.</string>
-    <string name="aboutscreen_imageDescription">Bieridee Logo</string>
+	<!-- About screen -->
+	<string name="aboutscreen_activitytitle">Über BierIdee</string>
+	<string name="aboutscreen_title">Über BierIdee</string>
+	<string name="aboutscreen_text">Das Projekt "BierIdee" ist als Semesterarbeit an der Hochschule für Technik in
+		Rapperswil entstanden.
+	</string>
+	<string name="aboutscreen_imageDescription">Bieridee Logo</string>
 
-    <!-- Beertypelist -->
-    <string name="beertypelist_title">Biertypen</string>
+	<!-- Beertypelist -->
+	<string name="beertypelist_title">Biertypen</string>
 	<string name="beertypelist_menu_expandall">Alle anzeigen</string>
 
-    <!-- Timeline list -->
-    <string name="timelinelist_title">Timeline</string>
-    <string name="timelinelist_longAgo">vor Urzeiten</string>
-    <string name="timelinelist_feltThirsty">%1$s war durstig!</string>
-    <string name="timelinelist_ratedBeer">%1$s rated </string>
-    <plurals name="numberOfSeconds">
-        <item quantity="one">vor %1$d Sekunde</item>
-        <item quantity="other">vor %1$d Sekunden</item>
-    </plurals>
-    <plurals name="numberOfMinutes">
-        <item quantity="one">vor %1$d Minute </item>
-        <item quantity="other">vor %1$d Minuten</item>
-    </plurals>
-    <plurals name="numberOfHours">
-        <item quantity="one">vor %1$d Stunde</item>
-        <item quantity="other">vor %1$d Stunden</item>
-    </plurals>
-    <plurals name="numberOfDays">
-        <item quantity="one">vor %1$d Tag</item>
-        <item quantity="other">vor %1$d Tagen</item>
-    </plurals>
+	<!-- Timeline list -->
+	<string name="timelinelist_title">Timeline</string>
+	<string name="timelinelist_longAgo">vor Urzeiten</string>
+	<string name="timelinelist_feltThirsty">%1$s war durstig!</string>
+	<string name="timelinelist_ratedBeer">%1$s rated</string>
+	<plurals name="numberOfSeconds">
+		<item quantity="one">vor %1$d Sekunde</item>
+		<item quantity="other">vor %1$d Sekunden</item>
+	</plurals>
+	<plurals name="numberOfMinutes">
+		<item quantity="one">vor %1$d Minute</item>
+		<item quantity="other">vor %1$d Minuten</item>
+	</plurals>
+	<plurals name="numberOfHours">
+		<item quantity="one">vor %1$d Stunde</item>
+		<item quantity="other">vor %1$d Stunden</item>
+	</plurals>
+	<plurals name="numberOfDays">
+		<item quantity="one">vor %1$d Tag</item>
+		<item quantity="other">vor %1$d Tagen</item>
+	</plurals>
 	<string name="timeline_menu_profile">Nur eigene Aktivitäten</string>
 
 	<!-- Barcode scan -->
 	<string name="barcodescan_title">Strichcode scannen</string>
+	<string name="barcodescan_description">Hier kannst du einen Stricode von einer Bierflasche oder -dose scannen, um
+		dessen Detailseite anzuschauen. Dazu benötigst du die 3rd Party App "Barcode Scanner" vom ZXing Project.
+	</string>
+	<string name="barcodescan_rescan">Erneut scannen</string>
+	<string name="barcodescan_failed">Strichcode scannen fehlgeschlagen.</string>
+	<string name="barcodescan_error">Beim Scannen des Stricodes ist ein Fehler aufgetreten.</string>
+	<string name="barcodescan_not_found">Das Bier mit dem Strichcode %s konnte nicht gefunden werden.</string>
 
 </resources>
