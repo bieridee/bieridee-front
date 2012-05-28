@@ -33,7 +33,7 @@
     <string name="unknown">Unbekannt</string>
     <string name="loading">Lade&#8230;</string>
     <string name="changesSaved">Änderungen wurden gespeichert</string>
-	
+
     <!-- Errors -->
     <string name="handsomeError">Ein Fehler ist aufgetreten. Bitte erneut versuchen.</string>
     <string name="pleaseProvideAllData">Bitte alle Felder ausfüllen</string>
@@ -68,8 +68,9 @@
     <string name="dashboardscreen_breweriesButtonText">Brauereien</string>
     <string name="dashboardscreen_profileButtonText">Profil</string>
     <string name="dashboardscreen_createButtonText">Bier erfassen</string>
-    <string name="dashboardscreen_recommendationButtonText">Empfehlungen</string>
-    <string name="dashboardscreen_loggedOut">Logout erfolgreich!</string>
+	<string name="dashboardscreen_scanButtonText">Strichcode scannen</string>
+	<string name="dashboardscreen_recommendationButtonText">Empfehlungen</string>
+	<string name="dashboardscreen_loggedOut">Logout erfolgreich!</string>
 
     <!-- Beer list -->
     <string name="beerlist_title">Bierliste</string>
@@ -132,11 +133,11 @@
     <string name="aboutscreen_title">Über BierIdee</string>
     <string name="aboutscreen_text">Das Projekt "BierIdee" ist als Semesterarbeit an der Hochschule für Technik in Rapperswil entstanden.</string>
     <string name="aboutscreen_imageDescription">Bieridee Logo</string>
-	
+
     <!-- Beertypelist -->
     <string name="beertypelist_title">Biertypen</string>
 	<string name="beertypelist_menu_expandall">Alle anzeigen</string>
-    
+
     <!-- Timeline list -->
     <string name="timelinelist_title">Timeline</string>
     <string name="timelinelist_longAgo">vor Urzeiten</string>

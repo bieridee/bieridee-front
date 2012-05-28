@@ -28,11 +28,11 @@
             android:drawableTop="@drawable/dashboard_button_breweries"
             android:text="@string/dashboardscreen_breweriesButtonText" />
 
-        <Button
-            android:id="@+id_dashboardscreen/buttonProfile"
-            style="@style/DashboardButton"
-            android:drawableTop="@drawable/dashboard_button_profile"
-            android:text="@string/dashboardscreen_profileButtonText" />
+	    <Button
+		    android:id="@+id_dashboardscreen/buttonScan"
+		    style="@style/DashboardButton"
+		    android:drawableTop="@drawable/dashboard_button_scan"
+		    android:text="@string/dashboardscreen_scanButtonText" />
 
         <Button
             android:id="@+id_dashboardscreen/buttonCreate"

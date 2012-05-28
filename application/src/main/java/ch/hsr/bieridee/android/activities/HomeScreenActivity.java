@@ -25,10 +25,6 @@ public class HomeScreenActivity extends Activity {
 		super.onCreate(savedInstanceState);
 
 		this.setContentView(R.layout.homescreen);
-		this.addOnClickListener((Button) findViewById(R.id_dashboardscreen.buttonBeerlist), BeerListActivity.class);
-		this.addOnClickListener((Button) findViewById(R.id_dashboardscreen.buttonBreweries), BreweryListActivity.class);
-		this.addOnClickListener((Button) findViewById(R.id_dashboardscreen.buttonCreate), BeerCreateActivity.class);
-		this.addOnClickListener((Button) findViewById(R.id_dashboardscreen.buttonTimeline), TimelineListActivity.class);
 
 		final OnClickListener notYetImplementedListener = new OnClickListener() {
 			public void onClick(View view) {
@@ -36,16 +32,11 @@ public class HomeScreenActivity extends Activity {
 			}
 		};
 
-		findViewById(R.id_dashboardscreen.buttonProfile).setOnClickListener(new OnClickListener() {
-
-			public void onClick(View v) {
-				final Intent intent = new Intent(v.getContext(), TimelineListActivity.class);
-				intent.putExtra(TimelineListActivity.EXTRA_USERNAME, Auth.getUsername());
-				startActivity(intent);
-
-			}
-		});
-
+		this.addOnClickListener((Button) findViewById(R.id_dashboardscreen.buttonBeerlist), BeerListActivity.class);
+		this.addOnClickListener((Button) findViewById(R.id_dashboardscreen.buttonBreweries), BreweryListActivity.class);
+		this.addOnClickListener((Button) findViewById(R.id_dashboardscreen.buttonCreate), BeerCreateActivity.class);
+		this.addOnClickListener((Button) findViewById(R.id_dashboardscreen.buttonTimeline), TimelineListActivity.class);
+		this.addOnClickListener((Button) findViewById(R.id_dashboardscreen.buttonScan), BarcodeScanActivity.class);
 		findViewById(R.id_dashboardscreen.buttonRating).setOnClickListener(notYetImplementedListener);
 	}
 
