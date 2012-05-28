@@ -158,6 +158,7 @@
         <item quantity="one">vor %1$d Tag</item>
         <item quantity="other">vor %1$d Tagen</item>
     </plurals>
+	<string name="timeline_menu_profile">Nur eigene Aktivitäten</string>
 
 	<!-- Barcode scan -->
 	<string name="barcodescan_title">Strichcode scannen</string>
