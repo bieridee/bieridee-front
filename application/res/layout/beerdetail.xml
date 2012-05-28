@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="10dp" >
+        android:padding="10dp">
 
         <TextView
             android:id="@+id_beerdetail/beerName"
@@ -109,7 +109,9 @@
                 android:minHeight="20dp"
                 android:minWidth="200dp"
                 android:text="@string/beerdetail_drinkingNow" />
-
+
+
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

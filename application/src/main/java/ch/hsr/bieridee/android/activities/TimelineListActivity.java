@@ -2,6 +2,7 @@ package ch.hsr.bieridee.android.activities;
 
 import java.io.IOException;
 
+import ch.hsr.bieridee.android.config.Auth;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.impl.client.BasicResponseHandler;
@@ -55,7 +56,7 @@ public class TimelineListActivity extends ListActivity implements ListView.OnScr
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.timelinelist);
-		final ListView list = (ListView) TimelineListActivity.this.getListView();
+		final ListView list = TimelineListActivity.this.getListView();
 		this.loadingFooter = getLayoutInflater().inflate(R.layout.loading_item, list, false);
 		list.addFooterView(this.loadingFooter, null, false);
 		this.adapter = new ActionListAdapter(this);
@@ -83,7 +84,11 @@ public class TimelineListActivity extends ListActivity implements ListView.OnScr
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		final MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.refresh_menu, menu);
+		if (this.username != null) {
+			inflater.inflate(R.menu.refresh_menu, menu);
+		} else {
+			inflater.inflate(R.menu.timeline_menu, menu);
+		}
 		return true;
 	}
 
@@ -92,6 +97,11 @@ public class TimelineListActivity extends ListActivity implements ListView.OnScr
 		switch (item.getItemId()) {
 			case R.id_refreshmenu.refresh:
 				new GetActionData().execute();
+				break;
+			case R.id_timeline_menu.profile:
+				final Intent intent = new Intent(getBaseContext(), TimelineListActivity.class);
+				intent.putExtra(EXTRA_USERNAME, Auth.getUsername());
+				startActivity(intent);
 				break;
 		}
 		return true;

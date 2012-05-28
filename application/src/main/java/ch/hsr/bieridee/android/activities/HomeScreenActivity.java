@@ -25,10 +25,6 @@ public class HomeScreenActivity extends Activity {
 		super.onCreate(savedInstanceState);
 
 		this.setContentView(R.layout.homescreen);
-		this.addOnClickListener((Button) findViewById(R.id_dashboardscreen.buttonBeerlist), BeerListActivity.class);
-		this.addOnClickListener((Button) findViewById(R.id_dashboardscreen.buttonBreweries), BreweryListActivity.class);
-		this.addOnClickListener((Button) findViewById(R.id_dashboardscreen.buttonCreate), BeerCreateActivity.class);
-		this.addOnClickListener((Button) findViewById(R.id_dashboardscreen.buttonTimeline), TimelineListActivity.class);
 
 		final OnClickListener notYetImplementedListener = new OnClickListener() {
 			public void onClick(View view) {
@@ -36,30 +32,12 @@ public class HomeScreenActivity extends Activity {
 			}
 		};
 
-		findViewById(R.id_dashboardscreen.buttonProfile).setOnClickListener(new OnClickListener() {
-
-			public void onClick(View v) {
-				final Intent intent = new Intent(v.getContext(), TimelineListActivity.class);
-				intent.putExtra(TimelineListActivity.EXTRA_USERNAME, Auth.getUsername());
-				startActivity(intent);
-
-			}
-		});
+		this.addOnClickListener((Button) findViewById(R.id_dashboardscreen.buttonBeerlist), BeerListActivity.class);
+		this.addOnClickListener((Button) findViewById(R.id_dashboardscreen.buttonBreweries), BreweryListActivity.class);
+		this.addOnClickListener((Button) findViewById(R.id_dashboardscreen.buttonCreate), BeerCreateActivity.class);
+		this.addOnClickListener((Button) findViewById(R.id_dashboardscreen.buttonTimeline), TimelineListActivity.class);
+		this.addOnClickListener((Button) findViewById(R.id_dashboardscreen.buttonScan), BarcodeScanActivity.class);
 		findViewById(R.id_dashboardscreen.buttonRating).setOnClickListener(notYetImplementedListener);
-		
-		if(this.getIntent().getExtras() != null && this.getIntent().getExtras().containsKey("errormessage")) {
-			final String message = this.getIntent().getExtras().getString("errormessage");
-			final AlertDialog.Builder builder = new AlertDialog.Builder(HomeScreenActivity.this);
-			builder.setMessage(message)
-			       .setCancelable(false)
-			       .setPositiveButton(HomeScreenActivity.this.getString(android.R.string.ok), new DialogInterface.OnClickListener() {
-			           public void onClick(DialogInterface dialog, int id) {
-			        	   dialog.cancel();
-			           }
-			       }) ;
-			final AlertDialog info = builder.create();
-			info.show();
-		}
 	}
 
 	@Override

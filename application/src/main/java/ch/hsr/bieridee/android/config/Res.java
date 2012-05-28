@@ -19,6 +19,7 @@ public final class Res {
 	public static final String BEER_REQ_ATTR = "beer-id";
 	public static final String BEER_DOCUMENT = "/beers/{" + BEER_REQ_ATTR + "}";
 	public static final String BEER_FILTER_PARAMETER_TAG = "tag";
+	public static final String BEER_FILTER_PARAMETER_BARCODE = "barcode";
 
 	// beertype
 	public static final String BEERTYPE_COLLECTION = "/beertypes";
@@ -114,7 +115,7 @@ public final class Res {
 	 * This is done by appending the resource URI to the base URI. The key value pair is appended as a query parameter
 	 * (GET).
 	 * 
-	 * @see getURI(String resource, Map<String,String> getQueryparameters)
+	 * @see {@link this.getURI}
 	 * @param resource
 	 *            Resource string ({@code Res} constants should be used).
 	 * @param key

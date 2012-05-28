@@ -77,14 +77,11 @@ public final class BreweryListActivity extends ListActivity {
 	private class GetBreweryData extends AsyncTask<Void, Void, JSONArray> {
 		@Override
 		protected void onPreExecute() {
-			Log.d(LOG_TAG, "onPreExecute()");
 			BreweryListActivity.this.progressDialog = ProgressDialog.show(BreweryListActivity.this, getString(R.string.pleaseWait), getString(R.string.loadingData), true);
 		}
 
 		@Override
 		protected JSONArray doInBackground(Void... voids) {
-			Log.d(LOG_TAG, "doInBackground()");
-
 			HttpResponse response = null;
 			try {
 				response = BreweryListActivity.this.httpHelper.get(Res.getURI(Res.BREWERY_COLLECTION));
@@ -113,7 +110,6 @@ public final class BreweryListActivity extends ListActivity {
 
 		@Override
 		protected void onPostExecute(JSONArray result) {
-			Log.d(LOG_TAG, "onPostExecute()");
 			if (result != null) {
 				BreweryListActivity.this.adapter.updateData(result);
 				BreweryListActivity.this.adapter.notifyDataSetChanged();

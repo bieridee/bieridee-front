@@ -268,16 +268,13 @@ public class BeerDetailActivity extends Activity {
 	private class GetBeerRating extends AsyncTask<Void, Void, JSONObject> {
 		@Override
 		protected void onPreExecute() {
-			Log.d(LOG_TAG, "onPreExecute()");
 			BeerDetailActivity.this.progressDialog.display(BeerDetailActivity.this, true);
 		}
 
 		@Override
 		protected JSONObject doInBackground(Void... voids) {
-			Log.d(LOG_TAG, "doInBackground()");
-
 			final String uri = Res.getURI(Res.RATING_DOCUMENT, Long.toString(BeerDetailActivity.this.beerId), BeerDetailActivity.this.username);
-			Log.d(LOG_TAG, "GET " + uri);
+
 			HttpResponse response = null;
 			try {
 				response = BeerDetailActivity.this.httpHelper.get(uri);
@@ -312,7 +309,6 @@ public class BeerDetailActivity extends Activity {
 
 		@Override
 		protected void onPostExecute(JSONObject result) {
-			Log.d(LOG_TAG, "onPostExecute()");
 			if (isCancelled()) {
 				Log.d(LOG_TAG, "cancel onPostExecute()");
 				return;

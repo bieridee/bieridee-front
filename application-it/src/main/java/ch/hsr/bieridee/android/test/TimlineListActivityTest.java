@@ -34,7 +34,17 @@ public class TimlineListActivityTest extends ActivityInstrumentationTestCase2<Ti
 	 * Test activity content.
 	 */
 	public void testActivityContent() {
-		assertTrue(this.solo.searchText("felt thirsty")); // title
+		assertTrue(this.solo.searchText("war durstig")); // title
 		assertTrue(this.solo.searchText("rated")); // beer name
+	}
+
+	/**
+	 * Test whether the about button launches the about screen.
+	 */
+	public void testMenu() {
+		this.solo.assertCurrentActivity("Expected home screen activity to be active.", TimelineListActivity.class);
+		this.solo.sendKey(Solo.MENU);
+		assertTrue(this.solo.searchText("Aktualisieren"));
+		assertTrue(this.solo.searchText("Nur eigene Aktivitäten"));
 	}
 }
