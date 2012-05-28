@@ -1,6 +1,8 @@
 package ch.hsr.bieridee.android.activities;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import ch.hsr.bieridee.android.config.Auth;
 import org.apache.http.HttpResponse;
@@ -35,7 +37,7 @@ import ch.hsr.bieridee.android.utils.ErrorHelper;
  * Activity that shows a list of all actions in our database.
  */
 public class TimelineListActivity extends ListActivity implements ListView.OnScrollListener {
-	
+
 	private static final String LOG_TAG = TimelineListActivity.class.getName();
 	private ActionListAdapter adapter;
 	private ProgressDialog progressDialog;
@@ -97,6 +99,7 @@ public class TimelineListActivity extends ListActivity implements ListView.OnScr
 		switch (item.getItemId()) {
 			case R.id_refreshmenu.refresh:
 				new GetActionData().execute();
+				this.currentPage++;
 				break;
 			case R.id_timeline_menu.profile:
 				final Intent intent = new Intent(getBaseContext(), TimelineListActivity.class);
@@ -131,17 +134,20 @@ public class TimelineListActivity extends ListActivity implements ListView.OnScr
 
 		@Override
 		protected JSONArray doInBackground(Void... voids) {
-			String resourceUri = Res.TIMELINE_COLLECTION + "?nOfItems=" + PAGESIZE + "&page=" + TimelineListActivity.this.currentPage;
+			final Map<String, String> params = new HashMap<String, String>();
+			params.put("items", PAGESIZE + "");
+			params.put("page", TimelineListActivity.this.currentPage + "");
 			if (TimelineListActivity.this.username != null) {
-				resourceUri += "&username=" + TimelineListActivity.this.username;
+				params.put("username", TimelineListActivity.this.username);
 			}
+			final String resourceUri = Res.getURIwithGETParams(Res.TIMELINE_COLLECTION, params);
 			final HttpHelper httpHelper = AuthJsonHttp.create();
 			HttpResponse response = null;
 			try {
-				response = httpHelper.get(Res.getURI(resourceUri));
+				response = httpHelper.get(resourceUri);
 			} catch (IOException e) {
 				Log.d(LOG_TAG, e.getMessage(), e);
-				ErrorHelper.onError(TimelineListActivity.this.getString(R.string.connectionError),TimelineListActivity.this);
+				ErrorHelper.onError(TimelineListActivity.this.getString(R.string.connectionError), TimelineListActivity.this);
 			}
 
 			if (response != null) {
@@ -152,10 +158,10 @@ public class TimelineListActivity extends ListActivity implements ListView.OnScr
 						return new JSONArray(responseText);
 					} catch (IOException e) {
 						Log.d(LOG_TAG, e.getMessage(), e);
-						ErrorHelper.onError(TimelineListActivity.this.getString(R.string.malformedData),TimelineListActivity.this);
+						ErrorHelper.onError(TimelineListActivity.this.getString(R.string.malformedData), TimelineListActivity.this);
 					} catch (JSONException e) {
 						Log.d(LOG_TAG, e.getMessage(), e);
-						ErrorHelper.onError(TimelineListActivity.this.getString(R.string.malformedData),TimelineListActivity.this);
+						ErrorHelper.onError(TimelineListActivity.this.getString(R.string.malformedData), TimelineListActivity.this);
 					}
 				}
 			}
@@ -177,6 +183,7 @@ public class TimelineListActivity extends ListActivity implements ListView.OnScr
 				TimelineListActivity.this.progressDialog.dismiss();
 			}
 			TimelineListActivity.this.loadingFooter.setVisibility(View.GONE);
+			TimelineListActivity.this.currentPage++;
 		}
 	}
 
@@ -260,15 +267,13 @@ public class TimelineListActivity extends ListActivity implements ListView.OnScr
 		final int last = view.getLastVisiblePosition();
 		switch (scrollState) {
 			case OnScrollListener.SCROLL_STATE_IDLE:
-				if (last >= (this.currentPage + 1) * VISIBLECOUNT) {
+				if (last >= (this.currentPage) * VISIBLECOUNT) {
 					new GetActionData(false).execute();
-					this.currentPage++;
 				}
 				break;
 			case OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
-				if (last >= (this.currentPage + 1) * VISIBLECOUNT) {
+				if (last >= (this.currentPage) * VISIBLECOUNT) {
 					new GetActionData(false).execute();
-					this.currentPage++;
 				}
 				break;
 			case OnScrollListener.SCROLL_STATE_FLING:

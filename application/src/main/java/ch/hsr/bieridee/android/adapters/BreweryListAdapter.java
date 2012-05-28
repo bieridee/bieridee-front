@@ -17,10 +17,10 @@ import ch.hsr.bieridee.android.utils.ErrorHelper;
  * The BreweryListAdapter adapts the JSON brewery structure to the Android ListView.
  * 
  */
-public class BreweryListAdapter extends JsonListAdapter {
-	
+public class BreweryListAdapter extends ContinousScrollJsonAdapter {
+
 	private static final String LOG_TAG = BreweryListAdapter.class.getName();
-	
+
 	/**
 	 * @param activity
 	 *            Activity
@@ -29,6 +29,11 @@ public class BreweryListAdapter extends JsonListAdapter {
 		super(activity);
 	}
 
+	@Override
+	public long getItemId(int position) {
+		return this.data.get(position).optLong("id");
+	}
+	
 	/**
 	 * Return the view for specified position.
 	 * 
@@ -64,4 +69,6 @@ public class BreweryListAdapter extends JsonListAdapter {
 	public String toString() {
 		return "BreweryListAdapter{activity=" + this.activity.getClass().getName() + '}';
 	}
+
+	
 }

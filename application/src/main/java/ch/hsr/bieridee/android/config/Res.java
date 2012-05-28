@@ -102,10 +102,12 @@ public final class Res {
 			return API_URL + resource;
 		}
 		resource += "?";
+		final StringBuilder params = new StringBuilder();
 		for (Entry<String, String> entry : getQueryParameters.entrySet()) {
-			resource += entry.getKey() + "=" + entry.getValue();
+			params.append(entry.getKey()).append("=").append(entry.getValue());
+			params.append("&");
 		}
-		return API_URL + resource.substring(0, resource.length() - 2);
+		return API_URL + resource + params.toString().substring(0, params.toString().length() - 1);
 
 	}
 

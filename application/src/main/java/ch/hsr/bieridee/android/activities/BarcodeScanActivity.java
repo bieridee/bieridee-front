@@ -49,8 +49,7 @@ public class BarcodeScanActivity extends Activity {
 	 * Start barcode scanner.
 	 */
 	private void readBarcode() {
-		final IntentIntegrator integrator = new IntentIntegrator(BarcodeScanActivity.this);
-		integrator.initiateScan();
+		IntentIntegrator.initiateScan(BarcodeScanActivity.this);
 	}
 
 	/**
