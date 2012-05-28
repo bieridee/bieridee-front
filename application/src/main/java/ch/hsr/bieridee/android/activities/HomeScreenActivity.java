@@ -47,27 +47,6 @@ public class HomeScreenActivity extends Activity {
 		});
 
 		findViewById(R.id_dashboardscreen.buttonRating).setOnClickListener(notYetImplementedListener);
-		
-		if(this.getIntent().getExtras() != null && this.getIntent().getExtras().containsKey("errormessage")) {
-			final String message = this.getIntent().getExtras().getString("errormessage");
-			final AlertDialog.Builder builder = new AlertDialog.Builder(HomeScreenActivity.this);
-			builder.setMessage(message)
-			       .setCancelable(false)
-			       .setPositiveButton(HomeScreenActivity.this.getString(android.R.string.ok), new DialogInterface.OnClickListener() {
-			           public void onClick(DialogInterface dialog, int id) {
-			        	   dialog.cancel();
-			           }
-			       }) ;
-			final AlertDialog info = builder.create();
-			info.show();
-		}
-
-		/*findViewById(R.id_dashboardscreen.buttonRating).setOnClickListener(new OnClickListener() {
-			public void onClick(View view) {
-				final Intent intent = new Intent(view.getContext(), BarcodeScanActivity.class);
-				startActivity(intent);
-			}
-		});*/
 	}
 
 	@Override
