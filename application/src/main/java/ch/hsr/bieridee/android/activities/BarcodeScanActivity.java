@@ -42,37 +42,37 @@ public class BarcodeScanActivity extends Activity {
 			}
 		});
 
-		readBarcode();
+		this.readBarcode();
 	}
 
 	/**
 	 * Start barcode scanner.
 	 */
 	private void readBarcode() {
-		IntentIntegrator integrator = new IntentIntegrator(BarcodeScanActivity.this);
+		final IntentIntegrator integrator = new IntentIntegrator(BarcodeScanActivity.this);
 		integrator.initiateScan();
 	}
 
 	/**
 	 * Process the return value from the barcode scanner.
 	 *
-	 * @param requestCode
-	 * @param resultCode
-	 * @param intent
+	 * @param requestCode Request code
+	 * @param resultCode Result code
+	 * @param intent Intent
 	 */
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-		IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+		final IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
 
 		// Error condition, should not happen
 		if (scanResult == null) {
-			ErrorHelper.onError(getString(R.string.barcodescan_error), BarcodeScanActivity.this);
+			ErrorHelper.onError(getString(R.string.barcodescan_error), this);
 
 			// Process returned barcode
 		} else {
 			final String barcode = scanResult.getContents();
 			if (barcode == null) {
-				ErrorHelper.onError(getString(R.string.barcodescan_failed), BarcodeScanActivity.this);
+				ErrorHelper.onError(getString(R.string.barcodescan_failed), this);
 			} else {
 				final String format = scanResult.getFormatName();
 				Log.d(LOG_TAG, String.format("Received barcode %s with format %s.", barcode, format));
@@ -95,7 +95,7 @@ public class BarcodeScanActivity extends Activity {
 		protected JSONObject doInBackground(String... barcodes) {
 			final String barcode = barcodes[0];
 
-			final String uri = String.format("%s?%s=%s", Res.getURI(Res.BEER_COLLECTION), Res.BEER_FILTER_PARAMETER_BARCODE, barcode);
+			final String uri = Res.getURIwithGETParams(Res.BEER_COLLECTION, Res.BEER_FILTER_PARAMETER_BARCODE, barcode);
 
 			HttpResponse response = null;
 			final HttpHelper httpHelper = AuthJsonHttp.create();
