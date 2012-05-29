@@ -13,6 +13,7 @@ public final class Res {
 	}
 
 	public static final String API_URL = "http://brauhaus.nusszipfel.com:8080";
+	//public static final String API_URL = "http://192.168.0.119:8080";
 
 	// beer
 	public static final String BEER_COLLECTION = "/beers";
@@ -42,6 +43,7 @@ public final class Res {
 	public static final String USER_COLLECTION = "/users";
 	public static final String USER_REQ_ATTR = "user-name";
 	public static final String USER_DOCUMENT = "/users/{" + USER_REQ_ATTR + "}";
+	public static final String USER_RECOMMENDATION_COLLECTION = USER_DOCUMENT + "/recommendations";
 
 	// usercredentials
 	public static final String USERCREDENTIALS_CONTROLLER = "/usercredentials";

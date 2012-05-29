@@ -184,5 +184,9 @@
 	<string name="barcodescan_failed">Strichcode scannen fehlgeschlagen.</string>
 	<string name="barcodescan_error">Beim Scannen des Stricodes ist ein Fehler aufgetreten.</string>
 	<string name="barcodescan_not_found">Das Bier mit dem Strichcode %s konnte nicht gefunden werden.</string>
+    <!-- Recommendations -->
+    <string name="recommendations_title">Bierempfehlungen</string>
+    <string name="recommendations_absoluteWeight">Diese Empfehlung hat eine Gewichtung von %1$.1f</string>
+    <string name="recommendations_noRecommendations">Leider konnten keine Empfehlungen für dich gefunden werden. Gib uns mehr Informationen zu deinem Geschmack, in dem du Biere bewerterst!</string>
 
 </resources>

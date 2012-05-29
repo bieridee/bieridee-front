@@ -1,155 +1,161 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="match_parent"
-	android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:fillViewport="true"
+    android:isScrollContainer="true"
+    android:overScrollMode="always"
+    android:scrollbarAlwaysDrawVerticalTrack="false"
+    android:scrollbarStyle="outsideInset"
+    android:scrollbars="vertical" >
 
-	<LinearLayout
-		xmlns:android="http://schemas.android.com/apk/res/android"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:orientation="vertical"
-		android:padding="10dp">
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp" >
 
-		<TextView
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_marginTop="3dp"
-			android:layout_marginBottom="15dp"
-			android:drawableLeft="@drawable/ic_beer"
-			android:text="@string/beercreate_introText"
-			android:textAppearance="?android:attr/textAppearanceMedium" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="3dp"
+            android:drawableLeft="@drawable/ic_beer"
+            android:text="@string/beercreate_introText"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
-		<TextView
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="@string/beer"
-			android:textAppearance="?android:attr/textAppearanceSmall" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/beer"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
 
-		<LinearLayout
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_marginBottom="10dp"
-			android:weightSum="1">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:weightSum="1" >
 
-			<EditText
-				android:id="@+id_beercreate/beername"
-				android:layout_width="0dip"
-				android:layout_height="wrap_content"
-				android:layout_weight=".85"
-				android:ems="10"
-				android:inputType="textCapWords" />
+            <EditText
+                android:id="@+id_beercreate/beername"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight=".85"
+                android:ems="10"
+                android:inputType="textCapWords" />
 
-			<ImageButton
-				android:id="@+id_beercreate/nameInfoButton"
-				android:layout_width="0dip"
-				android:layout_height="wrap_content"
-				android:layout_gravity="center_vertical"
-				android:layout_weight=".15"
-				android:background="@null"
-				android:contentDescription="@android:drawable/ic_dialog_info"
-				android:src="@android:drawable/ic_dialog_info" />
-		</LinearLayout>
+            <ImageButton
+                android:id="@+id_beercreate/nameInfoButton"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight=".15"
+                android:background="@null"
+                android:contentDescription="@android:drawable/ic_dialog_info"
+                android:src="@android:drawable/ic_dialog_info" />
+        </LinearLayout>
 
-		<TextView
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="@string/brand"
-			android:textAppearance="?android:attr/textAppearanceSmall" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/brand"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
 
-		<LinearLayout
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_marginBottom="10dp"
-			android:weightSum="1">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:weightSum="1" >
 
-			<AutoCompleteTextView
-				android:id="@+id_beercreate/brandAutocomplete"
-				android:layout_width="0dip"
-				android:layout_height="wrap_content"
-				android:layout_weight=".85"
-				android:ems="10" />
+            <AutoCompleteTextView
+                android:id="@+id_beercreate/brandAutocomplete"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight=".85"
+                android:ems="10" />
 
-			<ImageButton
-				android:id="@+id_beercreate/brandInfoButton"
-				android:layout_width="0dip"
-				android:layout_height="wrap_content"
-				android:layout_gravity="center_vertical"
-				android:layout_weight=".15"
-				android:background="@null"
-				android:contentDescription="@android:drawable/ic_dialog_info"
-				android:src="@android:drawable/ic_dialog_info" />
-		</LinearLayout>
+            <ImageButton
+                android:id="@+id_beercreate/brandInfoButton"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight=".15"
+                android:background="@null"
+                android:contentDescription="@android:drawable/ic_dialog_info"
+                android:src="@android:drawable/ic_dialog_info" />
+        </LinearLayout>
 
-		<TextView
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="@string/beertype"
-			android:textAppearance="?android:attr/textAppearanceSmall" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/beertype"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
 
-		<LinearLayout
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_marginBottom="10dp"
-			android:weightSum="1">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:weightSum="1" >
 
-			<Spinner
-				android:id="@+id_beercreate/beertypeSpinner"
-				android:layout_width="0dip"
-				android:layout_height="wrap_content"
-				android:layout_weight=".85"
-				android:prompt="@string/beercreate_chooseBeertype" />
+            <Spinner
+                android:id="@+id_beercreate/beertypeSpinner"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight=".85"
+                android:prompt="@string/beercreate_chooseBeertype" />
 
-			<ImageButton
-				android:id="@+id_beercreate/beertypeInfoButton"
-				android:layout_width="0dip"
-				android:layout_height="wrap_content"
-				android:layout_gravity="center_vertical"
-				android:layout_weight=".15"
-				android:background="@null"
-				android:contentDescription="@android:drawable/ic_dialog_info"
-				android:src="@android:drawable/ic_dialog_info" />
-		</LinearLayout>
+            <ImageButton
+                android:id="@+id_beercreate/beertypeInfoButton"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight=".15"
+                android:background="@null"
+                android:contentDescription="@android:drawable/ic_dialog_info"
+                android:src="@android:drawable/ic_dialog_info" />
+        </LinearLayout>
 
-		<TextView
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_marginTop="3dp"
-			android:text="@string/brewery"
-			android:textAppearance="?android:attr/textAppearanceSmall" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:text="@string/brewery"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
 
-		<LinearLayout
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_marginBottom="10dp"
-			android:weightSum="1">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:weightSum="1" >
 
-			<Spinner
-				android:id="@+id_beercreate/brewerySpinner"
-				android:layout_width="0dip"
-				android:layout_height="wrap_content"
-				android:layout_weight=".85"
-				android:prompt="@string/beercreate_chooseBrewery" />
+            <Spinner
+                android:id="@+id_beercreate/brewerySpinner"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight=".85"
+                android:prompt="@string/beercreate_chooseBrewery" />
 
-			<ImageButton
-				android:id="@+id_beercreate/breweryInfoButton"
-				android:layout_width="0dip"
-				android:layout_height="wrap_content"
-				android:layout_gravity="center_vertical"
-				android:layout_weight=".15"
-				android:background="@null"
-				android:contentDescription="@android:drawable/ic_dialog_info"
-				android:src="@android:drawable/ic_dialog_info" />
-		</LinearLayout>
+            <ImageButton
+                android:id="@+id_beercreate/breweryInfoButton"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight=".15"
+                android:background="@null"
+                android:contentDescription="@android:drawable/ic_dialog_info"
+                android:src="@android:drawable/ic_dialog_info" />
+        </LinearLayout>
 
-		<Button
-			android:id="@+id_beercreate/createButton"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_gravity="center_horizontal"
-			android:layout_marginTop="20dp"
-			android:minHeight="20dp"
-			android:minWidth="200dp"
-			android:text="@string/beercreate_createbeer" />
-	</LinearLayout>
+        <Button
+            android:id="@+id_beercreate/createButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:minHeight="20dp"
+            android:minWidth="200dp"
+            android:text="@string/beercreate_createbeer" />
+    </LinearLayout>
 
 </ScrollView>

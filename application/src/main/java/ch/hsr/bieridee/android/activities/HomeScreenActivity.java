@@ -1,8 +1,6 @@
 package ch.hsr.bieridee.android.activities;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -26,18 +24,13 @@ public class HomeScreenActivity extends Activity {
 
 		this.setContentView(R.layout.homescreen);
 
-		final OnClickListener notYetImplementedListener = new OnClickListener() {
-			public void onClick(View view) {
-				Toast.makeText(HomeScreenActivity.this.getBaseContext(), "TODO implement!", Toast.LENGTH_LONG).show();
-			}
-		};
-
 		this.addOnClickListener((Button) findViewById(R.id_dashboardscreen.buttonBeerlist), BeerListActivity.class);
 		this.addOnClickListener((Button) findViewById(R.id_dashboardscreen.buttonBreweries), BreweryListActivity.class);
 		this.addOnClickListener((Button) findViewById(R.id_dashboardscreen.buttonCreate), BeerCreateActivity.class);
 		this.addOnClickListener((Button) findViewById(R.id_dashboardscreen.buttonTimeline), TimelineListActivity.class);
 		this.addOnClickListener((Button) findViewById(R.id_dashboardscreen.buttonScan), BarcodeScanActivity.class);
-		findViewById(R.id_dashboardscreen.buttonRating).setOnClickListener(notYetImplementedListener);
+		this.addOnClickListener((Button) findViewById(R.id_dashboardscreen.buttonRecommendations), RecommendationsListActivity.class);
+		
 	}
 
 	@Override

@@ -36,6 +36,7 @@
         <activity android:name=".activities.BreweryCreateActivity" android:label="@string/brewerycreate_title" />
         <activity android:name=".activities.BeertypeListActivity" android:label="@string/beertypelist_title" />
         <activity android:name=".activities.BarcodeScanActivity" android:label="@string/barcodescan_title" />
+        <activity android:name=".activities.RecommendationsListActivity" android:label="@string/recommendations_title" />
 
     </application>
 

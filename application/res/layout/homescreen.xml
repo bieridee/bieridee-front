@@ -41,7 +41,7 @@
             android:text="@string/dashboardscreen_createButtonText" />
 
         <Button
-            android:id="@+id_dashboardscreen/buttonRating"
+            android:id="@+id_dashboardscreen/buttonRecommendations"
             style="@style/DashboardButton"
             android:drawableTop="@drawable/dashboard_button_recommendation"
             android:text="@string/dashboardscreen_recommendationButtonText" />
