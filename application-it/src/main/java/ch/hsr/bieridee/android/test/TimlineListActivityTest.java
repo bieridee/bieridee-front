@@ -39,10 +39,10 @@ public class TimlineListActivityTest extends ActivityInstrumentationTestCase2<Ti
 	}
 
 	/**
-	 * Test whether the about button launches the about screen.
+	 * Test whether the menu looks correctly.
 	 */
 	public void testMenu() {
-		this.solo.assertCurrentActivity("Expected home screen activity to be active.", TimelineListActivity.class);
+		this.solo.assertCurrentActivity("Expected timeline activity to be active.", TimelineListActivity.class);
 		this.solo.sendKey(Solo.MENU);
 		assertTrue(this.solo.searchText("Aktualisieren"));
 		assertTrue(this.solo.searchText("Nur eigene Aktivitäten"));
