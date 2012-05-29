@@ -191,11 +191,12 @@ public class TimelineListActivity extends ListActivity implements ListView.OnScr
 					Log.d(LOG_TAG, e.getMessage(), e);
 					ErrorHelper.onError(TimelineListActivity.this.getString(R.string.malformedData), TimelineListActivity.this);
 				}
-				if(result.length() > 0) {
+				TimelineListActivity.this.adapter.updateData(result);
+				TimelineListActivity.this.adapter.notifyDataSetChanged();
+				
+				if(! TimelineListActivity.this.adapter.isEmpty()) {
 					TimelineListActivity.this.noActions.setVisibility(View.GONE);
 					TimelineListActivity.this.gotoBeerlistButton.setVisibility(View.GONE);
-					TimelineListActivity.this.adapter.updateData(result);
-					TimelineListActivity.this.adapter.notifyDataSetChanged();
 				} else {
 					TimelineListActivity.this.noActions.setVisibility(View.VISIBLE);
 					TimelineListActivity.this.gotoBeerlistButton.setVisibility(View.VISIBLE);
