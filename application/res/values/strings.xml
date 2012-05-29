@@ -154,6 +154,7 @@
 
 	<!-- Timeline list -->
 	<string name="timelinelist_title">Timeline</string>
+	<string name="timelinelist_noActions">Es ist leider noch gar nix passiert, bewerte ein Bier um dies zu ändern!</string>
 	<string name="timelinelist_longAgo">vor Urzeiten</string>
 	<string name="timelinelist_feltThirsty">%1$s war durstig!</string>
 	<string name="timelinelist_ratedBeer">%1$s rated</string>

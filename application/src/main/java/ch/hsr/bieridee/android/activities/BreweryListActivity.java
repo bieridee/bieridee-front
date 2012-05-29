@@ -1,5 +1,15 @@
 package ch.hsr.bieridee.android.activities;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.impl.client.BasicResponseHandler;
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -11,25 +21,16 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.AbsListView.OnScrollListener;
 import ch.hsr.bieridee.android.R;
 import ch.hsr.bieridee.android.adapters.BreweryListAdapter;
+import ch.hsr.bieridee.android.config.Conf;
 import ch.hsr.bieridee.android.config.Res;
 import ch.hsr.bieridee.android.http.AuthJsonHttp;
 import ch.hsr.bieridee.android.http.HttpHelper;
 import ch.hsr.bieridee.android.utils.ErrorHelper;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.impl.client.BasicResponseHandler;
-import org.json.JSONArray;
-import org.json.JSONException;
-
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Activity that shows a list of all breweries in our database.
@@ -37,6 +38,8 @@ import java.util.Map;
 public final class BreweryListActivity extends ListActivity implements ListView.OnScrollListener {
 
 	private static final String LOG_TAG = BreweryListActivity.class.getName();
+	private long updateTimestamp = 0;
+	
 	private BreweryListAdapter adapter;
 	private ProgressDialog progressDialog;
 	private HttpHelper httpHelper;
@@ -67,7 +70,10 @@ public final class BreweryListActivity extends ListActivity implements ListView.
 	@Override
 	public void onStart() {
 		super.onStart();
-		new GetBreweryData().execute();
+		if (this.isUpdateNecessary()) {
+			new GetBreweryData().execute();
+			this.updateTimestamp = System.currentTimeMillis();
+		}
 	}
 
 	@Override
@@ -200,5 +206,9 @@ public final class BreweryListActivity extends ListActivity implements ListView.
 			case OnScrollListener.SCROLL_STATE_FLING:
 				break;
 		}
+	}
+	
+	private boolean isUpdateNecessary() {
+		return System.currentTimeMillis() - this.updateTimestamp > Conf.UPDATE_THRESHOLD;
 	}
 }

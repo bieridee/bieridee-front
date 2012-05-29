@@ -133,7 +133,7 @@ public class BeerDetailActivity extends Activity {
 		final EditText tagValue = (EditText) dialog.findViewById(R.id_beerdetail_popup.tagInputField);
 		text.setText(this.getString(R.string.beerdetail_enterValue));
 
-		addTagSaveOnClickListener(dialog, saveButton, tagValue);
+		this.addTagSaveOnClickListener(dialog, saveButton, tagValue);
 		return dialog;
 	}
 
@@ -466,8 +466,9 @@ public class BeerDetailActivity extends Activity {
 
 			public void onClick(View v) {
 				final TextView hint = (TextView) dialog.findViewById(R.id_beerdetail_popup.tagInvalidHint);
-				if (tagValue.getText().toString().matches("[\\wäöüÄÖÜ_]{3,}")) {
-					new SaveTag().execute(tagValue.getText().toString());
+				final String newTag = tagValue.getText().toString().trim();
+				if (newTag.matches("[\\wäöüÄÖÜ_]{3,}")) {
+					new SaveTag().execute(newTag);
 				} else {
 					hint.setVisibility(View.VISIBLE);
 				}
