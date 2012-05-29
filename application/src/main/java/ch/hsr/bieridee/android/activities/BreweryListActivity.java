@@ -51,7 +51,7 @@ public final class BreweryListActivity extends ListActivity implements ListView.
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.brewerylist);
 		
-		final ListView list = (ListView) this.getListView();
+		final ListView list = this.getListView();
 		this.loadingFooter = getLayoutInflater().inflate(R.layout.loading_item, list, false);
 		list.addFooterView(this.loadingFooter, null, false);
 		

@@ -56,7 +56,7 @@ public class BeerListActivity extends ListActivity implements ListView.OnScrollL
 
 		this.httpHelper = AuthJsonHttp.create();
 
-		final ListView list = (ListView) this.getListView();
+		final ListView list = this.getListView();
 		this.loadingFooter = getLayoutInflater().inflate(R.layout.loading_item, list, false);
 		list.addFooterView(this.loadingFooter, null, false);
 

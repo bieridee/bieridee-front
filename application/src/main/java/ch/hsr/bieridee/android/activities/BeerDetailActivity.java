@@ -234,7 +234,7 @@ public class BeerDetailActivity extends Activity {
 					final JSONArray tags = result.getJSONArray("tags");
 					final StringBuilder sb = new StringBuilder();
 					for (int i = 0; i < tags.length(); ++i) {
-						sb.append("#" + tags.getJSONObject(i).getString("name") + " ");
+						sb.append("#").append(tags.getJSONObject(i).getString("name")).append(" ");
 					}
 					String beertype = getString(R.string.type) + ": ";
 					if (resultBeertype.optBoolean("unknown")) {
