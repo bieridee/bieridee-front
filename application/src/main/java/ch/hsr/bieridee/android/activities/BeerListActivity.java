@@ -29,6 +29,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import ch.hsr.bieridee.android.R;
 import ch.hsr.bieridee.android.adapters.BeerListAdapter;
+import ch.hsr.bieridee.android.config.Conf;
 import ch.hsr.bieridee.android.config.Res;
 import ch.hsr.bieridee.android.http.AuthJsonHttp;
 import ch.hsr.bieridee.android.http.HttpHelper;
@@ -48,6 +49,7 @@ public class BeerListActivity extends ListActivity implements ListView.OnScrollL
 	private static final int PAGESIZE = 12;
 	private static final int VISIBLECOUNT = 7;
 	private View loadingFooter;
+	private long updateTimestamp = 0;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -71,7 +73,10 @@ public class BeerListActivity extends ListActivity implements ListView.OnScrollL
 	@Override
 	public void onStart() {
 		super.onStart();
-		new GetBeerData().execute();
+		if (this.isUpdateNecessary()) {
+			new GetBeerData().execute();
+			this.updateTimestamp = System.currentTimeMillis();
+		}
 	}
 
 	@Override
@@ -231,6 +236,10 @@ public class BeerListActivity extends ListActivity implements ListView.OnScrollL
 		}
 	}
 
+	private boolean isUpdateNecessary() {
+		return System.currentTimeMillis() - this.updateTimestamp > Conf.UPDATE_THRESHOLD;
+	}
+	
 	/**
 	 * Async task to delete beer from server and update UI. --> Currently not supported, thus commented out.
 	 */

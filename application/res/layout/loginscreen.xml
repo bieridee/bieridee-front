@@ -1,83 +1,96 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent"
-              android:orientation="vertical"
-              android:gravity="center">
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:fillViewport="true"
+    android:isScrollContainer="true"
+    android:overScrollMode="always"
+    android:scrollbarAlwaysDrawVerticalTrack="false"
+    android:scrollbarStyle="outsideInset"
+    android:scrollbars="vertical" >
 
-	<!-- Row containg the image -->
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical" >
 
-	<ImageView
-		android:id="@+id_loginscreen/logo"
-		android:layout_width="wrap_content"
-		android:layout_height="150dp"
-		android:layout_marginBottom="20dp"
-		android:contentDescription="@string/loginscreen_imageDescription"
-		android:src="@drawable/pixelbeer_large" />
+        <!-- Row containg the image -->
 
-	<!-- Row containing username field -->
+        <ImageView
+            android:id="@+id_loginscreen/logo"
+            android:layout_width="wrap_content"
+            android:layout_height="150dp"
+            android:layout_marginBottom="20dp"
+            android:contentDescription="@string/loginscreen_imageDescription"
+            android:src="@drawable/pixelbeer_large" />
 
-	<EditText
-		android:id="@+id_loginscreen/inputUsername"
-		android:layout_width="250dp"
-		android:layout_height="wrap_content"
-		android:hint="@string/username"
-		android:inputType="text" />
+        <!-- Row containing username field -->
 
-	<!-- Row containing password field -->
+        <EditText
+            android:id="@+id_loginscreen/inputUsername"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/username"
+            android:inputType="text" />
 
-	<EditText
-		android:id="@+id_loginscreen/inputPassword"
-		android:layout_width="250dp"
-		android:layout_height="wrap_content"
-		android:hint="@string/password"
-		android:inputType="textPassword" />
+        <!-- Row containing password field -->
 
-	<!-- Wrong login hint -->
+        <EditText
+            android:id="@+id_loginscreen/inputPassword"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/password"
+            android:inputType="textPassword" />
 
-	<TextView
-		android:id="@+id_loginscreen/wrongLoginHint"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:gravity="center"
-		android:text="@string/loginscreen_wrongCredentials"
-		android:textColor="@color/red"
-		android:textSize="15dp"
-		android:visibility="gone" />
+        <!-- Wrong login hint -->
 
-	<!-- Row containing registration hint -->
+        <TextView
+            android:id="@+id_loginscreen/wrongLoginHint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/loginscreen_wrongCredentials"
+            android:textColor="@color/red"
+            android:textSize="15dp"
+            android:visibility="gone" />
 
-	<LinearLayout
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:orientation="horizontal"
-		android:gravity="center"
-		android:paddingTop="10dp"
-		android:paddingBottom="20dp">
+        <!-- Row containing registration hint -->
 
-		<TextView
-			android:id="@+id_loginscreen/registrationHintText"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="@string/loginscreen_registrationHintText"
-			android:textSize="15dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingBottom="20dp"
+            android:paddingTop="10dp" >
 
-		<TextView
-			android:id="@+id_loginscreen/registrationLink"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:clickable="true"
-			android:paddingLeft="10dp"
-			android:text="@string/loginscreen_registrationLinkText"
-			android:textColor="@color/blue"
-			android:textSize="15dp" />
-	</LinearLayout>
+            <TextView
+                android:id="@+id_loginscreen/registrationHintText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/loginscreen_registrationHintText"
+                android:textSize="15dp" />
 
-	<!-- Row containing login button -->
+            <TextView
+                android:id="@+id_loginscreen/registrationLink"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:paddingLeft="10dp"
+                android:text="@string/loginscreen_registrationLinkText"
+                android:textColor="@color/blue"
+                android:textSize="15dp" />
+        </LinearLayout>
 
-	<Button
-		android:id="@+id_loginscreen/buttonLogin"
-		android:layout_width="150dp"
-		android:layout_height="wrap_content"
-		android:text="@string/login" />
+        <!-- Row containing login button -->
 
-</LinearLayout>
+        <Button
+            android:id="@+id_loginscreen/buttonLogin"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="@string/login" />
+    </LinearLayout>
+
+</ScrollView>
