@@ -2,6 +2,7 @@ package ch.hsr.bieridee.android.test;
 
 import android.test.ActivityInstrumentationTestCase2;
 import ch.hsr.bieridee.android.activities.BreweryListActivity;
+import ch.hsr.bieridee.android.activities.TimelineListActivity;
 import ch.hsr.bieridee.android.config.Auth;
 import com.jayway.android.robotium.solo.Solo;
 
@@ -36,5 +37,15 @@ public class BreweryListActivityTest extends ActivityInstrumentationTestCase2<Br
 		assertTrue(this.solo.searchText("Brauereien")); // title
 		assertTrue(this.solo.searchText("Brauerei Locher AG")); // brewery name
 		assertTrue(this.solo.searchText("Die Brauerei Locher ist ein traditionsreicher Familienbetrieb in Appenzell.")); // description
+	}
+
+	/**
+	 * Test whether the menu looks correctly.
+	 */
+	public void testMenu() {
+		this.solo.assertCurrentActivity("Expected brewery list activity to be active.", BreweryListActivity.class);
+		this.solo.sendKey(Solo.MENU);
+		assertTrue(this.solo.searchText("Aktualisieren"));
+		assertTrue(this.solo.searchText("Erfassen"));
 	}
 }

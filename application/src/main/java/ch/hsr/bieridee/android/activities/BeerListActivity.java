@@ -82,16 +82,20 @@ public class BeerListActivity extends ListActivity implements ListView.OnScrollL
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		final MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.refresh_menu, menu);
+		inflater.inflate(R.menu.refresh_add_menu, menu);
 		return true;
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case R.id_refreshmenu.refresh:
+			case R.id_refresh_add_menu.refresh:
 				new GetBeerData().execute();
 				this.currentPage++;
+				break;
+			case R.id_refresh_add_menu.add:
+				final Intent intent = new Intent(getBaseContext(), BeerCreateActivity.class);
+				startActivity(intent);
 				break;
 		}
 		return true;
